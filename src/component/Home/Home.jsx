@@ -1,5 +1,6 @@
 import Banner from "../Shared/Banner";
 import Contact from "../Shared/Contact";
+import Pricing from "../Shared/Pricing";
 import Revolutionize from "../Shared/Revolutionize";
 
 const Home = () => {
@@ -8,6 +9,7 @@ const Home = () => {
             <Banner/>
             <Revolutionize/>
             <Contact/>
+            <Pricing/>
         </div>
     );
 }
