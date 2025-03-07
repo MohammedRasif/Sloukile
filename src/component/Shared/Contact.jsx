@@ -1,10 +1,102 @@
+import React from "react";
 import img from "./Group 1171275910.png"
 const Contact = () => {
     return (
-        <div>
-            <img src={img} className="h-[100vh] w-full mt-20" alt="" />
+        <div className="w-full ">
+            <div className="absolute w-full">
+                <img src={img} className="h-[100vh] w-full mt-20" alt="" />
+            </div>
+            <div className="w-full relative max-w-2xl bg-white rounded-[30px] fiexd top-56 left-[32%]  p-6 sm:p-14 shadow-lg z-50">
+                {/* Heading Section */}
+                <h1 className="text-4xl sm:text-5xl font-bold text-[#CBB702] text-center mb-4">
+                    Contact Us
+                </h1>
+                <p className="text-lg sm:text-xl text-[#062960] text-center mb-6">
+                    Have questions or need support? We're here to help!
+                </p>
+
+                {/* Form Section */}
+                <form className="space-y-6">
+                    {/* Name and Email Row */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label className="block text-sm sm:text-base font-medium text-[#062960]">
+                                What is your name? *
+                            </label>
+                            <input
+                                type="text"
+                                required
+                                className="mt-1 w-full border border-gray-300 rounded-md p-2 sm:p-3 focus:ring-2 focus:ring-[#CBB702] focus:border-transparent"
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-sm sm:text-base font-medium text-[#062960]">
+                                What is your Email? *
+                            </label>
+                            <input
+                                type="email"
+                                required
+                                className="mt-1 w-full border border-gray-300 rounded-md p-2 sm:p-3 focus:ring-2 focus:ring-[#CBB702] focus:border-transparent"
+                            />
+                        </div>
+                    </div>
+
+                    {/* Phone and Company Row */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label className="block text-sm sm:text-base font-medium text-[#062960]">
+                                What is your phone number?
+                            </label>
+                            <input
+                                type="tel"
+                                className="mt-1 w-full border border-gray-300 rounded-md p-2 sm:p-3 focus:ring-2 focus:ring-[#CBB702] focus:border-transparent"
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-sm sm:text-base font-medium text-[#062960]">
+                                What is your company?
+                            </label>
+                            <input
+                                type="text"
+                                className="mt-1 w-full border border-gray-300 rounded-md p-2 sm:p-3 focus:ring-2 focus:ring-[#CBB702] focus:border-transparent"
+                            />
+                        </div>
+                    </div>
+
+                    {/* Message Area */}
+                    <div>
+                        <label className="block text-sm sm:text-base font-medium text-[#062960]">
+                            Write your message here
+                        </label>
+                        <textarea
+                            rows="4"
+                            className="mt-1 w-full border border-gray-300 rounded-md p-2 sm:p-3 focus:ring-2 focus:ring-[#CBB702] focus:border-transparent"
+                        ></textarea>
+                    </div>
+
+                    {/* Checkbox and Button */}
+                    <div className="flex items-center justify-between flex-col sm:flex-row gap-4">
+                        <div className="flex items-center">
+                            <input
+                                type="checkbox"
+                                required
+                                className="h-5 w-5 text-green-500 border-gray-300 rounded focus:ring-2 focus:ring-[#CBB702]"
+                            />
+                            <label className="ml-2 text-sm sm:text-base text-[#062960] font-[500]">
+                                I have read and accept the Terms of <br /> <span className="text-[#CBB702]">Service & Privacy Policy</span> *
+                            </label>
+                        </div>
+                        <button
+                            type="submit"
+                            className="bg-[#CBB702] text-white font-semibold py-2 px-6 rounded-md hover:bg-[#b3a002] transition duration-300"
+                        >
+                            Send Message
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
     );
-}
+};
 
 export default Contact;
