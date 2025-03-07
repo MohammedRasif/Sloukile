@@ -1,12 +1,13 @@
 import React from "react";
-import img from "./Group 1171275910.png"
+import img from "./Group 1171275910.png";
+
 const Contact = () => {
     return (
-        <div className="w-full ">
+        <div className="w-full">
             <div className="absolute w-full">
                 <img src={img} className="h-[100vh] w-full mt-20" alt="" />
             </div>
-            <div className="w-full relative max-w-2xl bg-white rounded-[30px] fiexd top-56 left-[32%]  p-6 sm:p-14 shadow-lg z-50">
+            <div className="w-full relative max-w-2xl bg-white rounded-[30px] top-56 left-1/2 transform -translate-x-1/2 p-6 sm:p-14 shadow-lg z-50">
                 {/* Heading Section */}
                 <h1 className="text-4xl sm:text-5xl font-bold text-[#CBB702] text-center mb-4">
                     Contact Us
@@ -75,15 +76,16 @@ const Contact = () => {
                     </div>
 
                     {/* Checkbox and Button */}
-                    <div className="flex items-center justify-between flex-col sm:flex-row gap-4">
+                    <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
                         <div className="flex items-center">
                             <input
                                 type="checkbox"
                                 required
                                 className="h-5 w-5 text-green-500 border-gray-300 rounded focus:ring-2 focus:ring-[#CBB702]"
                             />
-                            <label className="ml-2 text-sm sm:text-base text-[#062960] font-[500]">
-                                I have read and accept the Terms of <br /> <span className="text-[#CBB702]">Service & Privacy Policy</span> *
+                            <label className="ml-2 text-sm sm:text-base text-[#062960] font-medium">
+                                I have read and accept the Terms of <br />{" "}
+                                <span className="text-[#CBB702]">Service & Privacy Policy</span> *
                             </label>
                         </div>
                         <button

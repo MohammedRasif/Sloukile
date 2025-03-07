@@ -53,7 +53,7 @@ const Revolutionize = () => {
   ];
 
   return (
-    <div className="mt-20 px-4 sm:px-6 lg:px-8 relative container mx-auto">
+    <div className="lg:mt-20 -mt-32 px-4 sm:px-6 lg:px-8 relative container mx-auto">
       {/* Heading Section */}
       <h1 className="text-[20px] sm:text-[50px] lg:text-[60px] text-center font-[500] text-[#062960]">
         Revolutionize <span className="text-[#CBB702]">Project Management</span>{" "}
