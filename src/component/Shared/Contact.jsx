@@ -5,9 +5,9 @@ const Contact = () => {
     return (
         <div className="w-full">
             <div className="absolute w-full">
-                <img src={img} className="h-[100vh] w-full mt-20" alt="" />
+                <img src={img} className="h-[100vh] w-full mt-20 " alt="" />
             </div>
-            <div className="w-full relative max-w-2xl bg-white rounded-[30px] top-56 left-1/2 transform -translate-x-1/2 p-6 sm:p-14 shadow-lg z-50">
+            <div className="w-full relative max-w-2xl bg-white rounded-[30px] top-56 left-1/2 transform -translate-x-1/2 p-6 sm:p-14  shadow-lg z-50">
                 {/* Heading Section */}
                 <h1 className="text-4xl sm:text-5xl font-bold text-[#CBB702] text-center mb-4">
                     Contact Us
