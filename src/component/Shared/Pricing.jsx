@@ -77,7 +77,7 @@ const Pricing = () => {
                         className={`relative flex flex-col items-center p-6 sm:p-8 rounded-3xl shadow-lg transition duration-300 border-4 border-[#062960] h-[450px] sm:h-[550px] hover:scale-105 hover:shadow-2xl hover:text-black group ${plan.bg} ${plan.textColor}`}
                     >
                         {/* Title & Price Section */}
-                        <div className="absolute top-0 left-0 w-full text-center rounded-t-3xl z-10 pt-6 sm:pt-8 transition-all duration-300 group-hover:bg-[#062960]">
+                        <div className="absolute top-0 left-0 w-full text-center rounded-t-2xl z-10 pt-6 sm:pt-8 transition-all duration-300 group-hover:bg-[#062960]">
                             <h3 className="text-lg sm:text-xl md:text-2xl font-semibold group-hover:text-white">{plan.name}</h3>
                             <p className="text-2xl sm:text-3xl font-bold mt-2 pb-6 sm:pb-10 group-hover:text-white">${plan.price}</p>
                         </div>
