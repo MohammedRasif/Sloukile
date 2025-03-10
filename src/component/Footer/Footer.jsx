@@ -16,25 +16,25 @@ const Footer = () => {
       </div>
 
       {/* Overlay Content */}
-      <div className="relative text-white py-8 px-4 sm:px-6 lg:px-8 mt-40 sm:mt-32 lg:mt-52">
+      <div className="relative text-white py-8 px-4 sm:px-6 lg:px-8 mt-40 sm:mt-32 lg:mt-44">
         {/* CTA Section */}
-        <div className="text-center max-w-2xl mx-auto mb-6 sm:mb-8 lg:mb-12">
+        <div className="text-center max-w-2xl mx-auto mb-6 sm:mb-8 lg:mb-28">
           <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold">
             What are you waiting for?
           </h2>
-          <button className="mt-2 sm:mt-3 lg:mt-4 bg-green-500 text-white px-3 sm:px-4 lg:px-6 py-1 sm:py-2 lg:py-3 rounded-lg font-medium hover:bg-green-600 transition">
+          <button className="mt-2 sm:mt-3 lg:mt-7 bg-[#CBB702]  text-white px-3 sm:px-4 lg:px-10 py-1 sm:py-2 lg:py-3 rounded-full font-medium  transition">
             GET STARTED
           </button>
         </div>
 
         {/* Footer Content */}
-        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4  lg:gap-8">
+        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4  lg:gap-8 lg:px-20">
           {/* Left Section */}
           <div className="flex flex-col items-center sm:items-start text-center sm:text-left mb-6 sm:mb-0 lg:-mt-24">
             <div className="rounded-full flex items-center justify-center">
               <img
                 src={img1}
-                className="w-40 sm:w-48 lg:w-60 h-32 sm:h-40 lg:h-52 lg:ml-12"
+                className="w-40 sm:w-48 lg:w-60 h-32 sm:h-40 lg:h-52 lg:-pl-12"
                 alt="Logo"
               />
             </div>
