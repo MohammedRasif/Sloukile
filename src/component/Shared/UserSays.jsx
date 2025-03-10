@@ -45,7 +45,7 @@ const UserSays = () => {
   ];
 
   return (
-    <div className="bg-gradient-to-b from-white to-blue-50 py-8 px-4 sm:py-12 sm:px-6 lg:px-8">
+    <div className="bg-gradient-to-b from-white to-blue-50 py-8 px-4 sm:py-12 sm:px-6 lg:px-8 lg:-mt-52">
       <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center text-blue-900 mb-6 sm:mb-10">
         What Our Users Say
       </h2>
