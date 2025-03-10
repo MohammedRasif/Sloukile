@@ -63,14 +63,14 @@ const plans = [
 
 const Pricing = () => {
     return (
-        <div className="flex flex-col items-center min-h-screen py-16 px-4 mt-96">
+        <div className="flex flex-col items-center min-h-screen py-16 px-4  lg:mt-96 md:mt-96 mt-56">
             {/* Title */}
             <h2 className="text-3xl sm:text-4xl font-bold text-gray-800 mb-10">
                 Pricing <span className="text-yellow-500">& plan</span>
             </h2>
 
             {/* Pricing Cards */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 w-full max-w-[80%] font-[500]">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 w-full max-w-[80%] font-[500] ">
                 {plans.map((plan, index) => (
                     <div
                         key={index}
@@ -83,7 +83,7 @@ const Pricing = () => {
                         </div>
 
                         {/* Features List */}
-                        <ul className="text-xs sm:text-sm md:text-base text-center my-6 space-y-2 sm:space-y-3 mt-36">
+                        <ul className="text-xs sm:text-sm md:text-base text-center my-6 space-y-2 sm:space-y-3 lg:mt-36 md:mt-36 mt-28">
                             {plan.features.map((feature, i) => (
                                 <li key={i} className="border-b border-dashed pb-1 sm:pb-2 last:border-none group-hover:text-black">
                                     {feature}

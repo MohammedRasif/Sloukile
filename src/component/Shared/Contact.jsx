@@ -3,11 +3,11 @@ import img from "./Group 1171275910.png";
 
 const Contact = () => {
     return (
-        <div className="w-full">
-            <div className="absolute w-full">
+        <div className="w-full lg:-mt-0 md:-mt-0 -mt-40">
+            <div className="absolute w-full hidden md:block">
                 <img src={img} className="h-[100vh] w-full mt-20 " alt="" />
             </div>
-            <div className="w-full relative max-w-2xl bg-white rounded-[30px] top-56 left-1/2 transform -translate-x-1/2 p-6 sm:p-14  shadow-lg z-50">
+            <div className="w-full relative max-w-2xl bg-white rounded-[30px] top-56 left-1/2 transform -translate-x-1/2 p-6 sm:p-14  shadow-lg z-50 border-2 border-gray-200">
                 {/* Heading Section */}
                 <h1 className="text-4xl sm:text-5xl font-bold text-[#CBB702] text-center mb-4">
                     Contact Us
@@ -17,7 +17,7 @@ const Contact = () => {
                 </p>
 
                 {/* Form Section */}
-                <form className="space-y-6">
+                <form className="lg:space-y-6 md:space-y-6 space-y-3">
                     {/* Name and Email Row */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
