@@ -8,6 +8,7 @@ import {
 import Roots from './Root/Roots.jsx';
 import ErrorPage from './component/ErrorPage/ErrorPage.jsx';
 import Home from './component/Home/Home.jsx';
+import Login from './component/Shared/Login.jsx';
 
 const router = createBrowserRouter([
   {
@@ -18,6 +19,10 @@ const router = createBrowserRouter([
       {
         path: "/",
         element:<Home/> ,
+      },
+      {
+        path: "/login",
+        element:<Login/> ,
       },
     ],
   },
