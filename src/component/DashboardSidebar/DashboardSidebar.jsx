@@ -1,15 +1,17 @@
 import { NavLink } from "react-router-dom";
-import img from "./image_1__1_-removebg-preview 1.png"
+import img from "./image_1__1_-removebg-preview 1.png";
 import { Bot, Briefcase, Clock, FileText, Settings, Users } from "lucide-react";
+
 const DashboardSidebar = () => {
     return (
         <div className="text-white">
             <div>
-            <img src={img} className="h-40 mt-7 pl-10" alt="" />
+                <img src={img} className="h-40 mt-7 pl-10" alt="" />
             </div>
             <div className="flex flex-col gap-4">
                 <NavLink
                     to="/dashboard"
+                    end // Ensures exact match for /dashboard
                     className={({ isActive }) =>
                         `flex items-center gap-3 px-6 py-3 transition-colors duration-200 ${
                             isActive ? 'bg-[#dbb929] text-black' : 'hover:bg-[#2a4b9b]'
@@ -21,7 +23,7 @@ const DashboardSidebar = () => {
                 </NavLink>
 
                 <NavLink
-                    to="/ai-chat"
+                    to="/dashboard/chat"
                     className={({ isActive }) =>
                         `flex items-center gap-3 px-6 py-3 transition-colors duration-200 ${
                             isActive ? 'bg-[#dbb929] text-black' : 'hover:bg-[#2a4b9b]'
@@ -82,6 +84,6 @@ const DashboardSidebar = () => {
             </div>
         </div>
     );
-}
+};
 
 export default DashboardSidebar;

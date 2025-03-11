@@ -12,6 +12,7 @@ import Login from './component/Shared/Login.jsx';
 import Register from './component/Shared/Register.jsx';
 import DashboardLayout from './component/DashboardLayout/DashboardLayout.jsx';
 import CompanyDetailsPage from './component/DashboardPages/CompanyDetailsPage.jsx';
+import AiChatBot from './component/DashboardPages/AiChatBot.jsx';
 
 const router = createBrowserRouter([
   {
@@ -41,6 +42,10 @@ const router = createBrowserRouter([
       {
         index:true,
         element:<CompanyDetailsPage/>
+      },
+      {
+        path:"/dashboard/chat",
+        element:<AiChatBot/>
       }
     ]
   }

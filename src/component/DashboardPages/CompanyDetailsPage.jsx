@@ -1,7 +1,7 @@
 
 const CompanyDetailsPage = () => {
     return (
-        <div className="bg-white m-3 p-14 rounded-xl">
+        <div className="bg-white p-10 border-t border-gray-300 h-full">
             <h1 className="text-4xl font-[500]">Company Details</h1>
 
             <div>
