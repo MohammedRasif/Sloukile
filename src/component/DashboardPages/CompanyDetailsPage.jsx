@@ -1,7 +1,7 @@
 
 const CompanyDetailsPage = () => {
     return (
-        <div className="bg-white m-3 p-5 rounded-2xl">
+        <div className="bg-white m-3 p-14 rounded-xl">
             <h1 className="text-4xl font-[500]">Company Details</h1>
 
             <div>
@@ -53,6 +53,8 @@ const CompanyDetailsPage = () => {
                         placeholder="Enter company description..."
                     />
                 </div>
+
+                <button className="bg-[#CBB702] px-10 py-3 rounded-md font-[500] text-xl mt-5">Submit Information</button>
 
             </div>
         </div>
