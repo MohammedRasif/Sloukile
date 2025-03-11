@@ -2,9 +2,10 @@ import { ArrowRight } from "lucide-react";
 import img from "./image_1__1_-removebg-preview 1.png";
 import { NavLink } from "react-router-dom";
 
-const Login = () => {
+const Register = () => {
     return (
-        <div className="flex flex-col lg:flex-row items-center justify-center min-h-screen">
+        <div>
+             <div className="flex flex-col lg:flex-row items-center justify-center min-h-screen">
             {/* Left Side */}
             <div className="bg-[#062960] lg:w-1/2 w-full h-auto lg:h-screen flex flex-col justify-center items-center text-center py-10">
                 <img src={img} className="h-[250px] w-[300px] lg:h-[426.87px] lg:w-[510px] mb-4" alt="" />
@@ -22,7 +23,7 @@ const Login = () => {
                             <div className="h-1 w-12 lg:w-16 bg-[#dbb929] mt-4 lg:mt-8"></div>
                         </div>
                         <div className="flex items-center text-[#dbb929] mt-4 lg:mt-0">
-                            <NavLink to="/register" className="text-sm">Create a new accout</NavLink >
+                            <NavLink to="/login" className="text-sm">Already have account?</NavLink>
                             <ArrowRight className="h-4 w-4 ml-1" />
                         </div>
                     </div>
@@ -45,20 +46,19 @@ const Login = () => {
                     </div>
 
                     {/* Input Fields */}
-                    <div className="space-y-4 lg:space-y-8">
+                    <div className="space-y-4 lg:space-y-10">
                         <input type="text" placeholder="Name" className="w-full px-4 py-3 border border-gray-300 rounded-md text-sm lg:text-base" />
-                        <input type="password" placeholder="Password" className="w-full px-4 py-3 border border-gray-300 rounded-md text-sm lg:text-base" />
+                        <input type="email" placeholder="Email" className="w-full px-4 py-3 border border-gray-300 rounded-md text-sm lg:text-base" />
+                        <div className="flex flex-col lg:flex-row gap-4">
+                            <input type="password" placeholder="Password" className="w-full px-4 py-3 border border-gray-300 rounded-md text-sm lg:text-base" />
+                            <input type="password" placeholder="Repeat Password" className="w-full px-4 py-3 border border-gray-300 rounded-md text-sm lg:text-base" />
+                        </div>
                     </div>
 
                     {/* Terms & Conditions */}
-                    <div className="flex items-center justify-between">
                     <div className="flex items-start gap-2 mt-4 lg:mt-6">
                         <input type="checkbox" className="w-4 h-4 md:w-5 md:h-5 mt-1 accent-[#CBB702DE]" />
-                        <span className="text-md lg:text-md text-gray-500 font-[500] ">Remember me </span>
-                    </div>
-                    <div>
-                        <NavLink><h1 className="font-[500] lg:mt-8">Forgot Password</h1></NavLink>
-                    </div>
+                        <span className="text-sm lg:text-md">I have read and accept the <span className="text-[#dbb929]">Terms of Service & Privacy Policy</span> *</span>
                     </div>
 
                     {/* Continue Button */}
@@ -70,7 +70,8 @@ const Login = () => {
                 </div>
             </div>
         </div>
+        </div>
     );
 }
 
-export default Login;
+export default Register;

@@ -9,6 +9,7 @@ import Roots from './Root/Roots.jsx';
 import ErrorPage from './component/ErrorPage/ErrorPage.jsx';
 import Home from './component/Home/Home.jsx';
 import Login from './component/Shared/Login.jsx';
+import Register from './component/Shared/Register.jsx';
 
 const router = createBrowserRouter([
   {
@@ -23,6 +24,10 @@ const router = createBrowserRouter([
       {
         path: "/login",
         element:<Login/> ,
+      },
+      {
+        path: "/register",
+        element:<Register/> ,
       },
     ],
   },
