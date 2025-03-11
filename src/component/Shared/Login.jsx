@@ -1,31 +1,34 @@
-import { ArrowRight, Check } from "lucide-react";
-import img from "./image_1__1_-removebg-preview 1.png"
+import { ArrowRight } from "lucide-react";
+import img from "./image_1__1_-removebg-preview 1.png";
+
 const Login = () => {
     return (
-        <div className="flex items-center justify-center ">
-            <div className="bg-[#062960] w-1/2 h-screen flex flex-col justify-center items-center text-center">
-                <img src={img} className="h-[426.87px] w-[510px] mb-4" alt="" />
-                <h1 className="text-[51.25px] font-[500] text-[#CBB702]">Nice to meet you :)</h1>
-                <h1 className="text-[30px] text-[#CBB702]">Just register to join with us</h1>
+        <div className="flex flex-col lg:flex-row items-center justify-center min-h-screen">
+            {/* Left Side */}
+            <div className="bg-[#062960] lg:w-1/2 w-full h-auto lg:h-screen flex flex-col justify-center items-center text-center py-10">
+                <img src={img} className="h-[250px] w-[300px] lg:h-[426.87px] lg:w-[510px] mb-4" alt="" />
+                <h1 className="text-2xl lg:text-[51.25px] font-[500] text-[#CBB702]">Nice to meet you :)</h1>
+                <h1 className="text-lg lg:text-[30px] text-[#CBB702]">Just register to join with us</h1>
             </div>
-            <div className="w-1/2 px-32">
-                <div className="">
-                    <div className="flex justify-between items-center mb-20">
+
+            {/* Right Side */}
+            <div className="lg:w-1/2 w-full px-6 sm:px-10 md:px-16 lg:px-32 py-10">
+                <div className="text-center lg:text-left">
+                    {/* Register Header */}
+                    <div className="flex flex-col lg:flex-row justify-between items-center mb-10">
                         <div>
-                            <h1 className="text-5xl font-bold text-[#1a3b6e]">Register</h1>
-                            <div className="h-1 w-16 bg-[#dbb929] mt-8"></div>
+                            <h1 className="text-3xl lg:text-5xl font-bold text-[#1a3b6e]">Register</h1>
+                            <div className="h-1 w-12 lg:w-16 bg-[#dbb929] mt-4 lg:mt-8"></div>
                         </div>
-                        <div className="flex items-center text-[#dbb929]">
+                        <div className="flex items-center text-[#dbb929] mt-4 lg:mt-0">
                             <span className="text-sm">Already have account?</span>
                             <ArrowRight className="h-4 w-4 ml-1" />
                         </div>
                     </div>
 
-                    <div className="mb-6 flex  justify-center ">
-                        <button
-                            type="button"
-                            className=" flex items-center justify-center gap-2 bg-[#e74c3c] text-white py-3 px-10 rounded-full mb-10"
-                        >
+                    {/* Google Button */}
+                    <div className="lg:mb-6 flex justify-center">
+                        <button type="button" className="flex items-center justify-center gap-2 bg-[#e74c3c] text-white py-3 px-6 lg:px-10 rounded-full mb-10">
                             <div className="h-5 w-5 bg-white rounded-full flex items-center justify-center">
                                 <span className="text-[#e74c3c] font-bold text-lg">G</span>
                             </div>
@@ -33,51 +36,32 @@ const Login = () => {
                         </button>
                     </div>
 
+                    {/* Divider */}
                     <div className="flex items-center mb-6">
                         <div className="flex-1 h-px bg-gray-300"></div>
                         <span className="px-4 text-sm text-gray-500">Or register with email</span>
                         <div className="flex-1 h-px bg-gray-300"></div>
                     </div>
 
-                    <div className="space-y-10">
-                        <div>
-                            <input type="text" placeholder="Name" className="w-full px-4 py-3 border border-gray-300 rounded-md" />
-                        </div>
-
-                        <div>
-                            <input type="email" placeholder="Email" className="w-full px-4 py-3 border border-gray-300 rounded-md" />
-                        </div>
-
-                        <div className="flex gap-4">
-                            <div className="flex-1">
-                                <input
-                                    type="password"
-                                    placeholder="Password"
-                                    className="w-full px-4 py-3 border border-gray-300 rounded-md"
-                                />
-                            </div>
-                            <div className="flex-1">
-                                <input
-                                    type="password"
-                                    placeholder="Repeat Password"
-                                    className="w-full px-4 py-3 border border-gray-300 rounded-md"
-                                />
-                            </div>
-                        </div>
-
-                        <div className="flex items-start gap-2">
-                            <div>
-                                <input type="checkbox" className="w-4 h-4 md:w-5 md:h-5 mt-1 checked:!text-white accent-[#CBB702DE]" />
-                            </div>
-
-                            <div className="text-md">
-                                I have read and accept the <span className="text-[#dbb929]">Terms of Service & Privacy Policy</span> *
-                            </div>
+                    {/* Input Fields */}
+                    <div className="space-y-4 lg:space-y-10">
+                        <input type="text" placeholder="Name" className="w-full px-4 py-3 border border-gray-300 rounded-md text-sm lg:text-base" />
+                        <input type="email" placeholder="Email" className="w-full px-4 py-3 border border-gray-300 rounded-md text-sm lg:text-base" />
+                        <div className="flex flex-col lg:flex-row gap-4">
+                            <input type="password" placeholder="Password" className="w-full px-4 py-3 border border-gray-300 rounded-md text-sm lg:text-base" />
+                            <input type="password" placeholder="Repeat Password" className="w-full px-4 py-3 border border-gray-300 rounded-md text-sm lg:text-base" />
                         </div>
                     </div>
 
+                    {/* Terms & Conditions */}
+                    <div className="flex items-start gap-2 mt-4 lg:mt-6">
+                        <input type="checkbox" className="w-4 h-4 md:w-5 md:h-5 mt-1 accent-[#CBB702DE]" />
+                        <span className="text-sm lg:text-md">I have read and accept the <span className="text-[#dbb929]">Terms of Service & Privacy Policy</span> *</span>
+                    </div>
+
+                    {/* Continue Button */}
                     <div className="mt-6">
-                        <button type="button" className="w-full bg-[#dbb929] text-white py-3 rounded-md uppercase font-medium">
+                        <button type="button" className="w-full bg-[#dbb929] text-white py-3 rounded-md uppercase font-medium text-sm lg:text-base">
                             Continue
                         </button>
                     </div>
