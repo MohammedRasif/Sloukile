@@ -10,6 +10,8 @@ import ErrorPage from './component/ErrorPage/ErrorPage.jsx';
 import Home from './component/Home/Home.jsx';
 import Login from './component/Shared/Login.jsx';
 import Register from './component/Shared/Register.jsx';
+import DashboardLayout from './component/DashboardLayout/DashboardLayout.jsx';
+import CompanyDetailsPage from './component/DashboardPages/CompanyDetailsPage.jsx';
 
 const router = createBrowserRouter([
   {
@@ -31,6 +33,17 @@ const router = createBrowserRouter([
       },
     ],
   },
+
+  {
+    path:"/dashboard",
+    element:( <DashboardLayout/>),
+    children:[
+      {
+        index:true,
+        element:<CompanyDetailsPage/>
+      }
+    ]
+  }
 ]);
 
 createRoot(document.getElementById('root')).render(

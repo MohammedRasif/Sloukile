@@ -18,7 +18,7 @@ const Login = () => {
                     {/* Register Header */}
                     <div className="flex flex-col lg:flex-row justify-between items-center mb-10">
                         <div>
-                            <h1 className="text-3xl lg:text-5xl font-bold text-[#1a3b6e]">Register</h1>
+                            <h1 className="text-3xl lg:text-5xl font-bold text-[#1a3b6e]">Login</h1>
                             <div className="h-1 w-12 lg:w-16 bg-[#dbb929] mt-4 lg:mt-8"></div>
                         </div>
                         <div className="flex items-center text-[#dbb929] mt-4 lg:mt-0">
@@ -57,7 +57,7 @@ const Login = () => {
                         <span className="text-md lg:text-md text-gray-500 font-[500] ">Remember me </span>
                     </div>
                     <div>
-                        <NavLink><h1 className="font-[500] lg:mt-8">Forgot Password</h1></NavLink>
+                        <NavLink><h1 className="font-[500] lg:mt-8 mt-4">Forgot Password</h1></NavLink>
                     </div>
                     </div>
 
