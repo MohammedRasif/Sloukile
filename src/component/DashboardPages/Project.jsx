@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { AiFillProduct } from 'react-icons/ai';
 import { FiSearch, FiTrash2, FiEdit, FiList } from 'react-icons/fi'; // Importing icons
 import { FaFilter } from 'react-icons/fa'; // Importing filter icon
+import { NavLink, useNavigate } from 'react-router-dom'; // For navigation
 
 const Project = () => {
   // Updated projects array with status
@@ -35,6 +36,7 @@ const Project = () => {
   const [showFilterPopup, setShowFilterPopup] = useState(false); // Filter popup visibility
 
   const filterRef = useRef(null); // Ref for filter icon/popup
+  const navigate = useNavigate(); // Navigation hook
 
   const cardsPerPage = 12;
 
@@ -58,8 +60,13 @@ const Project = () => {
     setCurrentPage(pageNumber);
   };
 
-  // Handle card click (for delete popup)
+  // Handle card/row click for navigation
   const handleCardClick = (index) => {
+    navigate(`/dashboard/ProjectDetails`, { state: { projectName: filteredProjects[startIndex + index].name } });
+  };
+
+  // Handle delete icon click (show popup)
+  const handleDeleteClick = (index) => {
     setSelectedProjectIndex(index);
     setShowPopup(true);
   };
@@ -183,13 +190,13 @@ const Project = () => {
                 <div
                   key={index}
                   className="relative bg-yellow-100 border border-yellow-200 py-16 px-16 rounded-lg text-center hover:bg-yellow-200 transition duration-200 cursor-pointer"
-                  onClick={() => handleCardClick(startIndex + index)}
+                  onClick={() => handleCardClick(index)}
                 >
                   <FiEdit
                     className="absolute top-2 right-9 text-gray-600 hover:text-blue-600 cursor-pointer"
                     size={20}
                     onClick={(e) => {
-                      e.stopPropagation();
+                      e.stopPropagation(); // Prevent card click
                       handleEdit(startIndex + index);
                     }}
                   />
@@ -197,8 +204,8 @@ const Project = () => {
                     className="absolute top-2 right-2 text-gray-600 hover:text-red-600 cursor-pointer"
                     size={20}
                     onClick={(e) => {
-                      e.stopPropagation();
-                      handleCardClick(startIndex + index);
+                      e.stopPropagation(); // Prevent card click
+                      handleDeleteClick(startIndex + index);
                     }}
                   />
                   <h1 className="text-xl font-[500]">{project.name}</h1>
@@ -214,7 +221,8 @@ const Project = () => {
               filteredProjects.map((project, index) => (
                 <div
                   key={index}
-                  className="flex items-center justify-between bg-gray-200 hover:bg-gray-300 transition duration-200 py-[20px] px-4 mb-1 rounded"
+                  className="flex items-center justify-between bg-gray-200 hover:bg-gray-300 transition duration-200 py-[20px] px-4 mb-1 rounded cursor-pointer"
+                  onClick={() => handleCardClick(index)}
                 >
                   <span className="text-[20px] text-gray-800 truncate font-[500]">{project.name}</span>
                   <div className="flex space-x-2">
@@ -222,7 +230,7 @@ const Project = () => {
                       className="text-gray-600 hover:text-blue-600 cursor-pointer"
                       size={20}
                       onClick={(e) => {
-                        e.stopPropagation();
+                        e.stopPropagation(); // Prevent row click
                         handleEdit(index);
                       }}
                     />
@@ -230,8 +238,8 @@ const Project = () => {
                       className="text-gray-600 hover:text-red-600 cursor-pointer"
                       size={20}
                       onClick={(e) => {
-                        e.stopPropagation();
-                        handleCardClick(index);
+                        e.stopPropagation(); // Prevent row click
+                        handleDeleteClick(index);
                       }}
                     />
                   </div>
@@ -267,9 +275,11 @@ const Project = () => {
         )}
 
         {/* Add New Project Button */}
-        <button className="bg-[#0A3161] fixed bottom-11 text-white px-4 py-2 rounded-md hover:bg-blue-900 transition duration-200">
+        <NavLink to="/dashboard">
+        <button className="bg-[#0A3161] fixed bottom-11 text-white px-4 py-2 rounded-md hover:bg-blue-900 transition duration-200 cursor-pointer">
           Add New Project
         </button>
+        </NavLink>
 
         {/* Popup for Delete Confirmation */}
         {showPopup && (

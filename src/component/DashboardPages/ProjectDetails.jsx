@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { FaEdit, FaInfoCircle } from 'react-icons/fa';
 import { FiX } from 'react-icons/fi';
+import { MdOutlineKeyboardBackspace } from 'react-icons/md';
 import { NavLink } from 'react-router-dom';
 
 const ProjectDetails = () => {
@@ -61,7 +62,11 @@ const ProjectDetails = () => {
   return (
     <div className="p-6 mx-auto border-t border-gray-300">
       <div className="flex justify-between items-center mb-4">
-        <h1 className="text-3xl font-[500]">Website Redesign</h1>
+      <div className='flex items-center space-x-2'>
+     <NavLink to="/dashboard/Project"> <MdOutlineKeyboardBackspace  className='text-4xl mt-1 cursor-pointer'/></NavLink>
+
+<h1 className="text-3xl font-[500]">Website Redesign</h1>
+      </div>
         <div className="flex gap-2">
           <NavLink to="/dashboard/ProjectEdit">
           <button className="text-[30px] mt-2 cursor-pointer">
