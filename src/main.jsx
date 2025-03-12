@@ -14,6 +14,8 @@ import DashboardLayout from './component/DashboardLayout/DashboardLayout.jsx';
 import CompanyDetailsPage from './component/DashboardPages/CompanyDetailsPage.jsx';
 import AiChatBot from './component/DashboardPages/AiChatBot.jsx';
 import Project from './component/DashboardPages/Project.jsx';
+import ProductDetails from './component/DashboardPages/ProjectDetails.jsx';
+import ProjectDetails from './component/DashboardPages/ProjectDetails.jsx';
 
 const router = createBrowserRouter([
   {
@@ -51,6 +53,10 @@ const router = createBrowserRouter([
       {
         path:"/dashboard/Project",
         element:<Project/>
+      },
+      {
+        path:"/dashboard/ProjectDetails",
+        element:<ProjectDetails/>
       }
     ]
   }
