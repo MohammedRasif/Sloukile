@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { FaEdit, FaInfoCircle } from 'react-icons/fa';
 import { FiX } from 'react-icons/fi';
+import { NavLink } from 'react-router-dom';
 
 const ProjectDetails = () => {
   // Data stored in an array of objects
@@ -62,9 +63,11 @@ const ProjectDetails = () => {
       <div className="flex justify-between items-center mb-4">
         <h1 className="text-3xl font-[500]">Website Redesign</h1>
         <div className="flex gap-2">
-          <button className="text-[30px] cursor-pointer">
+          <NavLink to="/dashboard/ProjectEdit">
+          <button className="text-[30px] mt-2 cursor-pointer">
             <FaEdit />
           </button>
+          </NavLink>
           <div ref={infoRef} className="relative">
             <button className="text-[30px] cursor-pointer mt-2" onClick={toggleInfoModal}>
               <FaInfoCircle />
