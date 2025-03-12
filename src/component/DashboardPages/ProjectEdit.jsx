@@ -44,7 +44,6 @@ const ProjectEdit = () => {
     };
 
   const [projectBudget, setProjectBudget] = useState("1500$")
-  const [title, setTitle] = useState("Website Redesign")
 
   // Function to handle changes to table data
   const handleDataChange = (index, field, value) => {
@@ -54,15 +53,11 @@ const ProjectEdit = () => {
   }
 
   return (
-    <div className="p-6 mx-auto">
+   <div className="border-t border-gray-300">
+     <div className="p-6 mx-auto">
       <div className="flex justify-between items-center mb-4">
-        <h1 className="text-2xl font-bold">
-          <input
-            type="text"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            className="bg-transparent border-b border-gray-300 focus:outline-none focus:border-yellow-500 w-full"
-          />
+        <h1 className="text-3xl font-[500]">
+        Website Redesign
         </h1>
         <div className="flex gap-2">
           
@@ -167,6 +162,7 @@ const ProjectEdit = () => {
         </table>
       </div>
     </div>
+   </div>
   )
 }
 
