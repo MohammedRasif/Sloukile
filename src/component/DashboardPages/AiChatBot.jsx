@@ -55,16 +55,14 @@ const AiChatBot = () => {
         {messages.map((message, index) => (
           <div
             key={index}
-            className={`mb-4 flex ${
-              message.sender === "user" ? "justify-end" : "justify-start"
-            }`}
+            className={`mb-4 flex ${message.sender === "user" ? "justify-end" : "justify-start"
+              }`}
           >
             <div
-              className={`px-4 md:px-4 py-2 md:py-4 rounded-lg ${
-                message.type === "question"
+              className={`px-4 md:px-4 py-2 md:py-4 rounded-lg ${message.type === "question"
                   ? "bg-[#CBB702] text-white lg:text-[18px] max-w-[80%] md:max-w-[66%] mr-5" // User question styling
                   : "bg-gray-200 text-black lg:text-[18px] max-w-[80%] md:max-w-[66%]" // Bot answer styling
-              }`}
+                }`}
               style={{
                 whiteSpace: "normal",
                 wordBreak: "break-word",
@@ -83,30 +81,33 @@ const AiChatBot = () => {
         {/* Loading Spinner */}
         {isLoading && (
           <div className="flex justify-start mb-4">
-          <span className="loading loading-dots loading-xl text-gray-500"></span>
-        </div>
+            <span className="loading loading-dots loading-xl text-gray-500"></span>
+          </div>
         )}
       </div>
 
       {/* Input Field */}
       <form
         onSubmit={handleSendMessage}
-        className="mt-5 flex items-center space-x-2 bottom-0 sticky"
+        className="mt-5 flex items-center space-x-2 bottom-0 sticky "
       >
-        <input
-          type="text"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          placeholder="Type your message..."
-          className="flex-1 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#dbb929]"
-        />
-        <button
-          type="submit"
-          className="px-4 py-2 bg-[#dbb929] text-white rounded-lg hover:bg-[#c9a523]"
-        >
-          Send
-        </button>
+        <div className="relative w-full">
+          <input
+            type="text"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            placeholder="Type your message..."
+            className="w-full p-3 pr-14 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#dbb929]"
+          />
+          <button
+            type="submit"
+            className="absolute right-0 top-1/2 transform -translate-y-1/2 px-4 py-3 bg-[#dbb929] text-white rounded-r-lg hover:bg-[#c9a523]"
+          >
+            Send
+          </button>
+        </div>
       </form>
+
     </div>
   );
 };

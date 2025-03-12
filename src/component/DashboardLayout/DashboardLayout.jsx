@@ -45,7 +45,7 @@ const DashboardLayout = () => {
                 </div>
 
                 {/* Outlet (Main Content) */}
-                <div className="h-full mt-16 overflow-auto  bg-gray-200">
+                <div className="h-full mt-16 overflow-auto  ">
                     <Outlet />
                 </div>
             </div>
