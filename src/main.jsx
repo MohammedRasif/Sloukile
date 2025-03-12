@@ -16,47 +16,52 @@ import AiChatBot from './component/DashboardPages/AiChatBot.jsx';
 import Project from './component/DashboardPages/Project.jsx';
 import ProductDetails from './component/DashboardPages/ProjectDetails.jsx';
 import ProjectDetails from './component/DashboardPages/ProjectDetails.jsx';
+import ProjectEdit from './component/DashboardPages/ProjectEdit.jsx';
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element:<Roots/> ,
-    errorElement:<ErrorPage/>,
+    element: <Roots />,
+    errorElement: <ErrorPage />,
     children: [
       {
         path: "/",
-        element:<Home/> ,
+        element: <Home />,
       },
       {
         path: "/login",
-        element:<Login/> ,
+        element: <Login />,
       },
       {
         path: "/register",
-        element:<Register/> ,
+        element: <Register />,
       },
     ],
   },
 
   {
-    path:"/dashboard",
-    element:( <DashboardLayout/>),
-    children:[
+    path: "/dashboard",
+    element: (<DashboardLayout />),
+    children: [
       {
-        index:true,
-        element:<CompanyDetailsPage/>
+        index: true,
+        element: <CompanyDetailsPage />
       },
       {
-        path:"/dashboard/chat",
-        element:<AiChatBot/>
+        path: "/dashboard/chat",
+        element: <AiChatBot />
       },
       {
-        path:"/dashboard/Project",
-        element:<Project/>
+        path: "/dashboard/Project",
+        element: <Project />
       },
       {
-        path:"/dashboard/ProjectDetails",
-        element:<ProjectDetails/>
+        path: "/dashboard/ProjectDetails",
+        element: <ProjectDetails />
+      },
+      {
+        path: "/dashboard/ProjectEdit",
+        element: <ProjectEdit />
       }
     ]
   }
@@ -65,7 +70,7 @@ const router = createBrowserRouter([
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <React.StrictMode>
-    <RouterProvider router={router} />
-  </React.StrictMode>
+      <RouterProvider router={router} />
+    </React.StrictMode>
   </StrictMode>,
 )

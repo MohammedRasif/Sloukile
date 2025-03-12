@@ -66,7 +66,7 @@ const ProjectDetails = () => {
             <FaEdit />
           </button>
           <div ref={infoRef} className="relative">
-            <button className="text-[30px] cursor-pointer" onClick={toggleInfoModal}>
+            <button className="text-[30px] cursor-pointer mt-2" onClick={toggleInfoModal}>
               <FaInfoCircle />
             </button>
             {showInfoModal && (
