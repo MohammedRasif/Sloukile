@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { Bot } from "lucide-react";
+import ReactMarkdown from "react-markdown"; // Assuming you'll use Markdown for bot responses
 
 const AiChatBot = () => {
   const [messages, setMessages] = useState([]);
@@ -20,15 +21,16 @@ const AiChatBot = () => {
     if (!input.trim()) return;
 
     // Add user message
-    const userMessage = { text: input, sender: "user" };
+    const userMessage = { text: input, type: "question", sender: "user" };
     setMessages((prev) => [...prev, userMessage]);
     setInput("");
     setIsLoading(true);
 
-    // Simulate bot response (static for now)
+    // Simulate bot response
     setTimeout(() => {
       const botMessage = {
         text: "This is a static response from the bot!",
+        type: "answer",
         sender: "bot",
       };
       setMessages((prev) => [...prev, botMessage]);
@@ -58,13 +60,22 @@ const AiChatBot = () => {
             }`}
           >
             <div
-              className={`max-w-[70%] p-3 rounded-lg ${
-                message.sender === "user"
-                  ? "bg-blue-500 text-white"
-                  : "bg-gray-200 text-black"
+              className={`px-4 md:px-4 py-2 md:py-4 rounded-lg ${
+                message.type === "question"
+                  ? "bg-[#CBB702] text-white lg:text-[18px] max-w-[80%] md:max-w-[66%] mr-5" // User question styling
+                  : "bg-gray-200 text-black lg:text-[18px] max-w-[80%] md:max-w-[66%]" // Bot answer styling
               }`}
+              style={{
+                whiteSpace: "normal",
+                wordBreak: "break-word",
+                overflow: "hidden",
+              }}
             >
-              {message.text}
+              {message.type === "answer" ? (
+                <ReactMarkdown>{message.text}</ReactMarkdown> // Bot answer in Markdown
+              ) : (
+                <span>{message.text}</span> // User question as plain text
+              )}
             </div>
           </div>
         ))}
@@ -72,8 +83,8 @@ const AiChatBot = () => {
         {/* Loading Spinner */}
         {isLoading && (
           <div className="flex justify-start mb-4">
-            <span className="loading loading-dots loading-xl text-gray-500"></span>
-          </div>
+          <span className="loading loading-dots loading-xl text-gray-500"></span>
+        </div>
         )}
       </div>
 
