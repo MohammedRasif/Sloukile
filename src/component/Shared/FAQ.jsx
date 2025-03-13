@@ -39,7 +39,7 @@ const FAQ = () => {
   ]
 
   return (
-    <div className="bg-gray-50 py-12 px-4 md:px-8 lg:px-16 rounded-lg">
+    <div className=" py-12 px-4 md:px-8 lg:px-16 rounded-lg">
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
         {/* Left Column - Title and Image */}
         <div className="flex flex-col items-center lg:items-start space-y-6 text-center lg:text-left">

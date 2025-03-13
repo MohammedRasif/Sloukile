@@ -63,14 +63,16 @@ const Navbar = () => {
         {/* Auth Buttons - Desktop */}
         <div className="hidden md:flex items-center space-x-4 text-lg md:text-[22.5px]">
           <NavLink
-            to="/signin"
+            to="/login"
             className="hover:text-[#CBB702] transition duration-300"
           >
             SIGN IN
           </NavLink>
-          <button className="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg transition duration-300 font-[600]">
+         <NavLink to="/register">
+         <button className="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg transition duration-300 font-[600] cursor-pointer">
             Register
           </button>
+         </NavLink>
         </div>
 
         {/* Mobile Menu */}
@@ -105,18 +107,20 @@ const Navbar = () => {
               Contact
             </NavLink>
             <NavLink
-              to="/signin"
+              to="/login"
               className="hover:text-[#CBB702] transition duration-300 text-lg"
               onClick={toggleMenu}
             >
               SIGN IN
             </NavLink>
+            <NavLink to="/register">
             <button
-              className="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg transition duration-300 text-lg font-[600]"
+              className="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg transition duration-300 text-lg font-[600] cursor-pointer"
               onClick={toggleMenu}
             >
               Register
             </button>
+            </NavLink>
           </div>
         )}
       </div>

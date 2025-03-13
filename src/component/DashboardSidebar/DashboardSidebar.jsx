@@ -10,10 +10,12 @@ const DashboardSidebar = () => {
 
   return (
     <div className="text-white">
+      <NavLink to="/">
       <div>
         <img src={img} className="h-40 mt-7 pl-10" alt="" />
       </div>
-      <div className="flex flex-col gap-4">
+      </NavLink>
+      <div className="flex flex-col gap-2">
         <NavLink
           to="/dashboard"
           end // Ensures exact match for /dashboard

@@ -1,3 +1,4 @@
+import { NavLink } from "react-router-dom";
 import img from "./Decoration.png"
 import img1 from "./Illustration.png"
 const Banner = () => {
@@ -20,9 +21,11 @@ const Banner = () => {
                     <p className="text-sm sm:text-base md:text-lg">
                         Say goodbye to manual planning! Use AI to automate task <br className="hidden sm:block" /> allocation, predict risks, and ensure on-time project delivery
                     </p>
+                    <NavLink to="/dashboard">
                     <button className="w-[160px] sm:w-[180px] md:w-[200px] h-[40px] sm:h-[48px] font-medium rounded-full bg-[#CBB702] text-white hover:bg-[#b3a002] transition">
                         Get Started
                     </button>
+                    </NavLink>
                 </div>
 
                 {/* Image Section */}

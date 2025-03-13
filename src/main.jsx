@@ -20,6 +20,7 @@ import ProjectEdit from './component/DashboardPages/ProjectEdit.jsx';
 import AddEmploye from './component/DashboardPages/AddEmploye.jsx';
 import TaskProgress from './component/DashboardPages/TaskProgress.jsx';
 import Setting from './component/DashboardPages/Setting.jsx';
+import ManageSubscription from './component/DashboardPages/ManageSubscription.jsx';
 
 const router = createBrowserRouter([
   {
@@ -77,6 +78,10 @@ const router = createBrowserRouter([
       {
         path: "/dashboard/setting",
         element: <Setting />
+      },
+      {
+        path: "/dashboard/manageSubscription",
+        element: <ManageSubscription />
       }
     ]
   }

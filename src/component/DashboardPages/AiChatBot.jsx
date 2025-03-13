@@ -1,12 +1,17 @@
 import { useState, useEffect, useRef } from "react";
 import { Bot } from "lucide-react";
-import ReactMarkdown from "react-markdown"; // Assuming you'll use Markdown for bot responses
+import ReactMarkdown from "react-markdown"; // For bot responses in Markdown
+import img from "./dashboard 3.png"; // Bot image
 
 const AiChatBot = () => {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const chatContainerRef = useRef(null);
+
+  // User image URL
+  const userImageUrl =
+    "https://res.cloudinary.com/dfsu0cuvb/image/upload/v1738148405/fotor-2025010923230_1_u9l6vi.png";
 
   // Scroll to the bottom whenever messages change
   useEffect(() => {
@@ -20,16 +25,16 @@ const AiChatBot = () => {
     e.preventDefault();
     if (!input.trim()) return;
 
-    // Add user message
-    const userMessage = { text: input, type: "question", sender: "user" };
+    // Add user message with 'question' key
+    const userMessage = { question: input, type: "question", sender: "user" };
     setMessages((prev) => [...prev, userMessage]);
     setInput("");
     setIsLoading(true);
 
-    // Simulate bot response
+    // Simulate bot response with 'answer' key
     setTimeout(() => {
       const botMessage = {
-        text: "This is a static response from the bot!",
+        answer: "This is a static response from the bot! This is a static response from the bot!This is a static response from the bot!This is a static response from the bot!This is a static response from the bot!This is a static response from the bot!This is a static response from the bot!This is a static response from the bot!This is a static response from the bot!",
         type: "answer",
         sender: "bot",
       };
@@ -58,30 +63,58 @@ const AiChatBot = () => {
             className={`mb-4 flex ${message.sender === "user" ? "justify-end" : "justify-start"
               }`}
           >
-            <div
-              className={`px-4 md:px-4 py-2 md:py-4 rounded-lg ${message.type === "question"
-                  ? "bg-[#CBB702] text-white lg:text-[18px] max-w-[80%] md:max-w-[66%] mr-5" // User question styling
-                  : "bg-gray-200 text-black lg:text-[18px] max-w-[80%] md:max-w-[66%]" // Bot answer styling
-                }`}
-              style={{
-                whiteSpace: "normal",
-                wordBreak: "break-word",
-                overflow: "hidden",
-              }}
-            >
-              {message.type === "answer" ? (
-                <ReactMarkdown>{message.text}</ReactMarkdown> // Bot answer in Markdown
-              ) : (
-                <span>{message.text}</span> // User question as plain text
-              )}
-            </div>
+            {message.sender === "user" ? (
+              // User's Question Layout (1/2 of screen width)
+              <div className="flex flex-col items-end w-1/2">
+                {/* <span className="text-sm font-semibold text-gray-600 mb-1">Question</span> */}
+                <div className="flex  justify-start items-start space-x-3">
+                  <div
+                    className="px-4 py-3 rounded-xl bg-[#CBB702] text-white lg:text-[18px] shadow-md w-full"
+                    style={{
+                      whiteSpace: "normal",
+                      wordBreak: "break-word",
+                      overflow: "hidden",
+                    }}
+                  >
+                    <span>{message.question}</span>
+                  </div>
+                  <img
+                    src={userImageUrl}
+                    alt="User Avatar"
+                    className="w-10 h-10 rounded-full"
+                  />
+                </div>
+              </div>
+            ) : (
+              // Bot's Answer Layout (3/4 of screen width)
+              <div className="flex flex-col items-start w-4/4">
+                {/* <span className="text-sm font-semibold text-gray-600 mb-1">Answer</span> */}
+                <div className="flex items-start space-x-3">
+                  <img
+                    src={img}
+                    alt="Bot Avatar"
+                    className="w-8 h-10 rounded-full"
+                  />
+                  <div
+                    className="px-5 py-4 rounded-lg bg-gray-200 text-black lg:text-[16px] shadow-sm max-w-[70%]"
+                    style={{
+                      whiteSpace: "normal",
+                      wordBreak: "break-word",
+                      overflow: "hidden",
+                    }}
+                  >
+                    <ReactMarkdown>{message.answer}</ReactMarkdown>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         ))}
 
         {/* Loading Spinner */}
         {isLoading && (
           <div className="flex justify-start mb-4">
-            <span className="loading loading-dots loading-xl text-gray-500"></span>
+            <span className="loading loading-dots loading-xl text-gray-600"></span>
           </div>
         )}
       </div>
@@ -89,7 +122,7 @@ const AiChatBot = () => {
       {/* Input Field */}
       <form
         onSubmit={handleSendMessage}
-        className="mt-5 flex items-center space-x-2 bottom-0 sticky "
+        className="mt-5 flex items-center space-x-2 bottom-0 sticky"
       >
         <div className="relative w-full">
           <input
@@ -107,7 +140,6 @@ const AiChatBot = () => {
           </button>
         </div>
       </form>
-
     </div>
   );
 };

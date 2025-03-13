@@ -57,8 +57,8 @@ const Setting = () => {
                                 <h1 className="text-[18px] font-[500] mb-2 mt-3">User Name</h1>
                                 <input type="text" className="w-full h-[40px] border border-gray-400 rounded-md text-[#364636] pl-3" placeholder="info@********.com" readOnly />
                             </div>
-                            
-                           
+
+
                             <div className="flex items-center justify-center">
                                 <button className="bg-[#CBB702] uppercase text-[#FAF1E6] font-[500] px-20 py-2 rounded-full my-10">
                                     Save & Changes
