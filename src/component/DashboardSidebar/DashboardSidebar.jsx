@@ -18,8 +18,7 @@ const DashboardSidebar = () => {
           to="/dashboard"
           end // Ensures exact match for /dashboard
           className={({ isActive }) =>
-            `flex items-center gap-3 px-6 py-3 transition-colors duration-200 ${
-              isActive ? 'bg-[#dbb929] text-black' : 'hover:bg-[#2a4b9b]'
+            `flex items-center gap-3 px-6 py-3 transition-colors duration-200 ${isActive ? 'bg-[#dbb929] text-black' : 'hover:bg-[#2a4b9b]'
             }`
           }
         >
@@ -30,8 +29,7 @@ const DashboardSidebar = () => {
         <NavLink
           to="/dashboard/chat"
           className={({ isActive }) =>
-            `flex items-center gap-3 px-6 py-3 transition-colors duration-200 ${
-              isActive ? 'bg-[#dbb929] text-black' : 'hover:bg-[#2a4b9b]'
+            `flex items-center gap-3 px-6 py-3 transition-colors duration-200 ${isActive ? 'bg-[#dbb929] text-black' : 'hover:bg-[#2a4b9b]'
             }`
           }
         >
@@ -42,8 +40,7 @@ const DashboardSidebar = () => {
         <NavLink
           to="/dashboard/Project"
           className={() =>
-            `flex items-center gap-3 px-6 py-3 transition-colors duration-200 ${
-              isProjectActive ? 'bg-[#dbb929] text-black' : 'hover:bg-[#2a4b9b]'
+            `flex items-center gap-3 px-6 py-3 transition-colors duration-200 ${isProjectActive ? 'bg-[#dbb929] text-black' : 'hover:bg-[#2a4b9b]'
             }`
           }
         >
@@ -54,8 +51,7 @@ const DashboardSidebar = () => {
         <NavLink
           to="/dashboard/addEmploye"
           className={({ isActive }) =>
-            `flex items-center gap-3 px-6 py-3 transition-colors duration-200 ${
-              isActive ? 'bg-[#dbb929] text-black' : 'hover:bg-[#2a4b9b]'
+            `flex items-center gap-3 px-6 py-3 transition-colors duration-200 ${isActive ? 'bg-[#dbb929] text-black' : 'hover:bg-[#2a4b9b]'
             }`
           }
         >
@@ -66,20 +62,28 @@ const DashboardSidebar = () => {
         <NavLink
           to="/dashboard/taskProgress"
           className={({ isActive }) =>
-            `flex items-center gap-3 px-6 py-3 transition-colors duration-200 ${
-              isActive ? 'bg-[#dbb929] text-black' : 'hover:bg-[#2a4b9b]'
+            `flex items-center gap-3 px-6 py-3 transition-colors duration-200 ${isActive ? 'bg-[#dbb929] text-black' : 'hover:bg-[#2a4b9b]'
             }`
           }
         >
           <Clock className="h-6 w-6" />
           <h1 className="text-lg font-medium">Task Progress</h1>
         </NavLink>
+        <NavLink
+          to="/dashboard/manageSubscription"
+          className={({ isActive }) =>
+            `flex items-center gap-3 px-6 py-3 transition-colors duration-200 ${isActive ? 'bg-[#dbb929] text-black' : 'hover:bg-[#2a4b9b]'
+            }`
+          }
+        >
+          <Clock className="h-6 w-6" />
+          <h1 className="text-lg font-medium">Manage subscription</h1>
+        </NavLink>
 
         <NavLink
-          to="/setting"
+          to="/dashboard/setting"
           className={({ isActive }) =>
-            `flex items-center gap-3 px-6 py-3 transition-colors duration-200 ${
-              isActive ? 'bg-[#dbb929] text-black' : 'hover:bg-[#2a4b9b]'
+            `flex items-center gap-3 px-6 py-3 transition-colors duration-200 ${isActive ? 'bg-[#dbb929] text-black' : 'hover:bg-[#2a4b9b]'
             }`
           }
         >

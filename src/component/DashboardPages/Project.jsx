@@ -123,7 +123,7 @@ const Project = () => {
 
   return (
     <div className="border-t border-gray-300">
-      <div className="container mx-auto p-6">
+      <div className="container mx-auto pt-6">
         {/* Search Input Field with Icons */}
         <div className="relative mb-6 flex items-center justify-between">
           <div className="relative flex-1 max-w-md">

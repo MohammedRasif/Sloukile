@@ -142,7 +142,7 @@ const TaskList = () => {
 
     return (
         <div className="border-t border-gray-300">
-            <div className="container mx-auto p-4">
+            <div className="container mx-auto py-6">
                 {/* Search Field */}
                 <div className="relative flex-1 max-w-md mb-5">
                     <input
