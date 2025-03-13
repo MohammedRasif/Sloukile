@@ -145,21 +145,21 @@ const Project = () => {
                 onClick={toggleFilterPopup}
               />
               {showFilterPopup && (
-                <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-300 rounded-md shadow-lg z-50">
+                <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-300 rounded-md shadow-lg z-50 ">
                   <button
-                    className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                    className="block w-full text-left px-4 py-2   hover:bg-gray-100 text-md font-[500]"
                     onClick={() => handleFilterSelect('completed')}
                   >
                     Completed Project
                   </button>
                   <button
-                    className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                    className="block w-full text-left px-4 py-2   hover:bg-gray-100 text-md font-[500]"
                     onClick={() => handleFilterSelect('inProgress')}
                   >
                     In Progress
                   </button>
                   <button
-                    className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                    className="block w-full text-left px-4 py-2   hover:bg-gray-100 text-md font-[500]"
                     onClick={() => handleFilterSelect('all')}
                   >
                     All Projects

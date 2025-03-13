@@ -17,6 +17,7 @@ import Project from './component/DashboardPages/Project.jsx';
 import ProductDetails from './component/DashboardPages/ProjectDetails.jsx';
 import ProjectDetails from './component/DashboardPages/ProjectDetails.jsx';
 import ProjectEdit from './component/DashboardPages/ProjectEdit.jsx';
+import AddEmploye from './component/DashboardPages/AddEmploye.jsx';
 
 const router = createBrowserRouter([
   {
@@ -62,6 +63,10 @@ const router = createBrowserRouter([
       {
         path: "/dashboard/ProjectEdit",
         element: <ProjectEdit />
+      },
+      {
+        path: "/dashboard/addEmploye",
+        element: <AddEmploye />
       }
     ]
   }

@@ -52,7 +52,7 @@ const DashboardSidebar = () => {
         </NavLink>
 
         <NavLink
-          to="/add-employee"
+          to="/dashboard/addEmploye"
           className={({ isActive }) =>
             `flex items-center gap-3 px-6 py-3 transition-colors duration-200 ${
               isActive ? 'bg-[#dbb929] text-black' : 'hover:bg-[#2a4b9b]'
