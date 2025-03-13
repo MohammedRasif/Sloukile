@@ -18,6 +18,7 @@ import ProductDetails from './component/DashboardPages/ProjectDetails.jsx';
 import ProjectDetails from './component/DashboardPages/ProjectDetails.jsx';
 import ProjectEdit from './component/DashboardPages/ProjectEdit.jsx';
 import AddEmploye from './component/DashboardPages/AddEmploye.jsx';
+import TaskProgress from './component/DashboardPages/TaskProgress.jsx';
 
 const router = createBrowserRouter([
   {
@@ -67,6 +68,10 @@ const router = createBrowserRouter([
       {
         path: "/dashboard/addEmploye",
         element: <AddEmploye />
+      },
+      {
+        path: "/dashboard/taskProgress",
+        element: <TaskProgress />
       }
     ]
   }
