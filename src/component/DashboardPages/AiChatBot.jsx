@@ -114,7 +114,10 @@ const AiChatBot = () => {
         {/* Loading Spinner */}
         {isLoading && (
           <div className="flex justify-start mb-4">
+            <div className="flex space-x-3">
+            <img src={img} alt="" className="w-8 h-10 rounded-full" />
             <span className="loading loading-dots loading-xl text-gray-600"></span>
+            </div>
           </div>
         )}
       </div>
