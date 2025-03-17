@@ -46,8 +46,8 @@ const UserSays = () => {
 
   return (
     <div className=" py-8 px-4 sm:py-12 sm:px-6 lg:px-8 lg:-mt-52">
-      <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center text-blue-900 mb-6 sm:mb-10">
-        What Our Users Say
+      <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center text-black mb-6 sm:mb-10">
+        What Our <span className="text-[#00BF63]">Users Say</span>
       </h2>
       <div className="max-w-full sm:max-w-3xl md:max-w-5xl lg:max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6 sm:gap-8">
         {testimonials.map((testimonial, index) => (
@@ -66,7 +66,7 @@ const UserSays = () => {
                   {Array.from({ length: 5 }, (_, i) => (
                     <span
                       key={i}
-                      className={`text-yellow-400 text-sm sm:text-base ${
+                      className={`text-[#00BF63] text-sm sm:text-base ${
                         i < testimonial.rating ? "fill-current" : "text-gray-300"
                       }`}
                     >

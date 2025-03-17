@@ -62,7 +62,7 @@ const FAQ = () => {
             >
               <button
                 className={`w-full px-6 py-4 flex justify-between items-center text-left transition-all duration-500 ease-in-out ${
-                  openIndex === index ? "bg-[#CBB702] text-white" : "bg-white text-gray-800 hover:bg-gray-50"
+                  openIndex === index ? "bg-[#00BF63] text-white" : "bg-white text-gray-800 hover:bg-gray-50"
                 }`}
                 onClick={() => toggleAccordion(index)}
                 aria-expanded={openIndex === index}

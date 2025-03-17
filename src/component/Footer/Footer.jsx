@@ -22,7 +22,7 @@ const Footer = () => {
           <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold">
             What are you waiting for?
           </h2>
-          <button className="mt-2 sm:mt-3 lg:mt-7 bg-[#CBB702]  text-white px-3 sm:px-4 lg:px-10 py-1 sm:py-2 lg:py-3 rounded-full font-medium  transition">
+          <button className="mt-2 sm:mt-3 lg:mt-7 bg-[#00BF63]  text-white px-3 sm:px-4 lg:px-10 py-1 sm:py-2 lg:py-3 rounded-full font-medium  transition">
             GET STARTED
           </button>
         </div>
@@ -81,13 +81,13 @@ const Footer = () => {
               product updates, and exclusive offers.
             </p>
             <div className="hidden md:block">
-            <div className="flex items-center border border-yellow-500 rounded-lg overflow-hidden mx-auto sm:mx-0 w-full max-w-xs sm:max-w-sm ">
+            <div className="flex items-center border border-[#00BF63] rounded-lg overflow-hidden mx-auto sm:mx-0 w-full max-w-xs sm:max-w-sm ">
               <input
                 type="email"
                 placeholder="Enter a valid email address"
                 className="flex-1 px-2 sm:px-3 lg:px-4 py-1 sm:py-2 lg:py-2 text-black outline-none text-xs sm:text-sm lg:text-base"
               />
-              <button className="bg-yellow-500 px-2 sm:px-3 lg:px-4 py-1 sm:py-2 lg:py-2 text-black font-medium hover:bg-yellow-600 transition text-xs sm:text-sm lg:text-base">
+              <button className="bg-[#00BF63] px-2 sm:px-3 lg:px-4 py-1 sm:py-2 lg:py-2 text-black font-medium hover:bg-green-600 transition text-xs sm:text-sm lg:text-base">
                 Submit
               </button>
             </div>
@@ -98,9 +98,9 @@ const Footer = () => {
             <input
                 type="email"
                 placeholder="Enter a valid email address"
-                className="flex-1 px-4  border-2 border-y-amber-400 ml-5 rounded-l-full py-[2px]  "
+                className="flex-1 px-4  border-2 border-y-green-600 ml-5 rounded-l-full py-[2px]  "
               />
-              <button className="bg-yellow-500 rounded-r-full px-2 sm:px-3 lg:px-4 py-2 sm:py-2 lg:py-2 text-black font-medium hover:bg-yellow-600 transition text-xs sm:text-sm lg:text-base">
+              <button className="bg-[#00BF63] rounded-r-full px-2 sm:px-3 lg:px-4 py-2 sm:py-2 lg:py-2 text-black font-medium hover:bg-green-600 transition text-xs sm:text-sm lg:text-base">
                 Submit
               </button>
             </div>

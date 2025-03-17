@@ -7,10 +7,10 @@ const Register = () => {
         <div>
              <div className="flex flex-col lg:flex-row items-center justify-center min-h-screen">
             {/* Left Side */}
-            <div className="bg-[#062960] lg:w-1/2 w-full h-auto lg:h-screen flex flex-col justify-center items-center text-center py-10">
-                <img src={img} className="h-[250px] w-[300px] lg:h-[426.87px] lg:w-[510px] mb-4" alt="" />
-                <h1 className="text-2xl lg:text-[51.25px] font-[500] text-[#CBB702]">Nice to meet you :)</h1>
-                <h1 className="text-lg lg:text-[30px] text-[#CBB702]">Just register to join with us</h1>
+            <div className="bg-[#000524] lg:w-1/2 w-full h-auto lg:h-screen flex flex-col justify-center items-center text-center py-10">
+                <img src={img} className="h-[250px] w-[300px] lg:h-[250px] lg:w-[510px] mb-4" alt="" />
+                <h1 className="text-2xl lg:text-[51.25px] font-[500] text-white">Nice to meet you :)</h1>
+                <h1 className="text-lg lg:text-[30px] text-white7">Just register to join with us</h1>
             </div>
 
             {/* Right Side */}
@@ -20,9 +20,9 @@ const Register = () => {
                     <div className="flex flex-col lg:flex-row justify-between items-center mb-10">
                         <div>
                             <h1 className="text-3xl lg:text-5xl font-bold text-[#1a3b6e]">Register</h1>
-                            <div className="h-1 w-12 lg:w-16 bg-[#dbb929] mt-4 lg:mt-8"></div>
+                            <div className="h-[8px] w-12 lg:w-20 bg-[#00BF63] mt-4 lg:mt-8 rounded-xl"></div>
                         </div>
-                        <div className="flex items-center text-[#dbb929] mt-4 lg:mt-0">
+                        <div className="flex items-center text-white mt-4 lg:mt-0">
                             <NavLink to="/login" className="text-sm">Already have account?</NavLink>
                             <ArrowRight className="h-4 w-4 ml-1" />
                         </div>
@@ -57,13 +57,13 @@ const Register = () => {
 
                     {/* Terms & Conditions */}
                     <div className="flex items-start gap-2 mt-4 lg:mt-6">
-                        <input type="checkbox" className="w-4 h-4 md:w-5 md:h-5 mt-1 accent-[#CBB702DE]" />
-                        <span className="text-sm lg:text-md">I have read and accept the <span className="text-[#dbb929]">Terms of Service & Privacy Policy</span> *</span>
+                        <input type="checkbox" className="w-4 h-4 md:w-5 md:h-5 mt-1 accent-[#00BF63]" />
+                        <span className="text-sm lg:text-md">I have read and accept the <span className="text-white">Terms of Service & Privacy Policy</span> *</span>
                     </div>
 
                     {/* Continue Button */}
                     <div className="mt-6">
-                        <button type="button" className="w-full bg-[#dbb929] text-white py-3 rounded-md uppercase font-medium text-sm lg:text-base">
+                        <button type="button" className="w-full bg-[#000524] text-white py-3 rounded-md uppercase font-medium text-sm lg:text-base">
                             Continue
                         </button>
                     </div>

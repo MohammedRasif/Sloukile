@@ -6,7 +6,7 @@ const plans = [
         price: 24,
         bg: "bg-white",
         textColor: "text-gray-800",
-        btnBg: "bg-[#062960]",
+        btnBg: "bg-[#00BF63]",
         features: [
             "AI-Powered Project Setup",
             "Automated Milestone Planning",
@@ -20,7 +20,7 @@ const plans = [
         price: 24,
         bg: "bg-white",
         textColor: "text-gray-800",
-        btnBg: "bg-[#062960]",
+        btnBg: "bg-[#00BF63]",
         features: [
             "AI-Powered Project Setup",
             "Automated Milestone Planning",
@@ -34,7 +34,7 @@ const plans = [
         price: 24,
         bg: "bg-white",
         textColor: "text-gray-800",
-        btnBg: "bg-[#062960]",
+        btnBg: "bg-[#00BF63]",
         features: [
             "AI-Powered Project Setup",
             "Automated Workflow Management",
@@ -49,7 +49,7 @@ const plans = [
         price: 24,
         bg: "bg-white",
         textColor: "text-gray-800",
-        btnBg: "bg-[#062960]",
+        btnBg: "bg-[#00BF63]",
         features: [
             "Custom AI Solutions",
             "Full Automation & Optimization",
@@ -63,10 +63,12 @@ const plans = [
 
 const Pricing = () => {
     return (
-        <div className="flex flex-col items-center min-h-screen py-16 px-4  lg:mt-96 md:mt-96 mt-56">
+        <div
+        id="pricing"
+        className="flex flex-col items-center min-h-screen py-16 px-4  lg:mt-96 md:mt-96 mt-56">
             {/* Title */}
             <h2 className="text-3xl sm:text-4xl font-bold text-gray-800 mb-10">
-                Pricing <span className="text-yellow-500">& plan</span>
+                Pricing <span className="text-[#00BF63]">& plan</span>
             </h2>
 
             {/* Pricing Cards */}
@@ -74,10 +76,10 @@ const Pricing = () => {
                 {plans.map((plan, index) => (
                     <div
                         key={index}
-                        className={`relative flex flex-col items-center p-6 sm:p-8 rounded-3xl shadow-lg transition duration-300 border-4 border-[#062960] h-[450px] sm:h-[550px] hover:scale-105 hover:shadow-2xl hover:text-black group ${plan.bg} ${plan.textColor}`}
+                        className={`relative flex flex-col items-center p-6 sm:p-8 rounded-3xl shadow-lg transition duration-300 border-4 border-[#00BF63] h-[450px] sm:h-[550px] hover:scale-105 hover:shadow-2xl hover:text-black group ${plan.bg} ${plan.textColor}`}
                     >
                         {/* Title & Price Section */}
-                        <div className="absolute top-0 left-0 w-full text-center rounded-t-2xl z-10 pt-6 sm:pt-8 transition-all duration-300 group-hover:bg-[#062960]">
+                        <div className="absolute top-0 left-0 w-full text-center rounded-t-2xl z-10 pt-6 sm:pt-8 transition-all duration-300 group-hover:bg-[#00bf6f]">
                             <h3 className="text-lg sm:text-xl md:text-2xl font-semibold group-hover:text-white">{plan.name}</h3>
                             <p className="text-2xl sm:text-3xl font-bold mt-2 pb-6 sm:pb-10 group-hover:text-white">${plan.price}</p>
                         </div>
