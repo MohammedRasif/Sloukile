@@ -65,6 +65,7 @@ const Navbar = () => {
     <div className="w-full top-0 text-black z-50 absolute">
       <div className="container mx-auto flex items-center justify-between px-4 sm:px-6 py-4">
         {/* Logo Section */}
+        {/* Logo Section */}
         <div>
           <img
             src={img}
