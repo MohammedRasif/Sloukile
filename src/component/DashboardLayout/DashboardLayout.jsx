@@ -11,7 +11,7 @@ const DashboardLayout = () => {
         <div className="flex h-screen">
             {/* Sidebar */}
             <div
-                className={`bg-[#062960] h-full fixed transition-all duration-300 ease-in-out ${isSidebarOpen ? "w-[280px]" : "w-16"
+                className={`bg-[#000524] h-full fixed transition-all duration-300 ease-in-out ${isSidebarOpen ? "w-[280px]" : "w-16"
                     }`}
             >
                 <div className="h-full flex flex-col justify-between">

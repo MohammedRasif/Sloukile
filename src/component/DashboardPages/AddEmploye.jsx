@@ -65,27 +65,27 @@ const AddEmploye = () => {
                             placeholder="Search your project name"
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
-                            className="w-full p-2 pl-10 border border-gray-300 rounded-lg bg-gray-50 text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#CBB702]"
+                            className="w-full p-2 pl-10 border border-gray-300 rounded-lg bg-gray-50 text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#000524]"
                         />
                         <FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
                     </div>
                 </div>
 
-                <div className="max-h-[70vh] overflow-y-auto text-[17px]">
+                <div className="max-h-[60vh] overflow-y-auto text-[17px]">
                     <table className="w-full border-collapse">
                         <thead>
-                            <tr className="bg-[#CBB702] ">
-                                <th className="border border-yellow-400 p-3 ">Name</th>
-                                <th className="border border-yellow-400 p-3 ">Skills</th>
-                                <th className="border border-yellow-400 p-3 ">Current Assignment</th>
+                            <tr className="bg-[#000524]  text-white">
+                                <th className="border border-[#E7E7E7] p-3 ">Name</th>
+                                <th className="border border-[#E7E7E7] p-3 ">Skills</th>
+                                <th className="border border-[#E7E7E7] p-3 ">Current Assignment</th>
                             </tr>
                         </thead>
                         <tbody>
                             {filteredEmployees.map((employee, index) => (
                                 <tr key={index} className="border-b border-yellow-100">
-                                    <td className="border border-yellow-400 p-3">{employee.name}</td>
-                                    <td className="border border-yellow-400 p-3">{employee.skills}</td>
-                                    <td className="border border-yellow-400 p-3">{employee.currentAssignment}</td>
+                                    <td className="border border-[#E7E7E7] p-3">{employee.name}</td>
+                                    <td className="border border-[#E7E7E7] p-3">{employee.skills}</td>
+                                    <td className="border border-[#E7E7E7] p-3">{employee.currentAssignment}</td>
                                 </tr>
                             ))}
                         </tbody>
@@ -119,7 +119,7 @@ const AddEmploye = () => {
                                     name="name"
                                     value={newEmployee.name}
                                     onChange={handleInputChange}
-                                    className="w-full py-2  px-16 border border-amber-500 rounded-md"
+                                    className="w-full py-2  px-16 border border-[#000524] rounded-md"
                                 />
                             </div>
                             <div>
@@ -129,7 +129,7 @@ const AddEmploye = () => {
                                     name="name"
                                     value={newEmployee.name}
                                     onChange={handleInputChange}
-                                    className="w-full py-2 px-16 border border-amber-500 rounded-md"
+                                    className="w-full py-2 px-16 border border-[#000524] rounded-md"
                                 />
                             </div>
                             </div>
@@ -138,7 +138,7 @@ const AddEmploye = () => {
                                 
                                 <button
                                     onClick={handleAddEmployee}
-                                    className="bg-[#CBB702] font-bold text-white px-4 py-2 w-full rounded-md cursor-pointer hover:bg-yellow-500"
+                                    className="bg-[#000524] font-bold text-white px-4 py-2 w-full rounded-md cursor-pointer hover:bg-[#000524b4]"
                                 >
                                     Save
                                 </button>
@@ -150,7 +150,7 @@ const AddEmploye = () => {
 
             <button
                 onClick={() => setShowModal(true)}
-                className="mt-10 ml-12 cursor-pointer flex items-center gap-2 bg-blue-800 text-white px-4 py-2 rounded-md hover:bg-blue-900"
+                className="mt-10 ml-12 cursor-pointer flex items-center gap-2 bg-[#000524] text-white px-4 py-2 rounded-md hover:bg-[#000524b4]"
             >
                 <PlusCircle size={20} />
                 Add New Employee

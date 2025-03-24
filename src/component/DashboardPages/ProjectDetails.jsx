@@ -104,12 +104,12 @@ const ProjectDetails = () => {
         <table className="w-full border-collapse">
           <thead>
             <tr>
-              <th className="p-3 text-left bg-yellow-500 border border-gray-300">Name</th>
-              <th className="p-3 text-left bg-yellow-500 border border-gray-300">Kpi</th>
-              <th className="p-3 text-left bg-yellow-500 border border-gray-300">Stage Name</th>
-              <th className="p-3 text-left bg-yellow-500 border border-gray-300">Material/Tools Name</th>
-              <th className="p-3 text-left bg-yellow-500 border border-gray-300">Material/Tools Cost</th>
-              <th className="p-3 text-left bg-yellow-500 border border-gray-300">Project Budget</th>
+              <th className="p-3 text-left bg-[#000524] text-white border border-gray-300">Name</th>
+              <th className="p-3 text-left bg-[#000524] text-white border border-gray-300">Kpi</th>
+              <th className="p-3 text-left bg-[#000524] text-white border border-gray-300">Stage Name</th>
+              <th className="p-3 text-left bg-[#000524] text-white border border-gray-300">Material/Tools Name</th>
+              <th className="p-3 text-left bg-[#000524] text-white border border-gray-300">Material/Tools Cost</th>
+              <th className="p-3 text-left bg-[#000524] text-white border border-gray-300">Project Budget</th>
             </tr>
           </thead>
           <tbody>

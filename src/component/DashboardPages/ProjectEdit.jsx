@@ -93,12 +93,12 @@ const ProjectEdit = () => {
                     <table className="w-full border-collapse">
                         <thead>
                             <tr>
-                                <th className="p-3 text-left bg-yellow-500 border border-gray-300">Name</th>
-                                <th className="p-3 text-left bg-yellow-500 border border-gray-300">Kpi</th>
-                                <th className="p-3 text-left bg-yellow-500 border border-gray-300">Stage Name</th>
-                                <th className="p-3 text-left bg-yellow-500 border border-gray-300">Material/Tools Name</th>
-                                <th className="p-3 text-left bg-yellow-500 border border-gray-300">Material/Tools Cost</th>
-                                <th className="p-3 text-left bg-yellow-500 border border-gray-300">Project Budget</th>
+                                <th className="p-3 text-left bg-[#000524] text-white border border-gray-300">Name</th>
+                                <th className="p-3 text-left bg-[#000524] text-white border border-gray-300">Kpi</th>
+                                <th className="p-3 text-left bg-[#000524] text-white border border-gray-300">Stage Name</th>
+                                <th className="p-3 text-left bg-[#000524] text-white border border-gray-300">Material/Tools Name</th>
+                                <th className="p-3 text-left bg-[#000524] text-white border border-gray-300">Material/Tools Cost</th>
+                                <th className="p-3 text-left bg-[#000524] text-white border border-gray-300">Project Budget</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -164,9 +164,9 @@ const ProjectEdit = () => {
                 </div>
 
                 <div className="mt-10 space-x-5">
-                    <button className="border-2 border-gray-400 text-white rounded-sm px-10 py-2 font-[500] bg-[#CBB702] hover:bg-yellow-500 cursor-pointer">Save</button>
+                    <button className="border-2 border-gray-400 text-white rounded-sm px-10 py-2 font-[500] bg-[#000524] hover:bg-[#070024bb] cursor-pointer">Save</button>
                     <NavLink to="/dashboard/ProjectDetails">
-                    <button className="border-2 border-gray-400 hover:bg-gray-100 rounded-sm px-10 py-2 font-[500] cursor-pointer">Cencel</button>
+                        <button className="border-2 border-gray-400 hover:bg-gray-100 rounded-sm px-10 py-2 font-[500] cursor-pointer">Cencel</button>
                     </NavLink>
                 </div>
             </div>

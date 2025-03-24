@@ -131,7 +131,7 @@ const TaskList = () => {
 
         return parts.map((part, i) =>
             regex.test(part) ? (
-                <span key={i} className="bg-yellow-200">
+                <span key={i} className="bg-[#E7E7E7]">
                     {part}
                 </span>
             ) : (
@@ -150,7 +150,7 @@ const TaskList = () => {
                         placeholder="Search your project name"
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        className="w-full p-2 pl-10 border border-gray-300 rounded-lg bg-gray-50 text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#CBB702]"
+                        className="w-full p-2 pl-10 border border-gray-300 rounded-lg bg-gray-50 text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#000524]"
                     />
                     <FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
                 </div>
@@ -158,11 +158,11 @@ const TaskList = () => {
                 <div className="flex gap-4">
                     {/* Tasks Column */}
                     <div className="w-1/2">
-                        <div className="bg-yellow-500 p-3 font-semibold">Task</div>
-                        <div className="border border-yellow-200">
+                        <div className="bg-[#000524] p-3 font-semibold text-white">Task</div>
+                        <div className="border border-[#E7E7E7]">
                             {filteredTasks.length > 0 ? (
                                 filteredTasks.map((task) => (
-                                    <div key={task.id} className="border-b text-[18px] border-yellow-100 last:border-b-0">
+                                    <div key={task.id} className="border-b text-[18px] border-[#E7E7E7] last:border-b-0">
                                         <div
                                             className="flex items-center justify-between p-4 cursor-pointer hover:bg-gray-50"
                                             onClick={() => handleTaskClick(task.id)}
@@ -192,11 +192,11 @@ const TaskList = () => {
 
                     {/* Completed Tasks Column */}
                     <div className="w-1/2">
-                        <div className="bg-white border border-yellow-200 p-3 font-semibold">Completed Task</div>
-                        <div className="border border-yellow-200">
+                        <div className="bg-white border border-[#E7E7E7] p-3 font-semibold">Completed Task</div>
+                        <div className="border border-[#E7E7E7]">
                             {filteredCompletedTasks.length > 0 ? (
                                 filteredCompletedTasks.map((task, index) => (
-                                    <div key={index} className="text-[18px] font-[500] p-4 border-b border-yellow-300 last:border-b-0 bg-green-100">
+                                    <div key={index} className="text-[18px] font-[500] p-4 border-b border-[#E7E7E7] last:border-b-0 bg-green-100">
                                         <div className="flex items-center gap-2">
                                             {/* <Check className="h-5 w-5 text-green-600" /> */}
                                             <span>{highlightMatch(task, searchTerm)}</span>
@@ -229,7 +229,7 @@ const TaskList = () => {
                                 >
                                     Cancel
                                 </button>
-                                <button onClick={handleConfirm} className="bg-[#CBB702] text-white px-4 py-2 rounded-md hover:bg-amber-500">
+                                <button onClick={handleConfirm} className="bg-[#000524] text-white px-4 py-2 rounded-md hover:bg-[#000524b4]">
                                     Confirm
                                 </button>
                             </div>

@@ -132,7 +132,7 @@ const Project = () => {
               placeholder="Search your project name"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full p-2 pl-10 border border-gray-300 rounded-lg bg-gray-50 text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#CBB702]"
+              className="w-full p-2 pl-10 border border-gray-300 rounded-lg bg-gray-50 text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#00BF63]"
             />
             <FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
           </div>
@@ -141,7 +141,7 @@ const Project = () => {
             {/* Filter Icon and Popup */}
             <div ref={filterRef} className="relative z-50">
               <FaFilter
-                className="cursor-pointer text-[24px] text-gray-600 hover:text-[#CBB702]"
+                className="cursor-pointer text-[24px] text-gray-600 hover:text-[#00BF63]"
                 onClick={toggleFilterPopup}
               />
               {showFilterPopup && (
@@ -171,11 +171,11 @@ const Project = () => {
             {/* View Mode Toggle */}
             <div className="flex items-center space-x-3 text-[28px] border px-3 py-1 rounded-md border-gray-300 z-50">
               <AiFillProduct
-                className={`cursor-pointer ${viewMode === 'grid' ? 'text-[#CBB702]' : 'text-gray-600'}`}
+                className={`cursor-pointer ${viewMode === 'grid' ? 'text-[#00BF63]' : 'text-gray-600'}`}
                 onClick={() => toggleViewMode('grid')}
               />
               <FiList
-                className={`cursor-pointer ${viewMode === 'table' ? 'text-[#CBB702]' : 'text-gray-600'}`}
+                className={`cursor-pointer ${viewMode === 'table' ? 'text-[#00BF63]' : 'text-gray-600'}`}
                 onClick={() => toggleViewMode('table')}
               />
             </div>
@@ -189,7 +189,7 @@ const Project = () => {
               currentProjects.map((project, index) => (
                 <div
                   key={index}
-                  className="relative bg-yellow-100 border border-yellow-200 py-16 px-16 rounded-lg text-center hover:bg-yellow-200 transition duration-200 cursor-pointer"
+                  className="relative bg-[#C6CEFF] border border-[#e2e5f8] py-16 px-16 rounded-lg text-center hover:bg-[#afb8f5] transition duration-200 cursor-pointer"
                   onClick={() => handleCardClick(index)}
                 >
                   <FiEdit
@@ -263,7 +263,7 @@ const Project = () => {
                   onClick={() => handlePageChange(index + 1)}
                   className={`px-4 py-2 rounded-lg ${
                     currentPage === index + 1
-                      ? 'bg-[#CBB702] text-white'
+                      ? 'bg-[#00BF63] text-white'
                       : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
                   } transition duration-200`}
                 >
@@ -276,7 +276,7 @@ const Project = () => {
 
         {/* Add New Project Button */}
         <NavLink to="/dashboard">
-        <button className="bg-[#0A3161] fixed bottom-11 text-white px-4 py-2 rounded-md hover:bg-blue-900 transition duration-200 cursor-pointer">
+        <button className="bg-[#000524] fixed bottom-11 text-white px-4 py-2 rounded-md hover:bg-[#000a24] transition duration-200 cursor-pointer">
           Add New Project
         </button>
         </NavLink>

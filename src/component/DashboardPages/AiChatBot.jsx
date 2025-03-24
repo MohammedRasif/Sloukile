@@ -47,7 +47,7 @@ const AiChatBot = () => {
     <div className="border-t border-gray-300 px-10 p-5 bg-white h-full flex flex-col overflow-hidden">
       {/* Header */}
       <div className="flex items-center space-x-2">
-        <Bot className="w-10 h-10 text-[#dbb929]" />
+        <Bot className="w-10 h-10 text-[#00BF63]" />
         <h1 className="text-3xl font-[500]">AI Chat</h1>
       </div>
 
@@ -69,7 +69,7 @@ const AiChatBot = () => {
                 {/* <span className="text-sm font-semibold text-gray-600 mb-1">Question</span> */}
                 <div className="flex  justify-start items-start space-x-3">
                   <div
-                    className="px-4 py-3 rounded-xl bg-[#CBB702] text-white lg:text-[18px] shadow-md w-full"
+                    className="px-4 py-3 rounded-xl bg-[#00BF63] text-white lg:text-[18px] shadow-md w-full"
                     style={{
                       whiteSpace: "normal",
                       wordBreak: "break-word",
@@ -133,11 +133,11 @@ const AiChatBot = () => {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             placeholder="Type your message..."
-            className="w-full p-3 pr-14 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#dbb929]"
+            className="w-full p-3 pr-14 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00BF63]"
           />
           <button
             type="submit"
-            className="absolute right-0 top-1/2 transform -translate-y-1/2 px-4 py-3 bg-[#dbb929] text-white rounded-r-lg hover:bg-[#c9a523]"
+            className="absolute right-0 top-1/2 transform -translate-y-1/2 px-4 py-3 bg-[#00BF63] text-white rounded-r-lg cursor-pointer hover:bg-[#00bf56a8]"
           >
             Send
           </button>

@@ -30,17 +30,7 @@ const CompanyDetailsPage = () => {
 
                 <div className="mt-5">
                     <h1 className="text-[18px] font-[400]">Company Type</h1>
-                    <select
-                        name="companyType"
-                        id="companyType"
-                        className="border-[2px] border-gray-500 rounded-md py-[9px] w-[50vh] mt-2 pl-2 text-gray-700"
-                    >
-                        <option value="" disabled selected>Select a sector...</option>
-                        <option value="technology">Technology</option>
-                        <option value="finance">Finance</option>
-                        <option value="healthcare">Healthcare</option>
-                        <option value="education">Education</option>
-                    </select>
+                    <input type="text" name="" id="" placeholder="Enter company phone" className="border-[2px] border-gray-500 rounded-md py-[9px] w-[50vh] mt-2 pl-2" />
                 </div>
 
                 <div className="mt-5">
@@ -54,7 +44,7 @@ const CompanyDetailsPage = () => {
                     />
                 </div>
 
-                <button className="bg-[#CBB702] px-10 py-3 rounded-md font-[500] text-xl mt-5">Submit Information</button>
+                <button className="bg-[#000524] px-10 py-3 rounded-md font-[500] text-xl mt-5 text-white">Submit Information</button>
 
             </div>
         </div>

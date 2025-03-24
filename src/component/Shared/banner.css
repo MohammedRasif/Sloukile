@@ -1,0 +1,55 @@
+
+
+@keyframes loadingBars {
+  0% {
+    opacity: 0.2;
+  }
+  20% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.2;
+  }
+}
+
+.loading-animation span {
+  display: inline-block;
+  width: 2px;
+  height: 12px;
+  margin: 0 1px;
+  background-color: white;
+  animation: loadingBars 1.2s infinite ease-in-out;
+}
+
+.loading-animation span:nth-child(2) {
+  animation-delay: 0.1s;
+}
+
+.loading-animation span:nth-child(3) {
+  animation-delay: 0.2s;
+}
+
+.loading-animation span:nth-child(4) {
+  animation-delay: 0.3s;
+}
+
+.loading-animation span:nth-child(5) {
+  animation-delay: 0.4s;
+}
+
+@keyframes rotateDot {
+  0% {
+    transform: rotate(75deg) translateX(calc(100% - 40px)) rotate(360deg);
+  }
+  100% {
+    transform: rotate(360deg) translateX(calc(100% - 60px)) rotate(-360deg);
+  }
+}
+
+.dot-animation {
+  top: 30px;
+  left: 40%;
+  animation: rotateDot 4s linear infinite;
+  transform-origin: center center;
+}
+

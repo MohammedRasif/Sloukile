@@ -21,7 +21,7 @@ const Login = () => {
                             <h1 className="text-3xl lg:text-5xl font-bold text-[#1a3b6e]">Login</h1>
                             <div className="h-[8px] w-12 lg:w-20 bg-[#00BF63] mt-4 lg:mt-8 rounded-xl"></div>
                         </div>
-                        <div className="flex items-center text-[#dbb929] mt-4 lg:mt-0">
+                        <div className="flex items-center text-[#00BF63] mt-4 lg:mt-0">
                             <NavLink to="/register" className="text-sm">Create a new accout</NavLink >
                             <ArrowRight className="h-4 w-4 ml-1" />
                         </div>

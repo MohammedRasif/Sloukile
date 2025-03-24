@@ -14,7 +14,7 @@ import DashboardLayout from './component/DashboardLayout/DashboardLayout.jsx';
 import CompanyDetailsPage from './component/DashboardPages/CompanyDetailsPage.jsx';
 import AiChatBot from './component/DashboardPages/AiChatBot.jsx';
 import Project from './component/DashboardPages/Project.jsx';
-import ProductDetails from './component/DashboardPages/ProjectDetails.jsx';
+// import ProductDetails from './component/DashboardPages/ProjectDetails.jsx';
 import ProjectDetails from './component/DashboardPages/ProjectDetails.jsx';
 import ProjectEdit from './component/DashboardPages/ProjectEdit.jsx';
 import AddEmploye from './component/DashboardPages/AddEmploye.jsx';
@@ -26,7 +26,7 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <Roots />,
-    errorElement: <ErrorPage />,
+    // errorElement: <ErrorPage />,
     children: [
       {
         path: "/",

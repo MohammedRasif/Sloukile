@@ -1,5 +1,5 @@
 import { NavLink, useLocation } from "react-router-dom";
-import img from "./image_1__1_-removebg-preview 1.png";
+import img from "../Shared/image_1__1_-removebg-preview 1.png";
 import { Bot, Briefcase, Clock, FileText, Settings, Users } from "lucide-react";
 
 const DashboardSidebar = () => {
@@ -12,7 +12,7 @@ const DashboardSidebar = () => {
     <div className="text-white">
       <NavLink to="/">
       <div>
-        <img src={img} className="h-40 mt-7 pl-10" alt="" />
+        <img src={img} className="h-12 mt-7 pl-16 lg:mb-10" alt="" />
       </div>
       </NavLink>
       <div className="flex flex-col gap-2">
@@ -20,7 +20,7 @@ const DashboardSidebar = () => {
           to="/dashboard"
           end // Ensures exact match for /dashboard
           className={({ isActive }) =>
-            `flex items-center gap-3 px-6 py-3 transition-colors duration-200 ${isActive ? 'bg-[#dbb929] text-black' : 'hover:bg-[#2a4b9b]'
+            `flex items-center gap-3 px-6 py-3 transition-colors duration-200 ${isActive ? 'bg-[#00BF63] text-black' : 'hover:bg-[#00BF63]'
             }`
           }
         >
@@ -31,7 +31,7 @@ const DashboardSidebar = () => {
         <NavLink
           to="/dashboard/chat"
           className={({ isActive }) =>
-            `flex items-center gap-3 px-6 py-3 transition-colors duration-200 ${isActive ? 'bg-[#dbb929] text-black' : 'hover:bg-[#2a4b9b]'
+            `flex items-center gap-3 px-6 py-3 transition-colors duration-200 ${isActive ? 'bg-[#00BF63] text-black' : 'hover:bg-[#00BF63]'
             }`
           }
         >
@@ -42,7 +42,7 @@ const DashboardSidebar = () => {
         <NavLink
           to="/dashboard/Project"
           className={() =>
-            `flex items-center gap-3 px-6 py-3 transition-colors duration-200 ${isProjectActive ? 'bg-[#dbb929] text-black' : 'hover:bg-[#2a4b9b]'
+            `flex items-center gap-3 px-6 py-3 transition-colors duration-200 ${isProjectActive ? 'bg-[#00BF63] text-black' : 'hover:bg-[#00BF63]'
             }`
           }
         >
@@ -53,7 +53,7 @@ const DashboardSidebar = () => {
         <NavLink
           to="/dashboard/addEmploye"
           className={({ isActive }) =>
-            `flex items-center gap-3 px-6 py-3 transition-colors duration-200 ${isActive ? 'bg-[#dbb929] text-black' : 'hover:bg-[#2a4b9b]'
+            `flex items-center gap-3 px-6 py-3 transition-colors duration-200 ${isActive ? 'bg-[#00BF63] text-black' : 'hover:bg-[#00BF63]'
             }`
           }
         >
@@ -64,7 +64,7 @@ const DashboardSidebar = () => {
         <NavLink
           to="/dashboard/taskProgress"
           className={({ isActive }) =>
-            `flex items-center gap-3 px-6 py-3 transition-colors duration-200 ${isActive ? 'bg-[#dbb929] text-black' : 'hover:bg-[#2a4b9b]'
+            `flex items-center gap-3 px-6 py-3 transition-colors duration-200 ${isActive ? 'bg-[#00BF63] text-black' : 'hover:bg-[#00BF63]'
             }`
           }
         >
@@ -74,7 +74,7 @@ const DashboardSidebar = () => {
         <NavLink
           to="/dashboard/manageSubscription"
           className={({ isActive }) =>
-            `flex items-center gap-3 px-6 py-3 transition-colors duration-200 ${isActive ? 'bg-[#dbb929] text-black' : 'hover:bg-[#2a4b9b]'
+            `flex items-center gap-3 px-6 py-3 transition-colors duration-200 ${isActive ? 'bg-[#00BF63] text-black' : 'hover:bg-[#00BF63]'
             }`
           }
         >
@@ -85,7 +85,7 @@ const DashboardSidebar = () => {
         <NavLink
           to="/dashboard/setting"
           className={({ isActive }) =>
-            `flex items-center gap-3 px-6 py-3 transition-colors duration-200 ${isActive ? 'bg-[#dbb929] text-black' : 'hover:bg-[#2a4b9b]'
+            `flex items-center gap-3 px-6 py-3 transition-colors duration-200 ${isActive ? 'bg-[#00BF63] text-black' : 'hover:bg-[#00BF63]'
             }`
           }
         >

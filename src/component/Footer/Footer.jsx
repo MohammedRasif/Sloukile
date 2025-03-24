@@ -34,7 +34,7 @@ const Footer = () => {
             <div className="rounded-full flex items-center justify-center">
               <img
                 src={img1}
-                className="w-40 sm:w-48 lg:w-60 h-32 sm:h-40 lg:h-52 lg:-pl-12"
+                className="w-40 sm:w-48 lg:w-60 h-32 sm:h-40 lg:h-28 lg:-pl-12"
                 alt="Logo"
               />
             </div>
