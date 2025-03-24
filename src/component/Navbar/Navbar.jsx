@@ -1,10 +1,10 @@
+import { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import img from "../Shared/image_1__1_-removebg-preview 1.png";
-import { useState, useEffect } from "react";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [activeLink, setActiveLink] = useState("home");
+  const [activeSection, setActiveSection] = useState("banner");
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -15,33 +15,54 @@ const Navbar = () => {
     const section = document.getElementById(id);
     if (section) {
       const offset = 50; // Offset for fixed navbar
-      const sectionPosition =
-        section.getBoundingClientRect().top + window.scrollY;
+      const sectionPosition = section.getBoundingClientRect().top + window.scrollY;
       const offsetPosition = sectionPosition - offset;
       window.scrollTo({
         top: offsetPosition,
         behavior: "smooth",
       });
+      setActiveSection(id);
     }
   };
 
-  const handleNavClick = (id) => {
-    setActiveLink(id);
-    scrollToSection(id);
+  // Track scroll position to determine active section
+  useEffect(() => {
+    const handleScroll = () => {
+      const sections = ["banner", "features", "about", "pricing", "contact"];
+      const scrollPosition = window.scrollY + 100;
+
+      for (const section of sections) {
+        const element = document.getElementById(section);
+        if (element) {
+          const offsetTop = element.offsetTop;
+          const offsetHeight = element.offsetHeight;
+          
+          if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
+            if (activeSection !== section) {
+              setActiveSection(section);
+            }
+            break;
+          }
+        }
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [activeSection]);
+
+  // Get style for section links
+  const getSectionLinkClass = (sectionId) => {
+    const baseClasses = "transition duration-300 text-[18px] md:text-[20px] font-[600] px-3 py-2";
+    
+    if (activeSection === sectionId) {
+      return `${baseClasses} text-blue-800 bg-white rounded-full underline underline-offset-8 decoration-2`;
+    }
+    return `${baseClasses} text-black hover:text-blue-200`;
   };
 
-  const getNavLinkClass = ({ isActive }) =>
-    isActive
-      ? "text-[#00BF63] transition duration-300 text-[18px] md:text-[20px] font-[600]" // Active link style
-      : "text-white hover:text-[#00BF63] transition duration-300 text-[18px] md:text-[20px] font-[600]"; // Inactive link style with hover
-
-  // Set 'home' as default active link when the page loads
-  useEffect(() => {
-    setActiveLink("home");
-  }, []);
-
   return (
-    <div className="w-full  top-0  text-black z-70 absolute">
+    <div className="w-full top-0 text-black z-50 absolute">
       <div className="container mx-auto flex items-center justify-between px-4 sm:px-6 py-4">
         {/* Logo Section */}
         <div>
@@ -54,96 +75,148 @@ const Navbar = () => {
 
         {/* Hamburger Menu Button */}
         <button
-          className="md:hidden text-3xl focus:outline-none z-50"
+          className="md:hidden text-3xl text-black focus:outline-none z-50"
           onClick={toggleMenu}
         >
           {isOpen ? "✕" : "☰"}
         </button>
 
         {/* Navigation Links - Desktop */}
-        <nav className="hidden md:flex items-center space-x-6">
-          <NavLink
-            to="#banner"
-            onClick={() => handleNavClick("banner")}
-            className={getNavLinkClass}
+        <nav className="hidden md:flex items-center space-x-2">
+          <a
+            href="#banner"
+            onClick={(e) => {
+              e.preventDefault();
+              scrollToSection("banner");
+            }}
+            className={getSectionLinkClass("banner")}
           >
             Home
-          </NavLink>
-          <NavLink
-            to="#features"
-            onClick={() => handleNavClick("features")}
-            className={getNavLinkClass}
+          </a>
+          <a
+            href="#features"
+            onClick={(e) => {
+              e.preventDefault();
+              scrollToSection("features");
+            }}
+            className={getSectionLinkClass("features")}
           >
             Features
-          </NavLink>
-          <NavLink
-            to="#pricing"
-            onClick={() => handleNavClick("pricing")}
-            className={getNavLinkClass}
+          </a>
+          <a
+            href="#about"
+            onClick={(e) => {
+              e.preventDefault();
+              scrollToSection("about");
+            }}
+            className={getSectionLinkClass("about")}
+          >
+            About
+          </a>
+          <a
+            href="#pricing"
+            onClick={(e) => {
+              e.preventDefault();
+              scrollToSection("pricing");
+            }}
+            className={getSectionLinkClass("pricing")}
           >
             Pricing
-          </NavLink>
-          <NavLink
-            to="#contact"
-            onClick={() => handleNavClick("contact")}
-            className={getNavLinkClass}
+          </a>
+          <a
+            href="#contact"
+            onClick={(e) => {
+              e.preventDefault();
+              scrollToSection("contact");
+            }}
+            className={getSectionLinkClass("contact")}
           >
             Contact
-          </NavLink>
+          </a>
         </nav>
 
         {/* Auth Buttons - Desktop */}
-        <div className="hidden md:flex items-center space-x-4 text-[18px] md:text-[22.5px]">
-          <NavLink to="/login" className={getNavLinkClass}>
-            SIGN IN
+        <div className="hidden md:flex items-center space-x-3">
+          <NavLink to="/login">
+            <button className="font-medium py-2 px-4 border-2 text-white border-gray-200 rounded-full duration-300 text-[18px] md:text-[20px] hover:bg-white hover:text-blue-900 cursor-pointer">
+              Sign In
+            </button>
           </NavLink>
           <NavLink to="/register">
-            <button className="bg-[#00BF63] hover:bg-green-700 px-4 py-2 rounded-lg transition duration-300 font-[600] cursor-pointer">
-              Register
+            <button className="font-medium py-2 px-4 border-2 text-white border-gray-200 rounded-full duration-300 text-[18px] md:text-[20px] hover:bg-white hover:text-blue-900 cursor-pointer">
+              Sign Up
             </button>
           </NavLink>
         </div>
 
         {/* Mobile Menu */}
         {isOpen && (
-          <div className="absolute top-[100px] sm:top-[120px] left-0 w-full bg-[#00BF63] text-white flex flex-col items-center space-y-4 py-6 md:hidden z-50">
-            <NavLink
-              to="#home"
-              className={getNavLinkClass}
-              onClick={() => handleNavClick("home")}
+          <div className="absolute top-[100px] sm:top-[120px] left-0 w-full bg-blue-500 text-white flex flex-col items-center space-y-4 py-6 md:hidden z-50">
+            <a
+              href="#banner"
+              onClick={(e) => {
+                e.preventDefault();
+                scrollToSection("banner");
+                toggleMenu();
+              }}
+              className={getSectionLinkClass("banner")}
             >
               Home
-            </NavLink>
-            <NavLink
-              to="#features"
-              className={getNavLinkClass}
-              onClick={() => handleNavClick("features")}
+            </a>
+            <a
+              href="#features"
+              onClick={(e) => {
+                e.preventDefault();
+                scrollToSection("features");
+                toggleMenu();
+              }}
+              className={getSectionLinkClass("features")}
             >
               Features
-            </NavLink>
-            <NavLink
-              to="#pricing"
-              className={getNavLinkClass}
-              onClick={() => handleNavClick("pricing")}
+            </a>
+            <a
+              href="#about"
+              onClick={(e) => {
+                e.preventDefault();
+                scrollToSection("about");
+                toggleMenu();
+              }}
+              className={getSectionLinkClass("about")}
+            >
+              About
+            </a>
+            <a
+              href="#pricing"
+              onClick={(e) => {
+                e.preventDefault();
+                scrollToSection("pricing");
+                toggleMenu();
+              }}
+              className={getSectionLinkClass("pricing")}
             >
               Pricing
-            </NavLink>
-            <NavLink
-              to="#contact"
-              className={getNavLinkClass}
-              onClick={() => handleNavClick("contact")}
+            </a>
+            <a
+              href="#contact"
+              onClick={(e) => {
+                e.preventDefault();
+                scrollToSection("contact");
+                toggleMenu();
+              }}
+              className={getSectionLinkClass("contact")}
             >
               Contact
+            </a>
+            <NavLink 
+              to="/login" 
+              className="text-white hover:text-blue-200 transition duration-300 text-[18px] font-[600] px-3 py-2"
+              onClick={toggleMenu}
+            >
+              Login
             </NavLink>
-            <NavLink to="/login" className={getNavLinkClass} onClick={toggleMenu}>
-              SIGN IN
-            </NavLink>
-            <NavLink to="/register">
-              <button
-                className="bg-[#00BF63] hover:bg-green-700 px-4 py-2 rounded-lg transition duration-300 text-lg font-[600] cursor-pointer"
-                onClick={toggleMenu}
-              >
-                Register
+            <NavLink to="/register" onClick={toggleMenu}>
+              <button className="bg-white text-blue-900 font-medium py-2 px-4 rounded-full hover:bg-blue-50 transition duration-300 text-[18px]">
+                Sign Up
               </button>
             </NavLink>
           </div>

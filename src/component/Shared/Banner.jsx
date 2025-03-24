@@ -53,7 +53,7 @@ import svg from "./Component 25.svg"
 
 const Banner = () => {
 
- 
+
   return (
     <div
       className="relative w-full min-h-screen bg-cover bg-center"
@@ -80,14 +80,30 @@ const Banner = () => {
           </div>
 
           <p className="text-lg md:text-xl mb-10 max-w-2xl mx-auto">
-            Our AI-powered Project Manager automates workflows, predicts risks, and optimizes resources to ensure
-            project success.
+            Our AI-powered Project Manager automates workflows, predicts risks, and optimizes resources to ensure project success.
           </p>
 
-          <button className="bg-blue-900 hover:bg-blue-800 text-white font-medium py-3 px-8 rounded-full flex items-center justify-center min-w-[180px]">
+          {/* Updated Button with Loading Animation */}
+          <button
+            className="bg-blue-900 hover:bg-blue-800 text-white font-medium py-3 px-8 rounded-full flex items-center justify-center min-w-[180px] mx-auto"
+            onClick={() => {/* Add your loading logic here */ }}
+          >
             <div className="flex items-center">
-              <span className="mr-2">Get started</span>
-              <img src={svg} alt="" />
+              {/* Normal state text */}
+              <span className="mr-2 text-[18px]">Get started</span>
+
+
+              {/* Loading animation (hidden by default) */}
+              <div className="loading-animation  flex items-center justify-center left-0   ">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                
+               
+
+              </div>
             </div>
           </button>
         </div>
