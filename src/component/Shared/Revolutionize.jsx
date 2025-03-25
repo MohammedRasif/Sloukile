@@ -2,9 +2,8 @@ import img1 from "./Group 1171275921.png";
 import img2 from "./Group 1171275922.png";
 import img3 from "./Group 1171275923.png";
 import img4 from "./Group 1171275877.png";
-import img5 from "./Group 1171275877.png"; // Note: img4 and img5 are the same file
-import img6 from "./Group 1171275925.png";
-import img7 from "./Group 1171275879.png"; // Imported but not used in cardData
+import img5 from "./Black.png"; // Note: img4 and img5 are the same file
+import img6 from "./rasif.png";
 
 const Revolutionize = () => {
   const cardData = [
@@ -53,9 +52,9 @@ const Revolutionize = () => {
   ];
 
   return (
-    <div 
-    id="features"
-    className="lg:mt-20 -mt-32 px-4 sm:px-6 lg:px-8 relative container mx-auto">
+    <div
+      id="features"
+      className="lg:mt-20 -mt-32 px-4 sm:px-6 lg:px-8 relative container mx-auto">
       {/* Heading Section */}
       <h1 className="text-[20px] sm:text-[50px] lg:text-[60px] text-center font-[500] text-[#062960]">
         Revolutionize <span className="text-[#00BF63]">Project Management</span>{" "}
@@ -67,23 +66,26 @@ const Revolutionize = () => {
       </p>
 
       {/* Card Grid Section */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-12">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-16 mt-32 max-w-8xl mx-auto px-4">
         {cardData.map((card, index) => (
           <div
             key={index}
-            className="bg-white rounded-lg p-6 border border-gray-200 shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300 transform z-10"
+            className="bg-white rounded-lg p-8 border-[2px] border-blue-900 shadow-2xl hover:shadow-lg hover:scale-105 transition-all duration-300 transform w-full"
           >
-            <div className="flex justify-center mb-4">
+            <div className="flex justify-center mb-6 relative">
               <img
                 src={card.icon}
                 alt={`${card.title} icon`}
-                className="w-16 h-16 object-contain " // Adjust size as needed
+                className="w-20 h-20 object-contain border-[2px] border-blue-900 p-5 rounded-full absolute -top-[70px] bg-white"
               />
             </div>
-            <h3 className="text-xl font-bold text-[#062960] text-center">
+            <h3 className="text-[20px] font-bold text-[#062960] text-center">
               {card.title}
             </h3>
-            <p className="text-center text-gray-600 mt-2">{card.description}</p>
+            <p className="text-center text-gray-600 mt-3 text-lg">{card.description}</p>
+            <button className="border-[2px] border-blue-900 px-3 py-[3px] rounded-sm mt-2 flex justify-center items-center mx-auto">
+              View More...
+            </button>
           </div>
         ))}
       </div>
