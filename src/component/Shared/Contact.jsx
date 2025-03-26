@@ -5,7 +5,7 @@ const Contact = () => {
     return (
         <div
             id="contact"
-            className="container mx-auto flex flex-col md:flex-row py-10 px-5 mt-28"
+            className="container mx-auto flex flex-col md:flex-row py-10 px-4 mt-28"
         >
             {/* About Section */}
             <div className="w-full md:w-1/2 p-5 roboto">

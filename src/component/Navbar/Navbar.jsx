@@ -70,7 +70,7 @@ const Navbar = () => {
           <img
             src={img}
             alt="Logo"
-            className="h-[60px] sm:h-[80px] md:h-[34px] w-auto"
+            className="h-[30px] sm:h-[80px] md:h-[34px] w-auto"
           />
         </div>
 
