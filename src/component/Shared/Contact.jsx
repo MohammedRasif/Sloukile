@@ -1,103 +1,69 @@
-import React from "react";
 import img from "./Group 1171275910.png";
+import "../Shared/banner.css"
+
 
 const Contact = () => {
     return (
-        <div 
-        id="contact"
-        className="w-full lg:-mt-0 md:-mt-0 -mt-40">
-            <div className="absolute w-full hidden md:block">
-                <img src={img} className="h-[100vh] w-full mt-20 " alt="" />
-            </div>
-            <div className="w-full relative max-w-2xl bg-white rounded-[30px] top-56 left-1/2 transform -translate-x-1/2 p-6 sm:p-14  shadow-lg z-50 border-2 border-gray-200">
-                {/* Heading Section */}
-                <h1 className="text-4xl sm:text-5xl font-bold text-[#00BF63] text-center mb-4">
-                    Contact Us
-                </h1>
-                <p className="text-lg sm:text-xl text-[#062960] text-center mb-6">
-                    Have questions or need support? We're here to help!
+        <div id="contact" className="container mx-auto flex flex-col md:flex-row  py-10 px-5 mt-28">
+            {/* About Section */}
+
+            <div className="w-full md:w-1/2 p-5 roboto">
+                <h3 className="text-[#00308F] text-[20px] font-semibold  mb-3">About Us</h3>
+                <h1 className="text-4xl font-bold text-gray-900 mb-6 text-[55px]">Our Mission & Vision</h1>
+                <p className="text-gray-700 text-lg mb-7">
+                    We're on a mission to revolutionize project management through artificial intelligence, making complex project execution simple, predictable, and efficient.
                 </p>
-
-                {/* Form Section */}
-                <form className="lg:space-y-6 md:space-y-6 space-y-3">
-                    {/* Name and Email Row */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <ul className="space-y-6">
+                    <li className="flex items-start">
+                        <span className="text-white bg-[#00308F] text-2xl py-1 mt-1 px-3 rounded-sm mr-2">✔</span>
                         <div>
-                            <label className="block text-sm sm:text-base font-medium text-[#062960]">
-                                What is your name? *
-                            </label>
-                            <input
-                                type="text"
-                                required
-                                className="mt-1 w-full border border-gray-300 rounded-md p-2 sm:p-3 focus:ring-2 focus:ring-[#00BF63] focus:border-transparent"
-                            />
+                            <span className="font-semibold text-[#00308F]">Founded in 2023</span>
+                            <p className="text-gray-600">Started by a team of project management experts and AI specialists.</p>
                         </div>
+                    </li>
+                    <li className="flex items-start">
+                        <span className="text-white bg-[#00308F] text-2xl py-1 mt-1 px-3 rounded-sm mr-2">✔</span>
                         <div>
-                            <label className="block text-sm sm:text-base font-medium text-[#062960]">
-                                What is your Email? *
-                            </label>
-                            <input
-                                type="email"
-                                required
-                                className="mt-1 w-full border border-gray-300 rounded-md p-2 sm:p-3 focus:ring-2 focus:ring-[#00BF63] focus:border-transparent"
-                            />
+                            <span className="font-semibold text-[#00308F]">Global Team</span>
+                            <p className="text-gray-600">Our diverse team spans 12 countries and brings expertise from various industries.</p>
+                        </div>
+                    </li>
+                    <li className="flex items-start">
+                        <span className="text-white bg-[#00308F] text-2xl py-1 mt-1 px-3 rounded-sm mr-2">✔</span>
+                        <div>
+                            <span className="font-semibold text-[#00308F]">Customer-Centric</span>
+                            <p className="text-gray-600">We've helped over 500 companies transform their project management processes.</p>
+                        </div>
+                    </li>
+                </ul>
+                {/* Updated Button with Loading Animation */}
+                <button
+                    className="bg-blue-900 mt-20 hover:bg-blue-800 text-white font-medium py-3 px-8 rounded-full  min-w-[180px] mx-auto"
+                    onClick={() => {/* Add your loading logic here */ }}
+                >
+                    <div className="flex items-center">
+                        {/* Normal state text */}
+                        <span className="mr-2 text-[18px]">Get started</span>
+
+
+                        {/* Loading animation (hidden by default) */}
+                        <div className="loading-animation  flex items-center justify-center left-0   ">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+
+
+
                         </div>
                     </div>
+                </button>
+            </div>
 
-                    {/* Phone and Company Row */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div>
-                            <label className="block text-sm sm:text-base font-medium text-[#062960]">
-                                What is your phone number?
-                            </label>
-                            <input
-                                type="tel"
-                                className="mt-1 w-full border border-gray-300 rounded-md p-2 sm:p-3 focus:ring-2 focus:ring-[#00BF63] focus:border-transparent"
-                            />
-                        </div>
-                        <div>
-                            <label className="block text-sm sm:text-base font-medium text-[#062960]">
-                                What is your company?
-                            </label>
-                            <input
-                                type="text"
-                                className="mt-1 w-full border border-gray-300 rounded-md p-2 sm:p-3 focus:ring-2 focus:ring-[#00BF63] focus:border-transparent"
-                            />
-                        </div>
-                    </div>
-
-                    {/* Message Area */}
-                    <div>
-                        <label className="block text-sm sm:text-base font-medium text-[#062960]">
-                            Write your message here
-                        </label>
-                        <textarea
-                            rows="4"
-                            className="mt-1 w-full border border-gray-300 rounded-md p-2 sm:p-3 focus:ring-2 focus:ring-[#00BF63] focus:border-transparent"
-                        ></textarea>
-                    </div>
-
-                    {/* Checkbox and Button */}
-                    <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-                        <div className="flex items-center">
-                            <input
-                                type="checkbox"
-                                required
-                                className="h-5 w-5 text-green-500 border-gray-300 rounded focus:ring-2 focus:ring-[#00BF63]"
-                            />
-                            <label className="ml-2 text-sm sm:text-base text-[#062960] font-medium">
-                                I have read and accept the Terms of <br />{" "}
-                                <span className="text-[#00BF63]">Service & Privacy Policy</span> *
-                            </label>
-                        </div>
-                        <button
-                            type="submit"
-                            className="bg-[#00BF63] text-white font-semibold py-2 px-6 rounded-md hover:bg-[#b3a002] transition duration-300"
-                        >
-                            Send Message
-                        </button>
-                    </div>
-                </form>
+            {/* Image Section */}
+            <div className="w-full md:w-1/2 p-5">
+                <img src={img} alt="AI Project Management" className="w-full h-auto rounded-lg " />
             </div>
         </div>
     );

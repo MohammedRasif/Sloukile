@@ -54,15 +54,16 @@ const Revolutionize = () => {
   return (
     <div
       id="features"
-      className="lg:mt-20 -mt-32 px-4 sm:px-6 lg:px-8 relative container mx-auto">
+      className="lg:mt-20 -mt-32 px-4 sm:px-6 lg:px-8 relative container mx-auto roboto">
       {/* Heading Section */}
-      <h1 className="text-[20px] sm:text-[50px] lg:text-[60px] text-center font-[500] text-[#062960]">
-        Revolutionize <span className="text-[#00BF63]">Project Management</span>{" "}
-        with AI
+      <h1 className="text-[12px] sm:text-[20px] lg:text-[20px] text-center font-[500] text-[#062960] font-semibold">
+      Features
       </h1>
-      <p className="text-center text-base sm:text-lg mt-4 max-w-2xl mx-auto">
-        Unlock smarter planning, automation, and real-time insights with AI-driven
-        tools
+      <h1 className="text-[20px] sm:text-[50px] lg:text-[55px] text-center font-semibold text-[#062960]">
+        Comprehensive Project Management
+      </h1>
+      <p className="text-center text-[18px]  mt-4 max-w-2xl mx-auto">
+        Our AI-powered Project Manager offers a comprehensive suite of features to streamline your project management workflow.
       </p>
 
       {/* Card Grid Section */}
