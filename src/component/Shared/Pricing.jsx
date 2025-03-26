@@ -1,112 +1,114 @@
-import React from "react";
-
-const plans = [
-    {
-        name: "Basic",
-        price: 24,
-        bg: "bg-white",
-        textColor: "text-gray-800",
-        btnBg: "bg-[#00BF63]",
-        features: [
-            "AI-Powered Project Setup",
-            "Automated Milestone Planning",
-            "Basic KPI Tracking",
-            "Limited Team Size (Up to 3 Members)",
-        ],
-        description: "A perfect plan for small teams to get started with AI-powered project setup.",
-    },
-    {
-        name: "Best Value",
-        price: 24,
-        bg: "bg-white",
-        textColor: "text-gray-800",
-        btnBg: "bg-[#00BF63]",
-        features: [
-            "AI-Powered Project Setup",
-            "Automated Milestone Planning",
-            "Advanced KPI Tracking & Insights",
-            "Team Collaboration Tools",
-        ],
-        description: "The best plan for growing teams with advanced AI automation and analytics.",
-    },
-    {
-        name: "Pro",
-        price: 24,
-        bg: "bg-white",
-        textColor: "text-gray-800",
-        btnBg: "bg-[#00BF63]",
-        features: [
-            "AI-Powered Project Setup",
-            "Automated Workflow Management",
-            "Deep KPI Analytics",
-            "Priority Support",
-            "Limited team size (up to 5 members)"
-        ],
-        description: "For professionals who need in-depth analytics and automation tools.",
-    },
-    {
-        name: "Enterprise",
-        price: 24,
-        bg: "bg-white",
-        textColor: "text-gray-800",
-        btnBg: "bg-[#00BF63]",
-        features: [
-            "Custom AI Solutions",
-            "Full Automation & Optimization",
-            "Unlimited Team Members",
-            "Limited team size (up to 5 members)",
-            "24/7 Dedicated Support",
-        ],
-        description: "Enterprise-grade solutions for large teams with full automation support.",
-    },
-];
+import img from "./Frame 2147224999.png";
+import img1 from "./Frame 2147224999 (2).png";
 
 const Pricing = () => {
     return (
-        <div
-        id="pricing"
-        className="flex flex-col items-center min-h-screen py-16 px-4  lg:mt-96 md:mt-96 mt-56">
-            {/* Title */}
-            <h2 className="text-3xl sm:text-4xl font-bold text-gray-800 mb-10">
-                Pricing <span className="text-[#00BF63]">& plan</span>
-            </h2>
+        <div id="pricing" className="py-8 sm:py-12 lg:py-16 px-4 sm:px-6 lg:px-8">
+            {/* Heading Section */}
+            <h1 className="text-[12px] sm:text-[16px] lg:text-[20px] text-center text-[#062960] font-semibold">
+                Pricing
+            </h1>
+            <h1 className="text-[24px] sm:text-[40px] md:text-[50px] lg:text-[55px] text-center font-semibold text-[#062960]">
+                Our Pricing Plans
+            </h1>
+            <p className="text-center text-[14px] sm:text-[16px] lg:text-[18px] mt-3 sm:mt-4 max-w-md sm:max-w-lg lg:max-w-2xl mx-auto">
+                Choose a plan that fits your needs, from monthly to annual options. Enjoy premium features, seamless access, and the flexibility to upgrade anytime.
+            </p>
 
-            {/* Pricing Cards */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 w-full max-w-[80%] font-[500] ">
-                {plans.map((plan, index) => (
-                    <div
-                        key={index}
-                        className={`relative flex flex-col items-center p-6 sm:p-8 rounded-3xl shadow-lg transition duration-300 border-4 border-[#00BF63] h-[450px] sm:h-[550px] hover:scale-105 hover:shadow-2xl hover:text-black group ${plan.bg} ${plan.textColor}`}
-                    >
-                        {/* Title & Price Section */}
-                        <div className="absolute top-0 left-0 w-full text-center rounded-t-2xl z-10 pt-6 sm:pt-8 transition-all duration-300 group-hover:bg-[#00bf6f]">
-                            <h3 className="text-lg sm:text-xl md:text-2xl font-semibold group-hover:text-white">{plan.name}</h3>
-                            <p className="text-2xl sm:text-3xl font-bold mt-2 pb-6 sm:pb-10 group-hover:text-white">${plan.price}</p>
+            <div className="mt-8 sm:mt-10 lg:mt-12 max-w-6xl mx-auto flex flex-col md:flex-row justify-center items-stretch space-y-6 md:space-y-0 md:space-x-4 lg:-space-x-6 px-4 ">
+                {/* Starter Plan */}
+                <div className="relative flex flex-col h-full min-h-[500px] sm:min-h-[550px] lg:min-h-[600px] w-full md:w-1/3 ">
+                    <div className="relative">
+                        <img src={img} className="w-full rounded-md" alt="Starter Plan" />
+                        <div className="absolute top-0 left-0 w-full h-full flex flex-col justify-center items-center text-center bg-opacity-40">
+                            <h2 className="text-2xl sm:text-3xl font-bold text-[#003399] mb-3 sm:mb-4">Starter</h2>
+                            <div className="flex justify-center items-baseline">
+                                <span className="text-lg sm:text-xl font-semibold text-[#003399] top-[100px] sm:top-[125px] left-20 sm:left-28">$</span>
+                                <span className="text-4xl sm:text-5xl font-bold text-[#003399]">29.00</span>
+                            </div>
+                            <p className="text-[#003399] mt-1 sm:mt-2 text-sm sm:text-base">Per Month</p>
                         </div>
+                    </div>
 
-                        {/* Features List */}
-                        <ul className="text-xs sm:text-sm md:text-base text-center my-6 space-y-2 sm:space-y-3 lg:mt-36 md:mt-36 mt-28">
-                            {plan.features.map((feature, i) => (
-                                <li key={i} className="border-b border-dashed pb-1 sm:pb-2 last:border-none group-hover:text-black">
-                                    {feature}
-                                </li>
-                            ))}
-                        </ul>
+                    <div className="flex flex-col space-y-3 sm:space-y-4 p-6 sm:p-8 flex-grow bg-white">
+                        <p className="text-center text-[#003399] font-medium text-sm sm:text-base">Up To 20 Team Members</p>
+                        <p className="text-center text-[#003399] font-medium text-sm sm:text-base">Advanced AI Recommendations</p>
+                        <p className="text-center text-[#003399] font-medium text-sm sm:text-base">Risk Assessment & Mitigation</p>
+                        <p className="text-center text-[#003399] font-medium text-sm sm:text-base">Resource Optimization</p>
+                        <p className="text-center text-[#003399] font-medium text-sm sm:text-base">Priority Email & Chat Support</p>
+                        <p className="text-center text-[#003399] font-medium text-sm sm:text-base">API Access</p>
 
-                        {/* Description & Button (Fixed at Bottom) */}
-                        <div className="absolute bottom-0 left-0 w-full bg-gray-200 py-6 rounded-b-3xl flex flex-col items-center">
-                            {/* Description */}
-                            <p className="text-xs sm:text-sm text-center opacity-80 group-hover:text-black">{plan.description}</p>
-
-                            {/* Button */}
-                            <button
-                                className={`mt-4 px-6 py-3 rounded-lg text-white font-semibold hover:opacity-80 transition ${plan.btnBg}`}
-                            >
-                                Choose Plan
+                        <div className="mt-auto pt-6 sm:pt-8 flex justify-center">
+                            <button className="border-2 border-[#003399] text-[#003399] font-semibold py-1 sm:py-2 px-8 sm:px-12 rounded-full hover:bg-[#003399] hover:text-white cursor-pointer transition-all duration-300 text-sm sm:text-base">
+                                Select Plan
                             </button>
                         </div>
                     </div>
-                ))}
+                    <div className="py-2 sm:py-3 rounded-b-md bg-[#003399]"></div>
+                </div>
+
+                {/* Professional Plan - Highlighted */}
+                <div className="relative flex flex-col h-full min-h-[550px] bg-white sm:min-h-[600px] lg:min-h-[700px] w-full md:w-1/3 z-10 transform md:-translate-y-4 shadow-xl  rounded-b-xl ">
+                    <div className="relative">
+                        <img src={img1} className="w-full rounded-md" alt="Professional Plan" />
+                        <div className="absolute top-0 left-0 w-full h-full flex flex-col justify-center items-center text-center bg-opacity-40">
+                            <h2 className="text-2xl sm:text-3xl font-bold text-white mb-3 sm:mb-4">Professional</h2>
+                            <div className="flex justify-center items-baseline">
+                                <span className="text-lg sm:text-xl font-semibold text-white top-[100px] sm:top-[125px] left-20 sm:left-28">$</span>
+                                <span className="text-4xl sm:text-5xl font-bold text-white">49.00</span>
+                            </div>
+                            <p className="text-white mt-1 sm:mt-2 text-sm sm:text-base">Per Month</p>
+                        </div>
+                    </div>
+
+                    <div className="flex flex-col space-y-3 sm:space-y-4 p-6 sm:p-8 flex-grow bg-white ">
+                        <p className="text-center text-[#003399] font-medium text-sm sm:text-base">Up To 50 Team Members</p>
+                        <p className="text-center text-[#003399] font-medium text-sm sm:text-base">Advanced AI Recommendations</p>
+                        <p className="text-center text-[#003399] font-medium text-sm sm:text-base">Risk Assessment & Mitigation</p>
+                        <p className="text-center text-[#003399] font-medium text-sm sm:text-base">Resource Optimization</p>
+                        <p className="text-center text-[#003399] font-medium text-sm sm:text-base">Priority Email & Chat Support</p>
+                        <p className="text-center text-[#003399] font-medium text-sm sm:text-base">API Access</p>
+
+                        <div className="mt-auto pt-6 sm:pt-8 flex justify-center">
+                            <button className="bg-[#003399] text-white font-semibold py-1 sm:py-2 px-8 sm:px-12 rounded-full hover:bg-[#002277] transition-all duration-300 cursor-pointer text-sm sm:text-base">
+                                Select Plan
+                            </button>
+                        </div>
+                    </div>
+                    <div className="py-2 sm:py-3 bg-white z-50 rounded-b-md"></div>
+
+                </div>
+
+                {/* Enterprise Plan */}
+                <div className="relative flex flex-col h-full min-h-[500px] sm:min-h-[550px] lg:min-h-[650px] w-full md:w-1/3">
+                    <div className="relative">
+                        <img src={img} className="w-full rounded-md" alt="Enterprise Plan" />
+                        <div className="absolute top-0 left-0 w-full h-full flex flex-col justify-center items-center text-center bg-opacity-40">
+                            <h2 className="text-2xl sm:text-3xl font-bold text-[#003399] mb-3 sm:mb-4">Enterprise</h2>
+                            <div className="flex justify-center items-baseline">
+                                <span className="text-lg sm:text-xl font-semibold text-[#003399] top-[100px] sm:top-[125px] left-20 sm:left-28">$</span>
+                                <span className="text-4xl sm:text-5xl font-bold text-[#003399]">99.00</span>
+                            </div>
+                            <p className="text-[#003399] mt-1 sm:mt-2 text-sm sm:text-base">Per Month</p>
+                        </div>
+                    </div>
+
+                    <div className="flex flex-col space-y-3 sm:space-y-4 p-6 sm:p-8 flex-grow bg-white">
+                        <p className="text-center text-[#003399] font-medium text-sm sm:text-base">Unlimited Team Members</p>
+                        <p className="text-center text-[#003399] font-medium text-sm sm:text-base">Advanced AI Recommendations</p>
+                        <p className="text-center text-[#003399] font-medium text-sm sm:text-base">Risk Assessment & Mitigation</p>
+                        <p className="text-center text-[#003399] font-medium text-sm sm:text-base">Resource Optimization</p>
+                        <p className="text-center text-[#003399] font-medium text-sm sm:text-base">Priority Email & Chat Support</p>
+                        <p className="text-center text-[#003399] font-medium text-sm sm:text-base">API Access</p>
+
+                        <div className="mt-auto pt-6 sm:pt-8 flex justify-center">
+                            <button className="border-2 border-[#003399] text-[#003399] font-semibold py-1 sm:py-2 px-8 sm:px-12 rounded-full hover:bg-[#003399] hover:text-white cursor-pointer transition-all duration-300 text-sm sm:text-base">
+                                Select Plan
+                            </button>
+                        </div>
+                    </div>
+                    <div className="py-2 sm:py-3 bg-[#003399] rounded-b-md"></div>
+                </div>
             </div>
         </div>
     );
