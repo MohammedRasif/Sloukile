@@ -1,102 +1,132 @@
-"use client"
 
-import { useState } from "react"
-import { ChevronDown } from "lucide-react"
-import img from "./Decoration1.png"
+import { FaMapLocationDot } from "react-icons/fa6";
+import { IoIosMail } from "react-icons/io";
+import { MdOutlineWifiCalling3 } from "react-icons/md";
+
 
 const FAQ = () => {
-  const [openIndex, setOpenIndex] = useState(0)
-
-  const toggleAccordion = (index) => {
-    setOpenIndex(openIndex === index ? -1 : index)
-  }
-
-  const faqItems = [
-    {
-      question: "Pellentesque ac bibendum tortor?",
-      answer: "Vivamus sit amet interdum elit. Proin lacinia erat ac velit tempus auctor.",
-    },
-    {
-      question: "In mi nulla, fringilla vestibulum?",
-      answer:
-        "Vestibulum sit amet tortor sit amet libero lobortis semper at et odio. Vivamus sit amet interdum elit. Proin lacinia erat ac velit tempus auctor.",
-    },
-    {
-      question: "Quisque lacinia purus ut libero?",
-      answer:
-        "Vestibulum sit amet tortor sit amet libero lobortis semper at et odio. Vivamus sit amet interdum elit. Proin lacinia erat ac velit tempus auctor.",
-    },
-    {
-      question: "Quisque ut metus sit amet augue?",
-      answer:
-        "Vestibulum sit amet tortor sit amet libero lobortis semper at et odio. Vivamus sit amet interdum elit. Proin lacinia erat ac velit tempus auctor.",
-    },
-    {
-      question: "Pellentesque ac bibendum tortor?",
-      answer:
-        "Vestibulum sit amet tortor sit amet libero lobortis semper at et odio. Vivamus sit amet interdum elit. Proin lacinia erat ac velit tempus auctor.",
-    },
-  ]
-
   return (
-    <div className=" py-12 px-4 md:px-8 lg:px-16 rounded-lg">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
-        {/* Left Column - Title and Image */}
-        <div className="flex flex-col items-center lg:items-start space-y-6 text-center lg:text-left">
-          <h2 className="text-3xl font-bold text-navy-900">FAQ</h2>
-          <div className="w-16 h-1 bg-navy-900"></div>
-          <p className="text-gray-700 max-w-md">
-            Vestibulum sit amet tortor sit amet libero lobortis semper at et odio.
-          </p>
-          <div className="w-full max-w-xs md:max-w-sm lg:max-w-md">
-            <img src={img} alt="FAQ Decoration" className="w-full h-auto" />
+    <div className="flex items-center justify-between p-8 container mx-auto">
+      {/* Left Section: Get In Touch Info */}
+      <div className="w-1/2 pr-8 lg:-mt-20 roboto">
+        <h1 className="text-4xl font-bold mb-4">Get In Touch</h1>
+        <p className="text-gray-600 mb-6">
+          Have questions about our AI Project Manager? Our team is here to assist you in finding the perfect solution for your business. Whether you're looking to streamline project management, automate workflows, or enhance team collaboration with AI-driven insights, we are here to guide you every step of the way.
+        </p>
+        <div className="flex items-center space-x-5 mb-4">
+          <div className="text-4xl text-[#00308F]">
+            <IoIosMail />
+          </div>
+          <div>
+            <h1 className="text-xl font-semibold">Email Us</h1>
+            <p className="text-gray-600">info@aiprojectmanager.com</p>
           </div>
         </div>
+        <div className="flex items-center space-x-5 mb-4">
+          <div className="text-4xl text-[#00308F]">
+            {/* Replace with your phone icon, e.g., <IoIosPhonePortrait /> */}
+            <MdOutlineWifiCalling3 />
 
-        {/* Right Column - Accordion */}
-        <div className="space-y-4 w-full lg:mt-20">
-          {faqItems.map((item, index) => (
-            <div
-              key={index}
-              className="border border-gray-200 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300"
-            >
-              <button
-                className={`w-full px-6 py-4 flex justify-between items-center text-left transition-all duration-500 ease-in-out ${
-                  openIndex === index ? "bg-[#00BF63] text-white" : "bg-white text-gray-800 hover:bg-gray-50"
-                }`}
-                onClick={() => toggleAccordion(index)}
-                aria-expanded={openIndex === index}
-                aria-controls={`faq-content-${index}`}
-              >
-                <span className="font-medium">{item.question}</span>
-                <div
-                  className={`transform transition-transform duration-500 ease-in-out ${openIndex === index ? "rotate-180" : "rotate-0"}`}
-                >
-                  <ChevronDown className="h-5 w-5" />
-                </div>
-              </button>
+          </div>
+          <div>
+            <h1 className="text-xl font-semibold">Call Us</h1>
+            <p className="text-gray-600">+1 (555) 123-4567</p>
+          </div>
+        </div>
+        <div className="flex items-center space-x-5">
+          <div className="text-4xl text-[#00308F]">
+            {/* Replace with your location icon, e.g., <IoIosPin /> */}
+            <FaMapLocationDot />
 
-              <div
-                id={`faq-content-${index}`}
-                className="overflow-hidden transition-all duration-500 ease-in-out"
-                style={{
-                  maxHeight: openIndex === index ? "300px" : "0",
-                  opacity: openIndex === index ? 1 : 0,
-                  transform: openIndex === index ? "translateY(0)" : "translateY(-10px)",
-                }}
-              >
-                <div className="px-6 py-4 bg-white">
-                  <p className="text-gray-700 transition-opacity duration-500 ease-in-out">
-                    {item.answer}
-                  </p>
-                </div>
-              </div>
-            </div>
-          ))}
+          </div>
+          <div>
+            <h1 className="text-xl font-semibold">Location Us</h1>
+            <p className="text-gray-600">+1 (555) 123-4567</p>
+          </div>
         </div>
       </div>
-    </div>
-  )
-}
 
-export default FAQ
+      {/* Right Section: Contact Form */}
+      <div className="w-1/2">
+        <form className="space-y-4">
+          {/* Name Fields */}
+          <div className="flex space-x-4">
+            <div className="w-1/2">
+              <label htmlFor="firstName" className="block text-[21px] font-bold text-gray-700">
+                Name
+              </label>
+              <input
+                type="text"
+                id="firstName"
+                placeholder="First"
+                className="mt-1 block w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+            <div className="w-1/2">
+              <label htmlFor="lastName" className="block text-sm font-bold text-gray-700">
+                &nbsp;
+              </label>
+              <input
+                type="text"
+                id="lastName"
+                placeholder="Last"
+                className="mt-1 block w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+          </div>
+
+          {/* Email Field */}
+          <div>
+            <label htmlFor="email" className="block text-[21px]    font-bold text-gray-700">
+              Email
+            </label>
+            <input
+              type="email"
+              id="email"
+              placeholder="info@aiprojectmanager.com"
+              className="mt-1 block w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+
+          {/* Number Field */}
+          <div>
+            <label htmlFor="number" className="block text-[21px] font-bold text-gray-700">
+              Number
+            </label>
+            <input
+              type="tel"
+              id="number"
+              placeholder="+1(555) 123-4567"
+              className="mt-1 block w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+
+          {/* Message Field */}
+          <div>
+            <label htmlFor="message" className="block text-[21px] font-bold text-gray-700">
+              Message
+            </label>
+            <textarea
+              id="message"
+              placeholder="Write Your Message Here"
+              rows="4"
+              className="mt-1 block w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            ></textarea>
+          </div>
+
+          {/* Send Button */}
+          <div className="flex justify-end">
+            <button
+              type="submit"
+              className="bg-blue-700 text-white font-semibold py-3 px-6 rounded-full hover:bg-blue-800 transition duration-300"
+            >
+              Send
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+};
+
+export default FAQ;
