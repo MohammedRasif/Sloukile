@@ -20,8 +20,8 @@ const Banner = () => {
                 AI
                 <div className="absolute top-1 left-2 right-0 bottom-0 -m-2 sm:-m-3">
                   <div className="relative w-[60px] h-[60px] sm:w-[85px] sm:h-[85px]">
-                    <div className="absolute inset-0 rounded-full border-2 border-white/30"></div>
-                    <div className="dot-animation absolute w-2 h-2 sm:w-3 sm:h-3 bg-blue-700 rounded-full"></div>
+                    {/* <div className="absolute inset-0 rounded-full border-2 border-white/30"></div>
+                    <div className="dot-animation absolute w-2 h-2 sm:w-3 sm:h-3 bg-blue-700 rounded-full"></div> */}
                   </div>
                 </div>
               </span>{" "}
