@@ -8,6 +8,7 @@ import Management from "../Shared/Management";
 import Pricing from "../Shared/Pricing";
 import Revolutionize from "../Shared/Revolutionize";
 import UserSays from "../Shared/UserSays";
+import WatchLearn from "../Shared/WatchLearn";
 
 const Home = () => {
     return (
@@ -16,6 +17,7 @@ const Home = () => {
             <Banner/>
             <Contact/>
             <Revolutionize/>
+            <WatchLearn/>
             <Pricing/>
             <UserSays/>
             <FAQPage/>

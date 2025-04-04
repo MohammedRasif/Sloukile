@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
-import img from "../Shared/image_1__1_-removebg-preview 1.png";
+import img from "./image 3.png";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -56,7 +56,7 @@ const Navbar = () => {
     const baseClasses = "transition duration-300 text-[18px] md:text-[20px] font-[600] px-3 py-2";
     
     if (activeSection === sectionId) {
-      return `${baseClasses} text-blue-800 bg-white rounded-full underline underline-offset-8 decoration-2`;
+      return `${baseClasses} text-blue-800  rounded-full underline underline-offset-8 decoration-2`;
     }
     return `${baseClasses} text-black hover:text-blue-200`;
   };
@@ -139,12 +139,12 @@ const Navbar = () => {
         {/* Auth Buttons - Desktop */}
         <div className="hidden md:flex items-center space-x-3">
           <NavLink to="/login">
-            <button className="font-medium py-2 px-4 border-2 text-white border-gray-200 rounded-full duration-300 text-[18px] md:text-[20px] hover:bg-white hover:text-blue-900 cursor-pointer">
+            <button className="font-medium py-2 px-4  text-[#00308F]  rounded-full duration-300 text-[18px] md:text-[20px] hover:bg-[#00308F] hover:text-white cursor-pointer">
               Sign In
             </button>
           </NavLink>
           <NavLink to="/register">
-            <button className="font-medium py-2 px-4 border-2 text-white border-gray-200 rounded-full duration-300 text-[18px] md:text-[20px] hover:bg-white hover:text-blue-900 cursor-pointer">
+            <button className="font-medium py-2 px-4  text-[#00308F]  rounded-full duration-300 text-[18px] md:text-[20px] hover:bg-[#00308F] hover:text-white cursor-pointer">
               Sign Up
             </button>
           </NavLink>

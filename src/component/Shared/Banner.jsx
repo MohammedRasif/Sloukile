@@ -45,6 +45,7 @@ const Banner = () => {
 
   return (
     <div
+    id="banner"
       className="relative w-full h-[500px] lg:min-h-screen md:min-h-screen bg-cover bg-center "
       style={{
         backgroundImage: `url(${img})`,
@@ -72,7 +73,7 @@ const Banner = () => {
           </p>
 
           <div className="bg-[#E3E8F1] backdrop-blur-sm rounded-xl p-6 shadow-lg mb-10 max-w-4xl mx-auto flex flex-col h-[220px]">
-            <div className="flex-shrink-0 mr-3 mb-7">
+            <div className="flex-shrink-0 mr-3 pb-3">
               <RiRobot2Fill className="h-8 w-8 text-[#00308F]" />
             </div>
 
@@ -83,10 +84,10 @@ const Banner = () => {
             >
               {/* Default message when conversation is empty */}
               {conversation.length === 0 && (
-                <div className="flex flex-col items-start w-3/4">
+                <div className="flex flex-col items-start mt-3 ">
                   <div className="flex items-start space-x-3">
                     <div
-                      className="px-2 py-1 rounded-lg bg-gray-200 text-black lg:text-[14px] shadow-sm max-w-[70%]"
+                      className="px-3 py-2 rounded-lg bg-[#00308F] text-white lg:text-[14px] shadow-sm max-w-[100%]"
                       style={{
                         whiteSpace: "normal",
                         wordBreak: "break-word",

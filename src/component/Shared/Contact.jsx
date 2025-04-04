@@ -1,9 +1,12 @@
 import img from "./Group 1171275910.png";
+import img1 from "./Group 21472255233.png";
 import "../Shared/banner.css";
 
 const Contact = () => {
     return (
-      <div className="bg-gradient-to-r from-[#DDFBEC] via-[#F5F3E6] to-[#EAEFFB] w-full">
+      <div
+      id="about"
+      className="bg-gradient-to-r from-[#DDFBEC] via-[#F5F3E6] to-[#EAEFFB] w-full ">
           <div
            
            className="container mx-auto flex flex-col md:flex-row py-10 px-4 pt-28  "
@@ -17,7 +20,7 @@ const Contact = () => {
                AI-Powered Solutions for Business Transformation
                </h1>
                <p className="text-gray-700 text-base sm:text-lg mb-7">
-               AI-driven solutions are revolutionizing the way businesses operate, providing the tools necessary for smarter decision-making, increased operational efficiency, and improved customer engagement. With AI, businesses can leverage data more effectively, automate repetitive tasks, and predict future trends with remarkable accuracy. From enhancing workflow automation to personalizing customer interactions, AI is reshaping industries across the globe. Companies are now able to optimize supply chains, detect fraud in real time, and deliver hyper-personalized experiences that drive customer satisfaction and loyalty. As AI technology continues to evolve, businesses that embrace these innovations will gain a significant competitive edge. 
+               AI-driven solutions are revolutionizing the way businesses operate, providing the tools necessary for smarter decision-making, increased operational efficiency, and improved customer engagement. With AI, businesses can leverage data more effectively, automate repetitive tasks, and predict future trends with remarkable accuracy. From enhancing workflow automation to personalizing customer interactions, AI is reshaping industries across the globe. Companies are now able to optimize supply chains, detect fraud in real time, and deliver hyper-personalized experiences that drive customer satisfaction and loyalty. 
                </p>
                {/* <ul className="space-y-4 sm:space-y-6">
                    <li className="flex items-start">
@@ -61,26 +64,7 @@ const Contact = () => {
                    </li>
                </ul> */}
                {/* Updated Button with Loading Animation */}
-               <button
-                   className="bg-blue-900 mt-10 sm:mt-20 hover:bg-blue-800 text-white font-medium py-2 sm:py-3 px-6 sm:px-8 rounded-full min-w-[150px] sm:min-w-[180px] block"
-                   onClick={() => {
-                       /* Add your loading logic here */
-                   }}
-               >
-                   <div className="flex items-center justify-center">
-                       {/* Normal state text */}
-                       <span className="mr-2 text-[16px] sm:text-[18px]">Get started</span>
-
-                       {/* Loading animation (hidden by default) */}
-                       <div className="loading-animation flex items-center justify-center">
-                           <span></span>
-                           <span></span>
-                           <span></span>
-                           <span></span>
-                           <span></span>
-                       </div>
-                   </div>
-               </button>
+              
            </div>
 
            {/* Image Section */}
@@ -90,6 +74,9 @@ const Contact = () => {
                    alt="AI Project Management"
                    className="w-full h-auto rounded-lg"
                />
+           </div>
+           <div className="absolute right-20 top-[175vh]">
+            <img src={img1} className="h-52" alt="" />
            </div>
        </div>
       </div>
