@@ -11,11 +11,11 @@ import UserSays from "../Shared/UserSays";
 
 const Home = () => {
     return (
-        <div>
+        <div className="bg-gradient-to-r from-[#DDFBEC] via-[#F5F3E6] to-[#EAEFFB]">
             <Navbar/>
             <Banner/>
-            <Revolutionize/>
             <Contact/>
+            <Revolutionize/>
             <Pricing/>
             <UserSays/>
             <FAQPage/>
