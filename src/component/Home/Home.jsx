@@ -22,7 +22,7 @@ const Home = () => {
             <UserSays/>
             <FAQPage/>
             <Frequently/>
-            <Management/>
+            {/* <Management/> */}
             <Footer/>
         </div>
     );

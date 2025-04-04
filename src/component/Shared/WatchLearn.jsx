@@ -5,12 +5,6 @@ const WatchLearn = () => {
     return (
         <div
             className="relative flex flex-col items-center justify-center pt-20 "
-            // style={{
-            //     backgroundImage: `url(${image})`,
-            //     backgroundSize: "cover",
-            //     backgroundPosition: "center",
-            //     height: "80vh",
-            // }}
         >
              {/* Absolute Image - positioned as is */}
              <div className="absolute left-20 top-10">
@@ -21,6 +15,9 @@ const WatchLearn = () => {
             <div className="">
                 {/* Text Section - centered */}
             <div className="text-center max-w-4xl mb-8 z-10 bg-opacity-80 p-6 rounded-lg">
+                <h1 className="text-md md:text-2xl font-bold text-blue-900 mb-4">
+                Watch & learn
+                </h1>
                 <h1 className="text-4xl md:text-5xl font-bold text-blue-900 mb-4">
                     See How AI Transforms Project Management
                 </h1>
@@ -44,43 +41,6 @@ const WatchLearn = () => {
             </div>
             </div>
         </div>
-        // <div
-        //     className="relative flex flex-col items-center justify-center p-4 mt-52"
-        //     style={{
-        //         backgroundImage: `url(${image})`,
-        //         backgroundSize: "cover",
-        //         backgroundPosition: "center",
-        //         height: "80vh",
-        //     }}
-        // >
-        //     {/* Text Section - centered */}
-        //     <div className="text-center max-w-lg mb-8 z-10 bg-opacity-80 p-6 rounded-lg">
-        //         <h1 className="text-4xl md:text-5xl font-bold text-blue-900 mb-4">
-        //             See How AI Transforms Project Management
-        //         </h1>
-        //         <p className="text-gray-600 text-lg">
-        //             Watch our video to see how AI-powered tools streamline workflows, deliver projects on time, and under budget.
-        //         </p>
-        //     </div>
-
-        //     {/* Absolute Image - positioned as is */}
-        //     <div className="absolute left-20 top-0">
-        //         <img src={image1} className="h-52" alt="" />
-        //     </div>
-
-        //     {/* Video Section - centered */}
-        //     <div className="z-10">
-        //         <div className="">
-        //             <video
-        //                 className="w-[80vh] max-w-2xl h-[400px]"
-        //                 controls
-        //             >
-        //                 <source src="path-to-your-video.mp4" type="video/mp4" />
-        //                 Your browser does not support the video tag.
-        //             </video>
-        //         </div>
-        //     </div>
-        // </div>
     );
 };
 

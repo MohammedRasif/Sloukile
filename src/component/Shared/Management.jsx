@@ -30,6 +30,12 @@ const Management = () => {
                         </div>
                     </div>
                 </button>
+                {/* <div className="absolute right-20 top-[175vh]">
+                    <img src={img1} className="h-52" alt="" />
+                </div>
+                <div className="absolute right-20 top-[175vh]">
+                    <img src={img1} className="h-52" alt="" />
+                </div> */}
             </div>
         </div>
     );

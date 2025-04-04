@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
+import img1 from "./Group 21472255233.png";
+import img2 from "./Group 2147225524.png";
 
 const Frequently = () => {
-  // State to track which FAQ item is open, default to 0 for the first item
-  const [openIndex, setOpenIndex] = useState(0); // Changed from null to 0
+  const [openIndex, setOpenIndex] = useState(0);
 
-  // FAQ data
   const faqs = [
     {
       question: "How does the AI-powered project work start?",
@@ -38,13 +38,12 @@ const Frequently = () => {
     },
   ];
 
-  // Function to toggle FAQ item
   const toggleFAQ = (index) => {
     setOpenIndex(openIndex === index ? null : index);
   };
 
   return (
-    <div className="bg-[#f9f7f2]">
+    <div className=" relative min-h-screen pt-10"> {/* Added relative and min-h-screen */}
       <div className="max-w-6xl mx-auto p-8 roboto font-sans">
         <h2 className="text-[40px] font-bold text-center mb-4">
           Frequently Asked Questions
@@ -74,6 +73,16 @@ const Frequently = () => {
           ))}
         </div>
       </div>
+      <img
+        src={img1}
+        className="absolute left-0 top-5 h-52 hidden md:block pl-5"
+        alt="Decoration"
+      />
+      <img
+        src={img2}
+        className="absolute right-0 bottom-5 h-52 hidden md:block pr-5"
+        alt="Decoration"
+      />
     </div>
   );
 };
