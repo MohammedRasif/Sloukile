@@ -12,7 +12,7 @@ import WatchLearn from "../Shared/WatchLearn";
 
 const Home = () => {
   return (
-    <div className="bg-gradient-to-r from-[#EAEFFB] via-[#F5F3E6] to-[#EAEFFB] dark:from-[#202125] dark:via-[#35373a] dark:to-[#202125]">
+    <div className="bg-gradient-to-r from-[#EAEFFB] via-[#F5F3E6] to-[#EAEFFB] dark:from-[#121723] dark:via-[#121723] dark:to-[#121723]">
       <Navbar />
       <Banner />
       <Contact />

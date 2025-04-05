@@ -46,7 +46,7 @@ const Banner = () => {
   return (
     <div
     id="banner"
-      className="relative w-full h-[500px] lg:min-h-screen md:min-h-screen bg-cover bg-center "
+      className="relative w-full h-[500px] lg:min-h-screen md:min-h-screen bg-cover bg-center dark:bg-[#1E232E] "
       style={{
         backgroundImage: `url(${img})`,
        

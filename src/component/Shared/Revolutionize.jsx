@@ -1,9 +1,9 @@
 import img1 from "./Group 1171275921.png";
 import img2 from "./Group 1171275922.png";
 import img3 from "./Group 1171275923.png";
-import img4 from "./Group 1171275877.png";
-import img5 from "./Black.png";
-import img6 from "./rasif.png";
+import img5 from "./Group 1171275877.png";
+import img6 from "./Black.png";
+import img4 from "./rasif.png";
 
 const Revolutionize = () => {
   const cardData = [

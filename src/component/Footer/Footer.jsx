@@ -2,6 +2,8 @@ import { useDarkMode } from "../../context/ThemeContext"; // Import useDarkMode
 import img from "../Navbar/image 3.png"; // Light mode logo
 import img1 from "../Navbar/Group (2).png"; // Dark mode logo
 import { FaMapLocationDot } from "react-icons/fa6";
+import { MdOutlineWifiCalling3 } from "react-icons/md";
+import { IoMdMail } from "react-icons/io";
 
 const Footer = () => {
   const { darkMode } = useDarkMode(); // Get darkMode state from context
@@ -83,22 +85,33 @@ const Footer = () => {
         <div>
           <h4 className="text-lg font-semibold mb-4">Contact Us</h4>
           <ul className="space-y-2">
-            <li className="flex items-center">
-              <span className="mr-2">✉️</span>
-              <a href="mailto:info@projectxpai.com" className="text-gray-200 hover:text-white transition">
+            <li className="flex ">
+              <span className="mr-2 text-4xl md:mt-2"><IoMdMail />
+              </span>
+              <div>
+              <a href="mailto:info@projectxpai.com" className="text-gray-200 text-xl hover:text-white transition">
                 info@projectxpai.com
               </a>
+              <p className="text-[12px] text-gray-400">info@aiprojectmanager.com</p>
+              </div>
             </li>
-            <li className="flex items-center">
-              <span className="mr-2">📞</span>
-              <a href="tel:+880123456789" className="text-gray-200 hover:text-white transition">
-                +880 123 456 789
+            <li className="flex ">
+              <span className="mr-2 text-4xl md:mt-2"><MdOutlineWifiCalling3 /></span>
+              <div>
+              <a href="mailto:info@projectxpai.com" className="text-gray-200 text-xl hover:text-white transition">
+              Call Us
               </a>
+              <p className="text-[12px] text-gray-400">+1 (555) 123-4567</p>
+              </div>
             </li>
-            <li className="flex items-center">
-              <span className="mr-2 ml-1"><FaMapLocationDot/>
-              </span>
-              <span className="text-gray-200">Dharmond, Dhaka</span>
+            <li className="flex ">
+              <span className="mr-2 text-4xl md:mt-2"><FaMapLocationDot/></span>
+              <div>
+              <a href="mailto:info@projectxpai.com" className="text-gray-200 text-xl hover:text-white transition">
+              location us
+              </a>
+              <p className="text-[12px] text-gray-400">Dhanmondi. Dhaka</p>
+              </div>
             </li>
           </ul>
         </div>

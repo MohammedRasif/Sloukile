@@ -52,14 +52,14 @@ const Frequently = () => {
           Here we’ve tried to answer questions we’ve heard a lot. If you can’t find
           what you’re looking for, please reach out to us.
         </p>
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-4 ">
           {faqs.map((faq, index) => (
             <div
               key={index}
               className={`rounded-lg shadow-md ${
                 openIndex === index
-                  ? "bg-white dark:bg-blue-600" // Active FAQ: white in light mode, blue-600 in dark mode
-                  : "bg-white dark:bg-[#1E232E]" // Inactive FAQ: white in light mode, dark gray in dark mode
+                  ? "bg-white dark:bg-blue-600 " // Active FAQ: white in light mode, blue-600 in dark mode
+                  : "bg-white dark:bg-[#1E232E] dark:border border-blue-600" // Inactive FAQ: white in light mode, dark gray in dark mode
               }`}
             >
               <div

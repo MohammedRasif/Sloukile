@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import img2 from "./helllllllllooooo.png";
+import img3 from "./Group 2147225528.png";
+import img4 from "./Group 2147225528.png";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const testimonials = [
@@ -79,7 +81,7 @@ const UserSays = () => {
     <div className="py-16 px-4">
       <div className="max-w-[165vh] mx-auto">
         <div className="text-center mb-12">
-          <p className="text-blue-600 dark:text-blue-600 md:text-2xl font-medium mb-2">Testimonial</p>
+          <p className="text-blue-600 dark:text-blue-400 md:text-2xl font-medium mb-2">Testimonial</p>
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-gray-100">
             What Client Think About Us
           </h2>
@@ -127,9 +129,21 @@ const UserSays = () => {
                     className="absolute shadow-md transition-all duration-600 ease-[cubic-bezier(0.4,0,0.2,1)]"
                     style={cardStyles}
                   >
-                    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl p-6 h-full flex flex-col items-center overflow-hidden">
+                    <div
+                      className={`rounded-lg shadow-xl p-6 h-full flex flex-col items-center overflow-hidden ${
+                        position === "center"
+                          ? "bg-white dark:bg-[#00308F]" // Active card: blue-500 in dark mode
+                          : "bg-white dark:bg-gray-800" // Inactive cards: gray-800 in dark mode
+                      }`}
+                    >
+                      {position === "center" && (
+                        <>
+                          <img src={img3} alt="" className="absolute left-5" />
+                          <img src={img4} alt="" className="absolute right-5" />
+                        </>
+                      )}
                       <div
-                        className={`absolute -top-14 rounded-full overflow-hidden border-2 border-blue-100 dark:border-blue-700 ${
+                        className={`absolute -top-14 rounded-full overflow-hidden border-2 border-blue-100 dark:border-gray-900 ${
                           position === "center"
                             ? "w-32 h-32"
                             : position === "adjacent"
@@ -159,7 +173,7 @@ const UserSays = () => {
                       <h3
                         className={`font-bold mb-2 ${
                           position === "center"
-                            ? "text-xl text-blue-600 dark:text-blue-600"
+                            ? "text-xl text-blue-600 dark:text-white" // White text in dark mode for active card
                             : position === "adjacent"
                             ? "text-lg text-gray-900 dark:text-gray-100"
                             : "text-base text-gray-900 dark:text-gray-100"
@@ -171,7 +185,7 @@ const UserSays = () => {
                       <p
                         className={`mb-4 font-bold ${
                           position === "center"
-                            ? "text-base text-gray-600 dark:text-gray-300"
+                            ? "text-base text-gray-600 dark:text-gray-200" // Adjusted for contrast in dark mode
                             : position === "adjacent"
                             ? "text-sm text-gray-600 dark:text-gray-300"
                             : "text-xs text-gray-600 dark:text-gray-300"
@@ -183,7 +197,7 @@ const UserSays = () => {
                       <p
                         className={`text-center font-[500] overflow-hidden ${
                           position === "center"
-                            ? "text-base text-gray-500 dark:text-gray-400 leading-relaxed"
+                            ? "text-base text-gray-500 dark:text-gray-300 leading-relaxed" // Adjusted for contrast
                             : position === "adjacent"
                             ? "text-sm text-gray-500 dark:text-gray-400 leading-snug"
                             : "text-xs text-gray-500 dark:text-gray-400 leading-tight line-clamp-3"
