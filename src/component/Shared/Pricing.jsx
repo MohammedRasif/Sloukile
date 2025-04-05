@@ -115,33 +115,49 @@ const Pricing = () => {
     };
 
     return (
-        <div id="pricing" className="min-h-screen py-8 px-4 md:px-4 md:pt-28">
+        <div id="pricing" className="min-h-screen py-8 px-4 md:px-4 md:pt-28  ">
             <div className="max-w-6xl mx-auto">
                 {/* Header Section */}
                 <div className="text-center mb-6 md:mb-12">
-                    <h3 className="text-blue-800 font-medium mb-2 text-sm md:text-base">Our Powerful Features</h3>
-                    <h1 className="text-2xl md:text-4xl lg:text-5xl font-bold text-[#2D4162] mb-3 md:mb-4">Pricing And Plan</h1>
-                    <p className="text-slate-600 max-w-full md:max-w-2xl mx-auto text-xs md:text-base">
+                    <h3 className="text-[#2D4162] dark:text-[#00A3D6] font-medium mb-2 text-sm md:text-base">
+                        Our Powerful Features
+                    </h3>
+                    <h1 className="text-2xl md:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-gray-100 mb-3 md:mb-4">
+                        Pricing And Plan
+                    </h1>
+                    <p className="text-gray-600 dark:text-gray-300 max-w-full md:max-w-2xl mx-auto text-xs md:text-base">
                         There are many variations of passages of Lorem Ipsum available but the majority have suffered alteration in some form.
                     </p>
                 </div>
 
                 {/* Toggle Switch */}
                 <div className="flex justify-center items-center gap-3 md:gap-4 mb-6 md:mb-12">
-                    <span className={`font-medium text-sm md:text-base ${billingCycle === "monthly" ? "text-blue-800" : "text-slate-500"}`}>
+                    <span
+                        className={`font-medium text-sm md:text-base ${
+                            billingCycle === "monthly"
+                                ? "text-blue-800 dark:text-blue-400"
+                                : "text-slate-500 dark:text-gray-400"
+                        }`}
+                    >
                         Monthly
                     </span>
                     <button
-                        className="w-12 md:w-16 h-6 md:h-8 bg-gray-200 rounded-full p-1 flex items-center cursor-pointer"
+                        className="w-12 md:w-16 h-6 md:h-8 bg-gray-200 dark:bg-gray-700 rounded-full p-1 flex items-center cursor-pointer"
                         onClick={() => setBillingCycle(billingCycle === "monthly" ? "yearly" : "monthly")}
                     >
                         <motion.div
-                            className="w-4 md:w-6 h-4 md:h-6 rounded-full bg-blue-800 shadow-md"
+                            className="w-4 md:w-6 h-4 md:h-6 rounded-full bg-blue-800 dark:bg-blue-500 shadow-md"
                             animate={{ x: billingCycle === "yearly" ? 24 : 0 }}
                             transition={{ type: "spring", stiffness: 500, damping: 30 }}
                         />
                     </button>
-                    <span className={`font-medium text-sm md:text-base ${billingCycle === "yearly" ? "text-blue-800" : "text-slate-500"}`}>
+                    <span
+                        className={`font-medium text-sm md:text-base ${
+                            billingCycle === "yearly"
+                                ? "text-blue-800 dark:text-blue-400"
+                                : "text-slate-500 dark:text-gray-400"
+                        }`}
+                    >
                         Yearly
                     </span>
                 </div>
@@ -161,27 +177,35 @@ const Pricing = () => {
                                 {monthlyPlans.map((plan, index) => (
                                     <motion.div
                                         key={`monthly-${index}`}
-                                        className="bg-white rounded-3xl shadow-lg overflow-hidden w-full min-h-[450px] md:min-h-[500px] flex flex-col"
+                                        className="bg-white dark:bg-gray-800 rounded-3xl shadow-lg overflow-hidden w-full min-h-[450px] md:min-h-[500px] flex flex-col"
                                         variants={cardVariants}
                                     >
-                                        <div className="p-4 md:p-8 flex flex-col flex-grow ">
-                                            <h2 className="text-lg md:text-2xl font-bold text-slate-800 mb-4 md:mb-8 text-center">{plan.name}</h2>
-                                            <div className="md:-mx-8 md:p-8 md:text-white md:mb-8">
-                                                <img src={img} className="absolute hidden md:block md:h-32 md:top-28 md:-ml-[70px] " alt="" />
-                                                <div className="flex items-baseline justify-center">
+                                        <div className="p-4 md:p-8 flex flex-col flex-grow">
+                                            <h2 className="text-lg md:text-2xl font-bold text-slate-800 dark:text-gray-100 mb-4 md:mb-8 text-center">
+                                                {plan.name}
+                                            </h2>
+                                            <div className="md:-mx-8 md:p-8 text-gray-900 dark:text-gray-100 md:mb-8">
+                                                <img
+                                                    src={img}
+                                                    className="absolute hidden md:block md:h-32 md:top-28 md:-ml-[70px]"
+                                                    alt=""
+                                                />
+                                                <div className="flex items-baseline justify-start ">
                                                     <span className="md:text-5xl md:font-bold z-30">{plan.price}</span>
-                                                    <span className="md:text-xl ml-2">{plan.period}</span>
+                                                    <span className="md:text-xl ml-2 z-30">{plan.period}</span>
                                                 </div>
                                             </div>
                                             <ul className="space-y-2 md:space-y-4 flex-grow">
                                                 {plan.features.map((feature, featureIndex) => (
                                                     <li key={featureIndex} className="flex items-center">
-                                                        <Check className="h-4 w-4 md:h-5 md:w-5 p-[2px] md:p-[3px] rounded-full bg-gray-200 text-blue-600 mr-2" />
-                                                        <span className="text-slate-700 text-xs md:text-base">{feature}</span>
+                                                        <Check className="h-4 w-4 md:h-5 md:w-5 p-[2px] md:p-[3px] rounded-full bg-gray-200 dark:bg-gray-600 text-blue-600 dark:text-blue-400 mr-2" />
+                                                        <span className="text-slate-700 dark:text-gray-300 text-xs md:text-base">
+                                                            {feature}
+                                                        </span>
                                                     </li>
                                                 ))}
                                             </ul>
-                                            <button className="mt-4 md:mt-8 w-full bg-blue-800 hover:bg-blue-900 text-white py-2 md:py-3 px-4 md:px-6 rounded-full font-medium flex items-center justify-center transition-colors duration-300 text-sm md:text-base cursor-pointer">
+                                            <button className="mt-4 md:mt-8 w-full bg-blue-800 dark:bg-blue-700 hover:bg-blue-900 dark:hover:bg-blue-600 text-white py-2 md:py-3 px-4 md:px-6 rounded-full font-medium flex items-center justify-center transition-colors duration-300 text-sm md:text-base cursor-pointer">
                                                 Get Started <ArrowRight className="ml-2 h-4 w-4 md:h-5 md:w-5" />
                                             </button>
                                         </div>
@@ -200,27 +224,35 @@ const Pricing = () => {
                                 {yearlyPlans.map((plan, index) => (
                                     <motion.div
                                         key={`yearly-${index}`}
-                                        className="bg-white rounded-3xl shadow-lg overflow-hidden w-full min-h-[450px] md:min-h-[500px] flex flex-col"
+                                        className="bg-white dark:bg-gray-800 rounded-3xl shadow-lg overflow-hidden w-full min-h-[450px] md:min-h-[500px] flex flex-col"
                                         variants={cardVariants}
                                     >
-                                        <div className="p-4 md:p-8 flex flex-col flex-grow ">
-                                            <h2 className="text-lg md:text-2xl font-bold text-slate-800 mb-4 md:mb-8 text-center">{plan.name}</h2>
-                                            <div className="md:-mx-8 md:p-8 md:text-white md:mb-8">
-                                                <img src={img} className="absolute hidden md:block md:h-32 md:top-28 md:-ml-[70px] " alt="" />
-                                                <div className="flex items-baseline justify-center">
+                                        <div className="p-4 md:p-8 flex flex-col flex-grow">
+                                            <h2 className="text-lg md:text-2xl font-bold text-slate-800 dark:text-gray-100 mb-4 md:mb-8 text-center">
+                                                {plan.name}
+                                            </h2>
+                                            <div className="md:-mx-8 md:p-8 text-gray-900 dark:text-gray-100 md:mb-8">
+                                                <img
+                                                    src={img}
+                                                    className="absolute hidden md:block md:h-32 md:top-28 md:-ml-[70px]"
+                                                    alt=""
+                                                />
+                                                <div className="flex items-baseline justify-start">
                                                     <span className="md:text-5xl md:font-bold z-30">{plan.price}</span>
-                                                    <span className="md:text-xl ml-2">{plan.period}</span>
+                                                    <span className="md:text-xl ml-2 z-30">{plan.period}</span>
                                                 </div>
                                             </div>
                                             <ul className="space-y-2 md:space-y-4 flex-grow">
                                                 {plan.features.map((feature, featureIndex) => (
                                                     <li key={featureIndex} className="flex items-center">
-                                                        <Check className="h-4 w-4 md:h-5 md:w-5 p-[2px] md:p-[3px] rounded-full bg-gray-200 text-blue-600 mr-2" />
-                                                        <span className="text-slate-700 text-xs md:text-base">{feature}</span>
+                                                        <Check className="h-4 w-4 md:h-5 md:w-5 p-[2px] md:p-[3px] rounded-full bg-gray-200 dark:bg-gray-600 text-blue-600 dark:text-blue-400 mr-2" />
+                                                        <span className="text-slate-700 dark:text-gray-300 text-xs md:text-base">
+                                                            {feature}
+                                                        </span>
                                                     </li>
                                                 ))}
                                             </ul>
-                                            <button className="mt-4 md:mt-8 w-full bg-blue-800 hover:bg-blue-900 text-white py-2 md:py-3 px-4 md:px-6 rounded-full font-medium flex items-center justify-center transition-colors duration-300 text-sm md:text-base cursor-pointer">
+                                            <button className="mt-4 md:mt-8 w-full bg-blue-800 dark:bg-blue-700 hover:bg-blue-900 dark:hover:bg-blue-600 text-white py-2 md:py-3 px-4 md:px-6 rounded-full font-medium flex items-center justify-center transition-colors duration-300 text-sm md:text-base cursor-pointer">
                                                 Get Started <ArrowRight className="ml-2 h-4 w-4 md:h-5 md:w-5" />
                                             </button>
                                         </div>
