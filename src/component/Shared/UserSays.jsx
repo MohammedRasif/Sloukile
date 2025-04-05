@@ -1,8 +1,8 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import img2 from "./helllllllllooooo.png"
-import { ChevronLeft, ChevronRight } from "lucide-react"
+import { useState } from "react";
+import img2 from "./helllllllllooooo.png";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const testimonials = [
   {
@@ -45,67 +45,69 @@ const testimonials = [
     quote:
       '"The AI recommendations have saved us countless hours of planning and helped us identify risks we would have missed. Our project delivery time has improved by 30%."',
   },
-]
+];
 
 const UserSays = () => {
-  const [currentIndex, setCurrentIndex] = useState(0)
-  const [isAnimating, setIsAnimating] = useState(false)
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isAnimating, setIsAnimating] = useState(false);
 
   const handlePrev = () => {
-    if (isAnimating) return
-    setIsAnimating(true)
-    setCurrentIndex((prev) => (prev === 0 ? testimonials.length - 1 : prev - 1))
-    setTimeout(() => setIsAnimating(false), 600)
-  }
+    if (isAnimating) return;
+    setIsAnimating(true);
+    setCurrentIndex((prev) => (prev === 0 ? testimonials.length - 1 : prev - 1));
+    setTimeout(() => setIsAnimating(false), 600);
+  };
 
   const handleNext = () => {
-    if (isAnimating) return
-    setIsAnimating(true)
-    setCurrentIndex((prev) => (prev === testimonials.length - 1 ? 0 : prev + 1))
-    setTimeout(() => setIsAnimating(false), 600)
-  }
+    if (isAnimating) return;
+    setIsAnimating(true);
+    setCurrentIndex((prev) => (prev === testimonials.length - 1 ? 0 : prev + 1));
+    setTimeout(() => setIsAnimating(false), 600);
+  };
 
   const getCardPosition = (index) => {
-    const totalItems = testimonials.length
-    const distance = (index - currentIndex + totalItems) % totalItems
-    const shortestDistance = distance <= totalItems / 2 ? distance : distance - totalItems
+    const totalItems = testimonials.length;
+    const distance = (index - currentIndex + totalItems) % totalItems;
+    const shortestDistance = distance <= totalItems / 2 ? distance : distance - totalItems;
 
-    if (shortestDistance === 0) return "center"
-    if (shortestDistance === 1 || shortestDistance === -1) return "adjacent"
-    return "edge"
-  }
+    if (shortestDistance === 0) return "center";
+    if (shortestDistance === 1 || shortestDistance === -1) return "adjacent";
+    return "edge";
+  };
 
   return (
     <div className="py-16 px-4">
       <div className="max-w-[165vh] mx-auto">
         <div className="text-center mb-12">
-          <p className="text-blue-600 font-medium mb-2">Testimonial</p>
-          <h2 className="text-3xl md:text-4xl font-bold">What Client Think About Us</h2>
+          <p className="text-blue-600 dark:text-blue-400 font-medium mb-2">Testimonial</p>
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-gray-100">
+            What Client Think About Us
+          </h2>
         </div>
 
         <div className="relative">
           <div className="relative h-[500px] flex items-center justify-center overflow-hidden perspective-1000">
             <div className="absolute w-full flex justify-center items-center">
               {testimonials.map((testimonial, index) => {
-                const position = getCardPosition(index)
+                const position = getCardPosition(index);
 
-                let transform = ""
+                let transform = "";
                 switch (position) {
                   case "center":
-                    transform = "translateX(0%) scale(1) rotateY(0deg)"
-                    break
+                    transform = "translateX(0%) scale(1) rotateY(0deg)";
+                    break;
                   case "adjacent":
                     transform =
                       (index - currentIndex + testimonials.length) % testimonials.length === 1
                         ? "translateX(100%) scale(0.85) rotateY(-5deg)"
-                        : "translateX(-100%) scale(0.85) rotateY(5deg)"
-                    break
+                        : "translateX(-100%) scale(0.85) rotateY(5deg)";
+                    break;
                   case "edge":
                     transform =
                       (index - currentIndex + testimonials.length) % testimonials.length <= 2
                         ? "translateX(185%) scale(0.7) rotateY(-10deg)"
-                        : "translateX(-185%) scale(0.7) rotateY(10deg)"
-                    break
+                        : "translateX(-185%) scale(0.7) rotateY(10deg)";
+                    break;
                 }
 
                 const cardStyles = {
@@ -115,9 +117,9 @@ const UserSays = () => {
                   opacity: position === "center" ? 1 : position === "adjacent" ? 0.9 : 0.7,
                   height: "350px",
                   width: "100%",
-                  maxWidth: "300px", // Reduced from 380px to 300px
+                  maxWidth: "300px",
                   transitionProperty: "transform, opacity",
-                }
+                };
 
                 return (
                   <div
@@ -125,10 +127,14 @@ const UserSays = () => {
                     className="absolute shadow-md transition-all duration-600 ease-[cubic-bezier(0.4,0,0.2,1)]"
                     style={cardStyles}
                   >
-                    <div className="bg-white rounded-lg shadow-xl p-6 h-full flex flex-col items-center overflow-hidden">
+                    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl p-6 h-full flex flex-col items-center overflow-hidden">
                       <div
-                        className={`absolute -top-14 rounded-full overflow-hidden border-2 border-blue-100 ${
-                          position === "center" ? "w-32 h-32" : position === "adjacent" ? "w-24 h-24" : "w-16 h-16 mt-5"
+                        className={`absolute -top-14 rounded-full overflow-hidden border-2 border-blue-100 dark:border-blue-700 ${
+                          position === "center"
+                            ? "w-32 h-32"
+                            : position === "adjacent"
+                            ? "w-24 h-24"
+                            : "w-16 h-16 mt-5"
                         }`}
                       >
                         <img
@@ -139,8 +145,12 @@ const UserSays = () => {
                       </div>
 
                       <div
-                        className={`text-blue-600 mb-2 ${
-                          position === "center" ? "h-8 mt-20" : position === "adjacent" ? "h-6 mt-10" : "h-4 mt-2"
+                        className={`text-blue-600 dark:text-blue-400 mb-2 ${
+                          position === "center"
+                            ? "h-8 mt-20"
+                            : position === "adjacent"
+                            ? "h-6 mt-10"
+                            : "h-4 mt-2"
                         }`}
                       >
                         <img src={img2} alt="Quote decoration" className="w-full h-full object-contain" />
@@ -148,27 +158,35 @@ const UserSays = () => {
 
                       <h3
                         className={`font-bold mb-2 ${
-                          position === "center" ? "text-xl" : position === "adjacent" ? "text-lg" : "text-base"
+                          position === "center"
+                            ? "text-xl text-blue-600 dark:text-blue-600"
+                            : position === "adjacent"
+                            ? "text-lg text-gray-900 dark:text-gray-100"
+                            : "text-base text-gray-900 dark:text-gray-100"
                         }`}
                       >
                         {testimonial.name}
                       </h3>
 
                       <p
-                        className={`text-gray-600 mb-4 font-bold ${
-                          position === "center" ? "text-base" : position === "adjacent" ? "text-sm" : "text-xs"
+                        className={`mb-4 font-bold ${
+                          position === "center"
+                            ? "text-base text-gray-600 dark:text-gray-300"
+                            : position === "adjacent"
+                            ? "text-sm text-gray-600 dark:text-gray-300"
+                            : "text-xs text-gray-600 dark:text-gray-300"
                         }`}
                       >
                         {testimonial.position}
                       </p>
 
                       <p
-                        className={`text-center font-[500] text-gray-500 overflow-hidden ${
+                        className={`text-center font-[500] overflow-hidden ${
                           position === "center"
-                            ? "text-base leading-relaxed"
+                            ? "text-base text-gray-500 dark:text-gray-400 leading-relaxed"
                             : position === "adjacent"
-                            ? "text-sm leading-snug"
-                            : "text-xs leading-tight line-clamp-3"
+                            ? "text-sm text-gray-500 dark:text-gray-400 leading-snug"
+                            : "text-xs text-gray-500 dark:text-gray-400 leading-tight line-clamp-3"
                         }`}
                       >
                         {position === "center"
@@ -183,7 +201,7 @@ const UserSays = () => {
                       </p>
                     </div>
                   </div>
-                )
+                );
               })}
             </div>
           </div>
@@ -191,7 +209,7 @@ const UserSays = () => {
           <div className="flex justify-center mt-8 gap-4">
             <button
               onClick={handlePrev}
-              className="w-12 h-12 rounded-full bg-blue-600 text-white flex items-center justify-center hover:bg-blue-800 transition-colors duration-300 disabled:opacity-50 cursor-pointer"
+              className="w-12 h-12 rounded-full bg-blue-600 dark:bg-blue-700 text-white flex items-center justify-center hover:bg-blue-800 dark:hover:bg-blue-600 transition-colors duration-300 disabled:opacity-50 cursor-pointer"
               aria-label="Previous testimonial"
               disabled={isAnimating}
             >
@@ -199,7 +217,7 @@ const UserSays = () => {
             </button>
             <button
               onClick={handleNext}
-              className="w-12 h-12 rounded-full bg-blue-600 text-white flex items-center justify-center hover:bg-blue-800 transition-colors duration-300 disabled:opacity-50 cursor-pointer"
+              className="w-12 h-12 rounded-full bg-blue-600 dark:bg-blue-700 text-white flex items-center justify-center hover:bg-blue-800 dark:hover:bg-blue-600 transition-colors duration-300 disabled:opacity-50 cursor-pointer"
               aria-label="Next testimonial"
               disabled={isAnimating}
             >
@@ -209,7 +227,7 @@ const UserSays = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default UserSays
+export default UserSays;
