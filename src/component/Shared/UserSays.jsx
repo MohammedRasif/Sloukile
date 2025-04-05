@@ -77,7 +77,7 @@ const UserSays = () => {
 
   return (
     <div className="py-16 px-4">
-      <div className=" mx-auto">
+      <div className="max-w-[165vh] mx-auto">
         <div className="text-center mb-12">
           <p className="text-blue-600 font-medium mb-2">Testimonial</p>
           <h2 className="text-3xl md:text-4xl font-bold">What Client Think About Us</h2>
@@ -108,15 +108,14 @@ const UserSays = () => {
                     break
                 }
 
-                // Fixed dimensions for all cards to prevent content overflow
                 const cardStyles = {
                   transform,
                   transformStyle: "preserve-3d",
                   zIndex: position === "center" ? 30 : position === "adjacent" ? 20 : 10,
                   opacity: position === "center" ? 1 : position === "adjacent" ? 0.9 : 0.7,
-                  height: "350px", // Fixed height for all positions
+                  height: "350px",
                   width: "100%",
-                  maxWidth: "380px", // Fixed width for all positions
+                  maxWidth: "300px", // Reduced from 380px to 300px
                   transitionProperty: "transform, opacity",
                 }
 
@@ -128,8 +127,9 @@ const UserSays = () => {
                   >
                     <div className="bg-white rounded-lg shadow-xl p-6 h-full flex flex-col items-center overflow-hidden">
                       <div
-                        className={`absolute -top-14 rounded-full overflow-hidden border-2 border-blue-100 ${position === "center" ? "w-32 h-32" : position === "adjacent" ? "w-24 h-24" : "w-16 h-16"
-                          }`}
+                        className={`absolute -top-14 rounded-full overflow-hidden border-2 border-blue-100 ${
+                          position === "center" ? "w-32 h-32" : position === "adjacent" ? "w-24 h-24" : "w-16 h-16 mt-5"
+                        }`}
                       >
                         <img
                           src={testimonial.image}
@@ -139,43 +139,47 @@ const UserSays = () => {
                       </div>
 
                       <div
-                        className={`text-blue-600 mb-2 ${position === "center" ? "h-8 mt-20" : position === "adjacent" ? "h-6 mt-10" : "h-4 mt-2"
-                          }`}
+                        className={`text-blue-600 mb-2 ${
+                          position === "center" ? "h-8 mt-20" : position === "adjacent" ? "h-6 mt-10" : "h-4 mt-2"
+                        }`}
                       >
                         <img src={img2} alt="Quote decoration" className="w-full h-full object-contain" />
                       </div>
 
                       <h3
-                        className={`font-bold mb-2 ${position === "center" ? "text-xl" : position === "adjacent" ? "text-lg" : "text-base"
-                          }`}
+                        className={`font-bold mb-2 ${
+                          position === "center" ? "text-xl" : position === "adjacent" ? "text-lg" : "text-base"
+                        }`}
                       >
                         {testimonial.name}
                       </h3>
 
                       <p
-                        className={`text-gray-600 mb-4 font-bold ${position === "center" ? "text-base" : position === "adjacent" ? "text-sm" : "text-xs"
-                          }`}
+                        className={`text-gray-600 mb-4 font-bold ${
+                          position === "center" ? "text-base" : position === "adjacent" ? "text-sm" : "text-xs"
+                        }`}
                       >
                         {testimonial.position}
                       </p>
 
                       <p
-                        className={`text-center font-[500] text-gray-500 overflow-hidden ${position === "center"
+                        className={`text-center font-[500] text-gray-500 overflow-hidden ${
+                          position === "center"
                             ? "text-base leading-relaxed"
                             : position === "adjacent"
-                              ? "text-sm leading-snug"
-                              : "text-xs leading-tight line-clamp-3"
-                          }`}
+                            ? "text-sm leading-snug"
+                            : "text-xs leading-tight line-clamp-3"
+                        }`}
                       >
                         {position === "center"
                           ? testimonial.quote
                           : position === "adjacent"
-                            ? testimonial.quote.length > 120
-                              ? `${testimonial.quote.substring(0, 120)}...`
-                              : testimonial.quote
-                            : testimonial.quote.length > 80
-                              ? `${testimonial.quote.substring(0, 80)}...`
-                              : testimonial.quote}
+                          ? testimonial.quote.length > 120
+                            ? `${testimonial.quote.substring(0, 120)}...`
+                            : testimonial.quote
+                          : testimonial.quote.length > 80
+                          ? `${testimonial.quote.substring(0, 80)}...`
+                          : testimonial.quote}
                       </p>
                     </div>
                   </div>

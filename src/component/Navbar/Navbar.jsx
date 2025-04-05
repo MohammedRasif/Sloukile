@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { NavLink } from "react-router-dom";
 import img from "./image 3.png";
 
 const Navbar = () => {
@@ -10,7 +9,6 @@ const Navbar = () => {
     setIsOpen(!isOpen);
   };
 
-  // Smooth scroll to the section
   const scrollToSection = (id) => {
     const section = document.getElementById(id);
     if (section) {
@@ -22,10 +20,11 @@ const Navbar = () => {
         behavior: "smooth",
       });
       setActiveSection(id);
+    } else {
+      console.log(`Section with id "${id}" not found`);
     }
   };
 
-  // Track scroll position to determine active section
   useEffect(() => {
     const handleScroll = () => {
       const sections = ["banner", "features", "about", "pricing", "contact"];
@@ -36,7 +35,6 @@ const Navbar = () => {
         if (element) {
           const offsetTop = element.offsetTop;
           const offsetHeight = element.offsetHeight;
-          
           if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
             if (activeSection !== section) {
               setActiveSection(section);
@@ -51,12 +49,10 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [activeSection]);
 
-  // Get style for section links
   const getSectionLinkClass = (sectionId) => {
     const baseClasses = "transition duration-300 text-[18px] md:text-[20px] font-[600] px-3 py-2";
-    
     if (activeSection === sectionId) {
-      return `${baseClasses} text-blue-800  rounded-full underline underline-offset-8 decoration-2`;
+      return `${baseClasses} text-blue-800 rounded-full underline underline-offset-8 decoration-2`;
     }
     return `${baseClasses} text-black hover:text-blue-200`;
   };
@@ -65,13 +61,8 @@ const Navbar = () => {
     <div className="w-full top-0 text-black z-50 absolute roboto">
       <div className="container mx-auto flex items-center justify-between px-4 sm:px-6 py-4">
         {/* Logo Section */}
-        {/* Logo Section */}
         <div>
-          <img
-            src={img}
-            alt="Logo"
-            className="h-[30px] sm:h-[80px] md:h-[34px] w-auto"
-          />
+          <img src={img} alt="Logo" className="h-[30px] sm:h-[80px] md:h-[34px] w-auto" />
         </div>
 
         {/* Hamburger Menu Button */}
@@ -94,16 +85,7 @@ const Navbar = () => {
           >
             Home
           </a>
-          <a
-            href="#features"
-            onClick={(e) => {
-              e.preventDefault();
-              scrollToSection("features");
-            }}
-            className={getSectionLinkClass("features")}
-          >
-            Features
-          </a>
+          
           <a
             href="#about"
             onClick={(e) => {
@@ -113,6 +95,16 @@ const Navbar = () => {
             className={getSectionLinkClass("about")}
           >
             About
+          </a>
+          <a
+            href="#features"
+            onClick={(e) => {
+              e.preventDefault();
+              scrollToSection("features");
+            }}
+            className={getSectionLinkClass("features")}
+          >
+            Features
           </a>
           <a
             href="#pricing"
@@ -138,16 +130,18 @@ const Navbar = () => {
 
         {/* Auth Buttons - Desktop */}
         <div className="hidden md:flex items-center space-x-3">
-          <NavLink to="/login">
-            <button className="font-medium py-2 px-4  text-[#00308F]  rounded-full duration-300 text-[18px] md:text-[20px] hover:bg-[#00308F] hover:text-white cursor-pointer">
-              Sign In
-            </button>
-          </NavLink>
-          <NavLink to="/register">
-            <button className="font-medium py-2 px-4  text-[#00308F]  rounded-full duration-300 text-[18px] md:text-[20px] hover:bg-[#00308F] hover:text-white cursor-pointer">
-              Sign Up
-            </button>
-          </NavLink>
+          <a
+            href="/login"
+            className="font-medium py-2 px-4 text-[#00308F] rounded-full duration-300 text-[18px] md:text-[20px] hover:bg-[#00308F] hover:text-white cursor-pointer"
+          >
+            Sign In
+          </a>
+          <a
+            href="/register"
+            className="font-medium py-2 px-4 text-[#00308F] rounded-full duration-300 text-[18px] md:text-[20px] hover:bg-[#00308F] hover:text-white cursor-pointer"
+          >
+            Sign Up
+          </a>
         </div>
 
         {/* Mobile Menu */}
@@ -208,18 +202,20 @@ const Navbar = () => {
             >
               Contact
             </a>
-            <NavLink 
-              to="/login" 
+            <a
+              href="/login"
               className="text-white hover:text-blue-200 transition duration-300 text-[18px] font-[600] px-3 py-2"
               onClick={toggleMenu}
             >
               Login
-            </NavLink>
-            <NavLink to="/register" onClick={toggleMenu}>
-              <button className="bg-white text-blue-900 font-medium py-2 px-4 rounded-full hover:bg-blue-50 transition duration-300 text-[18px]">
-                Sign Up
-              </button>
-            </NavLink>
+            </a>
+            <a
+              href="/register"
+              className="bg-white text-blue-900 font-medium py-2 px-4 rounded-full hover:bg-blue-50 transition duration-300 text-[18px]"
+              onClick={toggleMenu}
+            >
+              Sign Up
+            </a>
           </div>
         )}
       </div>

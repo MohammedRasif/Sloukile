@@ -69,7 +69,7 @@ const Banner = () => {
           </div>
 
           <p className="text-base sm:text-lg md:text-xl mb-8 sm:mb-10 max-w-md sm:max-w-lg md:max-w-4xl mx-auto">
-            Our AI-powered Project Manager automates workflows, predicts risks, and optimizes resources to ensure project success.
+          Our AI-powered Project Manager automates workflows, predicts risks, and optimizes resources to ensure project success.
           </p>
 
           <div className="bg-[#E3E8F1] backdrop-blur-sm rounded-xl p-6 shadow-lg mb-10 max-w-4xl mx-auto flex flex-col h-[220px]">

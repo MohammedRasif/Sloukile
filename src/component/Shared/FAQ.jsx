@@ -2,12 +2,17 @@ import { FaMapLocationDot } from "react-icons/fa6";
 import { IoIosMail } from "react-icons/io";
 import { MdOutlineWifiCalling3 } from "react-icons/md";
 import "../Shared/banner.css";
+import img from "./Group 2147225525.png"
 
 
 const FAQ = () => {
   return (
-    <div className="bg-[#FDFAF6] w-full">
+    <div
+    id="contact"
+    className="bg-[#FDFAF6] w-full">
+       <img src={img} alt="" className="absolute h-[500px] top-[585%] left-[60vh] hidden md:block" />
       <div className="flex flex-col lg:flex-row items-center justify-between p-4 sm:p-6 lg:p-8 container mx-auto ">
+       
         {/* Left Section: Get In Touch Info */}
         <div className="w-full lg:w-1/2 lg:pr-8 lg:-mt-20 roboto mb-8 lg:mb-0">
           <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4">Get In Touch</h1>
@@ -129,12 +134,12 @@ const FAQ = () => {
             {/* Send Button */}
             <div className="">
               <button
-                className="bg-blue-900  hover:bg-blue-800 text-white font-medium py-2 sm:py-3 px-6 sm:px-8 rounded-full lg:mt-10 min-w-[150px] sm:min-w-[180px] mx-auto"
+                className="bg-blue-900  hover:bg-blue-800 text-white font-medium  sm:py-3 px-6 sm:px-8 rounded-full lg:mt-10 min-w-[150px] sm:min-w-[180px] mx-auto"
                 onClick={() => {
                   /* Add your loading logic here */
                 }}
               >
-                <div className="flex items-center">
+                <div className="flex items-center justify-center">
                   {/* Normal state text */}
                   <span className="mr-2 text-[16px] sm:text-[18px]">Send</span>
 
