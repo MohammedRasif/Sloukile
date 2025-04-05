@@ -115,9 +115,7 @@ const Pricing = () => {
     };
 
     return (
-        <div
-        id="pricing"
-        className="min-h-screen py-8  px-4 md:px-4 md:pt-28">
+        <div id="pricing" className="min-h-screen py-8 px-4 md:px-4 md:pt-28">
             <div className="max-w-6xl mx-auto">
                 {/* Header Section */}
                 <div className="text-center mb-6 md:mb-12">
@@ -139,7 +137,7 @@ const Pricing = () => {
                     >
                         <motion.div
                             className="w-4 md:w-6 h-4 md:h-6 rounded-full bg-blue-800 shadow-md"
-                            animate={{ x: billingCycle === "yearly" ? 24 : 0 }} // Adjusted for smaller button
+                            animate={{ x: billingCycle === "yearly" ? 24 : 0 }}
                             transition={{ type: "spring", stiffness: 500, damping: 30 }}
                         />
                     </button>
@@ -149,12 +147,12 @@ const Pricing = () => {
                 </div>
 
                 {/* Pricing Cards Container */}
-                <div className="relative min-h-[700px] md:min-h-[700px]">
+                <div className="relative">
                     <AnimatePresence mode="wait">
                         {billingCycle === "monthly" ? (
                             <motion.div
                                 key="monthly"
-                                className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-16 absolute w-full md:w-[125vh] h-[180vh] md:h-[62vh]"
+                                className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-14 w-full"
                                 variants={cardContainerVariants}
                                 initial="hidden"
                                 animate="show"
@@ -163,11 +161,11 @@ const Pricing = () => {
                                 {monthlyPlans.map((plan, index) => (
                                     <motion.div
                                         key={`monthly-${index}`}
-                                        className="bg-white rounded-3xl shadow-lg overflow-hidden w-full"
+                                        className="bg-white rounded-3xl shadow-lg overflow-hidden w-full min-h-[450px] md:min-h-[500px] flex flex-col"
                                         variants={cardVariants}
                                     >
-                                        <div className="p-4 md:p-8">
-                                            <h2 className="text-lg md:text-2xl font-bold text-slate-800.mb-4 md:mb-8 text-center">{plan.name}</h2>
+                                        <div className="p-4 md:p-8 flex flex-col flex-grow ">
+                                            <h2 className="text-lg md:text-2xl font-bold text-slate-800 mb-4 md:mb-8 text-center">{plan.name}</h2>
                                             <div className="md:-mx-8 md:p-8 md:text-white md:mb-8">
                                                 <img src={img} className="absolute hidden md:block md:h-32 md:top-28 md:-ml-[70px] " alt="" />
                                                 <div className="flex items-baseline justify-center">
@@ -175,7 +173,7 @@ const Pricing = () => {
                                                     <span className="md:text-xl ml-2">{plan.period}</span>
                                                 </div>
                                             </div>
-                                            <ul className="space-y-2 md:space-y-4">
+                                            <ul className="space-y-2 md:space-y-4 flex-grow">
                                                 {plan.features.map((feature, featureIndex) => (
                                                     <li key={featureIndex} className="flex items-center">
                                                         <Check className="h-4 w-4 md:h-5 md:w-5 p-[2px] md:p-[3px] rounded-full bg-gray-200 text-blue-600 mr-2" />
@@ -193,7 +191,7 @@ const Pricing = () => {
                         ) : (
                             <motion.div
                                 key="yearly"
-                                className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-16 absolute w-full md:w-[125vh] h-auto md:h-[62vh]"
+                                className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-14 w-full"
                                 variants={cardContainerVariants}
                                 initial="hidden"
                                 animate="show"
@@ -202,19 +200,19 @@ const Pricing = () => {
                                 {yearlyPlans.map((plan, index) => (
                                     <motion.div
                                         key={`yearly-${index}`}
-                                        className="bg-white rounded-3xl shadow-lg overflow-hidden w-full"
+                                        className="bg-white rounded-3xl shadow-lg overflow-hidden w-full min-h-[450px] md:min-h-[500px] flex flex-col"
                                         variants={cardVariants}
                                     >
-                                        <div className="p-4 md:p-8">
+                                        <div className="p-4 md:p-8 flex flex-col flex-grow ">
                                             <h2 className="text-lg md:text-2xl font-bold text-slate-800 mb-4 md:mb-8 text-center">{plan.name}</h2>
                                             <div className="md:-mx-8 md:p-8 md:text-white md:mb-8">
-                                                <img src={img} className="absolute md:h-32 md:top-28 md:-ml-[70px] " alt="" />
+                                                <img src={img} className="absolute hidden md:block md:h-32 md:top-28 md:-ml-[70px] " alt="" />
                                                 <div className="flex items-baseline justify-center">
                                                     <span className="md:text-5xl md:font-bold z-30">{plan.price}</span>
                                                     <span className="md:text-xl ml-2">{plan.period}</span>
                                                 </div>
                                             </div>
-                                            <ul className="space-y-2 md:space-y-4">
+                                            <ul className="space-y-2 md:space-y-4 flex-grow">
                                                 {plan.features.map((feature, featureIndex) => (
                                                     <li key={featureIndex} className="flex items-center">
                                                         <Check className="h-4 w-4 md:h-5 md:w-5 p-[2px] md:p-[3px] rounded-full bg-gray-200 text-blue-600 mr-2" />

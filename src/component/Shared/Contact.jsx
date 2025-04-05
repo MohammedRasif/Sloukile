@@ -19,7 +19,7 @@ const Contact = () => {
   return (
     <div
       id="about"
-      className="bg-gradient-to-r from-[#DDFBEC] via-[#F5F3E6] to-[#EAEFFB] w-full"
+      className="bg-gradient-to-r  w-full"
     >
       <div className="container mx-auto flex flex-col md:flex-row py-10 px-4 pt-28">
         {/* About Section */}
@@ -27,7 +27,7 @@ const Contact = () => {
           <h3 className="text-[#00308F] text-[16px] sm:text-[20px] font-semibold mb-3">
             About Us
           </h3>
-          <h1 className="text-[32px] sm:text-[40px] md:text-[55px] font-bold text-gray-900 mb-6">
+          <h1 className="text-[32px] sm:text-[40px] md:text-[48px] font-bold text-gray-900 mb-6">
             AI-Powered Solutions for Business Transformation
           </h1>
           <div className="mb-7">

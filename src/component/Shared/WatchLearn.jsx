@@ -1,5 +1,5 @@
 import image from "./Group 2147225444.png"; // Background image
-import image1 from "./Group 2147225524.png"; // This will be replaced by a video
+import image1 from "./Group 21472255233.png"; // This will be replaced by a video
 
 const WatchLearn = () => {
     return (
