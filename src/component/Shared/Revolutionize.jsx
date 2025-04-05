@@ -57,7 +57,7 @@ const Revolutionize = () => {
       className="lg:mt-20 mt-12 sm:mt-10 px-4 sm:px-6 relative container mx-auto roboto"
     >
       {/* Heading Section */}
-      <h1 className="text-[12px] sm:text-[16px] lg:text-[20px] text-center text-[#062960] dark:text-[#00728f] font-semibold">
+      <h1 className="text-[12px] sm:text-[16px] lg:text-[20px] text-center text-[#062960] dark:text-blue-600  font-semibold">
         Features
       </h1>
       <h1 className="text-[24px] sm:text-[40px] md:text-[50px] lg:text-[55px] text-center font-semibold text-gray-900 dark:text-gray-200">

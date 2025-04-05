@@ -44,28 +44,49 @@ const Frequently = () => {
 
   return (
     <div className="relative min-h-screen pt-10">
-      <div className="max-w-6xl mx-auto p-8 roboto font-sans z-50 relative"> {/* Added relative to ensure z-index works */}
-        <h2 className="text-[40px] font-bold text-center mb-4">
+      <div className="max-w-6xl mx-auto p-8 roboto font-sans z-50 relative">
+        <h2 className="text-[40px] font-bold text-center mb-4 text-gray-900 dark:text-gray-100">
           Frequently Asked Questions
         </h2>
-        <p className="text-center text-gray-600 mb-8">
+        <p className="text-center text-gray-600 dark:text-gray-300 mb-8">
           Here we’ve tried to answer questions we’ve heard a lot. If you can’t find
           what you’re looking for, please reach out to us.
         </p>
         <div className="flex flex-col gap-4">
           {faqs.map((faq, index) => (
-            <div key={index} className="bg-white rounded-lg shadow-md">
+            <div
+              key={index}
+              className={`rounded-lg shadow-md ${
+                openIndex === index
+                  ? "bg-white dark:bg-blue-600" // Active FAQ: white in light mode, blue-600 in dark mode
+                  : "bg-white dark:bg-[#1E232E]" // Inactive FAQ: white in light mode, dark gray in dark mode
+              }`}
+            >
               <div
                 className="flex justify-between items-center p-4 cursor-pointer"
                 onClick={() => toggleFAQ(index)}
               >
-                <span className="text-lg font-medium">{faq.question}</span>
-                <span className="text-2xl text-gray-800">
+                <span
+                  className={`text-lg font-medium ${
+                    openIndex === index
+                      ? "text-gray-900 dark:text-white" // Active FAQ text: white in dark mode
+                      : "text-gray-900 dark:text-gray-200" // Inactive FAQ text: light gray in dark mode
+                  }`}
+                >
+                  {faq.question}
+                </span>
+                <span
+                  className={`text-2xl ${
+                    openIndex === index
+                      ? "text-gray-800 dark:text-white" // Active FAQ icon: white in dark mode
+                      : "text-gray-800 dark:text-gray-200" // Inactive FAQ icon: light gray in dark mode
+                  }`}
+                >
                   {openIndex === index ? '−' : '+'}
                 </span>
               </div>
               {openIndex === index && (
-                <div className="p-4 pt-0 text-gray-600 text-sm leading-relaxed">
+                <div className="p-4 pt-0 text-gray-600 dark:text-gray-200 text-sm leading-relaxed">
                   <p>{faq.answer}</p>
                 </div>
               )}
@@ -75,12 +96,12 @@ const Frequently = () => {
       </div>
       <img
         src={img1}
-        className="absolute left-0 top-5 h-52 hidden md:block pl-5 z-0" 
+        className="absolute left-0 top-5 h-52 hidden md:block pl-5 z-0"
         alt="Decoration"
       />
       <img
         src={img2}
-        className="absolute right-0 bottom-5 h-52 hidden md:block pr-5 z-0" 
+        className="absolute right-0 bottom-5 h-52 hidden md:block pr-5 z-0"
         alt="Decoration"
       />
     </div>

@@ -24,7 +24,7 @@ const Contact = () => {
       <div className="container mx-auto flex flex-col md:flex-row py-10 px-4 pt-28">
         {/* About Section */}
         <div className="w-full md:w-1/2 p-5 roboto">
-          <h3 className="text-[#00308F] dark:text-[#00728f] text-[16px] sm:text-[20px] font-semibold mb-3">
+          <h3 className="text-[#00308F] dark:text-blue-600  text-[16px] sm:text-[20px] font-semibold mb-3">
             About Us
           </h3>
           <h1 className="text-[32px] sm:text-[40px] md:text-[48px] font-bold text-gray-900 dark:text-gray-200 mb-6">
@@ -40,7 +40,7 @@ const Contact = () => {
               {!isExpanded && (
                 <span
                   onClick={toggleDescription}
-                  className="text-[#00308F] dark:text-[#00728f] font-semibold cursor-pointer hover:underline"
+                  className="text-[#00308F] dark:text-blue-600  font-semibold cursor-pointer hover:underline"
                 >
                   Learn More...
                 </span>
@@ -48,7 +48,7 @@ const Contact = () => {
               {isExpanded && (
                 <span
                   onClick={toggleDescription}
-                  className="text-[#00308F]  dark:text-[#00728f] font-semibold cursor-pointer hover:underline"
+                  className="text-[#00308F]  dark:text-blue-600  font-semibold cursor-pointer hover:underline"
                 >
                   Show Less
                 </span>

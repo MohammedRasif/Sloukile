@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import img from "./image 3.png";
+import img from "./image 3.png"; // Light mode logo
+import img1 from "./Group (2).png"; // Dark mode logo
 import { useDarkMode } from "../../context/ThemeContext";
 
 const Navbar = () => {
@@ -68,7 +69,11 @@ const Navbar = () => {
       <div className="container mx-auto flex items-center justify-between px-4 sm:px-6 py-4">
         {/* Logo Section */}
         <div>
-          <img src={img} alt="Logo" className="h-[30px] sm:h-[80px] md:h-[34px] w-auto" />
+          <img
+            src={darkMode ? img1 : img}
+            alt="Logo"
+            className="h-[30px] sm:h-[80px] md:h-[34px] w-auto"
+          />
         </div>
 
         {/* Hamburger Menu Button */}

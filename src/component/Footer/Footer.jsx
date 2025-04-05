@@ -1,19 +1,23 @@
-
-
-import img from "../Navbar/image 3.png"
-
+import { useDarkMode } from "../../context/ThemeContext"; // Import useDarkMode
+import img from "../Navbar/image 3.png"; // Light mode logo
+import img1 from "../Navbar/Group (2).png"; // Dark mode logo
+import { FaMapLocationDot } from "react-icons/fa6";
 
 const Footer = () => {
+  const { darkMode } = useDarkMode(); // Get darkMode state from context
+
   return (
-    <footer className="bg-[#30476D] text-white py-12">
+    <footer className="bg-[#30476D] dark:bg-[#1E232E] text-white py-12">
       <div className="max-w-[170vh] mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-8">
         {/* Logo and Tagline */}
         <div>
           <div className="flex items-center mb-4">
-
             <div className="flex items-center space-x-2">
-              {/* <img src={img1} className="h-12 " alt="" /> */}
-              <img src={img} className="h-12 " alt="" />
+              <img
+                src={darkMode ? img1 : img} // Conditionally render img1 in dark mode, img in light mode
+                className="h-12"
+                alt="Logo"
+              />
             </div>
           </div>
           <p className="text-gray-200">
@@ -92,7 +96,8 @@ const Footer = () => {
               </a>
             </li>
             <li className="flex items-center">
-              <span className="mr-2">📍</span>
+              <span className="mr-2 ml-1"><FaMapLocationDot/>
+              </span>
               <span className="text-gray-200">Dharmond, Dhaka</span>
             </li>
           </ul>
@@ -100,13 +105,11 @@ const Footer = () => {
       </div>
 
       {/* Copyright */}
-      <div className="text-center text-gray-500 mt-8">
+      <div className="text-center text-gray-500 dark:text-gray-400 mt-8">
         © 2023 Your Brand Name. All rights reserved.
       </div>
     </footer>
   );
 };
-
-
 
 export default Footer;

@@ -79,7 +79,7 @@ const UserSays = () => {
     <div className="py-16 px-4">
       <div className="max-w-[165vh] mx-auto">
         <div className="text-center mb-12">
-          <p className="text-blue-600 dark:text-blue-400 font-medium mb-2">Testimonial</p>
+          <p className="text-blue-600 dark:text-blue-600 md:text-2xl font-medium mb-2">Testimonial</p>
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-gray-100">
             What Client Think About Us
           </h2>

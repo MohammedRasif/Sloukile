@@ -119,7 +119,7 @@ const Pricing = () => {
             <div className="max-w-6xl mx-auto">
                 {/* Header Section */}
                 <div className="text-center mb-6 md:mb-12">
-                    <h3 className="text-[#2D4162] dark:text-[#00A3D6] font-medium mb-2 text-sm md:text-base">
+                    <h3 className="text-[#2D4162] dark:text-blue-600  font-medium mb-2 text-sm md:text-2xl">
                         Our Powerful Features
                     </h3>
                     <h1 className="text-2xl md:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-gray-100 mb-3 md:mb-4">
