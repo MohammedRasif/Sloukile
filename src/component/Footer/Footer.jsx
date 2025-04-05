@@ -108,7 +108,7 @@ const Footer = () => {
               <span className="mr-2 text-4xl md:mt-2"><FaMapLocationDot/></span>
               <div>
               <a href="mailto:info@projectxpai.com" className="text-gray-200 text-xl hover:text-white transition">
-              location us
+              Location 
               </a>
               <p className="text-[12px] text-gray-400">Dhanmondi. Dhaka</p>
               </div>
