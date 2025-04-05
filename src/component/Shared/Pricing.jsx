@@ -1,11 +1,14 @@
 "use client";
-import img from "./Shaps All.png";
 import { useState } from "react";
+import img from "./Shaps All.png"; // Light mode image
+import img1 from "./Group 21472255288.png"; // Dark mode image
 import { Check, ArrowRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useDarkMode } from "../../context/ThemeContext"; // Import useDarkMode
 
 const Pricing = () => {
     const [billingCycle, setBillingCycle] = useState("monthly");
+    const { darkMode } = useDarkMode(); // Get darkMode state from context
 
     const monthlyPlans = [
         {
@@ -115,11 +118,11 @@ const Pricing = () => {
     };
 
     return (
-        <div id="pricing" className="min-h-screen py-8 px-4 md:px-4 md:pt-28  ">
+        <div id="pricing" className="min-h-screen py-8 px-4 md:px-4 md:pt-28">
             <div className="max-w-6xl mx-auto">
                 {/* Header Section */}
                 <div className="text-center mb-6 md:mb-12">
-                    <h3 className="text-[#2D4162] dark:text-blue-600  font-medium mb-2 text-sm md:text-2xl">
+                    <h3 className="text-[#2D4162] dark:text-blue-600 font-medium mb-2 text-sm md:text-2xl">
                         Our Powerful Features
                     </h3>
                     <h1 className="text-2xl md:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-gray-100 mb-3 md:mb-4">
@@ -133,30 +136,28 @@ const Pricing = () => {
                 {/* Toggle Switch */}
                 <div className="flex justify-center items-center gap-3 md:gap-4 mb-6 md:mb-12">
                     <span
-                        className={`font-medium text-sm md:text-base ${
-                            billingCycle === "monthly"
-                                ? "text-blue-800 dark:text-blue-400"
-                                : "text-slate-500 dark:text-gray-400"
-                        }`}
+                        className={`font-medium text-sm md:text-base  ${billingCycle === "monthly"
+                            ? "text-blue-800 dark:text-blue-400"
+                            : "text-slate-500 dark:text-gray-400"
+                            }`}
                     >
                         Monthly
                     </span>
                     <button
-                        className="w-12 md:w-16 h-6 md:h-8 bg-gray-200 dark:bg-gray-700 rounded-full p-1 flex items-center cursor-pointer"
+                        className="w-12 md:w-16 h-6 md:h-8 bg-gray-200 dark:bg-gray-700 rounded-full p-1  flex items-center cursor-pointer"
                         onClick={() => setBillingCycle(billingCycle === "monthly" ? "yearly" : "monthly")}
                     >
                         <motion.div
-                            className="w-4 md:w-6 h-4 md:h-6 rounded-full bg-blue-800 dark:bg-blue-500 shadow-md"
+                            className="w-4 md:w-6 h-4 md:h-6 rounded-full bg-blue-800 dark:bg-blue-500 shadow-md  ml-1"
                             animate={{ x: billingCycle === "yearly" ? 24 : 0 }}
                             transition={{ type: "spring", stiffness: 500, damping: 30 }}
                         />
                     </button>
                     <span
-                        className={`font-medium text-sm md:text-base ${
-                            billingCycle === "yearly"
-                                ? "text-blue-800 dark:text-blue-400"
-                                : "text-slate-500 dark:text-gray-400"
-                        }`}
+                        className={`font-medium text-sm md:text-base ${billingCycle === "yearly"
+                            ? "text-blue-800 dark:text-blue-400"
+                            : "text-slate-500 dark:text-gray-400"
+                            }`}
                     >
                         Yearly
                     </span>
@@ -186,11 +187,11 @@ const Pricing = () => {
                                             </h2>
                                             <div className="md:-mx-8 md:p-8 text-gray-900 dark:text-gray-100 md:mb-8">
                                                 <img
-                                                    src={img}
+                                                    src={darkMode ? img1 : img} // Conditionally render img1 in dark mode, img in light mode
                                                     className="absolute hidden md:block md:h-32 md:top-28 md:-ml-[70px]"
                                                     alt=""
                                                 />
-                                                <div className="flex items-baseline justify-start ">
+                                                <div className="flex items-baseline justify-start">
                                                     <span className="md:text-5xl md:font-bold z-30">{plan.price}</span>
                                                     <span className="md:text-xl ml-2 z-30">{plan.period}</span>
                                                 </div>
@@ -233,7 +234,7 @@ const Pricing = () => {
                                             </h2>
                                             <div className="md:-mx-8 md:p-8 text-gray-900 dark:text-gray-100 md:mb-8">
                                                 <img
-                                                    src={img}
+                                                    src={darkMode ? img1 : img} // Conditionally render img1 in dark mode, img in light mode
                                                     className="absolute hidden md:block md:h-32 md:top-28 md:-ml-[70px]"
                                                     alt=""
                                                 />
