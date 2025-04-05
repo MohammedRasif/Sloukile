@@ -15,13 +15,13 @@ const WatchLearn = () => {
             <div className="">
                 {/* Text Section - centered */}
                 <div className="text-center max-w-4xl mb-8 z-10 bg-opacity-80 p-6 rounded-lg">
-                    <h1 className="text-md md:text-2xl font-bold  text-[#2D4162] mb-4">
+                    <h1 className="text-md md:text-2xl font-bold  text-[#2D4162] dark:text-[#00728f] mb-4">
                         Watch & learn
                     </h1>
-                    <h1 className="text-4xl md:text-5xl font-bold  text-[#2D4162] mb-4">
+                    <h1 className="text-4xl md:text-5xl font-bold dark:text-gray-200 text-[#2D4162] mb-4">
                         See How AI Transforms Project Management
                     </h1>
-                    <p className="text-gray-600 text-lg">
+                    <p className="text-gray-600 dark:text-gray-200 text-lg">
                         Watch our video to see how AI-powered tools streamline workflows, deliver projects on time, and under budget.
                     </p>
                 </div>
