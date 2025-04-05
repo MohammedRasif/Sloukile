@@ -21,6 +21,7 @@ import AddEmploye from './component/DashboardPages/AddEmploye.jsx';
 import TaskProgress from './component/DashboardPages/TaskProgress.jsx';
 import Setting from './component/DashboardPages/Setting.jsx';
 import ManageSubscription from './component/DashboardPages/ManageSubscription.jsx';
+import { ThemeProvider } from './context/ThemeContext.jsx';
 
 const router = createBrowserRouter([
   {
@@ -88,9 +89,11 @@ const router = createBrowserRouter([
 ]);
 
 createRoot(document.getElementById('root')).render(
-  <StrictMode>
+  <ThemeProvider>
+    <StrictMode>
     <React.StrictMode>
       <RouterProvider router={router} />
     </React.StrictMode>
-  </StrictMode>,
+  </StrictMode>
+  </ThemeProvider>,
 )

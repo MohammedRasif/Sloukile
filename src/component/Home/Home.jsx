@@ -11,21 +11,21 @@ import UserSays from "../Shared/UserSays";
 import WatchLearn from "../Shared/WatchLearn";
 
 const Home = () => {
-    return (
-        <div className="bg-gradient-to-r from-[#EAEFFB] via-[#F5F3E6] to-[#EAEFFB]">
-            <Navbar/>
-            <Banner/>
-            <Contact/>
-            <Revolutionize/>
-            <WatchLearn/>
-            <Pricing/>
-            <UserSays/>
-            <FAQPage/>
-            <Frequently/>
-            {/* <Management/> */}
-            <Footer/>
-        </div>
-    );
-}
+  return (
+    <div className="bg-gradient-to-r from-[#EAEFFB] via-[#F5F3E6] to-[#EAEFFB] dark:from-[#202125] dark:via-[#35373a] dark:to-[#202125]">
+      <Navbar />
+      <Banner />
+      <Contact />
+      <Revolutionize />
+      <WatchLearn />
+      <Pricing />
+      <UserSays />
+      <FAQPage />
+      <Frequently />
+      {/* <Management/> */}
+      <Footer />
+    </div>
+  );
+};
 
 export default Home;

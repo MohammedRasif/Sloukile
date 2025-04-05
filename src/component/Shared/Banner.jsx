@@ -53,7 +53,7 @@ const Banner = () => {
       }}
     >
       <div className="absolute inset-0 flex flex-col items-center justify-center px-4 sm:px-6 roboto">
-        <div className="text-black text-center max-w-8xl">
+        <div className="text-black dark:text-white text-center max-w-8xl">
           <div className="relative inline-block mb-4 sm:mb-6">
             <h1 className="text-3xl sm:text-4xl md:text-[60px] font-bold mb-3 sm:mb-4">
               Streamline Projects with{" "}
@@ -72,7 +72,7 @@ const Banner = () => {
           Our AI-powered Project Manager automates workflows, predicts risks, and optimizes resources to ensure project success.
           </p>
 
-          <div className="bg-[#E3E8F1] backdrop-blur-sm rounded-xl p-6 shadow-lg mb-10 max-w-4xl mx-auto flex flex-col h-[220px]">
+          <div className="bg-[#E3E8F1] dark:bg-gray-900 backdrop-blur-sm rounded-xl p-6 shadow-lg mb-10 max-w-4xl mx-auto flex flex-col h-[220px]">
             <div className="flex-shrink-0 mr-3 pb-3">
               <RiRobot2Fill className="h-8 w-8 text-[#00308F]" />
             </div>
