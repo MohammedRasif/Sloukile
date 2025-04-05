@@ -57,13 +57,13 @@ const Revolutionize = () => {
       className="lg:mt-20 mt-12 sm:mt-10 px-4 sm:px-6 relative container mx-auto roboto"
     >
       {/* Heading Section */}
-      <h1 className="text-[12px] sm:text-[16px] lg:text-[20px] text-center text-[#062960] font-semibold">
+      <h1 className="text-[12px] sm:text-[16px] lg:text-[20px] text-center text-[#062960] dark:text-[#00728f] font-semibold">
         Features
       </h1>
-      <h1 className="text-[24px] sm:text-[40px] md:text-[50px] lg:text-[55px] text-center font-semibold text-[#062960]">
+      <h1 className="text-[24px] sm:text-[40px] md:text-[50px] lg:text-[55px] text-center font-semibold text-gray-900 dark:text-gray-200">
         Comprehensive Project Management
       </h1>
-      <p className="text-center text-[14px] sm:text-[16px] lg:text-[18px] mt-3 sm:mt-4 max-w-md sm:max-w-lg lg:max-w-2xl mx-auto">
+      <p className="text-center text-gray-900 dark:text-gray-200 text-[14px] sm:text-[16px] lg:text-[18px] mt-3 sm:mt-4 max-w-md sm:max-w-lg lg:max-w-2xl mx-auto">
         Our AI-powered Project Manager offers a comprehensive suite of features to streamline your project management workflow.
       </p>
 
@@ -72,17 +72,17 @@ const Revolutionize = () => {
         {cardData.map((card, index) => (
           <div
             key={index}
-            className="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-all duration-300 transform w-full"
+            className="bg-white dark:bg-[#1E232E] rounded-xl p-6 shadow-md hover:shadow-lg transition-all duration-300 transform w-full"
           >
             <div className="mb-4 flex items-center">
-              <div className="w-12 h-12 rounded-md bg-blue-100 flex items-center justify-center p-2">
+              <div className="w-12 h-12 rounded-md bg-blue-100 dark:bg-[#232831] flex items-center justify-center p-2">
                 <img src={card.icon} alt={card.title} className="w-10 h-10 object-contain" />
               </div>
             </div>
-            <h3 className={`text-[18px] sm:text-[20px] font-bold text-[#00308F] ${card.color} roboto`}>
+            <h3 className={`text-[18px] sm:text-[20px] font-bold text-[#00308F] dark:text-gray-200 ${card.color} roboto`}>
               {card.title}
             </h3>
-            <p className="text-gray-500 mt-2 text-sm sm:text-base py-2">{card.description}</p>
+            <p className="text-gray-500 dark:text-gray-400 mt-2 text-sm sm:text-base py-2">{card.description}</p>
           </div>
         ))}
       </div>
