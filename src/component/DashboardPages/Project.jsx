@@ -1,309 +1,173 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { AiFillProduct } from 'react-icons/ai';
-import { FiSearch, FiTrash2, FiEdit, FiList } from 'react-icons/fi'; // Importing icons
-import { FaFilter } from 'react-icons/fa'; // Importing filter icon
-import { NavLink, useNavigate } from 'react-router-dom'; // For navigation
+import {  Calendar, Users, FileText, Plus, PlusCircle } from "lucide-react";
+import { useState } from "react";
+import { FiSearch } from "react-icons/fi";
+import { RiDeleteBin6Line } from "react-icons/ri";
+import { NavLink } from "react-router-dom";
 
 const Project = () => {
-  // Updated projects array with status
-  const initialProjects = [
-    { name: "Website Redesign", status: "completed" },
-    { name: "AI & Automation Projects", status: "inProgress" },
-    { name: "Mobile App Development Projects", status: "completed" },
-    { name: "Marketing & Branding Projects", status: "inProgress" },
-    { name: "Business & Productivity Tools", status: "completed" },
-    { name: "AI Chatbot for Customer Support", status: "inProgress" },
-    { name: "AI-Driven HR Recruitment Tool", status: "completed" },
-    { name: "e-Commerce Platform Development", status: "inProgress" },
-    { name: "Mobile App for Task Management", status: "completed" },
-    { name: "Real Estate Listing Website", status: "inProgress" },
-    { name: "AI-Powered Language App", status: "completed" },
-    { name: "Business Analytics Dashboard", status: "inProgress" },
-    { name: "Doctor Appointment System", status: "completed" },
-    { name: "Business Analytics Dashboard", status: "inProgress" },
-    { name: "Social Media Campaign Manager", status: "completed" },
-    { name: "AI-Powered SEO Optimization", status: "inProgress" }
+
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+
+  const handleDeleteClick = () => {
+    setIsPopupOpen(true);
+  };
+
+  const handleClosePopup = () => {
+    setIsPopupOpen(false);
+  };
+
+  const handleConfirmDelete = () => {
+    // Add your delete logic here (e.g., API call or state update)
+    console.log("Item deleted!");
+    setIsPopupOpen(false);
+  };
+  // Sample project data - you can replace this with your actual data
+  const projects = [
+    {
+      id: 1,
+      title: "Project Alpha",
+      description: "Website redesign and development",
+      budget: 1500,
+      progress: 75,
+      status: "In Progress",
+      dueDate: "Apr 15",
+      members: 5,
+      created: "15 Mar",
+    },
+    ...Array(6)
+      .fill()
+      .map((_, i) => ({
+        id: i + 2,
+        title: "Project Alpha",
+        description: "Website redesign and development",
+        budget: 1000,
+        progress: 75,
+        status: "In Progress",
+        dueDate: "Apr 15",
+        members: 5,
+        created: "15 Mar",
+      })),
   ];
 
-  // State management
-  const [searchTerm, setSearchTerm] = useState('');
-  const [currentPage, setCurrentPage] = useState(1);
-  const [projects, setProjects] = useState(initialProjects);
-  const [selectedProjectIndex, setSelectedProjectIndex] = useState(null);
-  const [showPopup, setShowPopup] = useState(false);
-  const [viewMode, setViewMode] = useState('grid'); // 'grid' or 'table'
-  const [filterStatus, setFilterStatus] = useState('all'); // 'all', 'completed', 'inProgress'
-  const [showFilterPopup, setShowFilterPopup] = useState(false); // Filter popup visibility
-
-  const filterRef = useRef(null); // Ref for filter icon/popup
-  const navigate = useNavigate(); // Navigation hook
-
-  const cardsPerPage = 12;
-
-  // Filter projects based on search term and status
-  const filteredProjects = projects.filter((project) => {
-    const matchesSearch = project.name.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesStatus =
-      filterStatus === 'all' ||
-      project.status === filterStatus;
-    return matchesSearch && matchesStatus;
-  });
-
-  // Pagination logic (for grid view only)
-  const totalPages = Math.ceil(filteredProjects.length / cardsPerPage);
-  const startIndex = (currentPage - 1) * cardsPerPage;
-  const endIndex = startIndex + cardsPerPage;
-  const currentProjects = filteredProjects.slice(startIndex, endIndex);
-
-  // Handle page change
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
-
-  // Handle card/row click for navigation
-  const handleCardClick = (index) => {
-    navigate(`/dashboard/ProjectDetails`, { state: { projectName: filteredProjects[startIndex + index].name } });
-  };
-
-  // Handle delete icon click (show popup)
-  const handleDeleteClick = (index) => {
-    setSelectedProjectIndex(index);
-    setShowPopup(true);
-  };
-
-  // Handle delete confirmation
-  const handleDelete = () => {
-    const updatedProjects = projects.filter((_, i) => i !== selectedProjectIndex);
-    setProjects(updatedProjects);
-    setShowPopup(false);
-    setSelectedProjectIndex(null);
-  };
-
-  // Handle edit (simple alert for now)
-  const handleEdit = (index) => {
-    alert(`Edit project: ${projects[index].name}`);
-  };
-
-  // Close popup without deleting
-  const closePopup = () => {
-    setShowPopup(false);
-    setSelectedProjectIndex(null);
-  };
-
-  // Toggle view mode
-  const toggleViewMode = (mode) => {
-    setViewMode(mode);
-    setCurrentPage(1); // Reset pagination when switching views
-  };
-
-  // Toggle filter popup
-  const toggleFilterPopup = () => {
-    setShowFilterPopup((prev) => !prev);
-  };
-
-  // Handle filter selection
-  const handleFilterSelect = (status) => {
-    setFilterStatus(status);
-    setShowFilterPopup(false);
-    setCurrentPage(1); // Reset pagination when filtering
-  };
-
-  // Close filter popup when clicking outside
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (filterRef.current && !filterRef.current.contains(event.target)) {
-        setShowFilterPopup(false);
-      }
-    };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, []);
-
   return (
-    <div className="border-t border-gray-300">
-      <div className="container mx-auto pt-6">
-        {/* Search Input Field with Icons */}
-        <div className="relative mb-6 flex items-center justify-between">
+    <div className="p-6  bg-white h-screen">
+      <div className="flex items-center justify-between">
+        <div className="mb-6">
           <div className="relative flex-1 max-w-md">
             <input
               type="text"
               placeholder="Search your project name"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full p-2 pl-10 border border-gray-300 rounded-lg bg-gray-50 text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#00BF63]"
+              // value={searchTerm}
+              // onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full p-2 pl-10 border border-[#00308F] rounded-lg bg-gray-50 text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#000524]"
             />
             <FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
           </div>
+        </div>
+        <div>
+          <NavLink to="/dashboard/chat">
+            <button
+              // onClick={() => setShowModal(true)}
+              className="  cursor-pointer flex items-center gap-2 bg-[#00308F] text-white px-4 py-2 rounded-md hover:bg-[#00218f]"
+            >
+              <PlusCircle size={20} />
+              Add New Employee
+            </button>
+          </NavLink>
+        </div>
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+        {/* Map through projects */}
+        {projects.map((project) => (
+          <div key={project.id} className="hover:bg-[#f9f7f3] bg-[#EDEDED] rounded-lg shadow-sm border border-gray-200 p-5">
+            <div className="flex justify-between items-start mb-1">
+              <h3 className="text-[22px] font-bold text-gray-800">{project.title}</h3>
+              <button className="text-gray-500 hover:text-gray-700" onClick={handleDeleteClick}>
+                <RiDeleteBin6Line size={22} className="text-red-500 cursor-pointer" />
+              </button>
+              {/* Popup */}
+              {isPopupOpen && (
+                <div className="fixed inset-0 flex items-center justify-center z-50">
+                  {/* Background Blur */}
+                  <div className="absolute inset-0 backdrop-blur-[2px]"></div>
 
-          <div className="absolute top-2 right-5 flex items-center space-x-2">
-            {/* Filter Icon and Popup */}
-            <div ref={filterRef} className="relative z-50">
-              <FaFilter
-                className="cursor-pointer text-[24px] text-gray-600 hover:text-[#00BF63]"
-                onClick={toggleFilterPopup}
-              />
-              {showFilterPopup && (
-                <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-300 rounded-md shadow-lg z-50 ">
-                  <button
-                    className="block w-full text-left px-4 py-2   hover:bg-gray-100 text-md font-[500]"
-                    onClick={() => handleFilterSelect('completed')}
-                  >
-                    Completed Project
-                  </button>
-                  <button
-                    className="block w-full text-left px-4 py-2   hover:bg-gray-100 text-md font-[500]"
-                    onClick={() => handleFilterSelect('inProgress')}
-                  >
-                    In Progress
-                  </button>
-                  <button
-                    className="block w-full text-left px-4 py-2   hover:bg-gray-100 text-md font-[500]"
-                    onClick={() => handleFilterSelect('all')}
-                  >
-                    All Projects
-                  </button>
+                  {/* Popup Content */}
+                  <div className="relative bg-white rounded-xl shadow-sm p-8 w-[400px] max-w-[90vw] border border-gray-200">
+                    <h3 className="text-2xl font-semibold text-gray-800 mb-4 text-center">
+                      Confirm Deletion
+                    </h3>
+                    <p className="text-gray-600 text-center mb-6">
+                      Are you sure you want to delete this item? This action cannot be undone.
+                    </p>
+                    <div className="flex justify-center gap-4">
+                      <button
+                        onClick={handleConfirmDelete}
+                        className="bg-red-500 text-white px-6 py-2 rounded-lg hover:bg-red-600 transition-colors duration-200 font-medium cursor-pointer"
+                      >
+                        Delete
+                      </button>
+                      <button
+                        onClick={handleClosePopup}
+                        className="bg-gray-200 text-gray-700 px-6 py-2 rounded-lg hover:bg-gray-300 transition-colors duration-200 font-medium cursor-pointer"
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  </div>
                 </div>
               )}
             </div>
 
-            {/* View Mode Toggle */}
-            <div className="flex items-center space-x-3 text-[28px] border px-3 py-1 rounded-md border-gray-300 z-50">
-              <AiFillProduct
-                className={`cursor-pointer ${viewMode === 'grid' ? 'text-[#00BF63]' : 'text-gray-600'}`}
-                onClick={() => toggleViewMode('grid')}
-              />
-              <FiList
-                className={`cursor-pointer ${viewMode === 'table' ? 'text-[#00BF63]' : 'text-gray-600'}`}
-                onClick={() => toggleViewMode('table')}
-              />
+            <p className="text-sm text-gray-500 mb-3">{project.description}</p>
+
+            <div className="mb-3">
+              <p className="text-md font-medium text-[#00308F] mb-1">Budget: ${project.budget.toLocaleString()}</p>
+            </div>
+
+            <div className="mb-4">
+              <div className="flex justify-between items-center mb-1">
+                <p className="text-sm text-gray-500">Progress</p>
+                <p className="text-sm text-[#00308F] font-medium">{project.progress}%</p>
+              </div>
+              <div className="w-full bg-gray-200 rounded-full h-1.5">
+                <div className="bg-[#00308F] h-3 rounded-full" style={{ width: `${project.progress}%` }}></div>
+              </div>
+            </div>
+
+            <div className="flex justify-between items-center mb-4">
+              <span className="bg-blue-100 text-blue-800 text-xs px-2.5 py-1 rounded-full">{project.status}</span>
+              <div className="flex items-center text-xs text-[#00308F]">
+                <Calendar className="h-3.5 w-3.5 mr-1" />
+                <span>Due: {project.dueDate}</span>
+              </div>
+            </div>
+
+            <div className="flex justify-between items-center pt-2 border-t border-gray-200">
+              <div className="flex items-center text-xs text-[#00308F]">
+                <Users className="h-3.5 w-3.5 mr-1" />
+                <span>{project.members} members</span>
+              </div>
+              <div className="flex items-center text-xs text-[#00308F]">
+                <FileText className="h-3.5 w-3.5 mr-1" />
+                <span>Created: {project.created}</span>
+              </div>
             </div>
           </div>
+        ))}
+
+        {/* Add New Project Card */}
+        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 flex flex-col items-center justify-center h-[250px] ">
+          <div className="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center mb-4">
+            <Plus className="h-6 w-6 text-gray-500" />
+          </div>
+          <h3 className="text-lg font-medium text-gray-800 mb-4">Create A New Project</h3>
+          <NavLink to="/dashboard/chat">
+            <button className="bg-[#00308F] cursor-pointer text-white px-4 py-2 rounded-md flex items-center space-x-2 hover:bg-[#00218f] transition-colors">
+              <Plus className="h-4 w-4" />
+              <span>Add New Project</span>
+            </button>
+          </NavLink>
         </div>
-
-        {/* Project Display */}
-        {viewMode === 'grid' ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-6 mt-5">
-            {currentProjects.length > 0 ? (
-              currentProjects.map((project, index) => (
-                <div
-                  key={index}
-                  className="relative bg-[#C6CEFF] border border-[#e2e5f8] py-16 px-16 rounded-lg text-center hover:bg-[#afb8f5] transition duration-200 cursor-pointer"
-                  onClick={() => handleCardClick(index)}
-                >
-                  <FiEdit
-                    className="absolute top-2 right-9 text-gray-600 hover:text-blue-600 cursor-pointer"
-                    size={20}
-                    onClick={(e) => {
-                      e.stopPropagation(); // Prevent card click
-                      handleEdit(startIndex + index);
-                    }}
-                  />
-                  <FiTrash2
-                    className="absolute top-2 right-2 text-gray-600 hover:text-red-600 cursor-pointer"
-                    size={20}
-                    onClick={(e) => {
-                      e.stopPropagation(); // Prevent card click
-                      handleDeleteClick(startIndex + index);
-                    }}
-                  />
-                  <h1 className="text-xl font-[500]">{project.name}</h1>
-                </div>
-              ))
-            ) : (
-              <p className="col-span-full text-center text-gray-500">No projects found.</p>
-            )}
-          </div>
-        ) : (
-          <div className="mt-5 max-h-[70vh] overflow-y-auto">
-            {filteredProjects.length > 0 ? (
-              filteredProjects.map((project, index) => (
-                <div
-                  key={index}
-                  className="flex items-center justify-between bg-gray-200 hover:bg-gray-300 transition duration-200 py-[20px] px-4 mb-1 rounded cursor-pointer"
-                  onClick={() => handleCardClick(index)}
-                >
-                  <span className="text-[20px] text-gray-800 truncate font-[500]">{project.name}</span>
-                  <div className="flex space-x-2">
-                    <FiEdit
-                      className="text-gray-600 hover:text-blue-600 cursor-pointer"
-                      size={20}
-                      onClick={(e) => {
-                        e.stopPropagation(); // Prevent row click
-                        handleEdit(index);
-                      }}
-                    />
-                    <FiTrash2
-                      className="text-gray-600 hover:text-red-600 cursor-pointer"
-                      size={20}
-                      onClick={(e) => {
-                        e.stopPropagation(); // Prevent row click
-                        handleDeleteClick(index);
-                      }}
-                    />
-                  </div>
-                </div>
-              ))
-            ) : (
-              <div className="text-center text-gray-500 text-sm py-4">
-                No projects found.
-              </div>
-            )}
-          </div>
-        )}
-
-        {/* Pagination Controls (Only for Grid View) */}
-        {viewMode === 'grid' && totalPages > 1 && (
-          <div className="fixed bottom-5 left-5/9 transform -translate-x-1/2">
-            <div className="flex justify-center space-x-2 mb-6">
-              {Array.from({ length: totalPages }, (_, index) => (
-                <button
-                  key={index + 1}
-                  onClick={() => handlePageChange(index + 1)}
-                  className={`px-4 py-2 rounded-lg ${
-                    currentPage === index + 1
-                      ? 'bg-[#00BF63] text-white'
-                      : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-                  } transition duration-200`}
-                >
-                  {index + 1}
-                </button>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* Add New Project Button */}
-        <NavLink to="/dashboard">
-        <button className="bg-[#000524] fixed bottom-11 text-white px-4 py-2 rounded-md hover:bg-[#000a24] transition duration-200 cursor-pointer">
-          Add New Project
-        </button>
-        </NavLink>
-
-        {/* Popup for Delete Confirmation */}
-        {showPopup && (
-          <div className="fixed inset-0 flex items-center justify-center shadow-2xl bg-opacity-50 backdrop-blur-sm z-50">
-            <div className="bg-white p-6 rounded-lg shadow-lg">
-              <h2 className="text-lg font-semibold mb-4">Are you sure?</h2>
-              <p className="mb-6">Do you want to delete "{projects[selectedProjectIndex]?.name}"?</p>
-              <div className="flex justify-end space-x-4">
-                <button
-                  onClick={closePopup}
-                  className="px-4 py-2 bg-gray-200 rounded-md hover:bg-gray-300 transition duration-200"
-                >
-                  Cancel
-                </button>
-                <button
-                  onClick={handleDelete}
-                  className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition duration-200"
-                >
-                  Delete
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
       </div>
     </div>
   );
