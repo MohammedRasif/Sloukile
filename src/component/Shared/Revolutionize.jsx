@@ -86,6 +86,18 @@ const Revolutionize = () => {
           </div>
         ))}
       </div>
+      <div className="flex items-center justify-center">
+              <button
+                className="bg-blue-900 dark:bg-blue-700 hover:bg-blue-800 dark:hover:bg-blue-600 text-white font-medium sm:py-3 px-6 sm:px-8 rounded-full lg:mt-10 min-w-[150px] sm:min-w-[180px] mx-auto"
+                onClick={() => {
+                  /* Add your loading logic here */
+                }}
+              >
+                <div className="flex items-center justify-center">
+                  <span className="mr-2 text-[16px] sm:text-[18px]">View More...</span>
+                </div>
+              </button>
+            </div>
     </div>
   );
 };

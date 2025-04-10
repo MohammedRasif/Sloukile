@@ -47,7 +47,7 @@ const AiChatBot = () => {
     <div className="border-t border-gray-300 px-10 p-5 bg-white h-full flex flex-col overflow-hidden">
       {/* Header */}
       <div className="flex items-center space-x-2">
-        <Bot className="w-10 h-10 text-[#00BF63]" />
+        <Bot className="w-10 h-10 text-[#00308F]" />
         <h1 className="text-3xl font-[500]">AI Chat</h1>
       </div>
 
@@ -57,19 +57,37 @@ const AiChatBot = () => {
         className="flex-1 mt-5 overflow-y-auto"
         style={{ maxHeight: "calc(100% - 120px)" }} // Adjust height for header and input
       >
+        {/* Default Bot Message */}
+        {messages.length === 0 && !isLoading && (
+          <div className="flex justify-start mb-4 absolute bottom-22">
+            <div className="flex items-start space-x-3">
+             
+              <div
+                className="px-10 py-5 rounded-lg bg-[#00308F]  lg:text-[20px] text-white shadow-sm max-w-[100%]"
+                style={{
+                  whiteSpace: "normal",
+                  wordBreak: "break-word",
+                  overflow: "hidden",
+                }}
+              >
+                <ReactMarkdown>Hi! I Am Project Management AI. How Can I Help You?</ReactMarkdown>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Chat Messages */}
         {messages.map((message, index) => (
           <div
             key={index}
-            className={`mb-4 flex ${message.sender === "user" ? "justify-end" : "justify-start"
-              }`}
+            className={`mb-4 flex ${message.sender === "user" ? "justify-end" : "justify-start"}`}
           >
             {message.sender === "user" ? (
               // User's Question Layout (1/2 of screen width)
               <div className="flex flex-col items-end w-1/2">
-                {/* <span className="text-sm font-semibold text-gray-600 mb-1">Question</span> */}
-                <div className="flex  justify-start items-start space-x-3">
+                <div className="flex justify-start items-start space-x-3">
                   <div
-                    className="px-4 py-3 rounded-xl bg-[#00BF63] text-white lg:text-[18px] shadow-md w-full"
+                    className="px-4 py-3 rounded-xl bg-[#00308F] text-white lg:text-[18px] shadow-md w-full"
                     style={{
                       whiteSpace: "normal",
                       wordBreak: "break-word",
@@ -88,7 +106,6 @@ const AiChatBot = () => {
             ) : (
               // Bot's Answer Layout (3/4 of screen width)
               <div className="flex flex-col items-start w-4/4">
-                {/* <span className="text-sm font-semibold text-gray-600 mb-1">Answer</span> */}
                 <div className="flex items-start space-x-3">
                   <img
                     src={img}
@@ -115,8 +132,8 @@ const AiChatBot = () => {
         {isLoading && (
           <div className="flex justify-start mb-4">
             <div className="flex space-x-3">
-            <img src={img} alt="" className="w-8 h-10 rounded-full" />
-            <span className="loading loading-dots loading-xl text-gray-600"></span>
+              <img src={img} alt="" className="w-8 h-10 rounded-full" />
+              <span className="loading loading-dots loading-xl text-gray-600"></span>
             </div>
           </div>
         )}
@@ -132,12 +149,12 @@ const AiChatBot = () => {
             type="text"
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            placeholder="Type your message..."
-            className="w-full p-3 pr-14 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00BF63]"
+            placeholder={messages.length === 0 ? "Type your message..." : ""}
+            className="w-full p-3 py-4 pr-14 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00308F]"
           />
           <button
             type="submit"
-            className="absolute right-0 top-1/2 transform -translate-y-1/2 px-4 py-3 bg-[#00BF63] text-white rounded-r-lg cursor-pointer hover:bg-[#00bf56a8]"
+            className="absolute right-0 top-1/2 transform -translate-y-1/2 px-4 py-3 bg-[#00308F] text-white rounded-r-lg cursor-pointer hover:bg-[#002266]"
           >
             Send
           </button>

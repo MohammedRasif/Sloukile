@@ -223,7 +223,7 @@ const UserSays = () => {
           <div className="flex justify-center mt-8 gap-4">
             <button
               onClick={handlePrev}
-              className="w-12 h-12 rounded-full bg-blue-600 dark:bg-blue-700 text-white flex items-center justify-center hover:bg-blue-800 dark:hover:bg-blue-600 transition-colors duration-300 disabled:opacity-50 cursor-pointer"
+              className="w-12 h-12 rounded-full bg-blue-900 dark:bg-blue-700 text-white flex items-center justify-center hover:bg-blue-800 dark:hover:bg-blue-600 transition-colors duration-300 disabled:opacity-50 cursor-pointer"
               aria-label="Previous testimonial"
               disabled={isAnimating}
             >
@@ -231,7 +231,7 @@ const UserSays = () => {
             </button>
             <button
               onClick={handleNext}
-              className="w-12 h-12 rounded-full bg-blue-600 dark:bg-blue-700 text-white flex items-center justify-center hover:bg-blue-800 dark:hover:bg-blue-600 transition-colors duration-300 disabled:opacity-50 cursor-pointer"
+              className="w-12 h-12 rounded-full bg-blue-900 dark:bg-blue-700 text-white flex items-center justify-center hover:bg-blue-800 dark:hover:bg-blue-600 transition-colors duration-300 disabled:opacity-50 cursor-pointer"
               aria-label="Next testimonial"
               disabled={isAnimating}
             >

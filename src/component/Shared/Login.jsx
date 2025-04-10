@@ -6,10 +6,12 @@ const Login = () => {
     return (
         <div className="flex flex-col lg:flex-row items-center justify-center min-h-screen">
             {/* Left Side */}
-            <div className="bg-[#000524] lg:w-1/2 w-full h-auto lg:h-screen flex flex-col justify-center items-center text-center py-10">
-                <img src={img} className="h-[250px] w-[300px] lg:h-[250px] lg:w-[510px] mb-4" alt="" />
+            <div className="hidden md:block">
+            <div className="bg-[#000524] lg:w-1/2 w-full h-auto lg:h-screen flex flex-col justify-center items-center text-center py-10 ">
+                <img src={img} className="h-[100px] w-[300px] lg:h-[150px] lg:w-[510px] mb-4 " alt="" />
                 <h1 className="text-2xl lg:text-[51.25px] font-[500] text-white">Nice to meet you :)</h1>
                 <h1 className="text-lg lg:text-[30px] text-white7">Just register to join with us</h1>
+            </div>
             </div>
 
             {/* Right Side */}

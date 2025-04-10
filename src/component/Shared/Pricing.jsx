@@ -232,7 +232,7 @@ const Pricing = () => {
                                             <h2 className="text-lg md:text-2xl font-bold text-slate-800 dark:text-gray-100 mb-4 md:mb-8 text-center">
                                                 {plan.name}
                                             </h2>
-                                            <div className="md:-mx-8 md:p-8 text-gray-900 dark:text-gray-100 md:mb-8">
+                                            <div className="md:-mx-8 md:p-8 text-gray-100 dark:text-gray-100 md:mb-8">
                                                 <img
                                                     src={darkMode ? img1 : img} // Conditionally render img1 in dark mode, img in light mode
                                                     className="absolute hidden md:block md:h-32 md:top-28 md:-ml-[70px]"

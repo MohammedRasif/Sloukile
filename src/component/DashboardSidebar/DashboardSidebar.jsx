@@ -1,96 +1,94 @@
 import { NavLink, useLocation } from "react-router-dom";
-import img from "../Shared/image_1__1_-removebg-preview 1.png";
-import { Bot, Briefcase, Clock, FileText, Settings, Users } from "lucide-react";
+import img from "../Navbar/image 3.png";
+import img1 from "../Navbar/Group (2).png";
+import { Bot, Briefcase, Clock, Settings, Users } from "lucide-react";
+import { BiSolidDashboard } from "react-icons/bi";
+import { useDarkMode } from "../../context/ThemeContext";
 
 const DashboardSidebar = () => {
-  const location = useLocation(); // Hook to get the current URL path
-
-  // Check if the current path starts with /dashboard/Project
+  const location = useLocation();
   const isProjectActive = location.pathname.startsWith('/dashboard/Project');
+ const { darkMode, setDarkMode } = useDarkMode();
+
+ 
+  // Common NavLink styling function
+  const navLinkStyle = (isActive) => `
+    flex items-center gap-3 px-6 py-3 transition-colors duration-200 relative 
+    ${isActive
+      ? 'bg-white shadow-sm text-[#00308F] rounded-md m-2 scale-105 before:absolute before:left-0 before:top-0 before:h-full before:w-2 before:bg-[#00308F] before:rounded-l-md'
+      : 'hover:bg-gray-100 hover:text-[#00308F] rounded-md mr-3'
+    }
+  `;
 
   return (
-    <div className="text-white">
+    <div className="text-[#00308F] dark:text-white">
       <NavLink to="/">
-      <div>
-        <img src={img} className="h-12 mt-7 pl-16 lg:mb-10" alt="" />
-      </div>
+        <div className="flex items-center justify-center pt-20 pb-6">
+        <div>
+          <img
+            src={darkMode ? img1 : img}
+            alt="Logo"
+            className="h-[30px] sm:h-[80px] md:h-[34px] w-auto"
+          />
+        </div>
+        </div>
       </NavLink>
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-1">
         <NavLink
           to="/dashboard"
-          end // Ensures exact match for /dashboard
-          className={({ isActive }) =>
-            `flex items-center gap-3 px-6 py-3 transition-colors duration-200 ${isActive ? 'bg-[#00BF63] text-black' : 'hover:bg-[#00BF63]'
-            }`
-          }
+          end
+          className={({ isActive }) => navLinkStyle(isActive)}
         >
-          <FileText className="h-6 w-6" />
-          <h1 className="text-lg font-medium">Company Details Page</h1>
+          <BiSolidDashboard className="h-6 w-6 transition-transform duration-200 group-hover:scale-110" />
+          <h1 className="text-lg font-medium transition-transform duration-200 group-hover:scale-105">Dashboard</h1>
         </NavLink>
 
         <NavLink
           to="/dashboard/chat"
-          className={({ isActive }) =>
-            `flex items-center gap-3 px-6 py-3 transition-colors duration-200 ${isActive ? 'bg-[#00BF63] text-black' : 'hover:bg-[#00BF63]'
-            }`
-          }
+          className={({ isActive }) => navLinkStyle(isActive)}
         >
-          <Bot className="h-6 w-6" />
-          <h1 className="text-lg font-medium">Ai Chat</h1>
+          <Bot className="h-6 w-6 transition-transform duration-200 group-hover:scale-110" />
+          <h1 className="text-lg font-medium transition-transform duration-200 group-hover:scale-105">Ai Assistant</h1>
         </NavLink>
 
         <NavLink
           to="/dashboard/Project"
-          className={() =>
-            `flex items-center gap-3 px-6 py-3 transition-colors duration-200 ${isProjectActive ? 'bg-[#00BF63] text-black' : 'hover:bg-[#00BF63]'
-            }`
-          }
+          className={() => navLinkStyle(isProjectActive)}
         >
-          <Briefcase className="h-6 w-6" />
-          <h1 className="text-lg font-medium">Project</h1>
+          <Briefcase className="h-6 w-6 transition-transform duration-200 group-hover:scale-110" />
+          <h1 className="text-lg font-medium transition-transform duration-200 group-hover:scale-105">Project</h1>
         </NavLink>
 
         <NavLink
           to="/dashboard/addEmploye"
-          className={({ isActive }) =>
-            `flex items-center gap-3 px-6 py-3 transition-colors duration-200 ${isActive ? 'bg-[#00BF63] text-black' : 'hover:bg-[#00BF63]'
-            }`
-          }
+          className={({ isActive }) => navLinkStyle(isActive)}
         >
-          <Users className="h-6 w-6" />
-          <h1 className="text-lg font-medium">Add Employee</h1>
+          <Users className="h-6 w-6 transition-transform duration-200 group-hover:scale-110" />
+          <h1 className="text-lg font-medium transition-transform duration-200 group-hover:scale-105">Add Employee</h1>
         </NavLink>
 
         <NavLink
           to="/dashboard/taskProgress"
-          className={({ isActive }) =>
-            `flex items-center gap-3 px-6 py-3 transition-colors duration-200 ${isActive ? 'bg-[#00BF63] text-black' : 'hover:bg-[#00BF63]'
-            }`
-          }
+          className={({ isActive }) => navLinkStyle(isActive)}
         >
-          <Clock className="h-6 w-6" />
-          <h1 className="text-lg font-medium">Task Progress</h1>
+          <Clock className="h-6 w-6 transition-transform duration-200 group-hover:scale-110" />
+          <h1 className="text-lg font-medium transition-transform duration-200 group-hover:scale-105">Task Progress</h1>
         </NavLink>
+
         <NavLink
           to="/dashboard/manageSubscription"
-          className={({ isActive }) =>
-            `flex items-center gap-3 px-6 py-3 transition-colors duration-200 ${isActive ? 'bg-[#00BF63] text-black' : 'hover:bg-[#00BF63]'
-            }`
-          }
+          className={({ isActive }) => navLinkStyle(isActive)}
         >
-          <Clock className="h-6 w-6" />
-          <h1 className="text-lg font-medium">Manage subscription</h1>
+          <Clock className="h-6 w-6 transition-transform duration-200 group-hover:scale-110" />
+          <h1 className="text-lg font-medium transition-transform duration-200 group-hover:scale-105">Manage subscription</h1>
         </NavLink>
 
         <NavLink
           to="/dashboard/setting"
-          className={({ isActive }) =>
-            `flex items-center gap-3 px-6 py-3 transition-colors duration-200 ${isActive ? 'bg-[#00BF63] text-black' : 'hover:bg-[#00BF63]'
-            }`
-          }
+          className={({ isActive }) => navLinkStyle(isActive)}
         >
-          <Settings className="h-6 w-6" />
-          <h1 className="text-lg font-medium">Setting</h1>
+          <Settings className="h-6 w-6 transition-transform duration-200 group-hover:scale-110" />
+          <h1 className="text-lg font-medium transition-transform duration-200 group-hover:scale-105">Setting</h1>
         </NavLink>
       </div>
     </div>
