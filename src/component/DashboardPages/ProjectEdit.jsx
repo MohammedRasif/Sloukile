@@ -63,7 +63,7 @@ const ProjectEdit = () => {
                     <div className="flex gap-2">
 
                         <div ref={infoRef} className="relative">
-                            <button className="text-[30px] cursor-pointer mt-2" onClick={toggleInfoModal}>
+                            <button className="text-[30px] text-[#00308F] cursor-pointer mt-2" onClick={toggleInfoModal}>
                                 <FaInfoCircle />
                             </button>
                             {showInfoModal && (
@@ -93,12 +93,12 @@ const ProjectEdit = () => {
                     <table className="w-full border-collapse">
                         <thead>
                             <tr>
-                                <th className="p-3 text-left bg-[#000524] text-white border border-gray-300">Name</th>
-                                <th className="p-3 text-left bg-[#000524] text-white border border-gray-300">Kpi</th>
-                                <th className="p-3 text-left bg-[#000524] text-white border border-gray-300">Stage Name</th>
-                                <th className="p-3 text-left bg-[#000524] text-white border border-gray-300">Material/Tools Name</th>
-                                <th className="p-3 text-left bg-[#000524] text-white border border-gray-300">Material/Tools Cost</th>
-                                <th className="p-3 text-left bg-[#000524] text-white border border-gray-300">Project Budget</th>
+                                <th className="p-3 text-left bg-[#f5efe8af] text-black border border-gray-300">Name</th>
+                                <th className="p-3 text-left bg-[#f5efe8af] text-black border border-gray-300">Kpi</th>
+                                <th className="p-3 text-left bg-[#f5efe8af] text-black border border-gray-300">Stage Name</th>
+                                <th className="p-3 text-left bg-[#f5efe8af] text-black border border-gray-300">Material/Tools Name</th>
+                                <th className="p-3 text-left bg-[#f5efe8af] text-black border border-gray-300">Material/Tools Cost</th>
+                                <th className="p-3 text-left bg-[#f5efe8af] text-black border border-gray-300">Project Budget</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -146,7 +146,7 @@ const ProjectEdit = () => {
                                         />
                                     </td>
                                     {rowIndex === 0 && (
-                                        <td className="p-3 border border-gray-300" rowSpan={tableData.length}>
+                                        <td className="p-3 border border-gray-300 text-[#00308F]" rowSpan={tableData.length}>
                                             <div className="flex justify-center items-center h-full">
                                                 <input
                                                     type="text"
@@ -164,9 +164,9 @@ const ProjectEdit = () => {
                 </div>
 
                 <div className="mt-10 space-x-5">
-                    <button className="border-2 border-gray-400 text-white rounded-sm px-10 py-2 font-[500] bg-[#000524] hover:bg-[#070024bb] cursor-pointer">Save</button>
+                    <button className="border-2 border-gray-400 text-white rounded-sm px-10 py-2 font-[500] bg-[#00308F] hover:bg-[#00218f] cursor-pointer">Save</button>
                     <NavLink to="/dashboard/ProjectDetails">
-                        <button className="border-2 border-gray-400 hover:bg-gray-100 rounded-sm px-10 py-2 font-[500] cursor-pointer">Cencel</button>
+                        <button className="border-2 border-[#00308F] hover:bg-gray-100 text-[#00308F] rounded-sm px-10 py-2 font-[500] cursor-pointer">Cencel</button>
                     </NavLink>
                 </div>
             </div>

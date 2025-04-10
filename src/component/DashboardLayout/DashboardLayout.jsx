@@ -50,7 +50,7 @@ const DashboardLayout = () => {
                 </div>
 
                 {/* Outlet (Main Content) */}
-                <div className="h-full mt-16 overflow-auto bg-gray-200 dark:bg-[#252c3b]  ">
+                <div className="h-full mt-16 overflow-auto bg-white dark:bg-[#252c3b]  ">
                     <Outlet />
                 </div>
             </div>

@@ -62,19 +62,19 @@ const ProjectDetails = () => {
   return (
     <div className="p-6 mx-auto border-t border-gray-300">
       <div className="flex justify-between items-center mb-4">
-      <div className='flex items-center space-x-2'>
-     <NavLink to="/dashboard/Project"> <MdOutlineKeyboardBackspace  className='text-4xl mt-1 cursor-pointer'/></NavLink>
+        <div className='flex items-center space-x-2'>
+          <NavLink to="/dashboard/Project"> <MdOutlineKeyboardBackspace className='text-4xl mt-1 cursor-pointer' /></NavLink>
 
-<h1 className="text-3xl font-[500]">Website Redesign</h1>
-      </div>
+          <h1 className="text-3xl font-[500]">Website Redesign</h1>
+        </div>
         <div className="flex gap-2">
           <NavLink to="/dashboard/ProjectEdit">
-          <button className="text-[30px] mt-2 cursor-pointer">
-            <FaEdit />
-          </button>
+            <button className="text-[30px] mt-2 cursor-pointer">
+              <FaEdit />
+            </button>
           </NavLink>
           <div ref={infoRef} className="relative">
-            <button className="text-[30px] cursor-pointer mt-2" onClick={toggleInfoModal}>
+            <button className="text-[30px] text-[#00308F] cursor-pointer mt-2" onClick={toggleInfoModal}>
               <FaInfoCircle />
             </button>
             {showInfoModal && (
@@ -104,12 +104,12 @@ const ProjectDetails = () => {
         <table className="w-full border-collapse">
           <thead>
             <tr>
-              <th className="p-3 text-left bg-[#000524] text-white border border-gray-300">Name</th>
-              <th className="p-3 text-left bg-[#000524] text-white border border-gray-300">Kpi</th>
-              <th className="p-3 text-left bg-[#000524] text-white border border-gray-300">Stage Name</th>
-              <th className="p-3 text-left bg-[#000524] text-white border border-gray-300">Material/Tools Name</th>
-              <th className="p-3 text-left bg-[#000524] text-white border border-gray-300">Material/Tools Cost</th>
-              <th className="p-3 text-left bg-[#000524] text-white border border-gray-300">Project Budget</th>
+              <th className="p-3 text-left bg-[#f5efe8af] text-black border border-gray-300">Name</th>
+              <th className="p-3 text-left bg-[#f5efe8af] text-black border border-gray-300">Kpi</th>
+              <th className="p-3 text-left bg-[#f5efe8af] text-black border border-gray-300">Stage Name</th>
+              <th className="p-3 text-left bg-[#f5efe8af] text-black border border-gray-300">Material/Tools Name</th>
+              <th className="p-3 text-left bg-[#f5efe8af] text-black border border-gray-300">Material/Tools Cost</th>
+              <th className="p-3 text-left bg-[#f5efe8af] text-black border border-gray-300">Project Budget</th>
             </tr>
           </thead>
           <tbody>
@@ -122,7 +122,7 @@ const ProjectDetails = () => {
                 <td className="p-3 border border-gray-300">{row.materialCost}</td>
                 {index === 0 && (
                   <td className="p-3 border border-gray-300" rowSpan={tableData.length}>
-                    <div className="flex justify-center items-center h-full">
+                    <div className="flex justify-center text-[#00308F] items-center h-full">
                       <span className="text-3xl font-bold">{projectBudget}</span>
                     </div>
                   </td>
