@@ -61,7 +61,7 @@ const ProjectEdit = () => {
           <div className="flex gap-2">
             <div ref={infoRef} className="relative">
               <button
-                className="text-[30px] text-[#00308F] dark:text-[#4A6CF7] cursor-pointer mt-2 hover:text-[#002266] dark:hover:text-[#3B5AEB] transition-colors"
+                className="text-[30px] text-[#00308F] dark:text-[#4A6CF7] cursor-pointer mt-2 hover:text-[#002266] dark:hover:text-[#3B5AEB] "
                 onClick={toggleInfoModal}
               >
                 <FaInfoCircle />
@@ -76,7 +76,7 @@ const ProjectEdit = () => {
                   {/* Modal Content */}
                   <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] bg-white dark:bg-[#2A2F3B] border border-gray-300 dark:border-gray-700 rounded-md shadow-lg p-6 py-20 px-10 z-50">
                     <FiX
-                      className="absolute right-2 top-2 text-gray-600 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400 cursor-pointer text-xl transition-colors"
+                      className="absolute right-2 top-2 text-gray-600 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400 cursor-pointer text-xl "
                       onClick={toggleInfoModal}
                     />
                     <p className="text-gray-700 dark:text-gray-300 text-xl">
@@ -192,11 +192,11 @@ const ProjectEdit = () => {
         </div>
 
         <div className="mt-10 space-x-5">
-          <button className="border-2 border-gray-400 dark:border-gray-600 text-white rounded-sm px-10 py-2 font-[500] bg-[#00308F] dark:bg-[#4A6CF7] hover:bg-[#00218f] dark:hover:bg-[#3B5AEB] cursor-pointer transition-colors">
+          <button className="border-2 border-gray-400 dark:border-gray-600 text-white rounded-sm px-10 py-2 font-[500] bg-[#00308F] dark:bg-[#4A6CF7] hover:bg-[#00218f] dark:hover:bg-[#3B5AEB] cursor-pointer ">
             Save
           </button>
           <NavLink to="/dashboard/ProjectDetails">
-            <button className="border-2 border-[#00308F] dark:border-[#4A6CF7] hover:bg-gray-100 dark:hover:bg-[#353A47] text-[#00308F] dark:text-[#4A6CF7] rounded-sm px-10 py-2 font-[500] cursor-pointer transition-colors">
+            <button className="border-2 border-[#00308F] dark:border-[#4A6CF7] hover:bg-gray-100 dark:hover:bg-[#353A47] text-[#00308F] dark:text-[#4A6CF7] rounded-sm px-10 py-2 font-[500] cursor-pointer ">
               Cancel
             </button>
           </NavLink>

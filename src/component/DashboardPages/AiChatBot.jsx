@@ -159,7 +159,7 @@ const AiChatBot = () => {
           />
           <button
             type="submit"
-            className="absolute right-0 top-1/2 transform -translate-y-1/2 px-4 py-3 bg-[#00308F] dark:bg-[#4A6CF7] text-white rounded-r-lg cursor-pointer hover:bg-[#002266] dark:hover:bg-[#3B5AEB] transition-colors"
+            className="absolute right-0 top-1/2 transform -translate-y-1/2 px-4 py-3 bg-[#00308F] dark:bg-[#4A6CF7] text-white rounded-r-lg cursor-pointer hover:bg-[#002266] dark:hover:bg-[#3B5AEB] "
           >
             Send
           </button>

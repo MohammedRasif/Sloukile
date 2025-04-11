@@ -243,7 +243,7 @@ const TaskList = () => {
                                 </button>
                                 <button
                                     onClick={handleConfirm}
-                                    className="bg-[#00308F] dark:bg-[#4A6CF7] text-white px-4 py-2 rounded-md hover:bg-[#000524b4] dark:hover:bg-[#3B5AEB] cursor-pointer transition-colors"
+                                    className="bg-[#00308F] dark:bg-[#4A6CF7] text-white px-4 py-2 rounded-md hover:bg-[#000524b4] dark:hover:bg-[#3B5AEB] cursor-pointer "
                                 >
                                     Confirm
                                 </button>

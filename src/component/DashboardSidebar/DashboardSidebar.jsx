@@ -15,7 +15,7 @@ const DashboardSidebar = () => {
  
   // Common NavLink styling function
   const navLinkStyle = (isActive) => `
-    flex items-center gap-3 px-6 py-3 transition-colors duration-200 relative 
+    flex items-center gap-3 px-6 py-3  relative 
     ${isActive
       ? 'bg-white shadow-sm text-[#00308F] rounded-md m-2 scale-105 before:absolute before:left-0 before:top-0 before:h-full before:w-2 before:bg-[#00308F] before:rounded-l-md'
       : 'hover:bg-gray-100 hover:text-[#00308F] rounded-md mr-3'

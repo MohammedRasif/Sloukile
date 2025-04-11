@@ -147,7 +147,7 @@ const Team = () => {
           </div>
           <button
             onClick={handleAddClick}
-            className="bg-[#00308F] dark:bg-[#4A6CF7] text-white px-4 py-2 rounded-md flex items-center hover:bg-[#002266] dark:hover:bg-[#3B5AEB] transition-colors cursor-pointer"
+            className="bg-[#00308F] dark:bg-[#4A6CF7] text-white px-4 py-2 rounded-md flex items-center hover:bg-[#002266] dark:hover:bg-[#3B5AEB] cursor-pointer"
           >
             <Plus size={16} className="mr-1" />
             Add New Member
@@ -216,7 +216,7 @@ const Team = () => {
             </h3>
             <button
               onClick={handleAddClick}
-              className="bg-[#00308F] dark:bg-[#4A6CF7] text-white px-4 py-2 rounded-md flex items-center space-x-2 hover:bg-[#00218f] dark:hover:bg-[#3B5AEB] transition-colors cursor-pointer"
+              className="bg-[#00308F] dark:bg-[#4A6CF7] text-white px-4 py-2 rounded-md flex items-center space-x-2 hover:bg-[#00218f] dark:hover:bg-[#3B5AEB]  cursor-pointer"
             >
               <Plus className="h-4 w-4" />
               <span>Add New Member</span>
@@ -237,13 +237,13 @@ const Team = () => {
                 <div className="flex justify-center gap-4">
                   <button
                     onClick={handleConfirmDelete}
-                    className="bg-red-500 dark:bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-600 dark:hover:bg-red-700 transition-colors font-medium cursor-pointer"
+                    className="bg-red-500 dark:bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-600 dark:hover:bg-red-700  font-medium cursor-pointer"
                   >
                     Delete
                   </button>
                   <button
                     onClick={handleCloseDeletePopup}
-                    className="bg-gray-200 dark:bg-gray-600 text-gray-700 dark:text-gray-200 px-6 py-2 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors font-medium cursor-pointer"
+                    className="bg-gray-200 dark:bg-gray-600 text-gray-700 dark:text-gray-200 px-6 py-2 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-700  font-medium cursor-pointer"
                   >
                     Cancel
                   </button>
@@ -332,14 +332,14 @@ const Team = () => {
                   <div className="flex justify-center gap-4 mt-6">
                     <button
                       type="submit"
-                      className="bg-[#00308F] dark:bg-[#4A6CF7] text-white px-6 py-2 rounded-lg hover:bg-[#002266] dark:hover:bg-[#3B5AEB] transition-colors font-medium cursor-pointer"
+                      className="bg-[#00308F] dark:bg-[#4A6CF7] text-white px-6 py-2 rounded-lg hover:bg-[#002266] dark:hover:bg-[#3B5AEB]  font-medium cursor-pointer"
                     >
                       Add Member
                     </button>
                     <button
                       type="button"
                       onClick={handleCloseAddPopup}
-                      className="bg-gray-200 dark:bg-gray-600 text-gray-700 dark:text-gray-200 px-6 py-2 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors font-medium cursor-pointer"
+                      className="bg-gray-200 dark:bg-gray-600 text-gray-700 dark:text-gray-200 px-6 py-2 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-700 font-medium cursor-pointer"
                     >
                       Cancel
                     </button>
