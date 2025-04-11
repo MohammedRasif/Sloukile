@@ -23,6 +23,7 @@ import Setting from './component/DashboardPages/Setting.jsx';
 import ManageSubscription from './component/DashboardPages/ManageSubscription.jsx';
 import { ThemeProvider } from './context/ThemeContext.jsx';
 import Team from './component/DashboardPages/Team.jsx';
+import Risks from './component/DashboardPages/Risks.jsx';
 
 const router = createBrowserRouter([
   {
@@ -88,6 +89,10 @@ const router = createBrowserRouter([
       {
         path: "/dashboard/team",
         element: <Team />
+      },
+      {
+        path: "/dashboard/risks",
+        element: <Risks />
       },
     ]
   }

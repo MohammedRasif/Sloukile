@@ -5,6 +5,7 @@ import { Bot, Briefcase, Clock, Settings, Users } from "lucide-react";
 import { BiSolidDashboard } from "react-icons/bi";
 import { useDarkMode } from "../../context/ThemeContext";
 import { RiTeamFill } from "react-icons/ri";
+import { GoAlertFill } from "react-icons/go";
 
 const DashboardSidebar = () => {
   const location = useLocation();
@@ -81,6 +82,14 @@ const DashboardSidebar = () => {
         >
           <Clock className="h-6 w-6 transition-transform duration-200 group-hover:scale-110" />
           <h1 className="text-lg font-medium transition-transform duration-200 group-hover:scale-105">Task Progress</h1>
+        </NavLink>
+
+        <NavLink
+          to="/dashboard/risks"
+          className={({ isActive }) => navLinkStyle(isActive)}
+        >
+          <GoAlertFill className="h-6 w-6 transition-transform duration-200 group-hover:scale-110" />
+          <h1 className="text-lg font-medium transition-transform duration-200 group-hover:scale-105">Risks</h1>
         </NavLink>
 
         <NavLink
