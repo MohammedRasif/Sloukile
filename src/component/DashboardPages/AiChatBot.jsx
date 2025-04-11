@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { Bot } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import img from "./dashboard 3.png"; // Bot image
+import { LuSend } from "react-icons/lu";
 
 const AiChatBot = () => {
   const [messages, setMessages] = useState([]);
@@ -46,7 +47,7 @@ const AiChatBot = () => {
     <div className="border-t border-gray-300 dark:border-gray-700 px-10 p-5  h-full flex flex-col overflow-hidden text-gray-800 dark:text-gray-200">
       {/* Header */}
       <div className="flex items-center space-x-2">
-        <Bot className="w-10 h-10 text-[#00308F] dark:text-[#4A6CF7]" />
+        <Bot className="w-10 h-10 text-[#00308F] dark:text-[#00308F]" />
         <h1 className="text-3xl font-[500] text-gray-800 dark:text-gray-100">
           AI Chat
         </h1>
@@ -68,7 +69,7 @@ const AiChatBot = () => {
                 className="w-8 h-10 rounded-full"
               />
               <div
-                className="px-10 py-5 rounded-lg bg-[#00308F] dark:bg-[#4A6CF7] lg:text-[20px] text-white dark:text-gray-100 shadow-sm max-w-[100%]"
+                className="px-10 py-5 rounded-lg bg-[#00308F] dark:bg-[#00308F] lg:text-[20px] text-white dark:text-gray-100 shadow-sm max-w-[100%]"
                 style={{
                   whiteSpace: "normal",
                   wordBreak: "break-word",
@@ -92,7 +93,7 @@ const AiChatBot = () => {
               <div className="flex flex-col items-end w-1/2">
                 <div className="flex justify-start items-start space-x-3">
                   <div
-                    className="px-4 py-3 rounded-xl bg-[#00308F] dark:bg-[#4A6CF7] text-white dark:text-gray-100 lg:text-[18px] shadow-md w-full"
+                    className="px-4 py-3 rounded-xl bg-[#00308F] dark:bg-[#00308F] text-white dark:text-gray-100 lg:text-[18px] shadow-md w-full"
                     style={{
                       whiteSpace: "normal",
                       wordBreak: "break-word",
@@ -155,13 +156,15 @@ const AiChatBot = () => {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             placeholder={messages.length === 0 ? "Type your message..." : ""}
-            className="w-full p-3 py-4 pr-14 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-[#2A2F3B] text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#00308F] dark:focus:ring-[#4A6CF7]"
+            className="w-full p-3 py-4 pr-14 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-[#2A2F3B] text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#00308F] dark:focus:ring-[#00308F]"
           />
           <button
             type="submit"
-            className="absolute right-0 top-1/2 transform -translate-y-1/2 px-4 py-3 bg-[#00308F] dark:bg-[#4A6CF7] text-white rounded-r-lg cursor-pointer hover:bg-[#002266] dark:hover:bg-[#3B5AEB] "
+            className="absolute right-2 top-1/2 transform -translate-y-1/2 px-3 py-[10px] bg-[#00308F] dark:bg-[#00308F] text-white rounded-r-lg cursor-pointer hover:bg-[#002266] dark:hover:bg-[#3B5AEB] "
+            
           >
-            Send
+           <LuSend size={28} />
+
           </button>
         </div>
       </form>

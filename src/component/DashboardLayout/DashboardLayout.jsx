@@ -29,7 +29,7 @@ const DashboardLayout = () => {
             >
                 {/* Navbar - Fixed & Only Navbar BG White */}
                 <div
-                    className="fixed top-0 z-50 bg-white dark:bg-[#1E232E]    w-full border-b border-gray-200 "
+                    className="fixed top-0 z-50 bg-white dark:bg-[#1E232E]    w-full border-b border-gray-200 dark:border-gray-600 "
                     style={{
                         left: isSidebarOpen ? "320px" : "64px",
                         width: isSidebarOpen ? "calc(100%-320px)" : "calc(100%-64px)",
