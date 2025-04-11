@@ -1,4 +1,4 @@
-import { Calendar, Users, FileText, Plus, PlusCircle } from "lucide-react";
+import { Calendar, Users, FileText, Plus, PlusCircle, Search } from "lucide-react";
 import { useState } from "react";
 import { FiSearch } from "react-icons/fi";
 import { RiDeleteBin6Line } from "react-icons/ri";
@@ -58,14 +58,17 @@ const Project = () => {
           </h1>
         </div>
       <div className="flex items-center justify-between mb-6">
-        <div className="relative flex-1 max-w-md">
-          <input
-            type="text"
-            placeholder="Search your project name"
-            className="w-full p-2 pl-10 border border-[#00308F] rounded-lg bg-white dark:bg-[#1E232E] text-gray-700 dark:text-gray-300 focus:outline-none focus:ring-2 focus:ring-[#00308F] dark:focus:ring-[#4A6CF7]"
-          />
-          <FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500" />
-        </div>
+      <div className="relative w-full max-w-md">
+            <input
+              type="text"
+              placeholder="Search Team Member..."
+              className="w-full pl-4 pr-10 py-3 rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-[#1E232E] text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#00308F] dark:focus:ring-[#4A6CF7]"
+            />
+            <Search
+              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500"
+              size={20}
+            />
+          </div>
         <NavLink to="/dashboard/chat">
           <button className="flex items-center gap-2 bg-[#00308F] text-white px-4 py-2 rounded-md hover:bg-[#00218f] dark:bg-[#4A6CF7] dark:hover:bg-[#3B5AEB] transition-colors">
             <PlusCircle size={20} />

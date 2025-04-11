@@ -225,7 +225,7 @@ const Team = () => {
           {/* Delete Confirmation Popup */}
           {isDeletePopupOpen && (
             <div className="fixed inset-0 flex items-center justify-center z-50">
-              <div className="absolute inset-0 bg-black/50 dark:bg-black/70 backdrop-blur-[3px]"></div>
+              <div className="absolute inset-0  backdrop-blur-[3px]"></div>
               <div className="relative bg-white dark:bg-[#1E232E] rounded-xl shadow-sm p-8 w-[400px] max-w-[90vw] border border-gray-200 dark:border-gray-700">
                 <h3 className="text-2xl font-semibold text-gray-800 dark:text-gray-100 mb-4 text-center">
                   Confirm Deletion

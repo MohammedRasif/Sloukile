@@ -130,11 +130,10 @@ const UserSays = () => {
                     style={cardStyles}
                   >
                     <div
-                      className={`rounded-lg shadow-xl p-6 h-full flex flex-col items-center overflow-hidden ${
-                        position === "center"
+                      className={`rounded-lg shadow-xl p-6 h-full flex flex-col items-center overflow-hidden ${position === "center"
                           ? "bg-white dark:bg-[#00308F]" // Active card: blue-500 in dark mode
                           : "bg-white dark:bg-gray-800" // Inactive cards: gray-800 in dark mode
-                      }`}
+                        }`}
                     >
                       {position === "center" && (
                         <>
@@ -143,13 +142,12 @@ const UserSays = () => {
                         </>
                       )}
                       <div
-                        className={`absolute -top-14 rounded-full overflow-hidden border-2 border-blue-100 dark:border-gray-900 ${
-                          position === "center"
+                        className={`absolute -top-14 rounded-full overflow-hidden border-2 border-blue-100 dark:border-gray-900 ${position === "center"
                             ? "w-32 h-32"
                             : position === "adjacent"
-                            ? "w-24 h-24"
-                            : "w-16 h-16 mt-5"
-                        }`}
+                              ? "w-24 h-24"
+                              : "w-16 h-16 mt-5"
+                          }`}
                       >
                         <img
                           src={testimonial.image}
@@ -159,59 +157,55 @@ const UserSays = () => {
                       </div>
 
                       <div
-                        className={`text-blue-600 dark:text-blue-400 mb-2 ${
-                          position === "center"
+                        className={`text-blue-600 dark:text-blue-400 mb-2 ${position === "center"
                             ? "h-8 mt-20"
                             : position === "adjacent"
-                            ? "h-6 mt-10"
-                            : "h-4 mt-2"
-                        }`}
+                              ? "h-6 mt-10"
+                              : "h-4 mt-2"
+                          }`}
                       >
                         <img src={img2} alt="Quote decoration" className="w-full h-full object-contain" />
                       </div>
 
                       <h3
-                        className={`font-bold mb-2 ${
-                          position === "center"
+                        className={`font-bold mb-2 ${position === "center"
                             ? "text-xl text-blue-600 dark:text-white" // White text in dark mode for active card
                             : position === "adjacent"
-                            ? "text-lg text-gray-900 dark:text-gray-100"
-                            : "text-base text-gray-900 dark:text-gray-100"
-                        }`}
+                              ? "text-lg text-gray-900 dark:text-gray-100"
+                              : "text-base text-gray-900 dark:text-gray-100"
+                          }`}
                       >
                         {testimonial.name}
                       </h3>
 
                       <p
-                        className={`mb-4 font-bold ${
-                          position === "center"
+                        className={`mb-4 font-bold ${position === "center"
                             ? "text-base text-gray-600 dark:text-gray-200" // Adjusted for contrast in dark mode
                             : position === "adjacent"
-                            ? "text-sm text-gray-600 dark:text-gray-300"
-                            : "text-xs text-gray-600 dark:text-gray-300"
-                        }`}
+                              ? "text-sm text-gray-600 dark:text-gray-300"
+                              : "text-xs text-gray-600 dark:text-gray-300"
+                          }`}
                       >
                         {testimonial.position}
                       </p>
 
                       <p
-                        className={`text-center font-[500] overflow-hidden ${
-                          position === "center"
+                        className={`text-center font-[500] overflow-hidden ${position === "center"
                             ? "text-base text-gray-500 dark:text-gray-300 leading-relaxed" // Adjusted for contrast
                             : position === "adjacent"
-                            ? "text-sm text-gray-500 dark:text-gray-400 leading-snug"
-                            : "text-xs text-gray-500 dark:text-gray-400 leading-tight line-clamp-3"
-                        }`}
+                              ? "text-sm text-gray-500 dark:text-gray-400 leading-snug"
+                              : "text-xs text-gray-500 dark:text-gray-400 leading-tight line-clamp-3"
+                          }`}
                       >
                         {position === "center"
                           ? testimonial.quote
                           : position === "adjacent"
-                          ? testimonial.quote.length > 120
-                            ? `${testimonial.quote.substring(0, 120)}...`
-                            : testimonial.quote
-                          : testimonial.quote.length > 80
-                          ? `${testimonial.quote.substring(0, 80)}...`
-                          : testimonial.quote}
+                            ? testimonial.quote.length > 120
+                              ? `${testimonial.quote.substring(0, 120)}...`
+                              : testimonial.quote
+                            : testimonial.quote.length > 80
+                              ? `${testimonial.quote.substring(0, 80)}...`
+                              : testimonial.quote}
                       </p>
                     </div>
                   </div>
