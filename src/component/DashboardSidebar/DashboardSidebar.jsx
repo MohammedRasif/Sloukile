@@ -4,6 +4,7 @@ import img1 from "../Navbar/Group (2).png";
 import { Bot, Briefcase, Clock, Settings, Users } from "lucide-react";
 import { BiSolidDashboard } from "react-icons/bi";
 import { useDarkMode } from "../../context/ThemeContext";
+import { RiTeamFill } from "react-icons/ri";
 
 const DashboardSidebar = () => {
   const location = useLocation();
@@ -59,12 +60,19 @@ const DashboardSidebar = () => {
           <h1 className="text-lg font-medium transition-transform duration-200 group-hover:scale-105">Project</h1>
         </NavLink>
 
-        <NavLink
+        {/* <NavLink
           to="/dashboard/addEmploye"
           className={({ isActive }) => navLinkStyle(isActive)}
         >
           <Users className="h-6 w-6 transition-transform duration-200 group-hover:scale-110" />
           <h1 className="text-lg font-medium transition-transform duration-200 group-hover:scale-105">Add Employee</h1>
+        </NavLink> */}
+        <NavLink
+          to="/dashboard/team"
+          className={({ isActive }) => navLinkStyle(isActive)}
+        >
+          <RiTeamFill className="h-6 w-6 transition-transform duration-200 group-hover:scale-110" />
+          <h1 className="text-lg font-medium transition-transform duration-200 group-hover:scale-105">Team</h1>
         </NavLink>
 
         <NavLink

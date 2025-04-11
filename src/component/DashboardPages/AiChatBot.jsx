@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { Bot } from "lucide-react";
-import ReactMarkdown from "react-markdown"; // For bot responses in Markdown
+import ReactMarkdown from "react-markdown";
 import img from "./dashboard 3.png"; // Bot image
 
 const AiChatBot = () => {
@@ -25,45 +25,50 @@ const AiChatBot = () => {
     e.preventDefault();
     if (!input.trim()) return;
 
-    // Add user message with 'question' key
     const userMessage = { question: input, type: "question", sender: "user" };
     setMessages((prev) => [...prev, userMessage]);
     setInput("");
     setIsLoading(true);
 
-    // Simulate bot response with 'answer' key
     setTimeout(() => {
       const botMessage = {
-        answer: "This is a static response from the bot! This is a static response from the bot!This is a static response from the bot!This is a static response from the bot!This is a static response from the bot!This is a static response from the bot!This is a static response from the bot!This is a static response from the bot!This is a static response from the bot!",
+        answer:
+          "This is a static response from the bot! This is a static response from the bot!This is a static response from the bot!This is a static response from the bot!This is a static response from the bot!This is a static response from the bot!This is a static response from the bot!This is a static response from the bot!This is a static response from the bot!",
         type: "answer",
         sender: "bot",
       };
       setMessages((prev) => [...prev, botMessage]);
       setIsLoading(false);
-    }, 1000); // Simulate delay
+    }, 1000);
   };
 
   return (
-    <div className="border-t border-gray-300 px-10 p-5 bg-white h-full flex flex-col overflow-hidden">
+    <div className="border-t border-gray-300 dark:border-gray-700 px-10 p-5  h-full flex flex-col overflow-hidden text-gray-800 dark:text-gray-200">
       {/* Header */}
       <div className="flex items-center space-x-2">
-        <Bot className="w-10 h-10 text-[#00308F]" />
-        <h1 className="text-3xl font-[500]">AI Chat</h1>
+        <Bot className="w-10 h-10 text-[#00308F] dark:text-[#4A6CF7]" />
+        <h1 className="text-3xl font-[500] text-gray-800 dark:text-gray-100">
+          AI Chat
+        </h1>
       </div>
 
       {/* Chat Area */}
       <div
         ref={chatContainerRef}
         className="flex-1 mt-5 overflow-y-auto"
-        style={{ maxHeight: "calc(100% - 120px)" }} // Adjust height for header and input
+        style={{ maxHeight: "calc(100% - 120px)" }}
       >
         {/* Default Bot Message */}
         {messages.length === 0 && !isLoading && (
           <div className="flex justify-start mb-4 absolute bottom-22">
             <div className="flex items-start space-x-3">
-             
+              <img
+                src={img}
+                alt="Bot Avatar"
+                className="w-8 h-10 rounded-full"
+              />
               <div
-                className="px-10 py-5 rounded-lg bg-[#00308F]  lg:text-[20px] text-white shadow-sm max-w-[100%]"
+                className="px-10 py-5 rounded-lg bg-[#00308F] dark:bg-[#4A6CF7] lg:text-[20px] text-white dark:text-gray-100 shadow-sm max-w-[100%]"
                 style={{
                   whiteSpace: "normal",
                   wordBreak: "break-word",
@@ -87,7 +92,7 @@ const AiChatBot = () => {
               <div className="flex flex-col items-end w-1/2">
                 <div className="flex justify-start items-start space-x-3">
                   <div
-                    className="px-4 py-3 rounded-xl bg-[#00308F] text-white lg:text-[18px] shadow-md w-full"
+                    className="px-4 py-3 rounded-xl bg-[#00308F] dark:bg-[#4A6CF7] text-white dark:text-gray-100 lg:text-[18px] shadow-md w-full"
                     style={{
                       whiteSpace: "normal",
                       wordBreak: "break-word",
@@ -105,7 +110,7 @@ const AiChatBot = () => {
               </div>
             ) : (
               // Bot's Answer Layout (3/4 of screen width)
-              <div className="flex flex-col items-start w-4/4">
+              <div className="flex flex-col items-start w-3/4">
                 <div className="flex items-start space-x-3">
                   <img
                     src={img}
@@ -113,7 +118,7 @@ const AiChatBot = () => {
                     className="w-8 h-10 rounded-full"
                   />
                   <div
-                    className="px-5 py-4 rounded-lg bg-gray-200 text-black lg:text-[16px] shadow-sm max-w-[70%]"
+                    className="px-5 py-4 rounded-lg bg-gray-200 dark:bg-[#2A2F3B] text-black dark:text-gray-200 lg:text-[16px] shadow-sm max-w-[70%]"
                     style={{
                       whiteSpace: "normal",
                       wordBreak: "break-word",
@@ -133,7 +138,7 @@ const AiChatBot = () => {
           <div className="flex justify-start mb-4">
             <div className="flex space-x-3">
               <img src={img} alt="" className="w-8 h-10 rounded-full" />
-              <span className="loading loading-dots loading-xl text-gray-600"></span>
+              <span className="loading loading-dots loading-xl text-gray-600 dark:text-gray-400"></span>
             </div>
           </div>
         )}
@@ -150,11 +155,11 @@ const AiChatBot = () => {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             placeholder={messages.length === 0 ? "Type your message..." : ""}
-            className="w-full p-3 py-4 pr-14 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00308F]"
+            className="w-full p-3 py-4 pr-14 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-[#2A2F3B] text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#00308F] dark:focus:ring-[#4A6CF7]"
           />
           <button
             type="submit"
-            className="absolute right-0 top-1/2 transform -translate-y-1/2 px-4 py-3 bg-[#00308F] text-white rounded-r-lg cursor-pointer hover:bg-[#002266]"
+            className="absolute right-0 top-1/2 transform -translate-y-1/2 px-4 py-3 bg-[#00308F] dark:bg-[#4A6CF7] text-white rounded-r-lg cursor-pointer hover:bg-[#002266] dark:hover:bg-[#3B5AEB] transition-colors"
           >
             Send
           </button>

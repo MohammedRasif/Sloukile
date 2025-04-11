@@ -22,6 +22,7 @@ import TaskProgress from './component/DashboardPages/TaskProgress.jsx';
 import Setting from './component/DashboardPages/Setting.jsx';
 import ManageSubscription from './component/DashboardPages/ManageSubscription.jsx';
 import { ThemeProvider } from './context/ThemeContext.jsx';
+import Team from './component/DashboardPages/Team.jsx';
 
 const router = createBrowserRouter([
   {
@@ -83,7 +84,11 @@ const router = createBrowserRouter([
       {
         path: "/dashboard/manageSubscription",
         element: <ManageSubscription />
-      }
+      },
+      {
+        path: "/dashboard/team",
+        element: <Team />
+      },
     ]
   }
 ]);

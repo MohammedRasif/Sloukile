@@ -40,7 +40,7 @@ const DashboardLayout = () => {
             >
                 {/* Navbar - Fixed & Only Navbar BG White */}
                 <div
-                    className="fixed top-0 z-50 bg-white dark:bg-[#1E232E] w-full transition-all duration-300"
+                    className="fixed top-0 z-50 bg-white dark:bg-[#1E232E] border-b border-gray-400 shadow-md w-full transition-all duration-300"
                     style={{
                         left: isSidebarOpen ? "320px" : "64px",
                         width: isSidebarOpen ? "calc(100%-320px)" : "calc(100%-64px)",
@@ -59,3 +59,6 @@ const DashboardLayout = () => {
 };
 
 export default DashboardLayout;
+
+
+
