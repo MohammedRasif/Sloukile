@@ -82,7 +82,7 @@ const Project = () => {
           <NavLink
             key={project.id}
             to="/dashboard/ProjectDetails"
-            className="bg-white dark:bg-[#1E232E] rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-5 block hover:bg-[#f5efe8af] dark:hover:bg-[#353A47] transition-colors"
+            className="bg-[#EDEDED] dark:bg-[#1E232E] rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-5 block hover:bg-[#f5efe8af] dark:hover:bg-[#353A47] transition-colors"
           >
             <div className="flex justify-between items-start mb-1">
               <h3 className="text-[22px] font-bold text-gray-800 dark:text-gray-100">

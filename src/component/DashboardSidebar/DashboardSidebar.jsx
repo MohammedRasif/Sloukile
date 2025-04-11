@@ -25,7 +25,7 @@ const DashboardSidebar = () => {
   return (
     <div className="text-[#00308F] dark:text-white">
       <NavLink to="/">
-        <div className="flex items-center justify-center pt-20 pb-6">
+        <div className="flex items-center justify-center mt-10 pb-6">
         <div>
           <img
             src={darkMode ? img1 : img}

@@ -159,7 +159,7 @@ const Team = () => {
           {teamMembers.map((member) => (
             <div
               key={member.id}
-              className="bg-white dark:bg-[#1E232E] p-4 rounded-lg shadow-sm border border-gray-100 dark:border-gray-700 hover:bg-[#f5efe8af] dark:hover:bg-[#353A47]"
+              className="bg-[#EDEDED] dark:bg-[#1E232E] p-4 rounded-lg shadow-sm border border-gray-100 dark:border-gray-700 hover:bg-[#f5efe8af] dark:hover:bg-[#353A47]"
             >
               <div className="flex justify-between items-start mb-2">
                 <div>
@@ -255,7 +255,7 @@ const Team = () => {
           {isAddPopupOpen && (
             <div className="fixed inset-0 flex items-center justify-center z-50">
               <div className="absolute inset-0 bg-black/50 dark:bg-black/70 backdrop-blur-[3px]"></div>
-              <div className="relative bg-white dark:bg-[#1E232E] rounded-xl shadow-lg p-8 w-[500px] max-w-[90vw] border border-gray-200 dark:border-gray-700">
+              <div className="relative bg-white dark:bg-[#2A2F3B] rounded-xl shadow-lg p-8 w-[500px] max-w-[90vw] border border-gray-200 dark:border-gray-700">
                 <h3 className="text-2xl font-semibold text-gray-800 dark:text-gray-100 mb-6 text-center">
                   Add New Member
                 </h3>

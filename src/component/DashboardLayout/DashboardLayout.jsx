@@ -3,7 +3,6 @@ import { useState } from "react";
 import { Menu, X } from "lucide-react"; // Sidebar Toggle Icons
 import DashboardNavbar from "../DashboardNavbar/DashboardNavbar";
 import DashboardSidebar from "../DashboardSidebar/DashboardSidebar";
-import { GoSidebarCollapse, GoSidebarExpand } from "react-icons/go";
 
 const DashboardLayout = () => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -17,19 +16,9 @@ const DashboardLayout = () => {
             >
                 <div className="h-full flex flex-col justify-between">
                     {/* Sidebar Content */}
-                    {isSidebarOpen && <DashboardSidebar />}
+                    <DashboardSidebar />
 
-                    {/* Toggle Button */}
-                    <button
-                        className="absolute top-4 right-[10px] bg-[#e6d8c6] dark:bg-[#00308F] dark:hover:bg-[#00308F] dark:hover:text-white dark:text-white text-[#00308F] rounded-full p-2 hover:bg-[#e6d8c6] hover:text-[#062960] cursor-pointer  font-bold"
-                        onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-                    >
-                        {isSidebarOpen ? (
-                            <GoSidebarExpand size={24} className="font-extrabold" />
-                        ) : (
-                            <GoSidebarCollapse size={24} className="font-extrabold" />
-                        )}
-                    </button>
+                    
                 </div>
             </div>
 
@@ -40,7 +29,7 @@ const DashboardLayout = () => {
             >
                 {/* Navbar - Fixed & Only Navbar BG White */}
                 <div
-                    className="fixed top-0 z-50 bg-white dark:bg-[#1E232E]  shadow-md w-full "
+                    className="fixed top-0 z-50 bg-white dark:bg-[#1E232E]    w-full border-b border-gray-200 "
                     style={{
                         left: isSidebarOpen ? "320px" : "64px",
                         width: isSidebarOpen ? "calc(100%-320px)" : "calc(100%-64px)",

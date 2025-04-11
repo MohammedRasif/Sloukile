@@ -38,7 +38,7 @@ const Setting = () => {
       <h1 className="text-[35px] font-[500] pb-2 mt-4 ml-4 text-gray-900 dark:text-gray-100">Profile</h1>
       <div className="flex items-center justify-center pb-10">
         <div className="w-[715px] h-auto">
-          <div className="w-[715px] h-[184px] shadow-2xl bg-[#4A6CF7] dark:bg-[#4A6CF7]/80 flex items-center justify-center space-x-3 relative">
+          <div className="w-[715px] h-[184px] shadow-2xl bg-blue-900 dark:bg-blue-900 flex items-center justify-center space-x-3 relative">
             <div>
               <div className="relative">
                 <img
@@ -70,21 +70,21 @@ const Setting = () => {
           <div className="flex items-center justify-center space-x-5 py-7 text-[20px] font-[500] relative">
             <div className="relative">
               <h1
-                className={`cursor-pointer mt-2 ${activeSection === "editProfile" ? "text-[#4A6CF7] dark:text-[#4A6CF7]" : "text-gray-800 dark:text-gray-400"}`}
+                className={`cursor-pointer mt-2 ${activeSection === "editProfile" ? "text-blue-900 dark:text-blue-900" : "text-gray-800 dark:text-gray-400"}`}
                 onClick={() => setActiveSection("editProfile")}
               >
                 Edit Profile
               </h1>
-              {activeSection === "editProfile" && <div className="h-[2px] bg-[#4A6CF7] dark:bg-[#4A6CF7] w-full mt-1"></div>}
+              {activeSection === "editProfile" && <div className="h-[2px] bg-blue-900 dark:bg-blue-900 w-full mt-1"></div>}
             </div>
             <div className="relative">
               <h1
-                className={`cursor-pointer mt-2 ${activeSection === "changePassword" ? "text-[#4A6CF7] dark:text-[#4A6CF7]" : "text-gray-800 dark:text-gray-400"}`}
+                className={`cursor-pointer mt-2 ${activeSection === "changePassword" ? "text-blue-900 dark:text-blue-900" : "text-gray-800 dark:text-gray-400"}`}
                 onClick={() => setActiveSection("changePassword")}
               >
                 Change Password
               </h1>
-              {activeSection === "changePassword" && <div className="h-[2px] bg-[#4A6CF7] dark:bg-[#4A6CF7] w-full mt-1"></div>}
+              {activeSection === "changePassword" && <div className="h-[2px] bg-blue-900 dark:bg-blue-900 w-full mt-1"></div>}
             </div>
           </div>
 
@@ -102,7 +102,7 @@ const Setting = () => {
               </div>
 
               <div className="flex items-center justify-center">
-                <button className="bg-[#4A6CF7] dark:bg-[#4A6CF7] hover:bg-[#3B5AEB] dark:hover:bg-[#3B5AEB] uppercase text-[#FAF1E6] dark:text-gray-100 font-[500] px-20 py-2 rounded-full my-10 transition-colors">
+                <button className="bg-blue-900 dark:bg-blue-900 hover:bg-blue-900 dark:hover:bg-blue-900 uppercase text-[#FAF1E6] dark:text-gray-100 font-[500] px-20 py-2 rounded-full my-10 transition-colors">
                   Save & Changes
                 </button>
               </div>
@@ -164,7 +164,7 @@ const Setting = () => {
                 </div>
               </div>
               <div className="flex items-center justify-center">
-                <button className="bg-[#4A6CF7] dark:bg-[#4A6CF7] hover:bg-[#3B5AEB] dark:hover:bg-[#3B5AEB] text-[#FAF1E6] dark:text-gray-100 font-[500] uppercase px-20 py-2 rounded-full my-10 transition-colors">
+                <button className="bg-blue-900 dark:bg-blue-900 hover:bg-blue-900 dark:hover:bg-blue-900 text-[#FAF1E6] dark:text-gray-100 font-[500] uppercase px-20 py-2 rounded-full my-10 transition-colors">
                   Save & Changes
                 </button>
               </div>

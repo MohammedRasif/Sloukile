@@ -45,6 +45,10 @@ const ProjectDetails = () => {
     setShowInfoModal((prev) => !prev);
   };
 
+  const closeInfoModal = () => {
+    setShowInfoModal(false); // Explicitly close the modal
+  };
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (infoRef.current && !infoRef.current.contains(event.target)) {
@@ -58,7 +62,7 @@ const ProjectDetails = () => {
   }, []);
 
   return (
-    <div className="p-6 mx-auto border-t border-gray-300 dark:border-gray-700  text-gray-800 dark:text-gray-200">
+    <div className="p-6 mx-auto border-t border-gray-300 dark:border-gray-700 text-gray-800 dark:text-gray-200">
       <div className="flex justify-between items-center mb-4">
         <div className="flex items-center space-x-2">
           <NavLink to="/dashboard/Project">
@@ -81,28 +85,6 @@ const ProjectDetails = () => {
             >
               <FaInfoCircle />
             </button>
-            {showInfoModal && (
-              <>
-                {/* Blurred Backdrop */}
-                <div
-                  className="fixed inset-0 bg-black/50 dark:bg-black/70 backdrop-blur-sm z-40"
-                  onClick={toggleInfoModal}
-                ></div>
-                {/* Modal Content */}
-                <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] bg-white dark:bg-[#2A2F3B] border border-gray-300 dark:border-gray-700 rounded-md shadow-lg p-6 py-20 px-10 z-50">
-                  <FiX
-                    className="absolute right-2 top-2 text-gray-600 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400 cursor-pointer text-xl transition-colors"
-                    onClick={toggleInfoModal}
-                  />
-                  <p className="text-gray-700 dark:text-gray-300 text-xl">
-                    Hello [User Name], your project [Project Name] has been
-                    successfully created. AI has automatically set up your
-                    milestones and tasks. Check your dashboard for details and next
-                    steps
-                  </p>
-                </div>
-              </>
-            )}
           </div>
         </div>
       </div>
@@ -164,6 +146,29 @@ const ProjectDetails = () => {
           </tbody>
         </table>
       </div>
+
+      {/* Modal Backdrop */}
+      {showInfoModal && (
+        <div
+          className="fixed inset-0 backdrop-blur-[3px]  z-50"
+          onClick={closeInfoModal} // Close when clicking backdrop
+        />
+      )}
+
+      {/* Modal Content */}
+      {showInfoModal && (
+        <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] bg-white dark:bg-[#2A2F3B] border border-gray-200 dark:border-gray-600 rounded-lg shadow-xl p-8 z-50 transition-all duration-300 animate-fade-in">
+        <button
+          className="absolute right-4 top-4 p-1 rounded-full bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-red-100 dark:hover:bg-red-900 hover:text-red-600 dark:hover:text-red-400 transition-colors duration-200 cursor-pointer"
+          onClick={closeInfoModal}
+        >
+          <FiX className="text-xl" />
+        </button>
+        <p className="text-gray-700 dark:text-gray-200 text-lg font-serif leading-relaxed tracking-wide">
+          Hello [User Name], your project [Project Name] has been successfully created. AI has automatically set up your milestones and tasks. Check your dashboard for details and next steps.
+        </p>
+      </div>
+      )}
     </div>
   );
 };
