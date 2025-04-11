@@ -118,7 +118,7 @@ const AiChatBot = () => {
                     className="w-8 h-10 rounded-full"
                   />
                   <div
-                    className="px-5 py-4 rounded-lg bg-gray-200 dark:bg-[#2A2F3B] text-black dark:text-gray-200 lg:text-[16px] shadow-sm max-w-[70%]"
+                    className="px-5 py-4 rounded-lg bg-gray-200 dark:bg-[#1E232E] text-black dark:text-gray-200 lg:text-[16px] shadow-sm max-w-[70%]"
                     style={{
                       whiteSpace: "normal",
                       wordBreak: "break-word",
