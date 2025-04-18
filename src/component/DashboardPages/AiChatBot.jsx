@@ -49,7 +49,7 @@ const AiChatBot = () => {
       <div className="flex items-center space-x-2">
         <Bot className="w-10 h-10 text-[#00308F] dark:text-[#00308F]" />
         <h1 className="text-3xl font-[500] text-gray-800 dark:text-gray-100">
-          AI Chat
+        AI Project Assistant
         </h1>
       </div>
 

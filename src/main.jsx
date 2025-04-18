@@ -96,6 +96,9 @@ const router = createBrowserRouter([
       },
     ]
   }
+  // {
+  //   path
+  // }
 ]);
 
 createRoot(document.getElementById('root')).render(
