@@ -1,8 +1,7 @@
 import { Outlet } from "react-router-dom";
 import { useState } from "react";
-import { Menu, X } from "lucide-react"; // Sidebar Toggle Icons
-import DashboardNavbar from "../DashboardNavbar/DashboardNavbar";
-import DashboardSidebar from "../DashboardSidebar/DashboardSidebar";
+import AdminDashboardSidebar from "../AdminDashboardSidebar/AdminDashboardSidebar";
+import AdminDashboardNavbar from "../AdminDashboardNavbar/AdminDashboardNavbar";
 
 const AdminDashboardLayout = () => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -16,7 +15,7 @@ const AdminDashboardLayout = () => {
             >
                 <div className="h-full flex flex-col justify-between">
                     {/* Sidebar Content */}
-                    <DashboardSidebar />
+                    <AdminDashboardSidebar />
 
 
                 </div>
@@ -35,7 +34,7 @@ const AdminDashboardLayout = () => {
                         width: isSidebarOpen ? "calc(100%-320px)" : "calc(100%-64px)",
                     }}
                 >
-                    <DashboardNavbar />
+                    <AdminDashboardNavbar />
                 </div>
 
                 {/* Outlet (Main Content) */}

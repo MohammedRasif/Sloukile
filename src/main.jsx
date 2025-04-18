@@ -24,6 +24,10 @@ import ManageSubscription from './component/DashboardPages/ManageSubscription.js
 import { ThemeProvider } from './context/ThemeContext.jsx';
 import Team from './component/DashboardPages/Team.jsx';
 import Risks from './component/DashboardPages/Risks.jsx';
+import AdminDashboardLayout from './component/AdminDashboard/AdminDashboardLayout/AdminDashboardLayout.jsx';
+import AdminDashboard from './component/AdminDashboard/AdminDashboardPages/AdminDashboard.jsx';
+import AdminUserManagement from './component/AdminDashboard/AdminDashboardSidebar/AdminUserManagement.jsx';
+import AdminSubscrption from './component/AdminDashboard/AdminDashboardSidebar/AdminSubscrption.jsx';
 
 const router = createBrowserRouter([
   {
@@ -95,18 +99,33 @@ const router = createBrowserRouter([
         element: <Risks />
       },
     ]
+  },
+  {
+    path: "/admin_dashboard",
+    element: <AdminDashboardLayout />,
+    children: [
+      {
+        index: true,
+        element: <AdminDashboard />
+      },
+      {
+        path: "/admin_dashboard/user_management",
+        element: <AdminUserManagement />
+      },
+      {
+        path: "/admin_dashboard/subscription",
+        element: <AdminSubscrption />
+      }
+    ]
   }
-  // {
-  //   path
-  // }
 ]);
 
 createRoot(document.getElementById('root')).render(
   <ThemeProvider>
     <StrictMode>
-    <React.StrictMode>
-      <RouterProvider router={router} />
-    </React.StrictMode>
-  </StrictMode>
+      <React.StrictMode>
+        <RouterProvider router={router} />
+      </React.StrictMode>
+    </StrictMode>
   </ThemeProvider>,
 )
