@@ -28,6 +28,13 @@ import AdminDashboardLayout from './component/AdminDashboard/AdminDashboardLayou
 import AdminDashboard from './component/AdminDashboard/AdminDashboardPages/AdminDashboard.jsx';
 import AdminUserManagement from './component/AdminDashboard/AdminDashboardSidebar/AdminUserManagement.jsx';
 import AdminSubscrption from './component/AdminDashboard/AdminDashboardSidebar/AdminSubscrption.jsx';
+import AdminNotification from './component/AdminDashboard/AdminDashboardSidebar/AdminNotification.jsx';
+import RegisterVerification from './component/Shared/RegisterVerification.jsx';
+import ForgerPasswordVerification from './component/Shared/ForgerPasswordVerification.jsx';
+import ForgetPassword from './component/Shared/ForgetPassword.jsx';
+import ConfirmPassword from './component/Shared/ConfrimPassowrd.jsx';
+import { Provider } from 'react-redux';
+import store from './Redux/store.js';
 
 const router = createBrowserRouter([
   {
@@ -46,6 +53,22 @@ const router = createBrowserRouter([
       {
         path: "/register",
         element: <Register />,
+      },
+      {
+        path: "/register_verification",
+        element: <RegisterVerification />,
+      },
+      {
+        path: "/forgetPassword_verification",
+        element: <ForgerPasswordVerification />,
+      },
+      {
+        path: "/forget_Password",
+        element: <ForgetPassword />,
+      },
+      {
+        path: "/confrim_password",
+        element: <ConfirmPassword />,
       },
     ],
   },
@@ -115,7 +138,11 @@ const router = createBrowserRouter([
       {
         path: "/admin_dashboard/subscription",
         element: <AdminSubscrption />
-      }
+      },
+      {
+        path: "/admin_dashboard/notification",
+        element: <AdminNotification />
+      },
     ]
   }
 ]);
@@ -123,9 +150,11 @@ const router = createBrowserRouter([
 createRoot(document.getElementById('root')).render(
   <ThemeProvider>
     <StrictMode>
-      <React.StrictMode>
-        <RouterProvider router={router} />
-      </React.StrictMode>
+      <Provider store={store}>
+        <React.StrictMode>
+          <RouterProvider router={router} />
+        </React.StrictMode>
+      </Provider>
     </StrictMode>
   </ThemeProvider>,
 )

@@ -86,7 +86,7 @@ const AdminSubscription = () => {
     };
 
     return (
-        <div className="container mx-auto p-4">
+        <div className="container mx-auto ">
             <div className="flex justify-between py-6">
                 <div className="relative">
                     <input
@@ -98,12 +98,9 @@ const AdminSubscription = () => {
                     />
                     <IoSearchOutline className="text-gray-500 absolute bottom-3 right-3" />
                 </div>
-                <button
-                    onClick={openAddModal}
-                    className="bg-[#00308F] px-4 py-2 rounded-[10px] text-white hover:bg-blue-800"
-                >
-                    Add New Subscription +
-                </button>
+                <div>
+
+                </div>
             </div>
             <div className="overflow-x-auto rounded-[6px]">
                 <table className="min-w-full bg-white border border-gray-300">
