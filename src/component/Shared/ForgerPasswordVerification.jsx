@@ -110,6 +110,7 @@ const ForgetPasswordVerification = () => {
                 },
             });
             navigate("/confrim_password");
+            localStorage.setItem("otp", otp)
         } catch (error) {
             const errorMessage = error.data?.message || "OTP verification failed!";
             console.log("Error:", errorMessage);
