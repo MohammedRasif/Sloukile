@@ -35,6 +35,7 @@ import ForgetPassword from './component/Shared/ForgetPassword.jsx';
 import ConfirmPassword from './component/Shared/ConfrimPassowrd.jsx';
 import { Provider } from 'react-redux';
 import store from './Redux/store.js';
+import PrivateRoutes from './Root/PrivateRoute.jsx';
 
 const router = createBrowserRouter([
   {
@@ -75,7 +76,7 @@ const router = createBrowserRouter([
 
   {
     path: "/dashboard",
-    element: (<DashboardLayout />),
+    element: <DashboardLayout />,
     children: [
       {
         index: true,

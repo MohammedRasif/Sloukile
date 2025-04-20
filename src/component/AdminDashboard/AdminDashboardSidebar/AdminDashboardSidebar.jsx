@@ -69,13 +69,13 @@ const AdminDashboardSidebar = () => {
                     <h1 className="text-lg font-medium transition-transform duration-200 group-hover:scale-105">Subscriptions & Billing</h1>
                 </NavLink>
 
-                <NavLink
+                {/* <NavLink
                     to="/admin_dashboard/setting"
                     className={({ isActive }) => navLinkStyle(isActive)}
                 >
                     <Settings className="h-6 w-6 transition-transform duration-200 group-hover:scale-110" />
                     <h1 className="text-lg font-medium transition-transform duration-200 group-hover:scale-105">Setting</h1>
-                </NavLink>
+                </NavLink> */}
             </div>
         </div>
     );

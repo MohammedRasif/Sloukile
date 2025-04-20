@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { IoSearchOutline } from 'react-icons/io5';
+import { useDarkMode } from '../../../context/ThemeContext';
 
 const AdminSubscription = () => {
+    const { darkMode } = useDarkMode();
     const [users, setUsers] = useState([
         {
             userName: "pappu",
@@ -86,26 +88,31 @@ const AdminSubscription = () => {
     };
 
     return (
-        <div className="container mx-auto ">
+        <div className={`container mx-auto ${darkMode ? '' : ''}`}>
             <div className="flex justify-between py-6">
                 <div className="relative">
                     <input
                         type="text"
                         placeholder="Search users..."
-                        className="py-2 pl-5 pr-10 w-[400px] bg-white border border-gray-300 rounded-[10px] focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="py-2 pl-5 pr-10 w-[400px] bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-[10px] focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-800 dark:text-gray-100"
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                     />
-                    <IoSearchOutline className="text-gray-500 absolute bottom-3 right-3" />
+                    <IoSearchOutline className="text-gray-500 dark:text-gray-300 absolute bottom-3 right-3" />
                 </div>
                 <div>
-
+                    <button
+                        onClick={openAddModal}
+                        className="bg-[#00308F] dark:bg-blue-900 text-white dark:text-gray-100 px-4 py-2 rounded-md hover:bg-blue-800 dark:hover:bg-blue-800"
+                    >
+                        Add Subscription
+                    </button>
                 </div>
             </div>
             <div className="overflow-x-auto rounded-[6px]">
-                <table className="min-w-full bg-white border border-gray-300">
+                <table className="min-w-full bg-white dark:bg-[#1E232E] border border-gray-300 dark:border-gray-700">
                     <thead>
-                        <tr className="bg-[#00308F] text-white">
+                        <tr className="bg-[#00308F] dark:bg-blue-950 text-white dark:text-gray-100">
                             <th className="py-3 px-6 text-left text-sm font-semibold">User Name</th>
                             <th className="py-3 px-6 text-left text-sm font-semibold">Subscription ID</th>
                             <th className="py-3 px-6 text-left text-sm font-semibold">Plan</th>
@@ -116,22 +123,23 @@ const AdminSubscription = () => {
                     </thead>
                     <tbody>
                         {filteredUsers.map((user, index) => (
-                            <tr key={index} className="border-b border-gray-200 hover:bg-gray-50">
-                                <td className="py-3 px-6 text-sm text-gray-700">{user.userName}</td>
-                                <td className="py-3 px-6 text-sm text-gray-700">{user.subscriptionId}</td>
-                                <td className="py-3 px-6 text-sm text-gray-700">{user.plan}</td>
-                                <td className="py-3 px-6 text-sm text-gray-700">{user.amount}</td>
+                            <tr key={index} className="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700">
+                                <td className="py-3 px-6 text-sm text-gray-700 dark:text-gray-100">{user.userName}</td>
+                                <td className="py-3 px-6 text-sm text-gray-700 dark:text-gray-100">{user.subscriptionId}</td>
+                                <td className="py-3 px-6 text-sm text-gray-700 dark:text-gray-100">{user.plan}</td>
+                                <td className="py-3 px-6 text-sm text-gray-700 dark:text-gray-100">{user.amount}</td>
                                 <td className="py-3 px-6">
                                     <span
-                                        className={`inline-block px-4 py-1 text-sm font-medium rounded-full ${user.status === 'Active'
-                                                ? 'bg-green-100 text-green-800'
-                                                : 'bg-red-100 text-red-800'
-                                            }`}
+                                        className={`inline-block px-4 py-1 text-sm font-medium rounded-full ${
+                                            user.status === 'Active'
+                                                ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-400'
+                                                : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-400'
+                                        }`}
                                     >
                                         {user.status}
                                     </span>
                                 </td>
-                                <td className="py-3 px-6 text-sm text-gray-700">{user.nextBilling}</td>
+                                <td className="py-3 px-6 text-sm text-gray-700 dark:text-gray-100">{user.nextBilling}</td>
                             </tr>
                         ))}
                     </tbody>
@@ -141,9 +149,9 @@ const AdminSubscription = () => {
             {/* Add New Subscription Modal */}
             {isAddModalOpen && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-                    <div className="bg-white p-10 rounded-lg shadow-lg max-w-md w-full">
-                        <h2 className="text-2xl font-semibold text-gray-800">Add New Subscription</h2>
-                        <p className="text-gray-600 my-3">Create a new subscription entry.</p>
+                    <div className="bg-white dark:bg-[#1E232E] p-10 rounded-lg shadow-lg max-w-md w-full border border-gray-200 dark:border-gray-700">
+                        <h2 className="text-2xl font-semibold text-gray-800 dark:text-gray-100">Add New Subscription</h2>
+                        <p className="text-gray-600 dark:text-gray-300 my-3">Create a new subscription entry.</p>
                         <form onSubmit={handleAddUser}>
                             <div className="mb-4">
                                 <input
@@ -151,7 +159,7 @@ const AdminSubscription = () => {
                                     name="userName"
                                     value={newUser.userName}
                                     onChange={handleInputChange}
-                                    className="w-full p-2 border border-gray-300 rounded-lg"
+                                    className="w-full p-2 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100"
                                     required
                                     placeholder="User Name"
                                 />
@@ -162,7 +170,7 @@ const AdminSubscription = () => {
                                     name="subscriptionId"
                                     value={newUser.subscriptionId}
                                     onChange={handleInputChange}
-                                    className="w-full p-2 border border-gray-300 rounded-lg"
+                                    className="w-full p-2 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100"
                                     required
                                     placeholder="Subscription ID"
                                 />
@@ -173,7 +181,7 @@ const AdminSubscription = () => {
                                     name="plan"
                                     value={newUser.plan}
                                     onChange={handleInputChange}
-                                    className="w-full p-2 border border-gray-300 rounded-lg"
+                                    className="w-full p-2 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100"
                                     required
                                     placeholder="Plan (e.g., Starter, Professional)"
                                 />
@@ -184,7 +192,7 @@ const AdminSubscription = () => {
                                     name="amount"
                                     value={newUser.amount}
                                     onChange={handleInputChange}
-                                    className="w-full p-2 border border-gray-300 rounded-lg"
+                                    className="w-full p-2 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100"
                                     required
                                     placeholder="Amount (e.g., $599.00)"
                                 />
@@ -194,7 +202,7 @@ const AdminSubscription = () => {
                                     name="status"
                                     value={newUser.status}
                                     onChange={handleInputChange}
-                                    className="w-full p-2 border border-gray-300 rounded-lg"
+                                    className="w-full p-2 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100"
                                     required
                                 >
                                     <option value="Active">Active</option>
@@ -207,7 +215,7 @@ const AdminSubscription = () => {
                                     name="nextBilling"
                                     value={newUser.nextBilling}
                                     onChange={handleInputChange}
-                                    className="w-full p-2 border border-gray-300 rounded-lg"
+                                    className="w-full p-2 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100"
                                     required
                                     placeholder="Next Billing (e.g., 2023-07-01)"
                                 />
@@ -216,13 +224,13 @@ const AdminSubscription = () => {
                                 <button
                                     type="button"
                                     onClick={closeAddModal}
-                                    className="px-4 py-1 text-[#00308F] border border-[#00308F] rounded-lg hover:bg-gray-100"
+                                    className="px-4 py-1 text-[#00308F] dark:text-blue-400 border border-[#00308F] dark:border-blue-400 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
                                 >
                                     Cancel
                                 </button>
                                 <button
                                     type="submit"
-                                    className="px-6 py-1 bg-[#00308F] text-white rounded-lg hover:bg-blue-800"
+                                    className="px-6 py-1 bg-[#00308F] dark:bg-blue-900 text-white dark:text-gray-100 rounded-lg hover:bg-blue-800 dark:hover:bg-blue-800"
                                 >
                                     Create +
                                 </button>

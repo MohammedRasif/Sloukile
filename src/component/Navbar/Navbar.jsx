@@ -1,12 +1,29 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import img from "./image 3.png"; // Light mode logo
 import img1 from "./Group (2).png"; // Dark mode logo
 import { useDarkMode } from "../../context/ThemeContext";
+import { useGetProfileQuery } from "../../Redux/feature/ApiSlice";
+import { GoChevronRight, GoChevronDown } from "react-icons/go";
+import { FaRegCircleUser } from "react-icons/fa6";
+import { NavLink } from "react-router-dom";
 
 const Navbar = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false); // Mobile menu toggle
   const [activeSection, setActiveSection] = useState("banner");
+  const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false); // Profile dropdown toggle
   const { darkMode, setDarkMode } = useDarkMode();
+
+  // Refs for dropdown and mobile menu
+  const profileDropdownRef = useRef(null);
+  const mobileMenuRef = useRef(null);
+
+  // Check for access token in localStorage
+  const accessToken = localStorage.getItem("access_token");
+
+  // Fetch user profile if access token exists
+  const { data: profile, isLoading, isError } = useGetProfileQuery(undefined, {
+    skip: !accessToken, // Skip query if no access token
+  });
 
   const toggleDarkMode = () => {
     setDarkMode(!darkMode);
@@ -14,6 +31,15 @@ const Navbar = () => {
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
+  };
+
+  const toggleProfileDropdown = () => {
+    setIsProfileDropdownOpen(!isProfileDropdownOpen);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("access_token");
+    window.location.href = "/login";
   };
 
   const scrollToSection = (id) => {
@@ -31,6 +57,28 @@ const Navbar = () => {
       console.log(`Section with id "${id}" not found`);
     }
   };
+
+  // Close dropdown and mobile menu on outside click
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      // Check if click is outside profile dropdown
+      if (
+        profileDropdownRef.current &&
+        !profileDropdownRef.current.contains(event.target)
+      ) {
+        setIsProfileDropdownOpen(false);
+      }
+      // Check if click is outside mobile menu
+      if (mobileMenuRef.current && !mobileMenuRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -63,6 +111,8 @@ const Navbar = () => {
     }
     return `${baseClasses} text-black dark:text-white hover:text-blue-200 dark:hover:text-blue-200`;
   };
+
+
 
   return (
     <div className="w-full top-0 text-black dark:text-white z-50 absolute roboto">
@@ -138,7 +188,7 @@ const Navbar = () => {
           </a>
         </nav>
 
-        {/* Auth Buttons - Desktop */}
+        {/* Auth Buttons or Profile - Desktop */}
         <div className="hidden md:flex items-center space-x-3">
           <button
             onClick={toggleDarkMode}
@@ -163,23 +213,73 @@ const Navbar = () => {
               ></path>
             </svg>
           </button>
-          <a
-            href="/login"
-            className="font-medium py-2 px-4 text-[#00308F] dark:text-white rounded-full duration-300 text-[18px] md:text-[20px] hover:bg-[#00308F] hover:text-white dark:hover:bg-[#00308F] cursor-pointer"
-          >
-            Sign In
-          </a>
-          <a
-            href="/register"
-            className="font-medium py-2 px-4 text-[#00308F] dark:text-white rounded-full duration-300 text-[18px] md:text-[20px] hover:bg-[#00308F] hover:text-white dark:hover:bg-[#00308F] cursor-pointer"
-          >
-            Sign Up
-          </a>
+
+          {accessToken && profile && !isLoading && !isError ? (
+            <div className="relative" ref={profileDropdownRef}>
+              <button
+                onClick={toggleProfileDropdown}
+                className="flex items-center space-x-2 focus:outline-none cursor-pointer"
+              >
+                {profile.image ? (
+                  <img
+                    src={profile.image}
+                    alt="Profile"
+                    className="h-9 w-9 rounded-full object-cover"
+                  />
+                ) : (
+                  <FaRegCircleUser className="h-9 w-9 text-gray-600 dark:text-gray-300" />
+                )}
+                <span className="text-[18px] md:text-[16px] font-bold text-black dark:text-white">
+                  {profile.full_name}
+                </span>
+                {isProfileDropdownOpen ? (
+                  <GoChevronDown className="h-5 w-5 text-black dark:text-white" />
+                ) : (
+                  <GoChevronRight className="h-5 w-5 text-black dark:text-white" />
+                )}
+              </button>
+              {isProfileDropdownOpen && (
+                <div className="absolute right-[5px] mt-3 w-48 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg z-50">
+                  <NavLink
+                    to={profile.is_staff ? "/dashboard" : "/dashboard"}
+                    className="block px-4 py-2 text-black dark:text-white hover:bg-gray-100 font-bold dark:hover:bg-gray-700 cursor-pointer"
+                    onClick={() => setIsProfileDropdownOpen(false)}
+                  >
+                    {profile.is_staff ? "Admin Dashboard" : "User Dashboard"}
+                  </NavLink>
+                  <button
+                    onClick={handleLogout}
+                    className="block w-full text-left px-4 py-2 text-black dark:text-white font-bold hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer"
+                  >
+                    Logout
+                  </button>
+                </div>
+              )}
+            </div>
+          ) : (
+            <>
+              <a
+                href="/login"
+                className="font-medium py-2 px-4 text-[#00308F] dark:text-white rounded-full duration-300 text-[18px] md:text-[20px] hover:bg-[#00308F] hover:text-white dark:hover:bg-[#00308F] cursor-pointer"
+              >
+                Sign In
+              </a>
+              <a
+                href="/register"
+                className="font-medium py-2 px-4 text-[#00308F] dark:text-white rounded-full duration-300 text-[18px] md:text-[20px] hover:bg-[#00308F] hover:text-white dark:hover:bg-[#00308F] cursor-pointer"
+              >
+                Sign Up
+              </a>
+            </>
+          )}
         </div>
 
         {/* Mobile Menu */}
         {isOpen && (
-          <div className="absolute top-[100px] sm:top-[120px] left-0 w-full bg-blue-500 dark:bg-gray-800 text-white flex flex-col items-center space-y-4 py-6 md:hidden z-50">
+          <div
+            ref={mobileMenuRef}
+            className="absolute top-[100px] sm:top-[120px] left-0 w-full bg-blue-500 dark:bg-gray-800 text-white flex flex-col items-center space-y-4 py-6 md:hidden z-50"
+          >
             <a
               href="#banner"
               onClick={(e) => {
@@ -235,20 +335,70 @@ const Navbar = () => {
             >
               Contact
             </a>
-            <a
-              href="/login"
-              className="text-white hover:text-blue-200 transition duration-300 text-[18px] font-[600] px-3 py-2"
-              onClick={toggleMenu}
-            >
-              Login
-            </a>
-            <a
-              href="/register"
-              className="bg-white dark:bg-gray-700 text-blue-900 dark:text-white font-medium py-2 px-4 rounded-full hover:bg-blue-50 dark:hover:bg-gray-600 transition duration-300 text-[18px]"
-              onClick={toggleMenu}
-            >
-              Sign Up
-            </a>
+            {accessToken && profile && !isLoading && !isError ? (
+              <div className="relative w-full flex justify-center" ref={profileDropdownRef}>
+                <button
+                  onClick={toggleProfileDropdown}
+                  className="flex items-center space-x-2 focus:outline-none"
+                >
+                  {profile.image ? (
+                    <img
+                      src={profile.image}
+                      alt="Profile"
+                      className="h-10 w-10 rounded-full object-cover"
+                    />
+                  ) : (
+                    <FaRegCircleUser className="h-10 w-10 text-white" />
+                  )}
+                  <span className="text-[18px] font-medium text-white">{profile.full_name}</span>
+                  {isProfileDropdownOpen ? (
+                    <GoChevronDown className="h-5 w-5 text-white" />
+                  ) : (
+                    <GoChevronRight className="h-5 w-5 text-white" />
+                  )}
+                </button>
+                {isProfileDropdownOpen && (
+                  <div className="mt-2 w-48 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg z-50">
+                    <NavLink
+                      to={profile.is_staff ? "/dashboard" : "/dashboard"}
+                      className="block px-4 py-2 text-black dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+                      onClick={() => {
+                        setIsProfileDropdownOpen(false);
+                        toggleMenu();
+                      }}
+                    >
+                      {profile.is_staff ? "Admin Dashboard" : "User Dashboard"}
+                    </NavLink>
+                    <button
+                      onClick={() => {
+                        handleLogout();
+                        toggleMenu();
+                      }}
+                      className="block w-full text-left px-4 py-2 text-black dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+                    >
+                      Logout
+                    </button>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <>
+                <a
+                  href="/login"
+                  className="text-white hover:text-blue-200 transition duration-300 text-[18px] font-[600] px-3 py-2"
+                  onClick={toggleMenu}
+                >
+                  Login
+                </a>
+                <a
+                  href="/register"
+                  className="bg-white dark:bg-gray-700 text-blue-900 dark:text-white font-medium py-2 px-4 rounded-full hover:bg-blue-50 dark:hover:bg-gray-600 transition duration-300 text-[18px]"
+                  onClick={toggleMenu}
+                >
+                  Sign Up
+                </a>
+              </>
+            )}
           </div>
         )}
       </div>
