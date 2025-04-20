@@ -1,14 +1,37 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="./src/component/Shared/image_1__1_-removebg-preview 1.png" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ProjextpAi</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-    
-  </body>
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="./src/component/Shared/image_1__1_-removebg-preview 1.png" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ProjextpAi</title>
+</head>
+
+<body>
+  <div id="root"></div>
+  <script type="module" src="/src/main.jsx"></script>
+  <script>
+    // Adjust to your backend WebSocket URL
+    const socket = new WebSocket('ws://192.168.10.131:4001/ws/admin/notifications/');
+    socket.onopen = function (e) {
+      console.log("WebSocket connected ✅");
+    };
+    socket.onmessage = function (event) {
+      const data = JSON.parse(event.data);
+      const list = document.getElementById("notificationList");
+      const item = document.createElement("li");
+      item.innerHTML = `<strong>${data.title}</strong>: ${data.message}`;
+      console.log(data.message);
+      list.appendChild(item);
+    };
+    socket.onclose = function (e) {
+      console.log("WebSocket closed ❌");
+    };
+    socket.onerror = function (error) {
+      console.error("WebSocket error:", error);
+    };
+  </script>
+</body>
+
 </html>

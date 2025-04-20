@@ -51,6 +51,36 @@ export const ApiSlice = createApi({
             keepUnusedDataFor: 0,
             refetchOnMountOrArgChange: true
         }),
+        userProject: builder.query({
+            query: () => ({
+                url: "/main/projects/",
+                method: "GET"
+            }),
+            providesTags: ["userDashboard"],
+            keepUnusedDataFor: 0,
+            refetchOnMountOrArgChange: true
+        }),
+
+
+        // Delete Question
+        userDeleteProject: builder.mutation({
+            query: (id) => ({
+                url: `/main/projects/${id}/delete/`,
+                method: "DELETE"
+            }),
+            invalidatesTags: ["project"]
+        }),
+
+
+        userProjectDetails: builder.query({
+            query: (id) => ({
+              url: `/main/projects/${id}/`,
+              method: "GET",
+            }),
+            providesTags: ["project"],
+            keepUnusedDataFor: 0,
+            refetchOnMountOrArgChange: true,
+          }),
 
         // // Edit Question
         // editQuestion: builder.mutation({
@@ -90,7 +120,7 @@ export const ApiSlice = createApi({
 
 
 // Export hooks for usage in components
-export const { useGetProfileQuery, useUserdashboardQuery, } = ApiSlice;
+export const { useGetProfileQuery, useUserdashboardQuery, useUserProjectQuery, useUserDeleteProjectMutation,useUserProjectDetailsQuery } = ApiSlice;
 
 export default ApiSlice;
 

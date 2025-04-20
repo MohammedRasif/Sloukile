@@ -1,74 +1,67 @@
-import { Calendar, Users, FileText, Plus, PlusCircle, Search } from "lucide-react";
+import { Calendar, Users, FileText, Plus, Search, PlusCircle } from "lucide-react";
 import { useState } from "react";
-import { FiSearch } from "react-icons/fi";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { NavLink } from "react-router-dom";
+import { useUserDeleteProjectMutation, useUserProjectQuery } from "../../Redux/feature/ApiSlice";
 
 const Project = () => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [projectToDelete, setProjectToDelete] = useState(null);
 
-  const handleDeleteClick = (e) => {
+  // Fetch projects using the query hook
+  const { data: projects, isLoading, error } = useUserProjectQuery();
+
+  // Delete project mutation
+  const [deleteProject] = useUserDeleteProjectMutation();
+
+  const handleDeleteClick = (e, projectId) => {
     e.preventDefault();
     e.stopPropagation();
+    setProjectToDelete(projectId);
     setIsPopupOpen(true);
   };
 
   const handleClosePopup = () => {
     setIsPopupOpen(false);
+    setProjectToDelete(null);
   };
 
-  const handleConfirmDelete = () => {
-    console.log("Item deleted!");
+  const handleConfirmDelete = async () => {
+    if (projectToDelete) {
+      try {
+        await deleteProject(projectToDelete).unwrap();
+        console.log("Project deleted!");
+      } catch (err) {
+        console.error("Failed to delete project:", err);
+      }
+    }
     setIsPopupOpen(false);
+    setProjectToDelete(null);
   };
 
-  const projects = [
-    {
-      id: 1,
-      title: "Project Alpha",
-      description: "Website redesign and development",
-      budget: 1500,
-      progress: 75,
-      status: "In Progress",
-      dueDate: "Apr 15",
-      members: 5,
-      created: "15 Mar",
-    },
-    ...Array(6)
-      .fill()
-      .map((_, i) => ({
-        id: i + 2,
-        title: "Project Alpha",
-        description: "Website redesign and development",
-        budget: 1000,
-        progress: 75,
-        status: "In Progress",
-        dueDate: "Apr 15",
-        members: 5,
-        created: "15 Mar",
-      })),
-  ];
+  if (isLoading) return <div>Loading projects...</div>;
+  if (error) return <div>Error loading projects: {error.message}</div>;
 
   return (
     <div className="p-6 min-h-screen text-gray-800 dark:text-gray-200 roboto">
-       {/* Header */}
-       <div className="flex justify-between items-center mb-6">
-          <h1 className="text-3xl font-bold text-gray-800 dark:text-gray-100">
-            Project
-          </h1>
-        </div>
+      {/* Header */}
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-3xl font-bold text-gray-800 dark:text-gray-100">
+          Project
+        </h1>
+      </div>
       <div className="flex items-center justify-between mb-6">
-      <div className="relative w-full max-w-md">
-            <input
-              type="text"
-              placeholder="Search Team Member..."
-              className="w-full pl-4 pr-10 py-3 rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-[#1E232E] text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#00308F] dark:focus:ring-[#4A6CF7]"
-            />
-            <Search
-              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500"
-              size={20}
-            />
-          </div>
+        <div className="relative w-full max-w-md">
+          <input
+            type="text"
+            placeholder="Search Team Member..."
+            className="w-full pl-4 pr-10 py-3 rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-[#1E232E] text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#00308F] dark:focus:ring-[#4A6CF7]"
+          />
+          <Search
+            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500"
+            size={20}
+          />
+        </div>
         <NavLink to="/dashboard/chat">
           <button className="flex items-center gap-2 bg-[#00308F] text-white px-4 py-2 rounded-md hover:bg-[#00218f] dark:bg-[#4A6CF7] dark:hover:bg-[#3B5AEB] transition-colors">
             <PlusCircle size={20} />
@@ -78,29 +71,34 @@ const Project = () => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
-        {projects.map((project) => (
+        {projects?.map((project) => (
           <NavLink
             key={project.id}
-            to="/dashboard/ProjectDetails"
+            to={`/dashboard/ProjectDetails/${project.id}`}
             className="bg-[#EDEDED] dark:bg-[#1E232E] rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-5 block hover:bg-[#f5efe8af] dark:hover:bg-[#353A47] transition-colors"
           >
             <div className="flex justify-between items-start mb-1">
               <h3 className="text-[22px] font-bold text-gray-800 dark:text-gray-100">
-                {project.title}
+                {project.name}
               </h3>
               <button
                 className="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200"
-                onClick={handleDeleteClick}
+                onClick={(e) => handleDeleteClick(e, project.id)}
               >
-                <RiDeleteBin6Line size={22} className="text-red-500 dark:text-red-400 cursor-pointer" />
+                <RiDeleteBin6Line
+                  size={22}
+                  className="text-red-500 dark:text-red-400 cursor-pointer"
+                />
               </button>
             </div>
 
-            <p className="text-sm text-gray-500 dark:text-gray-400 mb-3">{project.description}</p>
+            <p className="text-sm text-gray-500 dark:text-gray-400 mb-3">
+              {project.project_goal}
+            </p>
 
             <div className="mb-3">
               <p className="text-md font-medium text-[#00308F] dark:text-[#4A6CF7] mb-1">
-                Budget: ${project.budget.toLocaleString()}
+                Budget: ${parseFloat(project.buget).toLocaleString()}
               </p>
             </div>
 
@@ -108,13 +106,13 @@ const Project = () => {
               <div className="flex justify-between items-center mb-1">
                 <p className="text-sm text-gray-500 dark:text-gray-400">Progress</p>
                 <p className="text-sm text-[#00308F] dark:text-[#4A6CF7] font-medium">
-                  {project.progress}%
+                  {project.progress || 0}%
                 </p>
               </div>
-              <div className="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-3">
+              <div className="w-full bg-gray-200 dark:bg-gray-600 rounded-full h W-3">
                 <div
                   className="bg-[#00308F] dark:bg-[#4A6CF7] h-3 rounded-full"
-                  style={{ width: `${project.progress}%` }}
+                  style={{ width: `${project.progress || 0}%` }}
                 ></div>
               </div>
             </div>
@@ -125,18 +123,18 @@ const Project = () => {
               </span>
               <div className="flex items-center text-xs text-[#00308F] dark:text-[#4A6CF7]">
                 <Calendar className="h-3.5 w-3.5 mr-1" />
-                <span>Due: {project.dueDate}</span>
+                <span>Due: {project.due_date || "N/A"}</span>
               </div>
             </div>
 
             <div className="flex justify-between items-center pt-2 border-t border-gray-200 dark:border-gray-700">
               <div className="flex items-center text-xs text-[#00308F] dark:text-[#4A6CF7]">
                 <Users className="h-3.5 w-3.5 mr-1" />
-                <span>{project.members} members</span>
+                <span>{project.labor_costs.length} members</span>
               </div>
               <div className="flex items-center text-xs text-[#00308F] dark:text-[#4A6CF7]">
                 <FileText className="h-3.5 w-3.5 mr-1" />
-                <span>Created: {project.created}</span>
+                <span>Created: {new Date(project.created_at).toLocaleDateString()}</span>
               </div>
             </div>
           </NavLink>
@@ -166,7 +164,7 @@ const Project = () => {
               Confirm Deletion
             </h3>
             <p className="text-gray-600 dark:text-gray-300 text-center mb-6">
-              Are you sure you want to delete this item? This action cannot be undone.
+              Are you sure you want to delete this project? This action cannot be undone.
             </p>
             <div className="flex justify-center gap-4">
               <button
@@ -190,4 +188,3 @@ const Project = () => {
 };
 
 export default Project;
-
