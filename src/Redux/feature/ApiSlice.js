@@ -74,45 +74,75 @@ export const ApiSlice = createApi({
 
         userProjectDetails: builder.query({
             query: (id) => ({
-              url: `/main/projects/${id}/`,
-              method: "GET",
+                url: `/main/projects/${id}/`,
+                method: "GET",
             }),
             providesTags: ["project"],
             keepUnusedDataFor: 0,
             refetchOnMountOrArgChange: true,
-          }),
-
-        // // Edit Question
-        // editQuestion: builder.mutation({
-        //     query: ({ id, question }) => ({
-        //         url: `/question/section/${id}/admin/`,
-        //         method: "PATCH",
-        //         body: question
-        //     }),
-        //     invalidatesTags: ["question"]
-        // }),
-
-        // // Delete Question
-        // deleteQuestion: builder.mutation({
-        //     query: (id) => ({
-        //         url: `/question/section/${id}/admin/`,
-        //         method: "DELETE"
-        //     }),
-        //     invalidatesTags: ["question"]
-        // }),
-
-        // // Get Question Data
-        // getQuestionData: builder.query({
-        //     query: (id) => ({
-        //         url: `/question/list/admin/?section=${id}`,
-        //         method: "GET",
-        //     }),
-        //     providesTags: ["question"],
-        //     keepUnusedDataFor: 0,
-        //     refetchOnMountOrArgChange: true
-        // }),
+        }),
 
 
+        userProjectCreate: builder.mutation({
+            query: (data) => ({
+                url: "/main/projects/create/",
+                method: "POST",
+                body: data
+            }),
+            invalidatesTags: ["createProject"]
+        }),
+
+
+
+        userEditProject: builder.mutation({
+            query: ({ id, data }) => ({
+                url: `/main/projects/${id}/update/`,
+                method: "PUT",
+                body: data
+            }),
+            invalidatesTags: ["createProject"]
+        }),
+
+
+
+        userCreateTeam: builder.mutation({
+            query: (data) => ({
+                url: "/main/employees/create/",
+                method: "POST",
+                body: data
+            })
+        }),
+
+        userTeamManagement: builder.mutation({
+            query: () => ({
+                url: "/main/employees/",
+                method: "GET",
+
+            }),
+            providesTags: ["employees data"],
+            keepUnusedDataFor: 0,
+            refetchOnMountOrArgChange: true
+        }),
+
+
+         // Delete Question
+         userTeamDelete: builder.mutation({
+            query: (id) => ({
+                url: `/main/employees/${id}/delete/`,
+                method: "DELETE"
+            }),
+            invalidatesTags: ["Team"]
+        }),
+
+
+        userEditTeam: builder.mutation({
+            query: ({ id, data }) => ({
+                url: `/main/employees/${id}/update/`,
+                method: "PUT",
+                body: data
+            }),
+            invalidatesTags: ["createProject"]
+        }),
 
 
     }),
@@ -120,7 +150,7 @@ export const ApiSlice = createApi({
 
 
 // Export hooks for usage in components
-export const { useGetProfileQuery, useUserdashboardQuery, useUserProjectQuery, useUserDeleteProjectMutation,useUserProjectDetailsQuery } = ApiSlice;
+export const { useGetProfileQuery, useUserdashboardQuery, useUserProjectQuery, useUserDeleteProjectMutation, useUserProjectDetailsQuery, useUserProjectCreateMutation, useUserEditProjectMutation, useUserTeamManagementMutation , useUserCreateTeamMutation, useUserTeamDeleteMutation, useUserEditTeamMutation } = ApiSlice;
 
 export default ApiSlice;
 

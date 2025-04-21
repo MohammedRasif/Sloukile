@@ -1,361 +1,421 @@
-import React, { useState } from "react";
-import { Plus, MoreHorizontal } from "lucide-react";
-import { data, NavLink, useParams } from "react-router-dom";
-import { MdOutlineKeyboardBackspace } from "react-icons/md";
-import { useDarkMode } from "../../context/ThemeContext";
-import { useUserProjectDetailsQuery } from "../../Redux/feature/ApiSlice";
+import { useState, useEffect } from 'react';
+import Tasks from './Tasks.jsx';
+import Budget from './Bugget.jsx';
+import ProjectRisks from './ProjectRisks.jsx';
+import Teams from './Teams.jsx';
+import Timeline from './Timeline.jsx';
+import Overview from './Overview.jsx';
+import Communication from './Communication.jsx';
+import Reporting from './Reporting.jsx';
 
 const ProjectDetails = () => {
-  const { darkMode } = useDarkMode();
-  const [activeTab, setActiveTab] = useState("Tasks");
-  const { id } = useParams(); // Get project ID from URL
+  const [activeTab, setActiveTab] = useState('overview');
+  const [darkMode, setDarkMode] = useState(false);
 
-  // Fetch project details using the query hook
-  const { data: project, isLoading, error } = useUserProjectDetailsQuery(id);
-  console.log(data);
-
-  const tabs = ["Tasks", "Team", "Risks", "Budget", "AI Insights"];
-
-  if (isLoading) return <div>Loading project details...</div>;
-  if (error) return <div>Error loading project: {error.message}</div>;
-  if (!project) return <div>No project data found.</div>;
-
-  // Flatten tasks from all stages
-  const tasks = project.stages.flatMap((stage) =>
-    stage.tasks.map((task) => ({
-      id: task.id,
-      name: task.description,
-      assignee: stage.assignment_set.find((assignment) => assignment.stage === stage.id)?.team_member.name || "Unassigned",
-      phase: stage.name,
-      dueDate: stage.end_date || "N/A",
-      status: task.complete ? "Completed" : "In Progress",
-    }))
-  );
-
-  // Team members from assignment_set in the first stage
-  const team = project.stages[0].assignment_set.map((assignment) => ({
-    id: assignment.team_member.id,
-    name: assignment.team_member.name,
-    role: assignment.roles[0],
-    email: assignment.team_member.email,
-  }));
-
-  // Risks
-  const risks = project.risks.map((risk) => ({
-    id: risk.id,
-    description: risk.description,
-  }));
-
-  // Budget calculations
-  const laborCostTotal = project.labor_costs.reduce((sum, labor) => sum + labor.cost, 0);
-  const toolsCostTotal = project.stages.flatMap((stage) => stage.tools).reduce((sum, tool) => sum + tool.cost, 0);
-  const totalBudget = parseFloat(project.buget);
-  // Assume spent is 0 since no data is provided for spent amounts
-  const budget = {
-    total: totalBudget,
-    spent: 0,
-    remaining: totalBudget,
-    laborCategories: project.labor_costs.map((labor) => ({
-      name: labor.name,
-      allocated: labor.cost,
-      spent: 0,
-      remaining: labor.cost,
-    })),
-    toolCategories: project.stages
-      .flatMap((stage) => stage.tools)
-      .map((tool) => ({
-        name: tool.name,
-        allocated: tool.cost,
-        spent: 0,
-        remaining: tool.cost,
-      })),
+  // Complete project data
+  const projectData = {
+    name: 'Taskify',
+    status: 'In Progress',
+    progress: 70,
+    budget: {
+      total: 21000,
+      spent: 18900,
+      remaining: 2100,
+      percentUsed: 90,
+    },
+    team: {
+      count: 4,
+      members: [
+        { name: 'Siam', role: 'Backend Developer', availability: 100 },
+        { name: 'Rasif', role: 'Frontend Developer', availability: 100 },
+        { name: 'Sajib', role: 'UI/UX Designer', availability: 100 },
+        { name: 'Ramisa', role: 'AI Developer', availability: 100 },
+      ],
+    },
+    timeline: {
+      days: 45,
+      startDate: '6/1/2025',
+      endDate: '8/30/2025',
+      complete: 70,
+      remaining: 30,
+    },
+    expenses: [
+      { description: 'Backend Developer (Siam)', category: 'Labor', date: '6/15/2025', amount: 5000, status: 'Paid' },
+      { description: 'Frontend Developer (Rasif)', category: 'Labor', date: '6/15/2025', amount: 4500, status: 'Paid' },
+      { description: 'UI/UX Designer (Sajib)', category: 'Labor', date: '6/15/2025', amount: 4800, status: 'Paid' },
+      { description: 'AI Developer (Ramisa)', category: 'Labor', date: '7/15/2025', amount: 3600, status: 'Approved' },
+      { description: 'Development IDEs', category: 'Software', date: '6/5/2025', amount: 500, status: 'Paid' },
+      { description: 'Design tools', category: 'Software', date: '6/5/2025', amount: 200, status: 'Paid' },
+      { description: 'AI libraries', category: 'Software', date: '6/10/2025', amount: 300, status: 'Paid' },
+    ],
+    risks: [
+      {
+        name: 'Scope creep',
+        description: 'Project scope expands beyond initial requirements',
+        category: 'Project Management',
+        impact: 'High',
+        probability: 'Medium',
+        level: 'Medium',
+        status: 'Mitigated',
+        owner: 'Project Manager',
+      },
+      {
+        name: 'Technical challenges with AI integration',
+        description: 'Integration of AI components may be more complex than anticipated',
+        category: 'Technical',
+        impact: 'Medium',
+        probability: 'Medium',
+        level: 'Medium',
+        status: 'Identified',
+        owner: 'Ramisa',
+      },
+      {
+        name: 'Resource constraints',
+        description: 'Key team members may be unavailable at critical times',
+        category: 'Resource',
+        impact: 'Medium',
+        probability: 'Low',
+        level: 'Low',
+        status: 'Mitigated',
+        owner: 'Project Manager',
+      },
+      {
+        name: 'Third-party API reliability',
+        description: 'External APIs may experience downtime or changes',
+        category: 'Technical',
+        impact: 'High',
+        probability: 'Low',
+        level: 'Low',
+        status: 'Identified',
+        owner: 'Siam',
+      },
+      {
+        name: 'User adoption challenges',
+        description: 'End users may resist adopting the new application',
+        category: 'Business',
+        impact: 'High',
+        probability: 'Medium',
+        level: 'Medium',
+        status: 'Identified',
+        owner: 'Project Manager',
+      },
+    ],
+    tasks: [
+      {
+        name: 'Backend API Development',
+        description: 'Develop and test backend APIs',
+        dueDate: '7/15/2025',
+        status: 'In Progress',
+        priority: 'High',
+        assignee: 'Siam',
+      },
+      {
+        name: 'Frontend UI Implementation',
+        description: 'Implement dashboard and task views',
+        dueDate: '7/20/2025',
+        status: 'In Progress',
+        priority: 'High',
+        assignee: 'Rasif',
+      },
+      {
+        name: 'UI/UX Design Finalization',
+        description: 'Finalize mobile and desktop designs',
+        dueDate: '6/30/2025',
+        status: 'Completed',
+        priority: 'Medium',
+        assignee: 'Sajib',
+      },
+      {
+        name: 'AI Feature Integration',
+        description: 'Integrate AI-powered task prioritization',
+        dueDate: '8/1/2025',
+        status: 'To Do',
+        priority: 'High',
+        assignee: 'Ramisa',
+      },
+    ],
+    description:
+      'A user-friendly and efficient task management application that enhances productivity and organization for users.',
+    projectManager: 'Project Manager',
+    client: 'Internal',
+    priority: 'High',
+    duration: '90 days',
+    milestones: [
+      { name: 'Development Phase', date: 'Aug 14, 2025', status: 'In Progress' },
+      { name: 'Testing Phase', date: 'Aug 24, 2025', status: 'Upcoming' },
+      { name: 'Deployment Phase', date: 'Aug 30, 2025', status: 'Upcoming' },
+    ],
+    recentActivities: [
+      { user: 'Siam', action: 'completed backend API integration', time: '2 hours ago' },
+      { user: 'Rasif', action: 'updated dashboard UI components', time: '5 hours ago' },
+      { user: 'Sajib', action: 'finalized design for mobile views', time: 'Yesterday' },
+    ],
+    communications: [
+      { sender: 'Siam', message: 'API integration completed', date: '4/20/2025', time: '10:00 AM' },
+      { sender: 'Rasif', message: 'Need feedback on UI mockups', date: '4/19/2025', time: '3:00 PM' },
+    ],
+    reports: [
+      { title: 'Weekly Progress Report', date: '4/18/2025', summary: '70% tasks completed' },
+      { title: 'Budget Review', date: '4/15/2025', summary: '90% budget utilized' },
+    ],
   };
 
-  // AI Insights
-  const aiInsights = project.insights.map((insight) => ({
-    title: insight.type,
-    description: insight.description,
-  }));
+  // Sync dark mode
+  useEffect(() => {
+    const isDark = localStorage.getItem('darkMode') === 'true' || (!localStorage.getItem('darkMode') && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    setDarkMode(isDark);
+    if (isDark) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, []);
+
+  const toggleDarkMode = () => {
+    const newDarkMode = !darkMode;
+    setDarkMode(newDarkMode);
+    localStorage.setItem('darkMode', newDarkMode);
+    if (newDarkMode) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  };
 
   return (
-    <div className={`min-h-screen roboto ${darkMode ? "dark bg-gray-800" : "bg-white"}`}>
-      <div className="container mx-auto">
-        {/* Project Header */}
-        <div className="flex items-center space-x-2 py-5">
-          <NavLink to="/dashboard/Project">
-            <MdOutlineKeyboardBackspace className="text-4xl mt-1 cursor-pointer text-gray-800 dark:text-gray-200 hover:text-[#00308F] dark:hover:text-[#4A6CF7] transition-colors" />
-          </NavLink>
-          <h1 className="text-3xl font-[500] text-gray-800 dark:text-gray-100">{project.name}</h1>
+    <div className="bg-white dark:bg-[#1E232E] min-h-screen text-gray-800 dark:text-gray-200 roboto">
+      {/* Header */}
+      <div className="border-b border-gray-200 dark:border-gray-700 p-5 flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <button className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-[#353A47]">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M19 12H5M12 19l-7-7 7-7" />
+            </svg>
+          </button>
+          <h1 className="text-[27px] font-bold">{projectData.name} 📋</h1>
+          <span className="bg-gray-800 dark:bg-[#4A6CF7] text-white text-[15px] px-2 py-1 rounded-full">{projectData.status}</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <button
+            className="flex items-center gap-1 bg-white dark:bg-[#2A2F3B] border border-gray-200 dark:border-gray-700 rounded-md px-3 py-1.5 text-[15px] hover:bg-gray-100 dark:hover:bg-[#353A47]"
+            onClick={toggleDarkMode}
+          >
+            {darkMode ? (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <circle cx="12" cy="12" r="5" />
+                <line x1="12" y1="1" x2="12" y2="3" />
+                <line x1="12" y1="21" x2="12" y2="23" />
+                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+                <line x1="1" y1="12" x2="3" y2="12" />
+                <line x1="21" y1="12" x2="23" y2="12" />
+                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+              </svg>
+            ) : (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+              </svg>
+            )}
+            {darkMode ? 'Light Mode' : 'Dark Mode'}
+          </button>
+          <button className="flex items-center gap-1 bg-white dark:bg-[#2A2F3B] border border-gray-200 dark:border-gray-700 rounded-md px-3 py-1.5 text-[15px] hover:bg-gray-100 dark:hover:bg-[#353A47]">
+            Analyze with AI 🤖
+          </button>
+        </div>
+      </div>
+
+      {/* Metrics Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 p-5">
+        {/* Progress Card */}
+        <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+          <div className="flex justify-between items-center mb-2">
+            <h3 className="text-gray-600 dark:text-gray-300 text-[18px]">Progress 📈</h3>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <circle cx="12" cy="12" r="10" />
+              <polyline points="12 6 12 12 16 14" />
+            </svg>
+          </div>
+          <h2 className="text-[33px] font-bold mb-2">{projectData.progress}%</h2>
+          <div className="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-2.5 mb-2">
+            <div className="bg-gray-800 dark:bg-[#4A6CF7] h-2.5 rounded-full" style={{ width: `${projectData.progress}%` }}></div>
+          </div>
+          <p className="text-[15px] text-gray-500 dark:text-gray-400">
+            {projectData.timeline.startDate} - {projectData.timeline.endDate}
+          </p>
         </div>
 
-        {/* Tabs */}
-        <div className="border-b border-gray-200 dark:border-gray-700">
-          <div className="flex overflow-x-auto">
-            {tabs.map((tab) => (
-              <button
-                key={tab}
-                className={`cursor-pointer px-6 py-4 text-md font-semibold whitespace-nowrap ${
-                  activeTab === tab
-                    ? "border-b-2 border-black dark:border-gray-100 text-black dark:text-gray-100"
-                    : "text-gray-500 dark:text-gray-300 hover:text-gray-700 dark:hover:text-gray-100"
-                }`}
-                onClick={() => setActiveTab(tab)}
+        {/* Budget Card */}
+        <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+          <div className="flex justify-between items-center mb-2">
+            <h3 className="text-gray-600 dark:text-gray-300 text-[18px]">Budget 💰</h3>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <rect x="2" y="5" width="20" height="14" rx="2" />
+              <line x1="2" y1="10" x2="22" y2="10" />
+            </svg>
+          </div>
+          <h2 className="text-[33px] font-bold mb-2">${projectData.budget.spent.toLocaleString()}</h2>
+          <div className="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-2.5 mb-2">
+            <div
+              className="bg-gray-800 dark:bg-[#4A6CF7] h-2.5 rounded-full"
+              style={{ width: `${projectData.budget.percentUsed}%` }}
+            ></div>
+          </div>
+          <p className="text-[15px] text-gray-500 dark:text-gray-400">
+            {projectData.budget.percentUsed}% of ${projectData.budget.total.toLocaleString()}
+          </p>
+        </div>
+
+        {/* Team Card */}
+        <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+          <div className="flex justify-between items-center mb-2">
+            <h3 className="text-gray-600 dark:text-gray-300 text-[18px]">Team 👥</h3>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+              <circle cx="9" cy="7" r="4" />
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+              <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+            </svg>
+          </div>
+          <h2 className="text-[33px] font-bold mb-2">{projectData.team.count}</h2>
+          <div className="flex -space-x-2 mb-2">
+            {projectData.team.members.map((member, index) => (
+              <div
+                key={index}
+                className="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-600 border-2 border-white dark:border-[#1E232E] flex items-center justify-center text-[15px] font-medium"
               >
-                {tab}
-              </button>
+                {member.name.charAt(0)}
+              </div>
             ))}
           </div>
+          <p className="text-[15px] text-gray-500 dark:text-gray-400">
+            {projectData.team.members.map((m) => m.role).join(', ')}
+          </p>
         </div>
 
-        {/* Tab Content */}
-        <div className="bg-white dark:bg-[#1E232E]">
-          {activeTab === "Tasks" && (
-            <div className="p-6">
-              <div className="flex justify-between items-center mb-4">
-                <div>
-                  <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-100">Tasks</h2>
-                  <p className="text-gray-600 dark:text-gray-300 text-sm">All tasks for this project</p>
-                </div>
-              
-              </div>
-              <div className="overflow-x-auto">
-                <table className="w-full border-collapse">
-                  <thead>
-                    <tr className="border-b border-gray-200 dark:border-gray-700">
-                      <th className="text-left py-3 px-4 font-medium text-gray-600 dark:text-gray-300">Task Name</th>
-                      <th className="text-left py-3 px-4 font-medium text-gray-600 dark:text-gray-300">Assignee</th>
-                      <th className="text-left py-3 px-4 font-medium text-gray-600 dark:text-gray-300">Phase</th>
-                      <th className="text-left py-3 px-4 font-medium text-gray-600 dark:text-gray-300">Due Date</th>
-                      <th className="text-left py-3 px-4 font-medium text-gray-600 dark:text-gray-300">Status</th>
-                      <th className="text-left py-3 px-4 font-medium text-gray-600 dark:text-gray-300">Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {tasks.map((task) => (
-                      <tr key={task.id} className="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700">
-                        <td className="py-4 px-4 text-gray-800 dark:text-gray-100">{task.name}</td>
-                        <td className="py-4 px-4 text-gray-800 dark:text-gray-100">{task.assignee}</td>
-                        <td className="py-4 px-4 text-gray-800 dark:text-gray-100">{task.phase}</td>
-                        <td className="py-4 px-4 text-gray-800 dark:text-gray-100">{task.dueDate}</td>
-                        <td className="py-4 px-4">
-                          <span
-                            className={`px-2 py-1 rounded-full text-xs ${
-                              task.status === "Completed"
-                                ? "bg-green-100 text-green-600 dark:bg-green-900 dark:text-green-400"
-                                : "bg-blue-100 text-blue-600 dark:bg-blue-900 dark:text-blue-400"
-                            }`}
-                          >
-                            {task.status}
-                          </span>
-                        </td>
-                        <td className="py-4 px-4">
-                          <button className="text-gray-500 dark:text-gray-300">
-                            <MoreHorizontal size={16} />
-                          </button>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          )}
-
-          {activeTab === "Team" && (
-            <div className="p-6">
-              <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-4">Team Members</h2>
-              <p className="text-gray-600 dark:text-gray-300 mb-6">
-                This is the team section. It shows all team members assigned to this project.
-              </p>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {team.map((member) => (
-                  <div
-                    key={member.id}
-                    className="border rounded-lg p-4 bg-white dark:bg-[#1E232E] shadow-sm border-gray-200 dark:border-gray-700"
-                  >
-                    <div className="flex items-center mb-2">
-                      <div className="w-10 h-10 rounded-full bg-gray-200 dark:bg-gray-600 flex items-center justify-center text-gray-600 dark:text-gray-300 font-semibold">
-                        {member.name.charAt(0)}
-                      </div>
-                      <div className="ml-3">
-                        <h3 className="font-medium text-gray-800 dark:text-gray-100">{member.name}</h3>
-                        <p className="text-sm text-gray-500 dark:text-gray-300">{member.role}</p>
-                      </div>
-                    </div>
-                    <p className="text-sm text-gray-600 dark:text-gray-300">{member.email}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {activeTab === "Risks" && (
-            <div className="p-6">
-              <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-4">Project Risks</h2>
-              <p className="text-gray-600 dark:text-gray-300 mb-6">
-                This is the risks section. It identifies potential risks and mitigation strategies.
-              </p>
-              <div className="overflow-x-auto">
-                <table className="w-full border-collapse">
-                  <thead>
-                    <tr className="border-b border-gray-200 dark:border-gray-700">
-                      <th className="text-left py-3 px-4 font-bold text-gray-600 dark:text-gray-300">Risk Description</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {risks.map((risk) => (
-                      <tr
-                        key={risk.id}
-                        className="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700"
-                      >
-                        <td className="py-4 px-4 text-gray-800 dark:text-gray-100">{risk.description}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          )}
-
-          {activeTab === "Budget" && (
-            <div className="p-6">
-              <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-4">Total Cost</h2>
-              <p className="text-gray-600 dark:text-gray-300 mb-6">
-                This is the budget section. It shows budget allocation and spending.
-              </p>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                <div className="bg-white dark:bg-[#1E232E] p-4 rounded-lg border border-gray-200 dark:border-gray-700">
-                  <p className="text-sm text-gray-500 dark:text-gray-300">Total Budget</p>
-                  <p className="text-2xl font-semibold text-gray-800 dark:text-gray-100">
-                    ${budget.total.toLocaleString()}
-                  </p>
-                </div>
-                <div className="bg-white dark:bg-[#1E232E] p-4 rounded-lg border border-gray-200 dark:border-gray-700">
-                  <p className="text-sm text-gray-500 dark:text-gray-300">Spent</p>
-                  <p className="text-2xl font-semibold text-gray-800 dark:text-gray-100">
-                    ${budget.spent.toLocaleString()}
-                  </p>
-                </div>
-                <div className="bg-white dark:bg-[#1E232E] p-4 rounded-lg border border-gray-200 dark:border-gray-700">
-                  <p className="text-sm text-gray-500 dark:text-gray-300">Remaining</p>
-                  <p className="text-2xl font-semibold text-gray-800 dark:text-gray-100">
-                    ${budget.remaining.toLocaleString()}
-                  </p>
-                </div>
-              </div>
-              <h3 className="font-bold text-gray-800 dark:text-gray-100 mb-3 text-2xl">Labor Cost</h3>
-              <div className="overflow-x-auto mb-6">
-                <table className="w-full border-collapse">
-                  <thead>
-                    <tr className="border-b border-gray-200 dark:border-gray-700">
-                      <th className="text-left py-3 px-4 font-medium text-gray-600 dark:text-gray-300">Name</th>
-                      <th className="text-left py-3 px-4 font-medium text-gray-600 dark:text-gray-300">Allocated</th>
-                      <th className="text-left py-3 px-4 font-medium text-gray-600 dark:text-gray-300">Spent</th>
-                      <th className="text-left py-3 px-4 font-medium text-gray-600 dark:text-gray-300">Remaining</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {budget.laborCategories.map((category, index) => (
-                      <tr
-                        key={index}
-                        className="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700"
-                      >
-                        <td className="py-4 px-4 text-gray-800 dark:text-gray-100">{category.name}</td>
-                        <td className="py-4 px-4 text-gray-800 dark:text-gray-100">
-                          ${category.allocated.toLocaleString()}
-                        </td>
-                        <td className="py-4 px-4 text-gray-800 dark:text-gray-100">
-                          ${category.spent.toLocaleString()}
-                        </td>
-                        <td className="py-4 px-4 text-gray-800 dark:text-gray-100">
-                          ${category.remaining.toLocaleString()}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-              <h3 className="font-bold text-gray-800 dark:text-gray-100 text-2xl mb-3">Tools Cost</h3>
-              <div className="overflow-x-auto">
-                <table className="w-full border-collapse">
-                  <thead>
-                    <tr className="border-b border-gray-200 dark:border-gray-700">
-                      <th className="text-left py-3 px-4 font-medium text-gray-600 dark:text-gray-300">Tool Name</th>
-                      <th className="text-left py-3 px-4 font-medium text-gray-600 dark:text-gray-300">Allocated</th>
-                      <th className="text-left py-3 px-4 font-medium text-gray-600 dark:text-gray-300">Spent</th>
-                      <th className="text-left py-3 px-4 font-medium text-gray-600 dark:text-gray-300">Remaining</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {budget.toolCategories.map((category, index) => (
-                      <tr
-                        key={index}
-                        className="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700"
-                      >
-                        <td className="py-4 px-4 text-gray-800 dark:text-gray-100">{category.name}</td>
-                        <td className="py-4 px-4 text-gray-800 dark:text-gray-100">
-                          ${category.allocated.toLocaleString()}
-                        </td>
-                        <td className="py-4 px-4 text-gray-800 dark:text-gray-100">
-                          ${category.spent.toLocaleString()}
-                        </td>
-                        <td className="py-4 px-4 text-gray-800 dark:text-gray-100">
-                          ${category.remaining.toLocaleString()}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          )}
-
-          {activeTab === "AI Insights" && (
-            <div className="p-6">
-              <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-4">AI Insights</h2>
-              <p className="text-gray-600 dark:text-gray-300 mb-6">
-                This is the AI insights section. It provides AI-generated recommendations and analysis for your project.
-              </p>
-              <div className="space-y-4">
-                {aiInsights.map((insight, index) => (
-                  <div
-                    key={index}
-                    className={`border rounded-lg p-4 ${
-                      index % 3 === 0
-                        ? "bg-blue-50 border-blue-200 dark:bg-blue-900 dark:border-blue-700"
-                        : index % 3 === 1
-                        ? "bg-green-50 border-green-200 dark:bg-green-900 dark:border-green-700"
-                        : "bg-yellow-50 border-yellow-200 dark:bg-yellow-900 dark:border-yellow-700"
-                    }`}
-                  >
-                    <h3
-                      className={`font-medium mb-2 ${
-                        index % 3 === 0
-                          ? "text-blue-800 dark:text-blue-400"
-                          : index % 3 === 1
-                          ? "text-green-800 dark:text-green-400"
-                          : "text-yellow-800 dark:text-yellow-400"
-                      }`}
-                    >
-                      {insight.title}
-                    </h3>
-                    <p
-                      className={`text-sm ${
-                        index % 3 === 0
-                          ? "text-blue-700 dark:text-blue-400"
-                          : index % 3 === 1
-                          ? "text-green-700 dark:text-green-400"
-                          : "text-yellow-700 dark:text-yellow-400"
-                      }`}
-                    >
-                      {insight.description}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
+        {/* Timeline Card */}
+        <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+          <div className="flex justify-between items-center mb-2">
+            <h3 className="text-gray-600 dark:text-gray-300 text-[18px]">Timeline 📅</h3>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+              <line x1="16" y1="2" x2="16" y2="6" />
+              <line x1="8" y1="2" x2="8" y2="6" />
+              <line x1="3" y1="10" x2="21" y2="10" />
+            </svg>
+          </div>
+          <h2 className="text-[33px] font-bold mb-2">{projectData.timeline.days} days</h2>
+          <div className="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-2.5 mb-2">
+            <div
+              className="bg-gray-800 dark:bg-[#4A6CF7] h-2.5 rounded-full"
+              style={{ width: `${projectData.timeline.complete}%` }}
+            ></div>
+          </div>
+          <p className="text-[15px] text-gray-500 dark:text-gray-400">
+            {projectData.timeline.complete}% complete, {projectData.timeline.remaining}% remaining
+          </p>
         </div>
+      </div>
+
+      {/* Navigation Tabs */}
+      <div className="border-b border-gray-200 dark:border-gray-700 px-4">
+        <nav className="flex space-x-6">
+          {['overview', 'tasks', 'team', 'timeline', 'budget', 'risks', 'communication', 'reporting'].map((tab) => (
+            <button
+              key={tab}
+              className={`py-3 px-1 border-b-2 font-bold text-[17px] cursor-pointer ${
+                activeTab === tab
+                  ? 'border-gray-800 dark:border-[#4A6CF7] text-gray-800 dark:text-gray-100'
+                  : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:border-gray-300 dark:hover:border-gray-600'
+              }`}
+              onClick={() => setActiveTab(tab)}
+            >
+              {tab.charAt(0).toUpperCase() + tab.slice(1)}
+            </button>
+          ))}
+        </nav>
+      </div>
+
+      {/* Content Area */}
+      <div className="p-4">
+        {activeTab === 'overview' && <Overview projectData={projectData} darkMode={darkMode} />}
+        {activeTab === 'tasks' && <Tasks projectData={projectData} />}
+        {activeTab === 'budget' && <Budget projectData={projectData} />}
+        {activeTab === 'risks' && <ProjectRisks projectData={projectData} />}
+        {activeTab === 'team' && <Teams projectData={projectData} />}
+        {activeTab === 'timeline' && <Timeline projectData={projectData} />}
+        {activeTab === 'communication' && <Communication projectData={projectData} />}
+        {activeTab === 'reporting' && <Reporting projectData={projectData} />}
       </div>
     </div>
   );

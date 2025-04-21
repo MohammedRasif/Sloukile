@@ -61,13 +61,13 @@ const DashboardSidebar = () => {
           <h1 className="text-lg font-medium transition-transform duration-200 group-hover:scale-105">Project</h1>
         </NavLink>
 
-        {/* <NavLink
-          to="/dashboard/addEmploye"
+        <NavLink
+          to="/dashboard/planing"
           className={({ isActive }) => navLinkStyle(isActive)}
         >
           <Users className="h-6 w-6 transition-transform duration-200 group-hover:scale-110" />
-          <h1 className="text-lg font-medium transition-transform duration-200 group-hover:scale-105">Add Employee</h1>
-        </NavLink> */}
+          <h1 className="text-lg font-medium transition-transform duration-200 group-hover:scale-105">Planing</h1>
+        </NavLink>
         <NavLink
           to="/dashboard/team"
           className={({ isActive }) => navLinkStyle(isActive)}

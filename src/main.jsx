@@ -36,6 +36,7 @@ import ConfirmPassword from './component/Shared/ConfrimPassowrd.jsx';
 import { Provider } from 'react-redux';
 import store from './Redux/store.js';
 import PrivateRoutes from './Root/PrivateRoute.jsx';
+import Planning from './component/DashboardPages/Planing.jsx';
 
 const router = createBrowserRouter([
   {
@@ -121,6 +122,10 @@ const router = createBrowserRouter([
       {
         path: "/dashboard/risks",
         element: <Risks />
+      },
+      {
+        path: "/dashboard/planing",
+        element: <Planning />
       },
     ]
   },

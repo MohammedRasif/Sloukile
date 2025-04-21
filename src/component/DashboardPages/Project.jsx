@@ -1,18 +1,37 @@
-import { Calendar, Users, FileText, Plus, Search, PlusCircle } from "lucide-react";
+import { Calendar, Users, FileText, Plus, Search } from "lucide-react";
 import { useState } from "react";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { NavLink } from "react-router-dom";
-import { useUserDeleteProjectMutation, useUserProjectQuery } from "../../Redux/feature/ApiSlice";
+import { useUserDeleteProjectMutation, useUserProjectQuery, useUserProjectCreateMutation, useUserEditProjectMutation } from "../../Redux/feature/ApiSlice";
+import { FaRegEdit } from "react-icons/fa";
 
 const Project = () => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [projectToDelete, setProjectToDelete] = useState(null);
+  const [isFormPopupOpen, setIsFormPopupOpen] = useState(false); // State for create/edit popup
+  const [isEditMode, setIsEditMode] = useState(false); // To track create vs edit mode
+  const [editProjectId, setEditProjectId] = useState(null); // To store the ID of the project being edited
+
+  // Form state for create/edit project
+  const [formData, setFormData] = useState({
+    start_date: "",
+    end_date: "",
+    description: "",
+    methodology: "",
+    timeline: "",
+  });
 
   // Fetch projects using the query hook
   const { data: projects, isLoading, error } = useUserProjectQuery();
 
   // Delete project mutation
   const [deleteProject] = useUserDeleteProjectMutation();
+
+  // Create project mutation
+  const [createProject, { isLoading: isCreating, error: createError }] = useUserProjectCreateMutation();
+
+  // Edit project mutation
+  const [editProject, { isLoading: isEditing, error: editError }] = useUserEditProjectMutation();
 
   const handleDeleteClick = (e, projectId) => {
     e.preventDefault();
@@ -39,6 +58,96 @@ const Project = () => {
     setProjectToDelete(null);
   };
 
+  const handleOpenCreatePopup = () => {
+    setIsEditMode(false);
+    setEditProjectId(null);
+    setFormData({
+      start_date: "",
+      end_date: "",
+      description: "",
+      methodology: "",
+      timeline: "",
+    });
+    setIsFormPopupOpen(true);
+  };
+
+  const handleOpenEditPopup = (e, project) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsEditMode(true);
+    setEditProjectId(project.id);
+    setFormData({
+      start_date: project.start_date || "",
+      end_date: project.end_date || "",
+      description: project.description || project.project_goal || "",
+      methodology: project.methodology || "",
+      timeline: project.timeline || "",
+    });
+    setIsFormPopupOpen(true);
+  };
+
+  const handleCloseFormPopup = () => {
+    setIsFormPopupOpen(false);
+    setIsEditMode(false);
+    setEditProjectId(null);
+    setFormData({
+      start_date: "",
+      end_date: "",
+      description: "",
+      methodology: "",
+      timeline: "",
+    });
+  };
+
+  const handleFormChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      if (isEditMode) {
+        // Edit mode: Use useUserEditProjectMutation
+        const updatedData = {
+          end_date: formData.end_date || null,
+          description: formData.description,
+          methodology: formData.methodology,
+          timeline: formData.timeline,
+          // start_date is not included since it shouldn't be changed
+        };
+        await editProject({ id: editProjectId, data: updatedData }).unwrap();
+        console.log("Project updated successfully!");
+      } else {
+        // Create mode: Use useUserProjectCreateMutation
+        const newProject = {
+          start_date: formData.start_date || null,
+          end_date: formData.end_date || null,
+          description: formData.description,
+          methodology: formData.methodology,
+          timeline: formData.timeline,
+          // Add other required fields with default values if necessary
+          name: formData.description ? formData.description.slice(0, 30) : "New Project", // Derive name from description
+          project_goal: formData.description,
+          buget: "0.00", // Default budget
+          total_days: 30, // Default duration
+          total_months: 1,
+          status: "pending",
+          progress: 0,
+          labor_costs: [], // Empty initially
+        };
+        await createProject(newProject).unwrap();
+        console.log("Project created successfully!");
+      }
+      handleCloseFormPopup();
+    } catch (err) {
+      console.error(isEditMode ? "Failed to update project:" : "Failed to create project:", err);
+    }
+  };
+
   if (isLoading) return <div>Loading projects...</div>;
   if (error) return <div>Error loading projects: {error.message}</div>;
 
@@ -62,12 +171,6 @@ const Project = () => {
             size={20}
           />
         </div>
-        <NavLink to="/dashboard/chat">
-          <button className="flex items-center gap-2 bg-[#00308F] text-white px-4 py-2 rounded-md hover:bg-[#00218f] dark:bg-[#4A6CF7] dark:hover:bg-[#3B5AEB] transition-colors">
-            <PlusCircle size={20} />
-            Add New Employee
-          </button>
-        </NavLink>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
@@ -81,15 +184,26 @@ const Project = () => {
               <h3 className="text-[22px] font-bold text-gray-800 dark:text-gray-100">
                 {project.name}
               </h3>
-              <button
-                className="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200"
-                onClick={(e) => handleDeleteClick(e, project.id)}
-              >
-                <RiDeleteBin6Line
-                  size={22}
-                  className="text-red-500 dark:text-red-400 cursor-pointer"
-                />
-              </button>
+              <div className="flex items-center space-x-1">
+                <button
+                  className="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200"
+                  onClick={(e) => handleOpenEditPopup(e, project)}
+                >
+                  <FaRegEdit
+                    size={22}
+                    className="dark:text-white cursor-pointer"
+                  />
+                </button>
+                <button
+                  className="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200"
+                  onClick={(e) => handleDeleteClick(e, project.id)}
+                >
+                  <RiDeleteBin6Line
+                    size={22}
+                    className="text-red-500 dark:text-red-400 cursor-pointer"
+                  />
+                </button>
+              </div>
             </div>
 
             <p className="text-sm text-gray-500 dark:text-gray-400 mb-3">
@@ -109,7 +223,7 @@ const Project = () => {
                   {project.progress || 0}%
                 </p>
               </div>
-              <div className="w-full bg-gray-200 dark:bg-gray-600 rounded-full h W-3">
+              <div className="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-3">
                 <div
                   className="bg-[#00308F] dark:bg-[#4A6CF7] h-3 rounded-full"
                   style={{ width: `${project.progress || 0}%` }}
@@ -147,15 +261,17 @@ const Project = () => {
           <h3 className="text-lg font-medium text-gray-800 dark:text-gray-200 mb-4">
             Create A New Project
           </h3>
-          <NavLink to="/dashboard/chat">
-            <button className="bg-[#00308F] dark:bg-[#4A6CF7] text-white px-4 py-2 rounded-md flex items-center space-x-2 hover:bg-[#00218f] dark:hover:bg-[#3B5AEB] transition-colors">
-              <Plus className="h-4 w-4" />
-              <span>Add New Project</span>
-            </button>
-          </NavLink>
+          <button
+            onClick={handleOpenCreatePopup}
+            className="bg-[#00308F] dark:bg-[#4A6CF7] text-white px-4 py-2 rounded-md flex items-center space-x-2 hover:bg-[#00218f] dark:hover:bg-[#3B5AEB] transition-colors"
+          >
+            <Plus className="h-4 w-4" />
+            <span>Add New Project</span>
+          </button>
         </div>
       </div>
 
+      {/* Delete Confirmation Popup */}
       {isPopupOpen && (
         <div className="fixed inset-0 flex items-center justify-center z-50">
           <div className="absolute inset-0 backdrop-blur-[3px] shadow-md"></div>
@@ -180,6 +296,116 @@ const Project = () => {
                 Cancel
               </button>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* Create/Edit Project Popup */}
+      {isFormPopupOpen && (
+        <div className="fixed inset-0 flex items-center justify-center z-50">
+          <div className="absolute inset-0 backdrop-blur-[3px] shadow-md"></div>
+          <div className="relative bg-white dark:bg-[#1E232E] rounded-xl shadow-sm p-6 w-[400px] max-w-[90vw] border border-gray-200 dark:border-gray-700">
+            <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-4">
+              {isEditMode ? "Edit Project" : "Create New Project"}
+            </h3>
+            <form onSubmit={handleFormSubmit}>
+              <div className="mb-4">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  Start Date
+                </label>
+                <input
+                  type="date"
+                  name="start_date"
+                  value={formData.start_date}
+                  onChange={handleFormChange}
+                  className="w-full px-3 py-2 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-[#1E232E] text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#00308F] dark:focus:ring-[#4A6CF7]"
+                  disabled={isEditMode} // Disabled in edit mode
+                  required={!isEditMode} // Required only in create mode
+                />
+              </div>
+
+              <div className="mb-4">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  End Date
+                </label>
+                <input
+                  type="date"
+                  name="end_date"
+                  value={formData.end_date}
+                  onChange={handleFormChange}
+                  className="w-full px-3 py-2 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-[#1E232E] text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#00308F] dark:focus:ring-[#4A6CF7]"
+                />
+              </div>
+
+              <div className="mb-4">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  Description
+                </label>
+                <textarea
+                  name="description"
+                  value={formData.description}
+                  onChange={handleFormChange}
+                  placeholder="Project description"
+                  className="w-full px-3 py-2 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-[#1E232E] text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#00308F] dark:focus:ring-[#4A6CF7]"
+                  rows={3}
+                  required
+                />
+              </div>
+
+              <div className="mb-4">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  Methodology
+                </label>
+                <input
+                  type="text"
+                  name="methodology"
+                  value={formData.methodology}
+                  onChange={handleFormChange}
+                  placeholder="Project methodology"
+                  className="w-full px-3 py-2 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-[#1E232E] text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#00308F] dark:focus:ring-[#4A6CF7]"
+                  required
+                />
+              </div>
+
+              <div className="mb-6">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  Timeline
+                </label>
+                <textarea
+                  name="timeline"
+                  value={formData.timeline}
+                  onChange={handleFormChange}
+                  placeholder="Project timeline (e.g., Phase 1: Planning (1 week), ...)"
+                  className="w-full px-3 py-2 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-[#1E232E] text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#00308F] dark:focus:ring-[#4A6CF7]"
+                  rows={3}
+                  required
+                />
+              </div>
+
+              <div className="flex justify-between gap-4">
+                <button
+                  type="button"
+                  onClick={handleCloseFormPopup}
+                  className="bg-gray-200 dark:bg-gray-600 text-gray-700 dark:text-gray-200 px-6 py-2 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors font-medium cursor-pointer"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={isCreating || isEditing}
+                  className="bg-[#00308F] dark:bg-[#4A6CF7] text-white px-6 py-2 rounded-lg hover:bg-[#00218f] dark:hover:bg-[#3B5AEB] transition-colors font-medium cursor-pointer disabled:opacity-50"
+                >
+                  {isEditMode ? (isEditing ? "Updating..." : "Update") : (isCreating ? "Creating..." : "Save")}
+                </button>
+              </div>
+              {(createError || editError) && (
+                <p className="mt-4 text-red-600 dark:text-red-400 text-center">
+                  {isEditMode
+                    ? `Failed to update project: ${editError?.message || "Unknown error"}`
+                    : `Failed to create project: ${createError?.message || "Unknown error"}`}
+                </p>
+              )}
+            </form>
           </div>
         </div>
       )}
