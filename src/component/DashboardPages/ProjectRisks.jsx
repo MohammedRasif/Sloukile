@@ -50,7 +50,7 @@ const ProjectRisks = () => {
   return (
     <div>
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-[23px] font-bold text-gray-800 dark:text-gray-100">Risk Register ⚠️</h2>
+        <h2 className="text-[23px] font-bold text-gray-800 dark:text-gray-100">Risk Register</h2>
         <div className="flex gap-2">
           <button className="flex items-center gap-1 bg-gray-800 dark:bg-[#4A6CF7] text-white rounded-md px-3 py-1.5 text-[15px] hover:bg-gray-700 dark:hover:bg-[#3B5AEB]">
             <svg

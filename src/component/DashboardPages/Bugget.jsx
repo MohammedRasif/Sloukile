@@ -60,7 +60,7 @@ const Budget = () => {
     <div>
       <div className="flex justify-between items-center mb-4">
         <div>
-          <h2 className="text-[23px] font-bold text-gray-800 dark:text-gray-100 mb-1">Budget Management 💰</h2>
+          <h2 className="text-[23px] font-bold text-gray-800 dark:text-gray-100 mb-1">Budget Management </h2>
           <p className="text-gray-500 dark:text-gray-400 text-[15px]">Track project expenses and budget</p>
         </div>
       </div>
@@ -74,9 +74,9 @@ const Budget = () => {
         <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-4">
           <h3 className="text-[15px] text-gray-500 dark:text-gray-400 mb-1">Spent</h3>
           <p className="text-[26px] font-bold">${budgetData.budget.spent.toLocaleString()}</p>
-          <div className="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-1.5 mt-2">
+          <div className="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-3 mt-2">
             <div
-              className="bg-gray-800 dark:bg-[#4A6CF7] h-1.5 rounded-full"
+              className="bg-gray-800 dark:bg-[#4A6CF7] h-3 rounded-full"
               style={{ width: `${budgetData.budget.percentUsed}%` }}
             ></div>
           </div>
@@ -85,9 +85,9 @@ const Budget = () => {
         <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-4">
           <h3 className="text-[15px] text-gray-500 dark:text-gray-400 mb-1">Remaining</h3>
           <p className="text-[26px] font-bold">${budgetData.budget.remaining.toLocaleString()}</p>
-          <div className="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-1.5 mt-2">
+          <div className="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-3 mt-2">
             <div
-              className="bg-gray-800 dark:bg-[#4A6CF7] h-1.5 rounded-full"
+              className="bg-gray-800 dark:bg-[#4A6CF7] h-3 rounded-full"
               style={{ width: `${100 - budgetData.budget.percentUsed}%` }}
             ></div>
           </div>

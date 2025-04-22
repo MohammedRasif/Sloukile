@@ -48,9 +48,18 @@ const Overview = () => {
       },
     ],
     chartData: [
-      { name: 'Jun 2025', value: 10000 },
-      { name: 'Jul 2025', value: 25000 },
-      { name: 'Aug 2025', value: 40000 },
+      { name: 'jan 2025', value: 10000 },
+      { name: 'fab 2025', value: 35000 },
+      { name: 'mar 2025', value: 620000 },
+      { name: 'apr 2025', value: 25000 },
+      { name: 'may 2025', value: 415000 },
+      { name: 'jun 2025', value: 615000 },
+      { name: 'jul 2025', value: 40000 },
+      { name: 'Aug 2025', value: 10000 },
+      { name: 'sep 2025', value: 240000 },
+      { name: 'oct 2025', value: 354000 },
+      { name: 'nov 2025', value: 40000 },
+      { name: 'dec 2025', value: 40000 },
     ],
   };
 
@@ -60,7 +69,7 @@ const Overview = () => {
   return (
     <div>
       <div className="mb-8">
-        <h2 className="text-[23px] font-bold text-gray-800 dark:text-gray-100 mb-1">Project Overview 📋</h2>
+        <h2 className="text-[23px] font-bold text-gray-800 dark:text-gray-100 mb-1">Project Overview </h2>
         <p className="text-gray-500 dark:text-gray-400 text-[15px] mb-6">
           Key information about {projectData.name}
         </p>
@@ -104,7 +113,7 @@ const Overview = () => {
               </div>
               <div className="grid grid-cols-2 text-[16px]">
                 <span className="text-gray-500 dark:text-gray-400">Status:</span>
-                <span className="inline-flex items-center px-3 py-0.5 rounded-full text-[15px] font-medium bg-gray-800 dark:bg-[#4A6CF7] text-white">
+                <span className="inline-flex w-31 items-center px-3 py-0.5 rounded-full text-[15px] font-medium bg-gray-800 dark:bg-[#4A6CF7] text-white">
                   {projectData.timeline.status}
                 </span>
               </div>
@@ -112,7 +121,7 @@ const Overview = () => {
           </div>
         </div>
 
-        <h3 className="font-medium text-[18px] text-gray-700 dark:text-gray-300 mb-4">Project Progress 📈</h3>
+        <h3 className="font-medium text-[18px] text-gray-700 dark:text-gray-300 mb-4">Project Progress </h3>
         <div className="h-64 bg-blue-50 dark:bg-[#2A2F3B] rounded-lg mb-6 py-5">
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart

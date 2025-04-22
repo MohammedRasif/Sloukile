@@ -4,15 +4,17 @@ import img1 from "../Navbar/Group (2).png";
 import { Bot, Briefcase, Clock, Settings, Users } from "lucide-react";
 import { BiSolidDashboard } from "react-icons/bi";
 import { useDarkMode } from "../../context/ThemeContext";
-import { RiTeamFill } from "react-icons/ri";
+import { RiPassPendingLine, RiTeamFill } from "react-icons/ri";
 import { GoAlertFill } from "react-icons/go";
+import { LuCircleFadingPlus } from "react-icons/lu";
+import { MdCompost } from "react-icons/md";
 
 const DashboardSidebar = () => {
   const location = useLocation();
   const isProjectActive = location.pathname.startsWith('/dashboard/Project');
- const { darkMode, setDarkMode } = useDarkMode();
+  const { darkMode, setDarkMode } = useDarkMode();
 
- 
+
   // Common NavLink styling function
   const navLinkStyle = (isActive) => `
     flex items-center gap-3 px-6 py-3  relative 
@@ -26,16 +28,17 @@ const DashboardSidebar = () => {
     <div className="text-[#00308F] dark:text-white">
       <NavLink to="/">
         <div className="flex items-center justify-center pt-10 pb-6">
-        <div>
-          <img
-            src={darkMode ? img1 : img}
-            alt="Logo"
-            className="h-[30px] sm:h-[80px] md:h-[34px] w-auto"
-          />
-        </div>
+          <div>
+            <img
+              src={darkMode ? img1 : img}
+              alt="Logo"
+              className="h-[30px] sm:h-[80px] md:h-[34px] w-auto"
+            />
+          </div>
         </div>
       </NavLink>
       <div className="flex flex-col gap-1">
+
         <NavLink
           to="/dashboard"
           end
@@ -44,7 +47,14 @@ const DashboardSidebar = () => {
           <BiSolidDashboard className="h-6 w-6 transition-transform duration-200 group-hover:scale-110" />
           <h1 className="text-lg font-medium transition-transform duration-200 group-hover:scale-105">Dashboard</h1>
         </NavLink>
-
+        {/* <NavLink
+          to="/dashboard/createProject"
+          end
+          className={({ isActive }) => navLinkStyle(isActive)}
+        >
+          <LuCircleFadingPlus className="h-6 w-6 transition-transform duration-200 group-hover:scale-110" />
+          <h1 className="text-lg font-medium transition-transform duration-200 group-hover:scale-105">Create Project</h1>
+        </NavLink> */}
         <NavLink
           to="/dashboard/chat"
           className={({ isActive }) => navLinkStyle(isActive)}
@@ -61,13 +71,13 @@ const DashboardSidebar = () => {
           <h1 className="text-lg font-medium transition-transform duration-200 group-hover:scale-105">Project</h1>
         </NavLink>
 
-        <NavLink
+        {/* <NavLink
           to="/dashboard/planing"
           className={({ isActive }) => navLinkStyle(isActive)}
         >
           <Users className="h-6 w-6 transition-transform duration-200 group-hover:scale-110" />
           <h1 className="text-lg font-medium transition-transform duration-200 group-hover:scale-105">Planing</h1>
-        </NavLink>
+        </NavLink> */}
         <NavLink
           to="/dashboard/team"
           className={({ isActive }) => navLinkStyle(isActive)}
@@ -80,17 +90,24 @@ const DashboardSidebar = () => {
           to="/dashboard/taskProgress"
           className={({ isActive }) => navLinkStyle(isActive)}
         >
-          <Clock className="h-6 w-6 transition-transform duration-200 group-hover:scale-110" />
+          <RiPassPendingLine className="h-6 w-6 transition-transform duration-200 group-hover:scale-110" />
           <h1 className="text-lg font-medium transition-transform duration-200 group-hover:scale-105">Task Progress</h1>
         </NavLink>
-
         <NavLink
+          to="/dashboard/post_project"
+          className={({ isActive }) => navLinkStyle(isActive)}
+        >
+          <MdCompost className="h-6 w-6 transition-transform duration-200 group-hover:scale-110" />
+          <h1 className="text-lg font-medium transition-transform duration-200 group-hover:scale-105">Post Project</h1>
+        </NavLink>
+
+        {/* <NavLink
           to="/dashboard/risks"
           className={({ isActive }) => navLinkStyle(isActive)}
         >
           <GoAlertFill className="h-6 w-6 transition-transform duration-200 group-hover:scale-110" />
           <h1 className="text-lg font-medium transition-transform duration-200 group-hover:scale-105">Risks</h1>
-        </NavLink>
+        </NavLink> */}
 
         <NavLink
           to="/dashboard/manageSubscription"

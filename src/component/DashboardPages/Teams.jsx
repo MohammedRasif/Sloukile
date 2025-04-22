@@ -31,7 +31,7 @@ const Teams = () => {
     <div>
       <div className="flex justify-between items-center mb-4">
         <div>
-          <h2 className="text-[23px] font-bold text-gray-800 dark:text-gray-100 mb-1">Team Members 👥</h2>
+          <h2 className="text-[23px] font-bold text-gray-800 dark:text-gray-100 mb-1">Team Members </h2>
           <p className="text-gray-500 dark:text-gray-400 text-[15px]">Manage project team and roles</p>
         </div>
         <button className="flex items-center gap-1 bg-gray-800 dark:bg-[#4A6CF7] text-white px-4 py-2 rounded-md text-[15px] font-medium hover:bg-gray-700 dark:hover:bg-[#3B5AEB]">
@@ -88,7 +88,7 @@ const Teams = () => {
                   {member.name.charAt(0)}
                 </div>
                 <div>
-                  <h3 className="font-medium text-gray-900 dark:text-gray-100 text-[16px]">{member,
+                  <h3 className="font-medium text-gray-900 dark:text-gray-100 text-[16px]">{
                   member.name}</h3>
                   <p className="text-[15px] text-gray-500 dark:text-gray-400">{member.role}</p>
                 </div>
@@ -113,10 +113,10 @@ const Teams = () => {
             </div>
 
             <div className="mb-4">
-              <p className="text-[15px] text-gray-500 dark:text-gray-400 mb-1">Availability</p>
-              <div className="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-1.5 mb-1">
+              <p className="text-[15px] text-gray-500 dark:text-gray-400 mb-1">Proccessing</p>
+              <div className="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-3 mb-1">
                 <div
-                  className="bg-gray-800 dark:bg-[#4A6CF7] h-1.5 rounded-full"
+                  className="bg-gray-800 dark:bg-[#4A6CF7] h-3 rounded-full"
                   style={{ width: `${member.availability}%` }}
                 ></div>
               </div>

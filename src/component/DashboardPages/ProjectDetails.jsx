@@ -1,4 +1,7 @@
-import { useState, useEffect } from 'react';
+
+"use client";
+
+import { useState } from 'react';
 import Tasks from './Tasks.jsx';
 import Budget from './Bugget.jsx';
 import ProjectRisks from './ProjectRisks.jsx';
@@ -7,6 +10,10 @@ import Timeline from './Timeline.jsx';
 import Overview from './Overview.jsx';
 import Communication from './Communication.jsx';
 import Reporting from './Reporting.jsx';
+import ProjectCharter from './ProjectCharter.jsx';
+import GovernanceSetup from './GovernanceSetup.jsx';
+import Stakeholders from './Stakeholders.jsx';
+import Objectives from './Objectives.jsx';
 
 const ProjectDetails = () => {
   const [activeTab, setActiveTab] = useState('overview');
@@ -160,107 +167,31 @@ const ProjectDetails = () => {
     ],
   };
 
-  // Sync dark mode
-  useEffect(() => {
-    const isDark = localStorage.getItem('darkMode') === 'true' || (!localStorage.getItem('darkMode') && window.matchMedia('(prefers-color-scheme: dark)').matches);
-    setDarkMode(isDark);
-    if (isDark) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-  }, []);
-
-  const toggleDarkMode = () => {
-    const newDarkMode = !darkMode;
-    setDarkMode(newDarkMode);
-    localStorage.setItem('darkMode', newDarkMode);
-    if (newDarkMode) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-  };
-
   return (
-    <div className="bg-white dark:bg-[#1E232E] min-h-screen text-gray-800 dark:text-gray-200 roboto">
+    <div className="bg-white dark:bg-[#1E232E] min-h-screen text-gray-800 dark:text-gray-200 font-roboto">
       {/* Header */}
-      <div className="border-b border-gray-200 dark:border-gray-700 p-5 flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <button className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-[#353A47]">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="18"
-              height="18"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M19 12H5M12 19l-7-7 7-7" />
-            </svg>
-          </button>
-          <h1 className="text-[27px] font-bold">{projectData.name} 📋</h1>
-          <span className="bg-gray-800 dark:bg-[#4A6CF7] text-white text-[15px] px-2 py-1 rounded-full">{projectData.status}</span>
+      <div className="border-b border-gray-200 dark:border-gray-700 px-4 py-3 sm:px-6 sm:py-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+        <div className="flex items-center gap-2 flex-wrap">
+          <h1 className="text-xl sm:text-2xl md:text-3xl font-bold">{projectData.name}</h1>
+          <span className="bg-gray-800 dark:bg-[#4A6CF7] text-white text-xs sm:text-sm px-2 py-1 rounded-full">
+            {projectData.status}
+          </span>
         </div>
         <div className="flex items-center gap-2">
           <button
-            className="flex items-center gap-1 bg-white dark:bg-[#2A2F3B] border border-gray-200 dark:border-gray-700 rounded-md px-3 py-1.5 text-[15px] hover:bg-gray-100 dark:hover:bg-[#353A47]"
-            onClick={toggleDarkMode}
+            className="flex items-center gap-1 bg-white dark:bg-[#2A2F3B] border border-gray-200 dark:border-gray-700 rounded-md px-3 py-1.5 text-sm sm:text-base hover:bg-gray-100 dark:hover:bg-[#353A47]"
           >
-            {darkMode ? (
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <circle cx="12" cy="12" r="5" />
-                <line x1="12" y1="1" x2="12" y2="3" />
-                <line x1="12" y1="21" x2="12" y2="23" />
-                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
-                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
-                <line x1="1" y1="12" x2="3" y2="12" />
-                <line x1="21" y1="12" x2="23" y2="12" />
-                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
-                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
-              </svg>
-            ) : (
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
-              </svg>
-            )}
-            {darkMode ? 'Light Mode' : 'Dark Mode'}
-          </button>
-          <button className="flex items-center gap-1 bg-white dark:bg-[#2A2F3B] border border-gray-200 dark:border-gray-700 rounded-md px-3 py-1.5 text-[15px] hover:bg-gray-100 dark:hover:bg-[#353A47]">
             Analyze with AI 🤖
           </button>
         </div>
       </div>
 
       {/* Metrics Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 p-5">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 p-4 sm:p-6">
         {/* Progress Card */}
         <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-4">
           <div className="flex justify-between items-center mb-2">
-            <h3 className="text-gray-600 dark:text-gray-300 text-[18px]">Progress 📈</h3>
+            <h3 className="text-gray-600 dark:text-gray-300 text-sm sm:text-base">Progress</h3>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="18"
@@ -276,11 +207,14 @@ const ProjectDetails = () => {
               <polyline points="12 6 12 12 16 14" />
             </svg>
           </div>
-          <h2 className="text-[33px] font-bold mb-2">{projectData.progress}%</h2>
+          <h2 className="text-2xl sm:text-3xl font-bold mb-2">{projectData.progress}%</h2>
           <div className="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-2.5 mb-2">
-            <div className="bg-gray-800 dark:bg-[#4A6CF7] h-2.5 rounded-full" style={{ width: `${projectData.progress}%` }}></div>
+            <div
+              className="bg-gray-800 dark:bg-[#4A6CF7] h-2.5 rounded-full"
+              style={{ width: `${projectData.progress}%` }}
+            ></div>
           </div>
-          <p className="text-[15px] text-gray-500 dark:text-gray-400">
+          <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">
             {projectData.timeline.startDate} - {projectData.timeline.endDate}
           </p>
         </div>
@@ -288,7 +222,7 @@ const ProjectDetails = () => {
         {/* Budget Card */}
         <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-4">
           <div className="flex justify-between items-center mb-2">
-            <h3 className="text-gray-600 dark:text-gray-300 text-[18px]">Budget 💰</h3>
+            <h3 className="text-gray-600 dark:text-gray-300 text-sm sm:text-base">Budget</h3>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="18"
@@ -304,14 +238,14 @@ const ProjectDetails = () => {
               <line x1="2" y1="10" x2="22" y2="10" />
             </svg>
           </div>
-          <h2 className="text-[33px] font-bold mb-2">${projectData.budget.spent.toLocaleString()}</h2>
+          <h2 className="text-2xl sm:text-3xl font-bold mb-2">${projectData.budget.spent.toLocaleString()}</h2>
           <div className="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-2.5 mb-2">
             <div
               className="bg-gray-800 dark:bg-[#4A6CF7] h-2.5 rounded-full"
               style={{ width: `${projectData.budget.percentUsed}%` }}
             ></div>
           </div>
-          <p className="text-[15px] text-gray-500 dark:text-gray-400">
+          <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">
             {projectData.budget.percentUsed}% of ${projectData.budget.total.toLocaleString()}
           </p>
         </div>
@@ -319,7 +253,7 @@ const ProjectDetails = () => {
         {/* Team Card */}
         <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-4">
           <div className="flex justify-between items-center mb-2">
-            <h3 className="text-gray-600 dark:text-gray-300 text-[18px]">Team 👥</h3>
+            <h3 className="text-gray-600 dark:text-gray-300 text-sm sm:text-base">Team</h3>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="18"
@@ -337,18 +271,18 @@ const ProjectDetails = () => {
               <path d="M16 3.13a4 4 0 0 1 0 7.75" />
             </svg>
           </div>
-          <h2 className="text-[33px] font-bold mb-2">{projectData.team.count}</h2>
+          <h2 className="text-2xl sm:text-3xl font-bold mb-2">{projectData.team.count}</h2>
           <div className="flex -space-x-2 mb-2">
             {projectData.team.members.map((member, index) => (
               <div
                 key={index}
-                className="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-600 border-2 border-white dark:border-[#1E232E] flex items-center justify-center text-[15px] font-medium"
+                className="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-600 border-2 border-white dark:border-[#1E232E] flex items-center justify-center text-xs sm:text-sm font-medium"
               >
                 {member.name.charAt(0)}
               </div>
             ))}
           </div>
-          <p className="text-[15px] text-gray-500 dark:text-gray-400">
+          <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">
             {projectData.team.members.map((m) => m.role).join(', ')}
           </p>
         </div>
@@ -356,7 +290,7 @@ const ProjectDetails = () => {
         {/* Timeline Card */}
         <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-4">
           <div className="flex justify-between items-center mb-2">
-            <h3 className="text-gray-600 dark:text-gray-300 text-[18px]">Timeline 📅</h3>
+            <h3 className="text-gray-600 dark:text-gray-300 text-sm sm:text-base">Timeline</h3>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="18"
@@ -374,26 +308,26 @@ const ProjectDetails = () => {
               <line x1="3" y1="10" x2="21" y2="10" />
             </svg>
           </div>
-          <h2 className="text-[33px] font-bold mb-2">{projectData.timeline.days} days</h2>
+          <h2 className="text-2xl sm:text-3xl font-bold mb-2">{projectData.timeline.days} days</h2>
           <div className="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-2.5 mb-2">
             <div
               className="bg-gray-800 dark:bg-[#4A6CF7] h-2.5 rounded-full"
               style={{ width: `${projectData.timeline.complete}%` }}
             ></div>
           </div>
-          <p className="text-[15px] text-gray-500 dark:text-gray-400">
+          <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">
             {projectData.timeline.complete}% complete, {projectData.timeline.remaining}% remaining
           </p>
         </div>
       </div>
 
       {/* Navigation Tabs */}
-      <div className="border-b border-gray-200 dark:border-gray-700 px-4">
-        <nav className="flex space-x-6">
-          {['overview', 'tasks', 'team', 'timeline', 'budget', 'risks', 'communication', 'reporting'].map((tab) => (
+      <div className="border-b border-gray-200 dark:border-gray-700 px-4 sm:px-6">
+        <nav className="flex flex-wrap gap-4 sm:gap-6 overflow-x-auto pb-2">
+          {['overview', 'tasks', 'team', 'timeline', 'budget', 'risks', 'communication', 'reporting', 'projectCharter', 'governanceSetup', 'stakeholders', 'objectives'].map((tab) => (
             <button
               key={tab}
-              className={`py-3 px-1 border-b-2 font-bold text-[17px] cursor-pointer ${
+              className={`py-2 sm:py-3 px-1 border-b-2 font-bold text-sm sm:text-base whitespace-nowrap cursor-pointer ${
                 activeTab === tab
                   ? 'border-gray-800 dark:border-[#4A6CF7] text-gray-800 dark:text-gray-100'
                   : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:border-gray-300 dark:hover:border-gray-600'
@@ -407,7 +341,7 @@ const ProjectDetails = () => {
       </div>
 
       {/* Content Area */}
-      <div className="p-4">
+      <div className="p-4 sm:p-6 ">
         {activeTab === 'overview' && <Overview projectData={projectData} darkMode={darkMode} />}
         {activeTab === 'tasks' && <Tasks projectData={projectData} />}
         {activeTab === 'budget' && <Budget projectData={projectData} />}
@@ -416,6 +350,10 @@ const ProjectDetails = () => {
         {activeTab === 'timeline' && <Timeline projectData={projectData} />}
         {activeTab === 'communication' && <Communication projectData={projectData} />}
         {activeTab === 'reporting' && <Reporting projectData={projectData} />}
+        {activeTab === 'projectCharter' && <ProjectCharter projectData={projectData} />}
+        {activeTab === 'governanceSetup' && <GovernanceSetup projectData={projectData} />}
+        {activeTab === 'stakeholders' && <Stakeholders projectData={projectData} />}
+        {activeTab === 'objectives' && <Objectives projectData={projectData} />}
       </div>
     </div>
   );

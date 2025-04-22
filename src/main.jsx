@@ -35,8 +35,10 @@ import ForgetPassword from './component/Shared/ForgetPassword.jsx';
 import ConfirmPassword from './component/Shared/ConfrimPassowrd.jsx';
 import { Provider } from 'react-redux';
 import store from './Redux/store.js';
-import PrivateRoutes from './Root/PrivateRoute.jsx';
-import Planning from './component/DashboardPages/Planing.jsx';
+import PostProject from './component/DashboardPages/PostProject.jsx';
+// import CreateProject from './component/DashboardPages/CreateProject.jsx';
+// import PrivateRoutes from './Root/PrivateRoute.jsx';
+// import Planning from './component/DashboardPages/Planing.jsx';
 
 const router = createBrowserRouter([
   {
@@ -124,9 +126,13 @@ const router = createBrowserRouter([
         element: <Risks />
       },
       {
-        path: "/dashboard/planing",
-        element: <Planning />
+        path: "/dashboard/post_project",
+        element: <PostProject />
       },
+      // {
+      //   path: "/dashboard/planing",
+      //   element: <Planning />
+      // },
     ]
   },
   {

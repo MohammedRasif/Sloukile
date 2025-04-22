@@ -17,7 +17,7 @@ const Reporting = ({ projectData }) => {
     <div>
       <div className="flex justify-between items-center mb-4">
         <div>
-          <h2 className="text-[23px] font-bold text-gray-800 dark:text-gray-100 mb-1">Reports 📊</h2>
+          <h2 className="text-[23px] font-bold text-gray-800 dark:text-gray-100 mb-1">Reports </h2>
           <p className="text-gray-500 dark:text-gray-400 text-[15px]">
             Project reports and summaries for {projectData.name}
           </p>

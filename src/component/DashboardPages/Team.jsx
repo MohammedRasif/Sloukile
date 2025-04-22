@@ -3,16 +3,15 @@ import { useState } from "react";
 import { FaRegEdit } from "react-icons/fa";
 import { RiDeleteBin6Line, RiAddCircleLine } from "react-icons/ri";
 import { NavLink } from "react-router-dom";
-import { useUserTeamManagementMutation, useUserCreateTeamMutation, useUserTeamDeleteMutation, useUserEditTeamMutation } from "../../Redux/feature/ApiSlice";
+import { useUserCreateTeamMutation, useUserTeamDeleteMutation, useUserEditTeamMutation, useUserTeamManagementQuery } from "../../Redux/feature/ApiSlice";
 
 const Team = () => {
   const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false);
-  const [isFormPopupOpen, setIsFormPopupOpen] = useState(false); // Unified popup for add/edit
-  const [isEditMode, setIsEditMode] = useState(false); // To track add vs edit mode
-  const [editMemberId, setEditMemberId] = useState(null); // To store the ID of the member being edited
-  const [memberToDelete, setMemberToDelete] = useState(null); // To store the ID of the member to delete
+  const [isFormPopupOpen, setIsFormPopupOpen] = useState(false);
+  const [isEditMode, setIsEditMode] = useState(false);
+  const [editMemberId, setEditMemberId] = useState(null);
+  const [memberToDelete, setMemberToDelete] = useState(null);
 
-  // Form state for add/edit team member
   const [formData, setFormData] = useState({
     name: "",
     skills: "",
@@ -21,22 +20,13 @@ const Team = () => {
     phone: "",
   });
 
-  // Fetch team members using the mutation hook
-  const [fetchTeamMembers, { data: teamMembers, isLoading, error }] = useUserTeamManagementMutation();
+  // Fetch team members using the query hook
+  const { data: teamMembers, isLoading, error } = useUserTeamManagementQuery();
 
-  // Create team member mutation
+  // Create, delete, and edit mutations
   const [createTeamMember, { isLoading: isCreating, error: createError }] = useUserCreateTeamMutation();
-
-  // Delete team member mutation
   const [deleteTeamMember, { isLoading: isDeleting, error: deleteError }] = useUserTeamDeleteMutation();
-
-  // Edit team member mutation
   const [editTeamMember, { isLoading: isEditing, error: editError }] = useUserEditTeamMutation();
-
-  // Fetch team members on component mount
-  useState(() => {
-    fetchTeamMembers();
-  }, [fetchTeamMembers]);
 
   const handleDeleteClick = (e, memberId) => {
     e.preventDefault();
@@ -113,7 +103,6 @@ const Team = () => {
     e.preventDefault();
     try {
       if (isEditMode) {
-        // Edit mode: Use useUserEditTeamMutation
         const updatedData = {
           name: formData.name,
           skills: formData.skills,
@@ -124,7 +113,6 @@ const Team = () => {
         await editTeamMember({ id: editMemberId, data: updatedData }).unwrap();
         console.log("Team member updated successfully!");
       } else {
-        // Add mode: Use useUserCreateTeamMutation
         const newMember = {
           name: formData.name,
           skills: formData.skills,
@@ -142,7 +130,10 @@ const Team = () => {
   };
 
   if (isLoading) return <div>Loading team members...</div>;
-  if (error) return <div>Error loading team members: {error.message}</div>;
+  if (error) {
+    console.error('Error details:', error);
+    return <div>Error loading team members: {error.message || 'Unknown error'}</div>;
+  }
 
   return (
     <div className="min-h-screen p-6 text-gray-800 dark:text-gray-200 roboto">
@@ -150,7 +141,7 @@ const Team = () => {
         {/* Header */}
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-3xl font-bold text-gray-800 dark:text-gray-100">
-            Team Management 
+            Team Management
           </h1>
         </div>
 
@@ -159,7 +150,7 @@ const Team = () => {
           <div className="relative w-full max-w-md">
             <input
               type="text"
-              placeholder="Search Team Member... "
+              placeholder="Search Team Member..."
               className="w-full pl-4 pr-10 py-3 rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-[#1E232E] text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#00308F] dark:focus:ring-[#4A6CF7]"
             />
             <Search
@@ -180,7 +171,7 @@ const Team = () => {
               <div className="flex justify-between items-start mb-2">
                 <div>
                   <h3 className="text-[24px] font-bold text-gray-800 dark:text-gray-100">
-                    {member.name} 
+                    {member.name}
                   </h3>
                   <p className="text-gray-500 dark:text-gray-400">
                     {member.skills}
@@ -237,14 +228,14 @@ const Team = () => {
             </div>
             <h3 className="text-lg font-medium text-gray-800 dark:text-gray-200 mb-4 flex items-center space-x-2">
               <RiAddCircleLine className="text-gray-500 dark:text-gray-300" size={24} />
-              <span>Create A New Member 🌟</span>
+              <span>Create A New Member</span>
             </h3>
             <button
               onClick={handleAddClick}
               className="bg-[#00308F] dark:bg-[#4A6CF7] text-white px-4 py-2 rounded-md flex items-center space-x-2 hover:bg-[#00218f] dark:hover:bg-[#3B5AEB] cursor-pointer"
             >
               <Plus className="h-4 w-4" />
-              <span>Add New Member ✨</span>
+              <span>Add New Member</span>
             </button>
           </div>
         </div>
@@ -258,7 +249,7 @@ const Team = () => {
                 Confirm Deletion 🗑️
               </h3>
               <p className="text-gray-600 dark:text-gray-300 text-center mb-6">
-                Are you sure you want to delete this member? This action cannot be undone. 
+                Are you sure you want to delete this member? This action cannot be undone.
               </p>
               <div className="flex justify-center gap-4">
                 <button
@@ -290,7 +281,7 @@ const Team = () => {
             <div className="absolute inset-0 bg-black/50 dark:bg-black/70 backdrop-blur-[3px]"></div>
             <div className="relative bg-white dark:bg-[#2A2F3B] rounded-xl shadow-lg p-8 w-[500px] max-w-[90vw] border border-gray-200 dark:border-gray-700">
               <h3 className="text-2xl font-semibold text-gray-800 dark:text-gray-100 mb-6 text-center">
-                {isEditMode ? "Edit Team Member ✏️" : "Add New Member 🌟"}
+                {isEditMode ? "Edit Team Member" : "Add New Member"}
               </h3>
               <form onSubmit={handleFormSubmit} className="space-y-4">
                 <div>
@@ -368,14 +359,14 @@ const Team = () => {
                     disabled={isCreating || isEditing}
                     className="bg-[#00308F] dark:bg-[#4A6CF7] text-white px-6 py-2 rounded-lg hover:bg-[#002266] dark:hover:bg-[#3B5AEB] font-medium cursor-pointer disabled:opacity-50"
                   >
-                    {isEditMode ? (isEditing ? "Updating..." : "Update ") : (isCreating ? "Adding..." : "Add Member ")}
+                    {isEditMode ? (isEditing ? "Updating..." : "Update") : (isCreating ? "Adding..." : "Add Member")}
                   </button>
                   <button
                     type="button"
                     onClick={handleCloseFormPopup}
                     className="bg-gray-200 dark:bg-gray-600 text-gray-700 dark:text-gray-200 px-6 py-2 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-700 font-medium cursor-pointer"
                   >
-                    Cancel 
+                    Cancel
                   </button>
                 </div>
                 {(createError || editError) && (
@@ -395,3 +386,9 @@ const Team = () => {
 };
 
 export default Team;
+
+
+
+
+
+

@@ -49,7 +49,7 @@ const AiChatBot = () => {
       <div className="flex items-center space-x-2">
         <Bot className="w-10 h-10 text-[#00308F] dark:text-[#00308F]" />
         <h1 className="text-3xl font-[500] text-gray-800 dark:text-gray-100">
-        AI Project Assistant
+          AI Project Assistant
         </h1>
       </div>
 
@@ -61,24 +61,15 @@ const AiChatBot = () => {
       >
         {/* Default Bot Message */}
         {messages.length === 0 && !isLoading && (
-          <div className="flex justify-start mb-4 absolute bottom-22">
-            <div className="flex items-start space-x-3">
-              <img
-                src={img}
-                alt="Bot Avatar"
-                className="w-8 h-10 rounded-full"
-              />
-              <div
-                className="px-10 py-5 rounded-lg bg-[#00308F] dark:bg-[#00308F] lg:text-[20px] text-white dark:text-gray-100 shadow-sm max-w-[100%]"
-                style={{
-                  whiteSpace: "normal",
-                  wordBreak: "break-word",
-                  overflow: "hidden",
-                }}
-              >
-                <ReactMarkdown>Hi! I Am Project Management AI. How Can I Help You?</ReactMarkdown>
-              </div>
-            </div>
+          <div className="flex flex-col items-center justify-center h-full">
+            <img
+              className="w-[150px] rounded-lg  mb-10"
+              src="https://i.ibb.co.com/s9CpmcJD/Chatbot-Message-Bubble-removebg-preview.png"
+              alt="Brand Logo"
+            />
+            <h1 className="text-gray-500 text-4xl font-bold dark:text-gray-200 mb-3">Your Smart Legal Companion</h1>
+
+            <p className="text-center dark:text-gray-200 w-3/4">Get accurate, data-driven answers to your legal questions — powered by real law references, tailored for clarity and confidence. Start chatting to explore your rights, obligations, and more.</p>
           </div>
         )}
 
@@ -161,9 +152,9 @@ const AiChatBot = () => {
           <button
             type="submit"
             className="absolute right-2 top-1/2 transform -translate-y-1/2 px-3 py-[10px] bg-[#00308F] dark:bg-[#00308F] text-white rounded-r-lg cursor-pointer hover:bg-[#002266] dark:hover:bg-[#3B5AEB] "
-            
+
           >
-           <LuSend size={28} />
+            <LuSend size={28} />
 
           </button>
         </div>

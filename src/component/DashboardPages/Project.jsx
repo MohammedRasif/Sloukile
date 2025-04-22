@@ -1,4 +1,4 @@
-import { Calendar, Users, FileText, Plus, Search } from "lucide-react";
+import { Calendar, Users, FileText, Plus, Search, X } from "lucide-react";
 import { useState } from "react";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { NavLink } from "react-router-dom";
@@ -8,29 +8,23 @@ import { FaRegEdit } from "react-icons/fa";
 const Project = () => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [projectToDelete, setProjectToDelete] = useState(null);
-  const [isFormPopupOpen, setIsFormPopupOpen] = useState(false); // State for create/edit popup
-  const [isEditMode, setIsEditMode] = useState(false); // To track create vs edit mode
-  const [editProjectId, setEditProjectId] = useState(null); // To store the ID of the project being edited
+  const [isFormPopupOpen, setIsFormPopupOpen] = useState(false);
+  const [isEditMode, setIsEditMode] = useState(false);
+  const [editProjectId, setEditProjectId] = useState(null);
 
-  // Form state for create/edit project
   const [formData, setFormData] = useState({
+    name: "",
+    project_type: "",
+    methodology: "",
+    budget: "",
     start_date: "",
     end_date: "",
     description: "",
-    methodology: "",
-    timeline: "",
   });
 
-  // Fetch projects using the query hook
   const { data: projects, isLoading, error } = useUserProjectQuery();
-
-  // Delete project mutation
   const [deleteProject] = useUserDeleteProjectMutation();
-
-  // Create project mutation
   const [createProject, { isLoading: isCreating, error: createError }] = useUserProjectCreateMutation();
-
-  // Edit project mutation
   const [editProject, { isLoading: isEditing, error: editError }] = useUserEditProjectMutation();
 
   const handleDeleteClick = (e, projectId) => {
@@ -62,11 +56,13 @@ const Project = () => {
     setIsEditMode(false);
     setEditProjectId(null);
     setFormData({
+      name: "",
+      project_type: "",
+      methodology: "",
+      budget: "",
       start_date: "",
       end_date: "",
       description: "",
-      methodology: "",
-      timeline: "",
     });
     setIsFormPopupOpen(true);
   };
@@ -77,11 +73,13 @@ const Project = () => {
     setIsEditMode(true);
     setEditProjectId(project.id);
     setFormData({
+      name: project.name || "",
+      project_type: project.project_type || "",
+      methodology: project.methodology || "",
+      budget: project.buget || "",
       start_date: project.start_date || "",
       end_date: project.end_date || "",
       description: project.description || project.project_goal || "",
-      methodology: project.methodology || "",
-      timeline: project.timeline || "",
     });
     setIsFormPopupOpen(true);
   };
@@ -91,11 +89,13 @@ const Project = () => {
     setIsEditMode(false);
     setEditProjectId(null);
     setFormData({
+      name: "",
+      project_type: "",
+      methodology: "",
+      budget: "",
       start_date: "",
       end_date: "",
       description: "",
-      methodology: "",
-      timeline: "",
     });
   };
 
@@ -111,33 +111,31 @@ const Project = () => {
     e.preventDefault();
     try {
       if (isEditMode) {
-        // Edit mode: Use useUserEditProjectMutation
         const updatedData = {
+          name: formData.name,
+          project_type: formData.project_type || null,
+          methodology: formData.methodology,
+          buget: formData.budget || "0.00",
           end_date: formData.end_date || null,
           description: formData.description,
-          methodology: formData.methodology,
-          timeline: formData.timeline,
-          // start_date is not included since it shouldn't be changed
         };
         await editProject({ id: editProjectId, data: updatedData }).unwrap();
         console.log("Project updated successfully!");
       } else {
-        // Create mode: Use useUserProjectCreateMutation
         const newProject = {
+          name: formData.name || "New Project",
+          project_type: formData.project_type || null,
+          methodology: formData.methodology,
+          buget: formData.budget || "0.00",
           start_date: formData.start_date || null,
           end_date: formData.end_date || null,
           description: formData.description,
-          methodology: formData.methodology,
-          timeline: formData.timeline,
-          // Add other required fields with default values if necessary
-          name: formData.description ? formData.description.slice(0, 30) : "New Project", // Derive name from description
           project_goal: formData.description,
-          buget: "0.00", // Default budget
-          total_days: 30, // Default duration
+          total_days: 30,
           total_months: 1,
           status: "pending",
           progress: 0,
-          labor_costs: [], // Empty initially
+          labor_costs: [],
         };
         await createProject(newProject).unwrap();
         console.log("Project created successfully!");
@@ -254,7 +252,7 @@ const Project = () => {
           </NavLink>
         ))}
 
-        <div className="bg-white dark:bg-[#1E232E] rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6 flex flex-col items-center justify-center h-[265px]">
+        <div className="bg-white dark:bg-[#1E232E] rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6 flex flex-col items-center justify-center h-[265px] cursor-pointer">
           <div className="w-12 h-12 rounded-full bg-gray-100 dark:bg-gray-600 flex items-center justify-center mb-4">
             <Plus className="h-6 w-6 text-gray-500 dark:text-gray-300" />
           </div>
@@ -263,7 +261,7 @@ const Project = () => {
           </h3>
           <button
             onClick={handleOpenCreatePopup}
-            className="bg-[#00308F] dark:bg-[#4A6CF7] text-white px-4 py-2 rounded-md flex items-center space-x-2 hover:bg-[#00218f] dark:hover:bg-[#3B5AEB] transition-colors"
+            className="bg-[#00308F] dark:bg-[#4A6CF7] text-white px-4 py-2 rounded-md flex items-center space-x-2 hover:bg-[#00218f] dark:hover:bg-[#3B5AEB] transition-colors cursor-pointer"
           >
             <Plus className="h-4 w-4" />
             <span>Add New Project</span>
@@ -276,6 +274,12 @@ const Project = () => {
         <div className="fixed inset-0 flex items-center justify-center z-50">
           <div className="absolute inset-0 backdrop-blur-[3px] shadow-md"></div>
           <div className="relative bg-white dark:bg-[#1E232E] rounded-xl shadow-sm p-8 w-[400px] max-w-[90vw] border border-gray-200 dark:border-gray-700">
+            <button
+              onClick={handleClosePopup}
+              className="absolute top-4 right-4 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200"
+            >
+              <X size={20} />
+            </button>
             <h3 className="text-2xl font-semibold text-gray-800 dark:text-gray-100 mb-4 text-center">
               Confirm Deletion
             </h3>
@@ -304,98 +308,146 @@ const Project = () => {
       {isFormPopupOpen && (
         <div className="fixed inset-0 flex items-center justify-center z-50">
           <div className="absolute inset-0 backdrop-blur-[3px] shadow-md"></div>
-          <div className="relative bg-white dark:bg-[#1E232E] rounded-xl shadow-sm p-6 w-[400px] max-w-[90vw] border border-gray-200 dark:border-gray-700">
+          <div className="relative bg-white dark:bg-[#1E232E] rounded-xl shadow-sm p-6 w-[500px] max-w-[90vw] border border-gray-200 dark:border-gray-700">
+            <button
+              onClick={handleCloseFormPopup}
+              className="absolute top-4 right-4 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200"
+            >
+              <X size={20} />
+            </button>
             <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-4">
               {isEditMode ? "Edit Project" : "Create New Project"}
             </h3>
             <form onSubmit={handleFormSubmit}>
-              <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                  Start Date
-                </label>
-                <input
-                  type="date"
-                  name="start_date"
-                  value={formData.start_date}
-                  onChange={handleFormChange}
-                  className="w-full px-3 py-2 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-[#1E232E] text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#00308F] dark:focus:ring-[#4A6CF7]"
-                  disabled={isEditMode} // Disabled in edit mode
-                  required={!isEditMode} // Required only in create mode
-                />
+              <div className="flex items-center space-x-5">
+                <div className="mb-4 flex-1">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    Project Name
+                  </label>
+                  <input
+                    type="text"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleFormChange}
+                    placeholder="e.g. Taskify"
+                    className="w-full px-3 py-[5px] rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-[#1E232E] text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#00308F] dark:focus:ring-[#4A6CF7]"
+                    required
+                  />
+                </div>
+
+                <div className="mb-4 flex-1">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    Project Type
+                  </label>
+                  <select
+                    name="project_type"
+                    value={formData.project_type}
+                    onChange={handleFormChange}
+                    className="w-full px-1 py-2 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-[#1E232E] text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#00308F] dark:focus:ring-[#4A6CF7]"
+                  >
+                    <option value="">Select project type</option>
+                    <option value="software">Software Development</option>
+                    <option value="design">Design</option>
+                    <option value="research">Research</option>
+                    <option value="other">Other</option>
+                  </select>
+                </div>
               </div>
 
-              <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                  End Date
-                </label>
-                <input
-                  type="date"
-                  name="end_date"
-                  value={formData.end_date}
-                  onChange={handleFormChange}
-                  className="w-full px-3 py-2 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-[#1E232E] text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#00308F] dark:focus:ring-[#4A6CF7]"
-                />
+              <div className="flex items-center space-x-5">
+                <div className="mb-4 flex-1">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    Methodology
+                  </label>
+                  <select
+                    name="methodology"
+                    value={formData.methodology}
+                    onChange={handleFormChange}
+                    className="w-full px-3 py-2 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-[#1E232E] text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#00308F] dark:focus:ring-[#4A6CF7]"
+                    required
+                  >
+                    <option value="">Select methodology</option>
+                    <option value="Scrum">Scrum</option>
+                    <option value="Agile">Agile</option>
+                    <option value="Waterfall">Waterfall</option>
+                    <option value="Kanban">Kanban</option>
+                  </select>
+                </div>
+
+                <div className="mb-4 flex-1">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    Budget ($)
+                  </label>
+                  <input
+                    type="number"
+                    name="budget"
+                    value={formData.budget}
+                    onChange={handleFormChange}
+                    placeholder="e.g. 21000"
+                    className="w-full px-3 py-[5px] rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-[#1E232E] text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#00308F] dark:focus:ring-[#4A6CF7]"
+                    required
+                  />
+                </div>
               </div>
 
-              <div className="mb-4">
+              <div className="flex items-center space-x-5">
+                <div className="mb-4 flex-1">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    Start Date
+                  </label>
+                  <div className="relative">
+                    <input
+                      type="date"
+                      name="start_date"
+                      value={formData.start_date}
+                      onChange={handleFormChange}
+                      className="w-full px-3 py-2 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-[#1E232E] text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#00308F] dark:focus:ring-[#4A6CF7]"
+                      disabled={isEditMode}
+                      required={!isEditMode}
+                    />
+                    <Calendar className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500" size={20} />
+                  </div>
+                </div>
+
+                <div className="mb-4 flex-1">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    End Date
+                  </label>
+                  <div className="relative">
+                    <input
+                      type="date"
+                      name="end_date"
+                      value={formData.end_date}
+                      onChange={handleFormChange}
+                      className="w-full px-3 py-2 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-[#1E232E] text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#00308F] dark:focus:ring-[#4A6CF7]"
+                    />
+                    <Calendar className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500" size={20} />
+                  </div>
+                </div>
+              </div>
+
+              <div className="mb-6">
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                  Description
+                  Project Description
                 </label>
                 <textarea
                   name="description"
                   value={formData.description}
                   onChange={handleFormChange}
-                  placeholder="Project description"
+                  placeholder="Describe your project"
                   className="w-full px-3 py-2 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-[#1E232E] text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#00308F] dark:focus:ring-[#4A6CF7]"
                   rows={3}
                   required
                 />
               </div>
 
-              <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                  Methodology
-                </label>
-                <input
-                  type="text"
-                  name="methodology"
-                  value={formData.methodology}
-                  onChange={handleFormChange}
-                  placeholder="Project methodology"
-                  className="w-full px-3 py-2 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-[#1E232E] text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#00308F] dark:focus:ring-[#4A6CF7]"
-                  required
-                />
-              </div>
-
-              <div className="mb-6">
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                  Timeline
-                </label>
-                <textarea
-                  name="timeline"
-                  value={formData.timeline}
-                  onChange={handleFormChange}
-                  placeholder="Project timeline (e.g., Phase 1: Planning (1 week), ...)"
-                  className="w-full px-3 py-2 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-[#1E232E] text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#00308F] dark:focus:ring-[#4A6CF7]"
-                  rows={3}
-                  required
-                />
-              </div>
-
-              <div className="flex justify-between gap-4">
-                <button
-                  type="button"
-                  onClick={handleCloseFormPopup}
-                  className="bg-gray-200 dark:bg-gray-600 text-gray-700 dark:text-gray-200 px-6 py-2 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors font-medium cursor-pointer"
-                >
-                  Cancel
-                </button>
+              <div className="flex justify-end">
                 <button
                   type="submit"
                   disabled={isCreating || isEditing}
-                  className="bg-[#00308F] dark:bg-[#4A6CF7] text-white px-6 py-2 rounded-lg hover:bg-[#00218f] dark:hover:bg-[#3B5AEB] transition-colors font-medium cursor-pointer disabled:opacity-50"
+                  className="bg-black text-white px-6 py-2 rounded-lg hover:bg-gray-800 transition-colors font-medium cursor-pointer disabled:opacity-50"
                 >
-                  {isEditMode ? (isEditing ? "Updating..." : "Update") : (isCreating ? "Creating..." : "Save")}
+                  Next
                 </button>
               </div>
               {(createError || editError) && (
