@@ -1,6 +1,5 @@
 import { useState } from "react";
 
-
 const PostProject = () => {
     const [projects, setProjects] = useState([
         {
@@ -36,57 +35,64 @@ const PostProject = () => {
     ]);
 
     return (
-        <div>
-            <div className="mb-6">
-                <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-1">
-                    Post Project
+        <div className="min-h-screen bg-gray-100 dark:bg-gray-900 py-10 px-4 sm:px-6 lg:px-8">
+            {/* Header Section */}
+            <div className="max-w-7xl mx-auto mb-10 text-center">
+                <h2 className="text-5xl font-semibold text-gray-800 dark:text-white mb-3">
+                    Our Projects
                 </h2>
-                <p className="text-gray-500 dark:text-gray-400">
-                    Show per project, Lessons learned, achieved results, ROI and savings
+                <p className="text-xl text-gray-600 dark:text-gray-300">
+                    Explore the lessons learned, results achieved, ROI, and savings from our key projects.
                 </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {/* Projects Grid */}
+            <div className="container mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {projects.map((project) => (
                     <div
                         key={project.id}
-                        className="bg-white dark:bg-[#1E232E] rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-5 hover:bg-gray-50 dark:hover:bg-[#2A2F3B] transition-colors"
+                        className="relative bg-gray-100 dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 p-6 transform hover:scale-105 transition-transform duration-300 cursor-pointer"
                     >
-                        <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-3">
+                        {/* Project Title */}
+                        <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
                             {project.name}
                         </h3>
-                        <div className="space-y-2">
+
+                        {/* Project Details */}
+                        <div className="space-y-4">
                             <div>
-                                <p className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                                <p className="text-base font-semibold text-gray-700 dark:text-gray-200">
                                     Lessons Learned:
                                 </p>
-                                <p className="text-sm text-gray-500 dark:text-gray-400">
+                                <p className="text-base text-gray-600 dark:text-gray-400 leading-relaxed">
                                     {project.lessonsLearned}
                                 </p>
                             </div>
                             <div>
-                                <p className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                                <p className="text-base font-semibold text-gray-700 dark:text-gray-200">
                                     Achieved Results:
                                 </p>
-                                <p className="text-sm text-gray-500 dark:text-gray-400">
+                                <p className="text-base text-gray-600 dark:text-gray-400 leading-relaxed">
                                     {project.achievedResults}
                                 </p>
                             </div>
-                            <div>
-                                <p className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                                    ROI:
-                                </p>
-                                <p className="text-sm text-gray-500 dark:text-gray-400">
-                                    {project.roi}
-                                </p>
-                            </div>
-                            <div>
-                                <p className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                                    Savings:
-                                </p>
-                                <p className="text-sm text-gray-500 dark:text-gray-400">
-                                    {project.savings}
-                                </p>
+                            <div className="flex justify-between">
+                                <div>
+                                    <p className="text-base font-semibold text-gray-700 dark:text-gray-200">
+                                        ROI:
+                                    </p>
+                                    <p className="text-base text-green-600 dark:text-green-400 font-medium">
+                                        {project.roi}
+                                    </p>
+                                </div>
+                                <div>
+                                    <p className="text-base font-semibold text-gray-700 dark:text-gray-200">
+                                        Savings:
+                                    </p>
+                                    <p className="text-base text-green-600 dark:text-green-400 font-medium">
+                                        {project.savings}
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </div>

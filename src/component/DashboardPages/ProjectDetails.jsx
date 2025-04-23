@@ -14,6 +14,7 @@ import ProjectCharter from './ProjectCharter.jsx';
 import GovernanceSetup from './GovernanceSetup.jsx';
 import Stakeholders from './Stakeholders.jsx';
 import Objectives from './Objectives.jsx';
+import RACI from './RACI.jsx';
 
 const ProjectDetails = () => {
   const [activeTab, setActiveTab] = useState('overview');
@@ -324,14 +325,13 @@ const ProjectDetails = () => {
       {/* Navigation Tabs */}
       <div className="border-b border-gray-200 dark:border-gray-700 px-4 sm:px-6">
         <nav className="flex flex-wrap gap-4 sm:gap-6 overflow-x-auto pb-2">
-          {['overview', 'tasks', 'team', 'timeline', 'budget', 'risks', 'communication', 'reporting', 'projectCharter', 'governanceSetup', 'stakeholders', 'objectives'].map((tab) => (
+          {['overview', 'tasks', 'team', 'timeline', 'budget', 'risks', 'communication', 'reporting', 'projectCharter', 'governanceSetup', 'stakeholders', 'objectives', 'RACI'].map((tab) => (
             <button
               key={tab}
-              className={`py-2 sm:py-3 px-1 border-b-2 font-bold text-sm sm:text-base whitespace-nowrap cursor-pointer ${
-                activeTab === tab
+              className={`py-2 sm:py-3 px-1 border-b-2 font-bold text-sm sm:text-base whitespace-nowrap cursor-pointer ${activeTab === tab
                   ? 'border-gray-800 dark:border-[#4A6CF7] text-gray-800 dark:text-gray-100'
                   : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:border-gray-300 dark:hover:border-gray-600'
-              }`}
+                }`}
               onClick={() => setActiveTab(tab)}
             >
               {tab.charAt(0).toUpperCase() + tab.slice(1)}
@@ -354,6 +354,7 @@ const ProjectDetails = () => {
         {activeTab === 'governanceSetup' && <GovernanceSetup projectData={projectData} />}
         {activeTab === 'stakeholders' && <Stakeholders projectData={projectData} />}
         {activeTab === 'objectives' && <Objectives projectData={projectData} />}
+        {activeTab === 'RACI' && <RACI projectData={projectData} />}
       </div>
     </div>
   );
