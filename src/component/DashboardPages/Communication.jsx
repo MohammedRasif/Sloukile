@@ -1,39 +1,14 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { Send, Moon, Sun } from "lucide-react";
-
-const users = [
-  { id: "1", avatar: "https://res.cloudinary.com/dfsu0cuvb/image/upload/v1738133725/56832_cdztsw.png" },
-  { id: "2", avatar: "https://res.cloudinary.com/dfsu0cuvb/image/upload/v1737529178/samples/man-portrait.jpg" },
-  { id: "3", avatar: "https://res.cloudinary.com/dfsu0cuvb/image/upload/v1737529177/samples/smile.jpg" },
-  { id: "4", avatar: "https://res.cloudinary.com/dfsu0cuvb/image/upload/v1737529169/samples/people/boy-snow-hoodie.jpg" },
-];
+import { Send } from "lucide-react";
 
 const Communication = () => {
   const [messages, setMessages] = useState([
     {
       id: "1",
-      text: "Hey everyone! How are you doing?",
-      sender: "2",
-      timestamp: new Date(Date.now() - 1000 * 60 * 15),
-    },
-    {
-      id: "2",
-      text: "I'm good, thanks for asking!",
-      sender: "1",
-      timestamp: new Date(Date.now() - 1000 * 60 * 14),
-    },
-    {
-      id: "3",
-      text: "Just finished my project. What about you all?",
-      sender: "3",
-      timestamp: new Date(Date.now() - 1000 * 60 * 10),
-    },
-    {
-      id: "4",
-      text: "I'm working on a new design. Would love your feedback later!",
-      sender: "4",
+      text: "Hello! How can I assist you today?",
+      sender: "AI",
       timestamp: new Date(Date.now() - 1000 * 60 * 5),
     },
   ]);
@@ -54,27 +29,25 @@ const Communication = () => {
 
     if (newMessage.trim() === "") return;
 
-    const message = {
+    const userMessage = {
       id: Date.now().toString(),
       text: newMessage,
       sender: "1", // Current user ID
       timestamp: new Date(),
     };
 
-    setMessages([...messages, message]);
+    setMessages([...messages, userMessage]);
     setNewMessage("");
 
-    // Simulate response from another user after a delay
+    // Simulate AI response after a delay
     setTimeout(() => {
-      const randomUser = users[Math.floor(Math.random() * (users.length - 1)) + 1];
-      const responseMessage = {
+      const aiMessage = {
         id: (Date.now() + 1).toString(),
-        text: `This is a response from ${randomUser.name || "User"}`,
-        sender: randomUser.id,
+        text: "Thanks for your message! How can I help you further?",
+        sender: "AI",
         timestamp: new Date(),
       };
-
-      setMessages((prev) => [...prev, responseMessage]);
+      setMessages((prev) => [...prev, aiMessage]);
     }, 1000);
   };
 
@@ -82,21 +55,15 @@ const Communication = () => {
     return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
   };
 
-  const getUserById = (id) => {
-    return users.find((user) => user.id === id) || users[0];
-  };
-
   return (
     <div className="flex flex-col h-[80vh] border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden bg-white dark:bg-[#1E232E] shadow-sm">
       <div className="p-4 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-[#2A2F3B] flex justify-between items-center">
-        <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-200">Group Chat</h2>
-        
+        <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-200">Chat with AI</h2>
       </div>
 
       <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-white dark:bg-[#1E232E]">
         {messages.map((message) => {
           const isCurrentUser = message.sender === "1";
-          const user = getUserById(message.sender);
 
           return (
             <div
@@ -107,24 +74,27 @@ const Communication = () => {
                 className={`flex ${isCurrentUser ? "flex-row-reverse" : "flex-row"} items-end gap-2 max-w-[80%]`}
               >
                 <img
-                  src={user.avatar || "/placeholder.svg"}
-                  alt={user.name || "User"}
+                  src={
+                    isCurrentUser
+                      ? "https://res.cloudinary.com/dfsu0cuvb/image/upload/v1738133725/56832_cdztsw.png"
+                      : "https://res.cloudinary.com/dfsu0cuvb/image/upload/v1740739500/Capa_2_inzboj.png"
+                  }
+                  alt={isCurrentUser ? "You" : "AI"}
                   className="w-8 h-8 rounded-full object-cover"
                 />
                 <div
                   className={`flex flex-col ${isCurrentUser ? "items-end" : "items-start"}`}
                 >
                   <div
-                    className={`px-4 py-2 rounded-2xl ${
-                      isCurrentUser
+                    className={`px-4 py-2 rounded-2xl ${isCurrentUser
                         ? "bg-blue-500 text-white dark:bg-[#4A6CF7] dark:text-gray-100 rounded-br-none"
                         : "bg-gray-100 text-gray-800 dark:bg-[#2A2F3B] dark:text-gray-200 rounded-bl-none"
-                    }`}
+                      }`}
                   >
                     <p>{message.text}</p>
                   </div>
                   <div className="flex items-center mt-1 text-xs text-gray-500 dark:text-gray-400 gap-1">
-                    <span>{user.name || "User"}</span>
+                    <span>{isCurrentUser ? "You" : "AI"}</span>
                     <span>•</span>
                     <span>{formatTime(message.timestamp)}</span>
                   </div>

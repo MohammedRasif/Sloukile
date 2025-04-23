@@ -86,13 +86,13 @@ const DashboardSidebar = () => {
           <h1 className="text-lg font-medium transition-transform duration-200 group-hover:scale-105">Team</h1>
         </NavLink>
 
-        <NavLink
+        {/* <NavLink
           to="/dashboard/taskProgress"
           className={({ isActive }) => navLinkStyle(isActive)}
         >
           <RiPassPendingLine className="h-6 w-6 transition-transform duration-200 group-hover:scale-110" />
           <h1 className="text-lg font-medium transition-transform duration-200 group-hover:scale-105">Task Progress</h1>
-        </NavLink>
+        </NavLink> */}
         <NavLink
           to="/dashboard/post_project"
           className={({ isActive }) => navLinkStyle(isActive)}

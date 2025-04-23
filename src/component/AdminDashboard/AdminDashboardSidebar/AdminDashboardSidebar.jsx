@@ -1,7 +1,6 @@
 import { NavLink, useLocation } from "react-router-dom";
 import img from "../../Navbar/image 3.png";
 import img1 from "../../Navbar/Group (2).png";
-import { Settings } from "lucide-react";
 import { BiSolidDashboard } from "react-icons/bi";
 import { FaUsers } from "react-icons/fa6";
 import { HiMiniCurrencyDollar } from "react-icons/hi2";

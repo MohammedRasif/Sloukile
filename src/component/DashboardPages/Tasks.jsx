@@ -216,8 +216,8 @@ const Tasks = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 py-10 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-7xl mx-auto">
+    <div className="min-h-screen  dark:bg-gray-900 py-10 px-4 sm:px-6 ">
+      <div className="container mx-auto">
         {/* Header Section */}
         <div className="flex justify-between items-center mb-4">
           <div>
