@@ -5,6 +5,9 @@
     border: none;
     font-family: inherit;
   }
+  .rdrMonthAndYearWrapper{
+    width: 50vh !important;
+  }
  
   .react-calendar__tile {
     padding: 10px;

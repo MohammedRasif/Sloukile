@@ -1,5 +1,6 @@
 import React from 'react';
 import { AreaChart, ResponsiveContainer, CartesianGrid, XAxis, YAxis, Tooltip, Area } from 'recharts';
+import ConstructionWorkflow from './Workflow';
 
 const Overview = () => {
   // Define project data
@@ -67,9 +68,10 @@ const Overview = () => {
   const isDarkMode = false; // Replace with dynamic detection if needed (e.g., document.documentElement.classList.contains('dark'))
 
   return (
-    <div>
+    <div className='px-5'>
+      <ConstructionWorkflow/>
       <div className="mb-8">
-        <h2 className="text-[23px] font-bold text-gray-800 dark:text-gray-100 mb-1">Project Overview </h2>
+        <h2 className="text-[23px] font-bold text-gray-800 dark:text-gray-100 mb-1 ">Project Overview </h2>
         <p className="text-gray-500 dark:text-gray-400 text-[15px] mb-6">
           Key information about {projectData.name}
         </p>

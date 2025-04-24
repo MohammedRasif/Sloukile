@@ -16,6 +16,8 @@ import Stakeholders from './Stakeholders.jsx';
 import Objectives from './Objectives.jsx';
 import RACI from './RACI.jsx';
 import Planning from './Planning.jsx';
+import Workflow from './Workflow.jsx';
+import Deployment from './Deployment.jsx';
 
 const ProjectDetails = () => {
   const [activeTab, setActiveTab] = useState('overview');
@@ -171,6 +173,7 @@ const ProjectDetails = () => {
 
   return (
     <div className="bg-white dark:bg-[#1E232E] min-h-screen text-gray-800 dark:text-gray-200 font-roboto">
+    
       {/* Header */}
       <div className="border-b border-gray-200 dark:border-gray-700 px-4 py-3 sm:px-6 sm:py-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
         <div className="flex items-center gap-2 flex-wrap">
@@ -326,7 +329,7 @@ const ProjectDetails = () => {
       {/* Navigation Tabs */}
       <div className="border-b border-gray-200 dark:border-gray-700 px-4 sm:px-6">
         <nav className="flex flex-wrap gap-4 sm:gap-6 overflow-x-auto pb-2">
-          {['overview', 'planning', 'tasks', 'team', 'timeline', 'budget', 'risks', 'communication', 'reporting', 'projectCharter', 'governanceSetup', 'stakeholders', 'objectives', 'RACI',].map((tab) => (
+          {['overview', 'planning', 'tasks', 'team', 'timeline', 'budget', 'risks', 'communication', 'reporting', 'projectCharter', 'governanceSetup', 'stakeholders','Deployment Strategy',  'RACI',].map((tab) => (
             <button
               key={tab}
               className={`py-2 sm:py-3 px-1 border-b-2 font-bold text-sm sm:text-base whitespace-nowrap cursor-pointer ${activeTab === tab
@@ -340,6 +343,7 @@ const ProjectDetails = () => {
           ))}
         </nav>
       </div>
+      
 
       {/* Content Area */}
       <div className="p-4 sm:p-6 ">
@@ -355,7 +359,7 @@ const ProjectDetails = () => {
         {activeTab === 'projectCharter' && <ProjectCharter projectData={projectData} />}
         {activeTab === 'governanceSetup' && <GovernanceSetup projectData={projectData} />}
         {activeTab === 'stakeholders' && <Stakeholders projectData={projectData} />}
-        {activeTab === 'objectives' && <Objectives projectData={projectData} />}
+        {activeTab === 'Deployment Strategy' && <Deployment projectData={projectData} />} 
         {activeTab === 'RACI' && <RACI projectData={projectData} />}
       </div>
     </div>
