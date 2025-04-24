@@ -148,7 +148,7 @@ const Calender = () => {
         </p>
 
         {/* Date Range Picker */}
-        <div className="flex items-center justify-center">
+        <div className="">
         <div className="mb-6 w-[100vh]">
           <DateRange
             editableDateInputs={true}

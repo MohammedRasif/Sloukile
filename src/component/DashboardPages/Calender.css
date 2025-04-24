@@ -1,39 +1,52 @@
 /* customCalendar.css */
 .react-calendar {
-    width: 100%;
-    background: transparent;
-    border: none;
-    font-family: inherit;
-  }
-  .rdrMonthAndYearWrapper{
-    width: 50vh !important;
-  }
- 
-  .react-calendar__tile {
-    padding: 10px;
-    color: #1f2937; /* text-gray-800 */
-  }
- 
-  .react-calendar__tile--active {
-    background: #3b82f6; /* Tailwind's blue-500 */
-    color: white;
-  }
- 
-  .react-calendar__tile.highlight {
-    background: #fef08a; /* Tailwind's yellow-200 */
-    color: #1f2937;
-  }
- 
-  .dark .react-calendar__tile {
-    color: #e5e7eb; /* text-gray-200 */
-  }
- 
-  .dark .react-calendar__tile--active {
-    background: #3b82f6;
-    color: white;
-  }
- 
-  .dark .react-calendar__tile.highlight {
-    background: #fef08a;
-    color: #1f2937;
-  }
+  width: 100%;
+  background: transparent;
+  border: none;
+  font-family: inherit;
+}
+
+.rdrMonthAndYearWrapper {
+  width: 35vh !important;
+}
+
+.react-calendar__tile {
+  padding: 10px;
+  color: #1f2937; /* text-gray-800 */
+  font-size: 18px; /* Increased font size */
+  font-weight: bold; /* Makes text bold */
+}
+
+.react-calendar__tile--active {
+  background: #3b82f6; /* Tailwind's blue-500 */
+  color: white;
+  font-size: 18px; /* Ensure active tiles also have larger text */
+  font-weight: bold;
+}
+
+.react-calendar__tile.highlight {
+  background: #fef08a; /* Tailwind's yellow-200 */
+  color: #1f2937;
+  font-size: 18px; /* Ensure highlighted tiles also have larger text */
+  font-weight: bold;
+}
+
+.dark .react-calendar__tile {
+  color: #e5e7eb; /* text-gray-200 */
+  font-size: 18px; /* Larger text in dark mode */
+  font-weight: bold;
+}
+
+.dark .react-calendar__tile--active {
+  background: #3b82f6;
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.dark .react-calendar__tile.highlight {
+  background: #fef08a;
+  color: #1f2937;
+  font-size: 18px;
+  font-weight: bold;
+}
