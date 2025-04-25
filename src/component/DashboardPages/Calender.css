@@ -1,82 +1,54 @@
-/* customCalendar.css */
-.react-calendar {
-  width: 100%;
-  background: transparent;
-  border: none;
-  font-family: inherit;
-  margin-right: 10vh;
+/* src/Timelines.css */
+.timelines-tab {
+  padding: 20px;
+  font-family: Arial, sans-serif;
 }
 
-.rdrCalendarWrapper {
-  font-size: 15px;
+.timelines-tab h2 {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+/* Style the Gantt chart table (left side) */
+.google-visualization-ganttchart-table {
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  border-collapse: collapse;
+}
+
+.google-visualization-ganttchart-table th,
+.google-visualization-ganttchart-table td {
+  padding: 8px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+.google-visualization-ganttchart-table th {
+  background-color: #f5f5f5;
   font-weight: bold;
 }
 
-.rdrMonthAndYearWrapper {
-  width: 130vh !important;
-  background-color: #00308F !important;
-  border-radius: 0.375rem; 
-  color: #f3f4f6; /* Already gray-100 as per your image */
-  display: flex; /* Ensure proper alignment */
-  justify-content: center; /* Center the month and year */
-  align-items: center; /* Vertically center the text */
-  padding: 10px 0; /* Add padding for better spacing */
+/* Style the task names in the table */
+.google-visualization-ganttchart-taskname {
+  font-size: 14px;
+  color: #000;
 }
 
-.rdrMonthAndYearWrapper .rdrMonthAndYearPickers {
-  font-size: 18px !important; 
-  font-weight: bold; 
-  color: #ffffff !important; 
+/* Style the timeline background */
+.google-visualization-ganttchart-track {
+  background-color: #f5f5f5;
 }
 
-
-.rdrMonthAndYearWrapper span {
-  color: #f3f4f6 !important; /* Ensure all text inside (month/year) is gray-100 */
+/* Style the timeline headers (months) */
+.google-visualization-ganttchart-header {
+  font-size: 12px;
+  color: #333;
 }
 
-.rdrMonth {
-  width: 130vh !important;
-}
-
-.react-calendar__tile {
-  padding: 10px;
-  color: #e9edf1; /* text-gray-800 */
-  font-size: 18px;
+/* Style the year headers (e.g., 2025, 2026) */
+.google-visualization-ganttchart-year {
+  font-size: 14px;
   font-weight: bold;
-  
-}
-
-.react-calendar__tile--active {
-  background: #3b82f6; /* Tailwind's blue-500 */
-  color: white;
-  font-size: 18px;
-  font-weight: bold;
-}
-
-.react-calendar__tile.highlight {
-  background: #070705; /* Tailwind's yellow-200 */
-  
-  color: rgb(248, 248, 248);
-  font-size: 18px;
-  font-weight: bold;
-}
-
-.dark .react-calendar__tile {
-  color: #ffffff; /* text-gray-200 */
-  font-size: 18px;
-  font-weight: bold;
-}
-
-.dark .react-calendar__tile--active {
-  background: #3b82f6;
-  color: white;
-  font-size: 18px;
-  font-weight: bold;
-}
-
-.dark .react-calendar__tile.highlight {
-  background: #fef08a;
-  color: #1f2937;
-  font-size: 18px;
-  font-weight: bold;
+  color: #333;
 }

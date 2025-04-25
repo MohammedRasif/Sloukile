@@ -1,218 +1,487 @@
-import React from 'react';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+"use client"
+import { useState, useEffect } from "react"
+import { ChevronLeft, ChevronRight, Calendar } from "lucide-react"
 
-const TimeLine = () => {
-  // Define timeline data
-  const timelineData = {
-    milestones: [
-      {
-        name: 'Project Kickoff',
-        date: '6/1/2025',
-        description: 'Initiate project planning and team onboarding',
-        owner: 'Siam',
-        status: 'Completed',
-        startDate: '6/1/2025',
-        endDate: '6/5/2025',
-      },
-      {
-        name: 'Backend API Completion',
-        date: '7/15/2025',
-        description: 'Complete backend API development and testing',
-        owner: 'Siam',
-        status: 'In Progress',
-        startDate: '6/15/2025',
-        endDate: '7/15/2025',
-      },
-      {
-        name: 'Frontend Integration',
-        date: '7/20/2025',
-        description: 'Integrate frontend UI with backend APIs',
-        owner: 'Rasif',
-        status: 'Pending',
-        startDate: '7/10/2025',
-        endDate: '7/20/2025',
-      },
-      {
-        name: 'AI Feature Deployment',
-        date: '8/1/2025',
-        description: 'Deploy AI-powered features to production',
-        owner: 'Ramisa',
-        status: 'Pending',
-        startDate: '7/20/2025',
-        endDate: '8/1/2025',
-      },
-      {
-        name: 'Project Closure',
-        date: '8/15/2025',
-        description: 'Finalize deliverables and project documentation',
-        owner: 'Siam',
-        status: 'Pending',
-        startDate: '8/10/2025',
-        endDate: '8/15/2025',
-      },
-    ],
-  };
+// Sample data
+const allProjects = [
+  {
+    id: "539",
+    subject: "Organize OpenProject summit",
+    type: "PHASE",
+    status: "In progress",
+    priority: "Normal",
+    startDate: new Date("2022-09-10"),
+    endDate: new Date("2022-10-15"),
+    color: "#2c5cc5", // Blue color
+  },
+  {
+    id: "540",
+    subject: "Find date and location",
+    type: "TASK",
+    status: "In progress",
+    priority: "High",
+    startDate: new Date("2022-09-20"),
+    endDate: new Date("2022-09-30"),
+    color: "#4dabf7", // Light blue color
+  },
+  {
+    id: "541",
+    subject: "Prepare agenda",
+    type: "TASK",
+    status: "New",
+    priority: "Normal",
+    startDate: new Date("2022-10-01"),
+    endDate: new Date("2022-10-10"),
+    color: "#4dabf7", // Light blue color
+  },
+  {
+    id: "543",
+    subject: "Research venues",
+    type: "TASK",
+    status: "New",
+    priority: "Normal",
+    startDate: new Date("2022-09-01"),
+    endDate: new Date("2022-09-20"),
+    color: "#4dabf7", // Light blue color
+  },
+  {
+    id: "544",
+    subject: "Create marketing materials",
+    type: "TASK",
+    status: "New",
+    priority: "Normal",
+    startDate: new Date("2022-10-05"),
+    endDate: new Date("2022-10-15"),
+    color: "#4dabf7", // Light blue color
+  },
+  {
+    id: "545",
+    subject: "Send invitations",
+    type: "TASK",
+    status: "New",
+    priority: "Normal",
+    startDate: new Date("2022-10-10"),
+    endDate: new Date("2022-10-25"),
+    color: "#4dabf7", // Light blue color
+  },
+  {
+    id: "546",
+    subject: "Book speakers",
+    type: "TASK",
+    status: "New",
+    priority: "Normal",
+    startDate: new Date("2022-09-10"),
+    endDate: new Date("2022-09-23"),
+    color: "#4dabf7", // Light blue color
+  },
+  // Adding projects for other quarters
+  {
+    id: "547",
+    subject: "Q1 Planning Session",
+    type: "PHASE",
+    status: "Completed",
+    priority: "High",
+    startDate: new Date("2022-01-10"),
+    endDate: new Date("2022-01-20"),
+    color: "#2c5cc5",
+  },
+  {
+    id: "548",
+    subject: "Q2 Strategy Meeting",
+    type: "PHASE",
+    status: "Completed",
+    priority: "Normal",
+    startDate: new Date("2022-04-05"),
+    endDate: new Date("2022-04-15"),
+    color: "#2c5cc5",
+  },
+  {
+    id: "549",
+    subject: "Mid-year Review",
+    type: "TASK",
+    status: "Completed",
+    priority: "High",
+    startDate: new Date("2022-06-10"),
+    endDate: new Date("2022-06-20"),
+    color: "#4dabf7",
+  },
+  {
+    id: "550",
+    subject: "Year-end Planning",
+    type: "PHASE",
+    status: "Planned",
+    priority: "High",
+    startDate: new Date("2022-12-01"),
+    endDate: new Date("2022-12-15"),
+    color: "#2c5cc5",
+  },
+]
 
-  // Data for Recharts BarChart (Gantt-like timeline)
-  const chartData = timelineData.milestones.map((milestone) => ({
-    name: milestone.name,
-    duration: Math.ceil(
-      (new Date(milestone.endDate) - new Date(milestone.startDate)) / (1000 * 60 * 60 * 24)
-    ), // Duration in days
-  }));
+// Milestone data
+const allMilestones = [
+  {
+    date: new Date("2022-09-05"),
+    title: "Project management workshop",
+  },
+  {
+    date: new Date("2022-09-25"),
+    title: "Core conference",
+  },
+  {
+    date: new Date("2022-10-10"),
+    title: "OpenProject Summit",
+  },
+  {
+    date: new Date("2022-10-25"),
+    title: "Post-conference",
+  },
+  {
+    date: new Date("2022-04-30"),
+    title: "Q2 Kickoff",
+  },
+  {
+    date: new Date("2022-03-12"),
+    title: "Q1 Review",
+  },
+  {
+    date: new Date("2022-08-11"),
+    title: "Pre-conference Meeting",
+  },
+  {
+    date: new Date("2022-01-09"),
+    title: "Annual Planning",
+  },
+  {
+    date: new Date("2022-03-15"),
+    title: "Budget Approval",
+  },
+  {
+    date: new Date("2022-12-20"),
+    title: "Year-end Review",
+  },
+]
+
+// Available years in the data
+const availableYears = [2021, 2022, 2023]
+
+// Quarters definition
+const quarters = [
+  { name: "Q1", months: [0, 1, 2] }, // Jan, Feb, Mar
+  { name: "Q2", months: [3, 4, 5] }, // Apr, May, Jun
+  { name: "Q3", months: [6, 7, 8] }, // Jul, Aug, Sep
+  { name: "Q4", months: [9, 10, 11] }, // Oct, Nov, Dec
+]
+
+export default function GanttChart() {
+  // State for filtering
+  const [selectedYear, setSelectedYear] = useState(2022)
+  const [selectedQuarter, setSelectedQuarter] = useState(2) // Default to Q3 (0-based index)
+
+  // Filter projects and milestones based on selected year and quarter
+  const [filteredProjects, setFilteredProjects] = useState([])
+  const [filteredMilestones, setFilteredMilestones] = useState([])
+
+  // Date range for the current view
+  const [startDate, setStartDate] = useState(new Date())
+  const [endDate, setEndDate] = useState(new Date())
+
+  // Update filtered data when year or quarter changes
+  useEffect(() => {
+    const currentQuarter = quarters[selectedQuarter]
+    const quarterStartMonth = currentQuarter.months[0]
+    const quarterEndMonth = currentQuarter.months[2]
+
+    const newStartDate = new Date(selectedYear, quarterStartMonth, 1)
+    const newEndDate = new Date(selectedYear, quarterEndMonth + 1, 0) // Last day of the end month
+
+    setStartDate(newStartDate)
+    setEndDate(newEndDate)
+
+    // Filter projects that fall within the selected quarter
+    const projects = allProjects.filter((project) => {
+      const projectStart = new Date(project.startDate)
+      const projectEnd = new Date(project.endDate)
+
+      return (
+        (projectStart.getFullYear() === selectedYear || projectEnd.getFullYear() === selectedYear) &&
+        ((projectStart.getMonth() >= quarterStartMonth && projectStart.getMonth() <= quarterEndMonth) ||
+          (projectEnd.getMonth() >= quarterStartMonth && projectEnd.getMonth() <= quarterEndMonth) ||
+          (projectStart.getMonth() < quarterStartMonth && projectEnd.getMonth() > quarterEndMonth))
+      )
+    })
+
+    // Filter milestones that fall within the selected quarter
+    const milestones = allMilestones.filter((milestone) => {
+      const milestoneDate = new Date(milestone.date)
+      return (
+        milestoneDate.getFullYear() === selectedYear &&
+        milestoneDate.getMonth() >= quarterStartMonth &&
+        milestoneDate.getMonth() <= quarterEndMonth
+      )
+    })
+
+    setFilteredProjects(projects)
+    setFilteredMilestones(milestones)
+  }, [selectedYear, selectedQuarter])
+
+  // Generate months for the timeline
+  const months = []
+  let currentDate = new Date(startDate)
+  while (currentDate <= endDate) {
+    const monthName = currentDate.toLocaleString("en-US", { month: "short" })
+    const year = currentDate.getFullYear()
+    months.push({ name: `${monthName} ${year}`, month: currentDate.getMonth(), year })
+    currentDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1)
+  }
+
+  // Generate all days for the timeline
+  const allDays = []
+  currentDate = new Date(startDate)
+  while (currentDate <= endDate) {
+    allDays.push({
+      date: new Date(currentDate),
+      day: currentDate.getDate(),
+      month: currentDate.getMonth(),
+      year: currentDate.getFullYear(),
+    })
+    currentDate.setDate(currentDate.getDate() + 1)
+  }
+
+  // Group days by month
+  const daysByMonth = months.map((month) => {
+    return {
+      ...month,
+      days: allDays.filter((day) => day.month === month.month && day.year === month.year),
+    }
+  })
+
+  // Calculate position for bars and milestones
+  const calculatePosition = (date) => {
+    const diffTime = Math.abs(date - startDate)
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
+    return diffDays
+  }
+
+  // Calculate width for bars
+  const calculateWidth = (startDate, endDate) => {
+    const diffTime = Math.abs(endDate - startDate)
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1
+    return diffDays
+  }
+
+  // Navigate to previous quarter
+  const prevQuarter = () => {
+    if (selectedQuarter > 0) {
+      setSelectedQuarter(selectedQuarter - 1)
+    } else {
+      setSelectedQuarter(3) // Go to Q4
+      setSelectedYear(selectedYear - 1)
+    }
+  }
+
+  // Navigate to next quarter
+  const nextQuarter = () => {
+    if (selectedQuarter < 3) {
+      setSelectedQuarter(selectedQuarter + 1)
+    } else {
+      setSelectedQuarter(0) // Go to Q1
+      setSelectedYear(selectedYear + 1)
+    }
+  }
+
+  // Today's date for the red line
+  const today = new Date()
+  const isCurrentQuarter = today >= startDate && today <= endDate
+
+  const todayPosition = isCurrentQuarter ? calculatePosition(today) : -1
 
   return (
-    <div>
-      {/* Header */}
-      <div className="flex justify-between items-center mb-4">
-        <div>
-          <h2 className="text-[23px] font-bold text-gray-800 dark:text-gray-100 mb-1">Project Timeline </h2>
-          <p className="text-gray-500 dark:text-gray-400 text-[15px]">
-            Track key milestones and project progress
-          </p>
-        </div>
-        <button className="flex items-center gap-1 bg-gray-800 dark:bg-[#4A6CF7] text-white rounded-md px-3 py-1.5 text-[15px] hover:bg-gray-700 dark:hover:bg-[#3B5AEB]">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <line x1="12" y1="5" x2="12" y2="19" />
-            <line x1="5" y1="12" x2="19" y2="12" />
-          </svg>
-          Add Milestone 
-        </button>
-      </div>
-
-      {/* Timeline Chart */}
-      <div className="mb-6">
-        <h3 className="font-medium text-[18px] text-gray-700 dark:text-gray-300 mb-4">Timeline Overview 📊</h3>
-        <div className="h-[40vh] bg-blue-50 dark:bg-[#2A2F3B] rounded-lg py-5">
-          <ResponsiveContainer width="100%" height="100%">
-            <BarChart
-              data={chartData}
-              layout="vertical"
-              margin={{ top: 10, right: 30, left: 150, bottom: 10 }}
-            >
-              <CartesianGrid strokeDasharray="3 3" stroke="#4B5563" />
-              <XAxis
-                type="number"
-                tick={{ fontSize: 14, fill: '#6B7280' }}
-                tickFormatter={(value) => `${value} days`}
-              />
-              <YAxis
-                type="category"
-                dataKey="name"
-                tick={{ fontSize: 15, fill: '#6B7280' }}
-                width={140}
-              />
-              <Tooltip
-                contentStyle={{
-                  backgroundColor: '#1E232E',
-                  border: 'none',
-                  color: '#D1D5DB',
-                  borderRadius: '4px',
-                }}
-                formatter={(value) => `${value} days`}
-              />
-              <Bar dataKey="duration" fill="#4A6CF7" radius={[4, 4, 4, 4]} />
-            </BarChart>
-          </ResponsiveContainer>
+    <div className="w-full bg-white border border-gray-200 shadow-sm rounded-lg overflow-hidden">
+      {/* Header with title and filters */}
+      <div className=" bg-[#00308F] text-white p-4">
+        <div className="flex justify-between items-center">
+          <div>
+            <h1 className="text-3xl font-bold">Project Timeline</h1>
+            <p className="text-blue-100 text-sm mt-1">Track project progress and milestones</p>
+          </div>
+          <div className="flex items-center space-x-4">
+            <div className="flex items-center bg-blue-700 rounded-md p-2">
+              <Calendar className="h-4 w-4 mr-2" />
+              <select
+                className="bg-transparent text-white text-sm focus:outline-none"
+                value={selectedYear}
+                onChange={(e) => setSelectedYear(Number.parseInt(e.target.value))}
+              >
+                {availableYears.map((year) => (
+                  <option key={year} value={year} className="text-gray-800">
+                    {year}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* Timeline Events */}
-      <div className="mb-6">
-        <h3 className="font-medium text-[18px] text-gray-700 dark:text-gray-300 mb-4">Milestone Details 🗓️</h3>
-        <div className="relative">
-          {/* Vertical Line */}
-          <div className="absolute left-4 top-0 bottom-0 w-0.5 bg-gray-300 dark:bg-gray-600"></div>
-          {timelineData.milestones.map((milestone, index) => (
-            <div key={index} className="flex mb-6">
-              {/* Dot and Date */}
-              <div className="flex-shrink-0 w-8 flex flex-col items-center">
-                <div
-                  className={`w-3 h-3 rounded-full ${
-                    milestone.status === 'Completed'
-                      ? 'bg-green-500'
-                      : milestone.status === 'In Progress'
-                      ? 'bg-yellow-500'
-                      : 'bg-gray-400'
-                  }`}
-                ></div>
-                <p className="text-[14px] text-gray-500 dark:text-gray-400 mt-2">{milestone.date}</p>
-              </div>
-              {/* Milestone Card */}
-              <div className="ml-6 flex-1 border border-gray-200 dark:border-gray-700 rounded-lg p-4 bg-white dark:bg-[#1E232E]">
-                <div className="flex justify-between items-start">
-                  <div>
-                    <h4 className="font-medium text-[16px] text-gray-800 dark:text-gray-100">{milestone.name}</h4>
-                    <p className="text-[15px] text-gray-500 dark:text-gray-400">{milestone.description}</p>
-                    <div className="mt-2 flex items-center gap-4">
-                      <p className="text-[15px] text-gray-500 dark:text-gray-400">
-                        <span className="font-medium">Owner:</span> {milestone.owner}
-                      </p>
-                      <span
-                        className={`px-2 py-1 text-[15px] rounded-full ${
-                          milestone.status === 'Completed'
-                            ? 'bg-green-100 dark:bg-green-500/20 text-green-800 dark:text-green-300'
-                            : milestone.status === 'In Progress'
-                            ? 'bg-yellow-100 dark:bg-yellow-500/20 text-yellow-800 dark:text-yellow-300'
-                            : 'bg-gray-100 dark:bg-gray-600 text-gray-800 dark:text-gray-200'
+      {/* Quarter navigation */}
+      <div className="bg-gray-50 border-b border-gray-200 px-4 py-2 flex justify-between items-center">
+        <div className="text-sm text-gray-500">
+          Showing {quarters[selectedQuarter].name} {selectedYear}
+        </div>
+        <div className="flex items-center space-x-2">
+          <button onClick={prevQuarter} className="p-1 rounded hover:bg-gray-200" title="Previous Quarter">
+            <ChevronLeft className="h-5 w-5 text-gray-600" />
+          </button>
+          <div className="bg-blue-50 text-blue-800 px-3 py-1 rounded-md font-medium">
+            {quarters[selectedQuarter].name}
+          </div>
+          <button onClick={nextQuarter} className="p-1 rounded hover:bg-gray-200" title="Next Quarter">
+            <ChevronRight className="h-5 w-5 text-gray-600" />
+          </button>
+        </div>
+      </div>
+
+      <div className="flex">
+        {/* Table section */}
+        <div className="w-[400px] flex-shrink-0 border-r border-gray-300">
+          {/* Header */}
+          <div className="flex bg-gray-100 border-b border-gray-300">
+            <div className="w-[200px] p-2 font-medium text-gray-700 text-sm">Project Name</div>
+            {/* <div className="w-[70px] p-2 font-medium text-gray-700 text-sm">TYPE</div> */}
+            <div className="w-[70px] p-2 font-medium text-gray-700 text-sm">STATUS</div>
+            <div className="w-[60px] p-2 font-medium text-gray-700 text-sm">PRIORITY</div>
+
+          </div>
+
+          {/* Empty row to align with days */}
+          <div className="h-8 border-b border-gray-300"></div>
+
+          {/* Table rows */}
+          {filteredProjects.length > 0 ? (
+            filteredProjects.map((project) => (
+              <div key={project.id} className="flex items-center h-10 border-b border-gray-300 hover:bg-gray-50">
+                <div className="w-[200px] px-2 flex items-center ">
+                  <span className="text-[13px]">{project.subject}</span>
+                </div>
+                {/* <div className="w-[70px] px-2">
+                  {project.type && (
+                    <span
+                      className={`px-2 py-0.5 text-xs rounded ${project.type === "PHASE" ? "bg-blue-100 text-blue-800" : "bg-cyan-100 text-cyan-800"
                         }`}
-                      >
-                        {milestone.status}
-                      </span>
+                    >
+                      {project.type}
+                    </span>
+                  )}
+                </div> */}
+                <div className="w-[70px] px-2">
+                  {project.status && (
+                    <div className="flex items-center">
+                      
+                      <span className="text-xs">{project.status}</span>
                     </div>
-                  </div>
-                  <div className="flex gap-2">
-                    <button className="text-gray-400 dark:text-gray-300 hover:text-gray-600 dark:hover:text-gray-100">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="16"
-                        height="16"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      >
-                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
-                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
-                      </svg>
-                    </button>
-                    <button className="text-gray-400 dark:text-gray-300 hover:text-gray-600 dark:hover:text-gray-100">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="16"
-                        height="16"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      >
-                        <path d="M3 6h18" />
-                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
-                      </svg>
-                    </button>
-                  </div>
+                  )}
+                </div>
+                <div className="w-[60px] px-2">
+                  {project.priority && (
+                    <div className="flex items-center">
+                      
+                      <span className="text-xs">{project.priority}</span>
+                    </div>
+                  )}
                 </div>
               </div>
+            ))
+          ) : (
+            <div className="p-4 text-center text-gray-500">No projects in this quarter</div>
+          )}
+        </div>
+
+        {/* Timeline section */}
+        <div className="flex-grow overflow-x-auto">
+          {/* Months header */}
+          <div className="flex border-b border-gray-300">
+            {daysByMonth.map((month, monthIndex) => (
+              <div
+                key={monthIndex}
+                className="flex-shrink-0 bg-gray-100"
+                style={{ width: `${month.days.length * 25}px` }}
+              >
+                <div className="h-9 flex items-center justify-center font-medium text-gray-700 border-r border-gray-300">
+                  {month.name}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Days header */}
+          <div className="flex border-b border-gray-300 h-8">
+            {allDays.map((day, dayIndex) => (
+              <div
+                key={dayIndex}
+                className="flex-shrink-0 w-[25px] flex items-center justify-center text-xs text-gray-600 border-r border-gray-200"
+              >
+                {day.day}
+              </div>
+            ))}
+          </div>
+
+          {/* Timeline grid with bars */}
+          <div className="relative">
+            {/* Background grid */}
+            <div className="absolute inset-0 grid" style={{ gridTemplateColumns: `repeat(${allDays.length}, 25px)` }}>
+              {allDays.map((_, index) => (
+                <div key={index} className="h-full border-r border-gray-200"></div>
+              ))}
             </div>
-          ))}
+
+            {/* Today marker (red vertical line) */}
+            {isCurrentQuarter && (
+              <div
+                className="absolute top-0 bottom-0 w-px bg-red-500 z-10"
+                style={{ left: `${todayPosition * 25 + 12.5}px` }}
+              ></div>
+            )}
+
+            {/* Empty rows for no projects case */}
+            {filteredProjects.length === 0 && (
+              <div className="h-40 flex items-center justify-center text-gray-500">
+                No projects to display in this quarter
+              </div>
+            )}
+
+            {/* Project rows */}
+            {filteredProjects.map((project, index) => {
+              // Calculate position relative to the current view
+              const projectStart = new Date(Math.max(project.startDate, startDate))
+              const projectEnd = new Date(Math.min(project.endDate, endDate))
+
+              const left = calculatePosition(projectStart) * 25
+              const width = calculateWidth(projectStart, projectEnd) * 25
+
+              return (
+                <div key={project.id} className="h-10 border-b border-gray-300 relative hover:bg-gray-50">
+                  {/* Project bar */}
+                  <div
+                    className="absolute h-6 rounded flex items-center px-2 text-white text-xs font-medium z-20"
+                    style={{
+                      left: `${left}px`,
+                      width: `${width}px`,
+                      backgroundColor: project.color,
+                      top: "50%",
+                      transform: "translateY(-50%)",
+                    }}
+                  >
+                    {project.subject}
+                  </div>
+                </div>
+              )
+            })}
+
+
+          </div>
         </div>
       </div>
-    </div>
-  );
-};
 
-export default TimeLine;
+    </div>
+  )
+}

@@ -19,3 +19,16 @@
   font-family: "Roboto", sans-serif;
 
 }
+
+/* src/index.css */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.App {
+  max-width: 1200px;
+  margin: 0 auto;
+}

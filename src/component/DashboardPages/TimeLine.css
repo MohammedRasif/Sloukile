@@ -1,0 +1,16 @@
+/* Custom styles for diamond shape */
+.rotate-45 {
+    transform: rotate(45deg);
+  }
+  
+  /* Ensure the timeline scrolls horizontally */
+  .overflow-x-auto {
+    overflow-x: auto;
+  }
+  
+  /* Smooth hover transitions */
+  .hover\:bg-gray-50:hover {
+    background-color: rgba(249, 250, 251, 0.8);
+    transition: background-color 0.2s ease;
+  }
+  
