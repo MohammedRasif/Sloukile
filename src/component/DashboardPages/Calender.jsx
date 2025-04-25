@@ -149,18 +149,18 @@ const Calender = () => {
 
         {/* Date Range Picker */}
         <div className="">
-        <div className="mb-6 w-[100vh]">
-          <DateRange
-            editableDateInputs={true}
-            onChange={handleRangeChange}
-            moveRangeOnFirstSelection={false}
-            ranges={dateRange}
-            className="border-none bg-transparent w-full"
-            showDateDisplay={false} // Hides the default range display
-            dayContentRenderer={renderDayContent} // Custom day renderer for event markers
-            weekStartsOn={1} // Start the week on Monday
-          />
-        </div>
+          <div className="mb-6 w-[100vh]">
+            <DateRange
+              editableDateInputs={true}
+              onChange={handleRangeChange}
+              moveRangeOnFirstSelection={false}
+              ranges={dateRange}
+              className="border-none bg-transparent w-full"
+              showDateDisplay={false} // Hides the default range display
+              dayContentRenderer={renderDayContent} // Custom day renderer for event markers
+              weekStartsOn={1} // Start the week on Monday
+            />
+          </div>
         </div>
 
         {/* Add Event Button */}
@@ -257,7 +257,7 @@ const Calender = () => {
                     Project: {event.projectName}
                   </p>
                   <p className="text-gray-500 dark:text-gray-400">{event.date}</p>
-                  <p className="text-gray-600 dark:text-gray-300 mt-2">
+                  <p className="event-description text-gray-600 dark:text-gray-300 mt-2">
                     {event.description}
                   </p>
                 </div>

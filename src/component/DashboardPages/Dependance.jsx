@@ -60,19 +60,7 @@ const Dependance = () => {
                   <h3 className="text-gray-800 dark:text-gray-200 font-semibold">
                     {dependency.name}
                   </h3>
-                  <span
-                    className={`text-sm px-2 py-1 rounded-full ${
-                      dependency.status === "Approved"
-                        ? "bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100"
-                        : dependency.status === "In Progress"
-                        ? "bg-yellow-100 text-yellow-800 dark:bg-yellow-800 dark:text-yellow-100"
-                        : dependency.status === "Scheduled"
-                        ? "bg-blue-100 text-blue-800 dark:bg-blue-800 dark:text-blue-100"
-                        : "bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-100"
-                    }`}
-                  >
-                    {dependency.status}
-                  </span>
+                  
                 </div>
                 <p className="text-gray-500 dark:text-gray-400 text-sm mt-1">
                   Type: {dependency.type}
