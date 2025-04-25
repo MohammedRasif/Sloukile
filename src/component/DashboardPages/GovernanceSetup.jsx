@@ -1,115 +1,256 @@
 
+
+import { useState } from "react"
+import {
+  Users,
+  MessageSquare,
+  Briefcase,
+  ChevronDown,
+  ChevronUp,
+  ArrowRight,
+  Building,
+  UserCheck,
+  FileText,
+  Calendar,
+  AlertCircle,
+} from "lucide-react"
+
 const GovernanceSetup = () => {
-    return (
-        <div>
-            <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-1">Governance Setup </h2>
-            <p className="text-gray-500 dark:text-gray-400 mb-6">
-                Define project governance structure and decision-making processes
-            </p>
+  const [expandedSections, setExpandedSections] = useState({
+    structure: true,
+    communication: true,
+    stakeholders: true,
+    impact: true,
+  })
 
-            <div className="mb-6">
-                <h3 className="font-medium text-gray-700 dark:text-gray-300 mb-2">
-                    Decision Making Process
-                </h3>
-                <textarea
-                    className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md h-24 bg-white dark:bg-[#2A2F3B] text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#00308F] dark:focus:ring-[#4A6CF7]"
-                    placeholder="Decision-making will be made collectively by the project manager and team members in regular sprint planning and review meetings. Critical decisions will be escalated to the SteerCo for approval."
-                ></textarea>
-            </div>
+  const toggleSection = (section) => {
+    setExpandedSections((prev) => ({
+      ...prev,
+      [section]: !prev[section],
+    }))
+  }
 
-            <div className="mb-6">
-                <h3 className="font-medium text-gray-700 dark:text-gray-300 mb-2">
-                    Governance Meetings
-                </h3>
-                <div className="overflow-x-auto">
-                    <table className="w-full border-collapse">
-                        <thead>
-                            <tr className="border-b border-gray-200 dark:border-gray-600">
-                                <th className="text-left py-2 text-gray-700 dark:text-gray-300">Meeting</th>
-                                <th className="text-left py-2 text-gray-700 dark:text-gray-300">Frequency</th>
-                                <th className="text-left py-2 text-gray-700 dark:text-gray-300">Participants</th>
-                                <th className="text-left py-2 text-gray-700 dark:text-gray-300">Purpose</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr className="border-b border-gray-200 dark:border-gray-600">
-                                <td className="py-3 text-gray-800 dark:text-gray-200">Sprint Planning</td>
-                                <td className="text-gray-800 dark:text-gray-200">Weekly</td>
-                                <td className="text-gray-800 dark:text-gray-200">Project Manager, Development Team</td>
-                                <td className="text-gray-800 dark:text-gray-200">Plan work for upcoming sprint</td>
-                            </tr>
-                            <tr className="border-b border-gray-200 dark:border-gray-600">
-                                <td className="py-3 text-gray-800 dark:text-gray-200">SteerCo Review</td>
-                                <td className="text-gray-800 dark:text-gray-200">Bi-weekly</td>
-                                <td className="text-gray-800 dark:text-gray-200">Project Manager, Key Stakeholders</td>
-                                <td className="text-gray-800 dark:text-gray-200">Review project progress and address issues</td>
-                            </tr>
-                            <tr className="border-b border-gray-200 dark:border-gray-600">
-                                <td className="py-3 text-gray-800 dark:text-gray-200">Daily Standup</td>
-                                <td className="text-gray-800 dark:text-gray-200">Daily</td>
-                                <td className="text-gray-800 dark:text-gray-200">Development Team</td>
-                                <td className="text-gray-800 dark:text-gray-200">Share progress and identify blockers</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+  return (
+    <div className="container py-6 bg-white dark:bg-[#1E232E] rounded-lg shadow-lg">
+      {/* Header */}
+      <div className="mb-8">
+        <h1 className="text-3xl font-bold text-gray-800 dark:text-gray-200 mb-2">Governance Setup</h1>
+        <p className="text-gray-600 dark:text-gray-400">Communication Flow and Stakeholder Management</p>
+      </div>
 
-            <div className="border border-gray-200 dark:border-gray-600 rounded-md p-4 mb-6">
-                <h3 className="font-medium text-gray-700 dark:text-gray-300 mb-4">
-                    Add New Governance Meeting 
-                </h3>
-                <div className="grid grid-cols-2 gap-4 mb-4">
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                            Meeting Name
-                        </label>
-                        <input
-                            type="text"
-                            className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-[#2A2F3B] text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#00308F] dark:focus:ring-[#4A6CF7]"
-                        />
-                    </div>
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                            Frequency
-                        </label>
-                        <select
-                            className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-[#2A2F3B] text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#00308F] dark:focus:ring-[#4A6CF7]"
-                        >
-                            <option>Select frequency</option>
-                            <option>Daily</option>
-                            <option>Weekly</option>
-                            <option>Bi-weekly</option>
-                            <option>Monthly</option>
-                        </select>
-                    </div>
-                </div>
-                <div className="grid grid-cols-2 gap-4 mb-4">
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                            Participants
-                        </label>
-                        <input
-                            type="text"
-                            className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-[#2A2F3B] text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#00308F] dark:focus:ring-[#4A6CF7]"
-                        />
-                    </div>
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                            Purpose
-                        </label>
-                        <input
-                            type="text"
-                            className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-[#2A2F3B] text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#00308F] dark:focus:ring-[#4A6CF7]"
-                        />
-                    </div>
-                </div>
-                <button className="px-4 py-2 bg-gray-800 dark:bg-[#4A6CF7] text-white rounded-md hover:bg-gray-700 dark:hover:bg-[#3B5AEB]">
-                    Add Meeting 
-                </button>
-            </div>
+      {/* Governance Structure Section */}
+      <div className="mb-8 border border-gray-200 dark:border-gray-600 rounded-lg overflow-hidden">
+        <div
+          className="bg-blue-50 dark:bg-[#3B5AEB]/20 p-4 flex justify-between items-center cursor-pointer"
+          onClick={() => toggleSection("structure")}
+        >
+          <div className="flex items-center">
+            <Briefcase className="h-5 w-5 text-blue-600 dark:text-blue-300 mr-2" />
+            <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200">Governance Structure</h2>
+          </div>
+          {expandedSections.structure ? (
+            <ChevronUp className="h-5 w-5 text-gray-600 dark:text-gray-300" />
+          ) : (
+            <ChevronDown className="h-5 w-5 text-gray-600 dark:text-gray-300" />
+          )}
         </div>
-    );
+
+        {expandedSections.structure && (
+          <div className="p-4 bg-white dark:bg-[#1E232E]">
+            <div className="flex flex-col items-center">
+              {/* Governance hierarchy diagram */}
+              <div className="w-full max-w-5xl">
+                <div className="bg-[#00308F] dark:bg-[#4A6CF7] text-white p-3 rounded-lg text-center mb-4">
+                  <p className="font-bold">Executive Steering Committee</p>
+                  <p className="text-sm text-blue-100 dark:text-blue-200">Strategic Direction & Final Approval</p>
+                </div>
+
+                <div className="flex justify-center mb-4">
+                  <div className="w-1 h-8 bg-gray-300 dark:bg-gray-600"></div>
+                </div>
+
+                <div className="bg-[#00308F] dark:bg-[#4A6CF7] text-white p-3 rounded-lg text-center mb-4">
+                  <p className="font-bold">Project Sponsor</p>
+                  <p className="text-sm text-blue-100 dark:text-blue-200">Resource Allocation & Accountability</p>
+                </div>
+
+                <div className="flex justify-center mb-4">
+                  <div className="w-1 h-8 bg-gray-300 dark:bg-gray-600"></div>
+                </div>
+
+                <div className="bg-[#00308F] dark:bg-[#4A6CF7] text-white p-3 rounded-lg text-center mb-4">
+                  <p className="font-bold">Project Manager</p>
+                  <p className="text-sm text-blue-100 dark:text-blue-200">Day-to-day Management & Reporting</p>
+                </div>
+
+                <div className="flex justify-center mb-4">
+                  <div className="w-full flex justify-between items-start space-x-5">
+                    <div className="w-1/3 flex flex-col items-center">
+                      <div className="h-8 w-1 bg-gray-300 dark:bg-gray-600"></div>
+                      <div className="bg-[#00308F] dark:bg-[#4A6CF7] text-white p-2 rounded-lg text-center w-full">
+                        <p className="font-bold">Technical Team</p>
+                        <p className="text-xs text-blue-100 dark:text-blue-200">Implementation</p>
+                      </div>
+                    </div>
+                    <div className="w-1/3 flex flex-col items-center">
+                      <div className="h-8 w-1 bg-gray-300 dark:bg-gray-600"></div>
+                      <div className="bg-[#00308F] dark:bg-[#4A6CF7] text-white p-2 rounded-lg text-center w-full">
+                        <p className="font-bold">Business Analysts</p>
+                        <p className="text-xs text-blue-100 dark:text-blue-200">Requirements</p>
+                      </div>
+                    </div>
+                    <div className="w-1/3 flex flex-col items-center">
+                      <div className="h-8 w-1 bg-gray-300 dark:bg-gray-600"></div>
+                      <div className="bg-[#00308F] dark:bg-[#4A6CF7] text-white p-2 rounded-lg text-center w-full">
+                        <p className="font-bold">Quality Assurance</p>
+                        <p className="text-xs text-blue-100 dark:text-blue-200">Testing & Validation</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Business Impact Section */}
+      <div className="mb-8 border border-gray-200 dark:border-gray-600 rounded-lg overflow-hidden">
+        <div
+          className="p-4 flex justify-between items-center cursor-pointer bg-white dark:bg-[#2A2F3B]"
+          onClick={() => toggleSection("impact")}
+        >
+          <div className="flex items-center">
+            <AlertCircle className="h-5 w-5 text-amber-600 dark:text-amber-400 mr-2" />
+            <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200">Project Impact Analysis</h2>
+          </div>
+          {expandedSections.impact ? (
+            <ChevronUp className="h-5 w-5 text-gray-600 dark:text-gray-300" />
+          ) : (
+            <ChevronDown className="h-5 w-5 text-gray-600 dark:text-gray-300" />
+          )}
+        </div>
+
+        {expandedSections.impact && (
+          <div className="p-4 bg-white dark:bg-[#1E232E]">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="border border-gray-200 dark:border-gray-600 rounded-lg p-4 bg-white dark:bg-[#2A2F3B] shadow-sm">
+                <h3 className="font-bold text-gray-800 dark:text-gray-200 mb-3 flex items-center">
+                  <Users className="h-5 w-5 text-blue-600 dark:text-blue-300 mr-2" />
+                  User Impact
+                </h3>
+                <ul className="space-y-2">
+                  <li className="flex items-center">
+                    <ArrowRight className="h-4 w-4 text-blue-600 dark:text-blue-300 mr-2 flex-shrink-0" />
+                    <span className="text-gray-700 dark:text-gray-300">New workflow requires training</span>
+                  </li>
+                  <li className="flex items-center">
+                    <ArrowRight className="h-4 w-4 text-blue-600 dark:text-blue-300 mr-2 flex-shrink-0" />
+                    <span className="text-gray-700 dark:text-gray-300">30% productivity improvement expected</span>
+                  </li>
+                  <li className="flex items-center">
+                    <ArrowRight className="h-4 w-4 text-blue-600 dark:text-blue-300 mr-2 flex-shrink-0" />
+                    <span className="text-gray-700 dark:text-gray-300">Reduced manual data entry</span>
+                  </li>
+                </ul>
+              </div>
+
+              <div className="border border-gray-200 dark:border-gray-600 rounded-lg p-4 bg-white dark:bg-[#2A2F3B] shadow-sm">
+                <h3 className="font-bold text-gray-800 dark:text-gray-200 mb-3 flex items-center">
+                  <Building className="h-5 w-5 text-green-600 dark:text-green-400 mr-2" />
+                  Business Impact
+                </h3>
+                <ul className="space-y-2">
+                  <li className="flex items-center">
+                    <ArrowRight className="h-4 w-4 text-green-600 dark:text-green-400 mr-2 flex-shrink-0" />
+                    <span className="text-gray-700 dark:text-gray-300">15% cost reduction in operations</span>
+                  </li>
+                  <li className="flex items-center">
+                    <ArrowRight className="h-4 w-4 text-green-600 dark:text-green-400 mr-2 flex-shrink-0" />
+                    <span className="text-gray-700 dark:text-gray-300">Improved data accuracy and reporting</span>
+                  </li>
+                  <li className="flex items-center">
+                    <ArrowRight className="h-4 w-4 text-green-600 dark:text-green-400 mr-2 flex-shrink-0" />
+                    <span className="text-gray-700 dark:text-gray-300">Competitive advantage in market</span>
+                  </li>
+                </ul>
+              </div>
+
+              <div className="border border-gray-200 dark:border-gray-600 rounded-lg p-4 bg-white dark:bg-[#2A2F3B] shadow-sm">
+                <h3 className="font-bold text-gray-800 dark:text-gray-200 mb-3 flex items-center">
+                  <Calendar className="h-5 w-5 text-purple-600 dark:text-purple-400 mr-2" />
+                  Timeline Impact
+                </h3>
+                <ul className="space-y-2">
+                  <li className="flex items-center">
+                    <ArrowRight className="h-4 w-4 text-purple-600 dark:text-purple-400 mr-2 flex-shrink-0" />
+                    <span className="text-gray-700 dark:text-gray-300">3-month implementation period</span>
+                  </li>
+                  <li className="flex items-center">
+                    <ArrowRight className="h-4 w-4 text-purple-600 dark:text-purple-400 mr-2 flex-shrink-0" />
+                    <span className="text-gray-700 dark:text-gray-300">Phased rollout by department</span>
+                  </li>
+                  <li className="flex items-center">
+                    <ArrowRight className="h-4 w-4 text-purple-600 dark:text-purple-400 mr-2 flex-shrink-0" />
+                    <span className="text-gray-700 dark:text-gray-300">2-week transition support per phase</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            {/* Risk and Mitigation */}
+            <div className="mt-6 border border-gray-200 dark:border-gray-600 rounded-lg p-4 bg-white dark:bg-[#2A2F3B]">
+              <h3 className="font-bold text-red-800 dark:text-red-400 mb-3">Key Risks and Mitigation</h3>
+              <div className="overflow-x-auto">
+                <table className="min-w-full bg-white dark:bg-[#1E232E] border border-gray-200 dark:border-gray-600">
+                  <thead>
+                    <tr className="bg-gray-100 dark:bg-[#353A47]">
+                      <th className="py-2 px-4 text-left border-b dark:border-gray-600 text-gray-800 dark:text-gray-200">Risk</th>
+                      <th className="py-2 px-4 text-left border-b dark:border-gray-600 text-gray-800 dark:text-gray-200">Impact</th>
+                      <th className="py-2 px-4 text-left border-b dark:border-gray-600 text-gray-800 dark:text-gray-200">Probability</th>
+                      <th className="py-2 px-4 text-left border-b dark:border-gray-600 text-gray-800 dark:text-gray-200">Mitigation Strategy</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td className="py-2 px-4 border-b dark:border-gray-600 text-gray-700 dark:text-gray-300">User resistance to change</td>
+                      <td className="py-2 px-4 border-b dark:border-gray-600">
+                        <span className="bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300 px-2 py-1 rounded text-xs">High</span>
+                      </td>
+                      <td className="py-2 px-4 border-b dark:border-gray-600">
+                        <span className="bg-amber-100 dark:bg-amber-900/30 text-amber-800 dark:text-amber-300 px-2 py-1 rounded text-xs">Medium</span>
+                      </td>
+                      <td className="py-2 px-4 border-b dark:border-gray-600 text-gray-700 dark:text-gray-300">Early engagement, training, champions program</td>
+                    </tr>
+                    <tr className="bg-gray-50 dark:bg-[#2A2F3B]">
+                      <td className="py-2 px-4 border-b dark:border-gray-600 text-gray-700 dark:text-gray-300">Integration issues</td>
+                      <td className="py-2 px-4 border-b dark:border-gray-600">
+                        <span className="bg-amber-100 dark:bg-amber-900/30 text-amber-800 dark:text-amber-300 px-2 py-1 rounded text-xs">Medium</span>
+                      </td>
+                      <td className="py-2 px-4 border-b dark:border-gray-600">
+                        <span className="bg-amber-100 dark:bg-amber-900/30 text-amber-800 dark:text-amber-300 px-2 py-1 rounded text-xs">Medium</span>
+                      </td>
+                      <td className="py-2 px-4 border-b dark:border-gray-600 text-gray-700 dark:text-gray-300">Early testing, phased approach, rollback plan</td>
+                    </tr>
+                    <tr>
+                      <td className="py-2 px-4 border-b dark:border-gray-600 text-gray-700 dark:text-gray-300">Resource constraints</td>
+                      <td className="py-2 px-4 border-b dark:border-gray-600">
+                        <span className="bg-amber-100 dark:bg-amber-900/30 text-amber-800 dark:text-amber-300 px-2 py-1 rounded text-xs">Medium</span>
+                      </td>
+                      <td className="py-2 px-4 border-b dark:border-gray-600">
+                        <span className="bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300 px-2 py-1 rounded text-xs">High</span>
+                      </td>
+                      <td className="py-2 px-4 border-b dark:border-gray-600 text-gray-700 dark:text-gray-300">Prioritization, external resources, scope management</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  )
 }
 
-export default GovernanceSetup;
+export default GovernanceSetup

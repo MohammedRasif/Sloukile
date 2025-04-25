@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react"
 import { ChevronLeft, ChevronRight, Calendar } from "lucide-react"
 
-// Sample data
+// Sample data (unchanged)
 const allProjects = [
   {
     id: "539",
@@ -10,9 +10,9 @@ const allProjects = [
     type: "PHASE",
     status: "In progress",
     priority: "Normal",
-    startDate: new Date("2022-09-10"),
-    endDate: new Date("2022-10-15"),
-    color: "#2c5cc5", // Blue color
+    startDate: new Date("2022-07-10"),
+    endDate: new Date("2022-09-15"),
+    color: "#00308F",
   },
   {
     id: "540",
@@ -20,9 +20,9 @@ const allProjects = [
     type: "TASK",
     status: "In progress",
     priority: "High",
-    startDate: new Date("2022-09-20"),
-    endDate: new Date("2022-09-30"),
-    color: "#4dabf7", // Light blue color
+    startDate: new Date("2022-07-20"),
+    endDate: new Date("2022-08-10"),
+    color: "#00308F",
   },
   {
     id: "541",
@@ -30,9 +30,9 @@ const allProjects = [
     type: "TASK",
     status: "New",
     priority: "Normal",
-    startDate: new Date("2022-10-01"),
-    endDate: new Date("2022-10-10"),
-    color: "#4dabf7", // Light blue color
+    startDate: new Date("2022-08-01"),
+    endDate: new Date("2022-08-20"),
+    color: "#00308F",
   },
   {
     id: "543",
@@ -40,9 +40,9 @@ const allProjects = [
     type: "TASK",
     status: "New",
     priority: "Normal",
-    startDate: new Date("2022-09-01"),
-    endDate: new Date("2022-09-20"),
-    color: "#4dabf7", // Light blue color
+    startDate: new Date("2022-07-05"),
+    endDate: new Date("2022-07-25"),
+    color: "#00308F",
   },
   {
     id: "544",
@@ -50,9 +50,9 @@ const allProjects = [
     type: "TASK",
     status: "New",
     priority: "Normal",
-    startDate: new Date("2022-10-05"),
-    endDate: new Date("2022-10-15"),
-    color: "#4dabf7", // Light blue color
+    startDate: new Date("2022-08-15"),
+    endDate: new Date("2022-09-05"),
+    color: "#00308F",
   },
   {
     id: "545",
@@ -60,9 +60,9 @@ const allProjects = [
     type: "TASK",
     status: "New",
     priority: "Normal",
-    startDate: new Date("2022-10-10"),
-    endDate: new Date("2022-10-25"),
-    color: "#4dabf7", // Light blue color
+    startDate: new Date("2022-08-25"),
+    endDate: new Date("2022-09-10"),
+    color: "#00308F",
   },
   {
     id: "546",
@@ -70,54 +70,193 @@ const allProjects = [
     type: "TASK",
     status: "New",
     priority: "Normal",
-    startDate: new Date("2022-09-10"),
-    endDate: new Date("2022-09-23"),
-    color: "#4dabf7", // Light blue color
+    startDate: new Date("2022-07-15"),
+    endDate: new Date("2022-08-05"),
+    color: "#00308F",
   },
-  // Adding projects for other quarters
   {
     id: "547",
-    subject: "Q1 Planning Session",
-    type: "PHASE",
-    status: "Completed",
-    priority: "High",
-    startDate: new Date("2022-01-10"),
-    endDate: new Date("2022-01-20"),
-    color: "#2c5cc5",
+    subject: "Plan catering",
+    type: "TASK",
+    status: "New",
+    priority: "Normal",
+    startDate: new Date("2022-08-10"),
+    endDate: new Date("2022-08-30"),
+    color: "#00308F",
   },
   {
     id: "548",
-    subject: "Q2 Strategy Meeting",
-    type: "PHASE",
-    status: "Completed",
-    priority: "Normal",
-    startDate: new Date("2022-04-05"),
-    endDate: new Date("2022-04-15"),
-    color: "#2c5cc5",
+    subject: "Design event logo",
+    type: "TASK",
+    status: "In progress",
+    priority: "High",
+    startDate: new Date("2022-07-01"),
+    endDate: new Date("2022-07-20"),
+    color: "#00308F",
   },
   {
     id: "549",
-    subject: "Mid-year Review",
+    subject: "Setup registration portal",
     type: "TASK",
-    status: "Completed",
-    priority: "High",
-    startDate: new Date("2022-06-10"),
-    endDate: new Date("2022-06-20"),
-    color: "#4dabf7",
+    status: "New",
+    priority: "Normal",
+    startDate: new Date("2022-08-05"),
+    endDate: new Date("2022-08-25"),
+    color: "#00308F",
   },
   {
     id: "550",
-    subject: "Year-end Planning",
-    type: "PHASE",
-    status: "Planned",
+    subject: "Coordinate volunteers",
+    type: "TASK",
+    status: "New",
+    priority: "Normal",
+    startDate: new Date("2022-08-20"),
+    endDate: new Date("2022-09-15"),
+    color: "#00308F",
+  },
+  {
+    id: "551",
+    subject: "Develop workshop materials",
+    type: "TASK",
+    status: "In progress",
+    priority: "Normal",
+    startDate: new Date("2022-07-25"),
+    endDate: new Date("2022-08-15"),
+    color: "#00308F",
+  },
+  {
+    id: "552",
+    subject: "Secure sponsorships",
+    type: "TASK",
+    status: "New",
     priority: "High",
-    startDate: new Date("2022-12-01"),
-    endDate: new Date("2022-12-15"),
-    color: "#2c5cc5",
+    startDate: new Date("2022-07-10"),
+    endDate: new Date("2022-08-01"),
+    color: "#00308F",
+  },
+  {
+    id: "553",
+    subject: "Plan keynote sessions",
+    type: "TASK",
+    status: "New",
+    priority: "Normal",
+    startDate: new Date("2022-08-15"),
+    endDate: new Date("2022-09-01"),
+    color: "#00308F",
+  },
+  {
+    id: "554",
+    subject: "Book accommodation",
+    type: "TASK",
+    status: "New",
+    priority: "Normal",
+    startDate: new Date("2022-07-20"),
+    endDate: new Date("2022-08-10"),
+    color: "#00308F",
+  },
+  {
+    id: "555",
+    subject: "Arrange transportation",
+    type: "TASK",
+    status: "New",
+    priority: "Normal",
+    startDate: new Date("2022-08-01"),
+    endDate: new Date("2022-08-20"),
+    color: "#00308F",
+  },
+  {
+    id: "556",
+    subject: "Create event app",
+    type: "TASK",
+    status: "In progress",
+    priority: "High",
+    startDate: new Date("2022-07-15"),
+    endDate: new Date("2022-08-05"),
+    color: "#00308F",
+  },
+  {
+    id: "557",
+    subject: "Setup AV equipment",
+    type: "TASK",
+    status: "New",
+    priority: "Normal",
+    startDate: new Date("2022-08-25"),
+    endDate: new Date("2022-09-10"),
+    color: "#00308F",
+  },
+  {
+    id: "558",
+    subject: "Plan networking events",
+    type: "TASK",
+    status: "New",
+    priority: "Normal",
+    startDate: new Date("2022-08-10"),
+    endDate: new Date("2022-08-30"),
+    color: "#00308F",
+  },
+  {
+    id: "559",
+    subject: "Develop feedback forms",
+    type: "TASK",
+    status: "New",
+    priority: "Normal",
+    startDate: new Date("2022-08-20"),
+    endDate: new Date("2022-09-05"),
+    color: "#00308F",
+  },
+  {
+    id: "560",
+    subject: "Create signage",
+    type: "TASK",
+    status: "New",
+    priority: "Normal",
+    startDate: new Date("2022-08-05"),
+    endDate: new Date("2022-08-25"),
+    color: "#00308F",
+  },
+  {
+    id: "561",
+    subject: "Plan security measures",
+    type: "TASK",
+    status: "New",
+    priority: "High",
+    startDate: new Date("2022-07-25"),
+    endDate: new Date("2022-08-15"),
+    color: "#00308F",
+  },
+  {
+    id: "562",
+    subject: "Organize team briefing",
+    type: "TASK",
+    status: "New",
+    priority: "Normal",
+    startDate: new Date("2022-08-15"),
+    endDate: new Date("2022-09-01"),
+    color: "#00308F",
+  },
+  {
+    id: "563",
+    subject: "Setup ticketing system",
+    type: "TASK",
+    status: "In progress",
+    priority: "Normal",
+    startDate: new Date("2022-07-10"),
+    endDate: new Date("2022-07-30"),
+    color: "#00308F",
+  },
+  {
+    id: "564",
+    subject: "Finalize event schedule",
+    type: "TASK",
+    status: "New",
+    priority: "Normal",
+    startDate: new Date("2022-08-10"),
+    endDate: new Date("2022-09-05"),
+    color: "#00308F",
   },
 ]
 
-// Milestone data
+// Milestone data (unchanged)
 const allMilestones = [
   {
     date: new Date("2022-09-05"),
@@ -292,28 +431,27 @@ export default function GanttChart() {
   // Today's date for the red line
   const today = new Date()
   const isCurrentQuarter = today >= startDate && today <= endDate
-
   const todayPosition = isCurrentQuarter ? calculatePosition(today) : -1
 
   return (
-    <div className="w-full bg-white border border-gray-200 shadow-sm rounded-lg overflow-hidden">
+    <div className="w-full bg-white dark:bg-[#1E232E] border border-gray-200 dark:border-gray-600 shadow-sm rounded-lg overflow-hidden">
       {/* Header with title and filters */}
-      <div className=" bg-[#00308F] text-white p-4">
+      <div className="bg-[#00308F] dark:bg-[#4A6CF7] text-white p-4">
         <div className="flex justify-between items-center">
           <div>
             <h1 className="text-3xl font-bold">Project Timeline</h1>
-            <p className="text-blue-100 text-sm mt-1">Track project progress and milestones</p>
+            <p className="text-blue-100 dark:text-blue-200 text-sm mt-1">Track project progress and milestones</p>
           </div>
-          <div className="flex items-center space-x-4">
-            <div className="flex items-center bg-blue-700 rounded-md p-2">
-              <Calendar className="h-4 w-4 mr-2" />
+          <div className="flex items-center space-x-4 cursor-pointer">
+            <div className="flex items-center bg-blue-700 dark:bg-[#3B5AEB] rounded-md p-2 cursor-pointer">
+              <Calendar className="h-4 w-4 mr-2 cursor-pointer" />
               <select
-                className="bg-transparent text-white text-sm focus:outline-none"
+                className="bg-transparent text-white text-sm focus:outline-none cursor-pointer"
                 value={selectedYear}
                 onChange={(e) => setSelectedYear(Number.parseInt(e.target.value))}
               >
                 {availableYears.map((year) => (
-                  <option key={year} value={year} className="text-gray-800">
+                  <option key={year} value={year} className="text-gray-800 dark:text-gray-200 cursor-pointer">
                     {year}
                   </option>
                 ))}
@@ -324,89 +462,75 @@ export default function GanttChart() {
       </div>
 
       {/* Quarter navigation */}
-      <div className="bg-gray-50 border-b border-gray-200 px-4 py-2 flex justify-between items-center">
-        <div className="text-sm text-gray-500">
+      <div className="bg-gray-50 dark:bg-[#2A2F3B] border-b border-gray-200 dark:border-gray-600 px-4 py-2 flex justify-between items-center">
+        <div className="text-sm text-gray-500 dark:text-gray-400">
           Showing {quarters[selectedQuarter].name} {selectedYear}
         </div>
         <div className="flex items-center space-x-2">
-          <button onClick={prevQuarter} className="p-1 rounded hover:bg-gray-200" title="Previous Quarter">
-            <ChevronLeft className="h-5 w-5 text-gray-600" />
+          <button onClick={prevQuarter} className="p-1 rounded hover:bg-gray-200 dark:hover:bg-[#353A47]" title="Previous Quarter">
+            <ChevronLeft className="h-5 w-5 text-gray-600 dark:text-gray-300" />
           </button>
-          <div className="bg-blue-50 text-blue-800 px-3 py-1 rounded-md font-medium">
+          <div className="bg-blue-50 dark:bg-[#3B5AEB] text-blue-800 dark:text-blue-200 px-3 py-1 rounded-md font-medium">
             {quarters[selectedQuarter].name}
           </div>
-          <button onClick={nextQuarter} className="p-1 rounded hover:bg-gray-200" title="Next Quarter">
-            <ChevronRight className="h-5 w-5 text-gray-600" />
+          <button onClick={nextQuarter} className="p-1 rounded hover:bg-gray-200 dark:hover:bg-[#353A47]" title="Next Quarter">
+            <ChevronRight className="h-5 w-5 text-gray-600 dark:text-gray-300" />
           </button>
         </div>
       </div>
 
       <div className="flex">
         {/* Table section */}
-        <div className="w-[400px] flex-shrink-0 border-r border-gray-300">
+        <div className="w-[400px] flex-shrink-0 border-r border-gray-300 dark:border-gray-600">
           {/* Header */}
-          <div className="flex bg-gray-100 border-b border-gray-300">
-            <div className="w-[200px] p-2 font-medium text-gray-700 text-sm">Project Name</div>
-            {/* <div className="w-[70px] p-2 font-medium text-gray-700 text-sm">TYPE</div> */}
-            <div className="w-[70px] p-2 font-medium text-gray-700 text-sm">STATUS</div>
-            <div className="w-[60px] p-2 font-medium text-gray-700 text-sm">PRIORITY</div>
-
+          <div className="flex bg-gray-100 dark:bg-[#2A2F3B] border-b border-gray-300 dark:border-gray-600">
+            <div className="w-[200px] p-2 font-medium text-gray-700 dark:text-gray-200 text-sm">Project Name</div>
+            <div className="w-[70px] p-2 font-medium text-gray-700 dark:text-gray-200 text-sm">Status</div>
+            <div className="w-[60px] p-2 font-medium text-gray-700 dark:text-gray-200 text-sm">Priority</div>
           </div>
 
           {/* Empty row to align with days */}
-          <div className="h-8 border-b border-gray-300"></div>
+          <div className="h-8 border-b border-gray-300 dark:border-gray-600"></div>
 
           {/* Table rows */}
           {filteredProjects.length > 0 ? (
             filteredProjects.map((project) => (
-              <div key={project.id} className="flex items-center h-10 border-b border-gray-300 hover:bg-gray-50">
-                <div className="w-[200px] px-2 flex items-center ">
-                  <span className="text-[13px]">{project.subject}</span>
+              <div key={project.id} className="flex items-center h-10 border-b border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-[#353A47]">
+                <div className="w-[200px] px-2 flex items-center">
+                  <span className="text-[13px] text-gray-800 dark:text-gray-200">{project.subject}</span>
                 </div>
-                {/* <div className="w-[70px] px-2">
-                  {project.type && (
-                    <span
-                      className={`px-2 py-0.5 text-xs rounded ${project.type === "PHASE" ? "bg-blue-100 text-blue-800" : "bg-cyan-100 text-cyan-800"
-                        }`}
-                    >
-                      {project.type}
-                    </span>
-                  )}
-                </div> */}
                 <div className="w-[70px] px-2">
                   {project.status && (
                     <div className="flex items-center">
-                      
-                      <span className="text-xs">{project.status}</span>
+                      <span className="text-xs text-gray-600 dark:text-gray-300">{project.status}</span>
                     </div>
                   )}
                 </div>
                 <div className="w-[60px] px-2">
                   {project.priority && (
                     <div className="flex items-center">
-                      
-                      <span className="text-xs">{project.priority}</span>
+                      <span className="text-xs text-gray-600 dark:text-gray-300">{project.priority}</span>
                     </div>
                   )}
                 </div>
               </div>
             ))
           ) : (
-            <div className="p-4 text-center text-gray-500">No projects in this quarter</div>
+            <div className="p-4 text-center text-gray-500 dark:text-gray-400">No projects in this quarter</div>
           )}
         </div>
 
         {/* Timeline section */}
         <div className="flex-grow overflow-x-auto">
           {/* Months header */}
-          <div className="flex border-b border-gray-300">
+          <div className="flex border-b border-gray-300 dark:border-gray-600">
             {daysByMonth.map((month, monthIndex) => (
               <div
                 key={monthIndex}
-                className="flex-shrink-0 bg-gray-100"
+                className="flex-shrink-0 bg-gray-100 dark:bg-[#2A2F3B]"
                 style={{ width: `${month.days.length * 25}px` }}
               >
-                <div className="h-9 flex items-center justify-center font-medium text-gray-700 border-r border-gray-300">
+                <div className="h-9 flex items-center justify-center font-medium text-gray-700 dark:text-gray-200 border-r border-gray-300 dark:border-gray-600">
                   {month.name}
                 </div>
               </div>
@@ -414,11 +538,11 @@ export default function GanttChart() {
           </div>
 
           {/* Days header */}
-          <div className="flex border-b border-gray-300 h-8">
+          <div className="flex border-b border-gray-300 dark:border-gray-600 h-8">
             {allDays.map((day, dayIndex) => (
               <div
                 key={dayIndex}
-                className="flex-shrink-0 w-[25px] flex items-center justify-center text-xs text-gray-600 border-r border-gray-200"
+                className="flex-shrink-0 w-[25px] flex items-center justify-center text-xs text-gray-600 dark:text-gray-300 border-r border-gray-200 dark:border-gray-600"
               >
                 {day.day}
               </div>
@@ -430,21 +554,21 @@ export default function GanttChart() {
             {/* Background grid */}
             <div className="absolute inset-0 grid" style={{ gridTemplateColumns: `repeat(${allDays.length}, 25px)` }}>
               {allDays.map((_, index) => (
-                <div key={index} className="h-full border-r border-gray-200"></div>
+                <div key={index} className="h-full border-r border-gray-200 dark:border-gray-600"></div>
               ))}
             </div>
 
             {/* Today marker (red vertical line) */}
             {isCurrentQuarter && (
               <div
-                className="absolute top-0 bottom-0 w-px bg-red-500 z-10"
+                className="absolute top-0 bottom-0 w-px bg-red-500 dark:bg-red-400 z-10"
                 style={{ left: `${todayPosition * 25 + 12.5}px` }}
               ></div>
             )}
 
             {/* Empty rows for no projects case */}
             {filteredProjects.length === 0 && (
-              <div className="h-40 flex items-center justify-center text-gray-500">
+              <div className="h-40 flex items-center justify-center text-gray-500 dark:text-gray-400">
                 No projects to display in this quarter
               </div>
             )}
@@ -459,14 +583,14 @@ export default function GanttChart() {
               const width = calculateWidth(projectStart, projectEnd) * 25
 
               return (
-                <div key={project.id} className="h-10 border-b border-gray-300 relative hover:bg-gray-50">
+                <div key={project.id} className="h-10 relative">
                   {/* Project bar */}
                   <div
                     className="absolute h-6 rounded flex items-center px-2 text-white text-xs font-medium z-20"
                     style={{
                       left: `${left}px`,
                       width: `${width}px`,
-                      backgroundColor: project.color,
+                      backgroundColor: project.color === "#00308F" ? "#4A6CF7" : project.color, // Use #4A6CF7 in dark mode
                       top: "50%",
                       transform: "translateY(-50%)",
                     }}
@@ -476,12 +600,9 @@ export default function GanttChart() {
                 </div>
               )
             })}
-
-
           </div>
         </div>
       </div>
-
     </div>
   )
 }

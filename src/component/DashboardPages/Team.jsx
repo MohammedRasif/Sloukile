@@ -388,8 +388,8 @@
 // export default Team;
 
 
-
-import { Search, Mail, Phone, Calendar, Plus } from "lucide-react";
+import { useState } from "react";
+import { Search, Mail, Phone, Calendar, Plus, Pencil, Trash, X } from "lucide-react";
 import { RiAddCircleLine } from "react-icons/ri";
 
 // Static dummy data for team members
@@ -424,6 +424,72 @@ const dummyTeamMembers = [
 ];
 
 const Team = () => {
+  // State for team members (to allow adding/deleting members)
+  const [teamMembers, setTeamMembers] = useState(dummyTeamMembers);
+  // State for popup visibility
+  const [showPopup, setShowPopup] = useState(false);
+  // State for new team member form
+  const [newMember, setNewMember] = useState({
+    name: "",
+    skills: "",
+    projects: "",
+    email: "",
+    phone: "",
+    joining_date: "",
+  });
+
+  // Handle input changes for new member form
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setNewMember((prev) => ({ ...prev, [name]: value }));
+  };
+
+  // Handle form submission for new team member
+  const handleAddMember = (e) => {
+    e.preventDefault();
+    if (
+      newMember.name.trim() &&
+      newMember.skills.trim() &&
+      newMember.email.trim() &&
+      newMember.phone.trim() &&
+      newMember.joining_date.trim()
+    ) {
+      const nextId = teamMembers.length + 1;
+      setTeamMembers((prev) => [
+        ...prev,
+        {
+          id: nextId,
+          name: newMember.name,
+          skills: newMember.skills,
+          projects: parseInt(newMember.projects) || 0,
+          email: newMember.email,
+          phone: newMember.phone,
+          joining_date: newMember.joining_date,
+        },
+      ]);
+      setNewMember({
+        name: "",
+        skills: "",
+        projects: "",
+        email: "",
+        phone: "",
+        joining_date: "",
+      });
+      setShowPopup(false);
+    }
+  };
+
+  // Handle delete team member
+  const handleDeleteMember = (id) => {
+    setTeamMembers((prev) => prev.filter((member) => member.id !== id));
+  };
+
+  // Handle edit team member (placeholder for future functionality)
+  const handleEditMember = (id) => {
+    alert(`Edit team member with ID: ${id} (Functionality to be implemented)`);
+    // Future implementation: Open a popup with pre-filled member details
+  };
+
   return (
     <div className="min-h-screen p-6 text-gray-800 dark:text-gray-200 roboto">
       <div className="mx-auto">
@@ -453,11 +519,29 @@ const Team = () => {
 
         {/* Team Members Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-          {dummyTeamMembers.map((member) => (
+          {teamMembers.map((member) => (
             <div
               key={member.id}
-              className="bg-[#EDEDED] dark:bg-[#1E232E] p-4 rounded-lg shadow-sm border border-gray-100 dark:border-gray-700"
+              className="bg-[#EDEDED] dark:bg-[#1E232E] p-4 rounded-lg shadow-sm border border-gray-100 dark:border-gray-700 relative"
             >
+              {/* Edit and Delete Icons */}
+              <div className="absolute top-0 right-0 flex space-x-2 p-2">
+                <button
+                  onClick={() => handleEditMember(member.id)}
+                  className="text-gray-500 hover:text-[#00308F] dark:hover:text-[#4A6CF7] cursor-pointer"
+                  title="Edit Member"
+                >
+                  <Pencil size={22} />
+                </button>
+                <button
+                  onClick={() => handleDeleteMember(member.id)}
+                  className="text-gray-500 hover:text-red-500 dark:hover:text-red-400 cursor-pointer"
+                  title="Delete Member"
+                >
+                  <Trash size={22} />
+                </button>
+              </div>
+
               <div className="flex justify-between items-start mb-2">
                 <div>
                   <h3 className="text-[24px] font-bold text-gray-800 dark:text-gray-100">
@@ -507,6 +591,7 @@ const Team = () => {
               <span>Create A New Member</span>
             </h3>
             <button
+              onClick={() => setShowPopup(true)}
               className="bg-[#00308F] dark:bg-[#4A6CF7] text-white px-4 py-2 rounded-md flex items-center space-x-2 hover:bg-[#00218f] dark:hover:bg-[#3B5AEB] cursor-pointer"
             >
               <Plus className="h-4 w-4" />
@@ -514,10 +599,159 @@ const Team = () => {
             </button>
           </div>
         </div>
+
+        {/* Popup for Adding New Team Member */}
+        {showPopup && (
+          <div className="fixed inset-0 backdrop-blur-[3px] flex items-center justify-center z-50">
+            <div className="bg-white dark:bg-[#1E232E] p-6 rounded-lg shadow-lg w-full max-w-md relative">
+              <button
+                onClick={() => setShowPopup(false)}
+                className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 dark:hover:text-gray-300"
+              >
+                <X size={20} />
+              </button>
+
+              <h3 className="text-xl font-bold mb-4 text-gray-800 dark:text-gray-200">
+                Add New Team Member
+              </h3>
+
+              <form onSubmit={handleAddMember} className="space-y-4">
+                <div>
+                  <label
+                    htmlFor="name"
+                    className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+                  >
+                    Name
+                  </label>
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    value={newMember.name}
+                    onChange={handleInputChange}
+                    className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-[#1E232E] text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#00308F] dark:focus:ring-[#4A6CF7]"
+                    placeholder="Enter name"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label
+                    htmlFor="skills"
+                    className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+                  >
+                    Skills
+                  </label>
+                  <input
+                    type="text"
+                    id="skills"
+                    name="skills"
+                    value={newMember.skills}
+                    onChange={handleInputChange}
+                    className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-[#1E232E] text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#00308F] dark:focus:ring-[#4A6CF7]"
+                    placeholder="Enter skills (e.g., Frontend Developer)"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label
+                    htmlFor="projects"
+                    className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+                  >
+                    Number of Projects
+                  </label>
+                  <input
+                    type="number"
+                    id="projects"
+                    name="projects"
+                    value={newMember.projects}
+                    onChange={handleInputChange}
+                    className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-[#1E232E] text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#00308F] dark:focus:ring-[#4A6CF7]"
+                    placeholder="Enter number of projects"
+                    min="0"
+                  />
+                </div>
+
+                <div>
+                  <label
+                    htmlFor="email"
+                    className="block text-sm font-medium text-gray-700 dark:text-gray-3
+                    00 mb-1"
+                  >
+                    Email
+                  </label>
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    value={newMember.email}
+                    onChange={handleInputChange}
+                    className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-[#1E232E] text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#00308F] dark:focus:ring-[#4A6CF7]"
+                    placeholder="Enter email"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label
+                    htmlFor="phone"
+                    className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+                  >
+                    Phone
+                  </label>
+                  <input
+                    type="tel"
+                    id="phone"
+                    name="phone"
+                    value={newMember.phone}
+                    onChange={handleInputChange}
+                    className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-[#1E232E] text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#00308F] dark:focus:ring-[#4A6CF7]"
+                    placeholder="Enter phone number"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label
+                    htmlFor="joining_date"
+                    className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+                  >
+                    Joining Date
+                  </label>
+                  <input
+                    type="date"
+                    id="joining_date"
+                    name="joining_date"
+                    value={newMember.joining_date}
+                    onChange={handleInputChange}
+                    className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-[#1E232E] text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#00308F] dark:focus:ring-[#4A6CF7]"
+                    required
+                  />
+                </div>
+
+                <div className="flex justify-end gap-2 mt-6">
+                  <button
+                    type="button"
+                    onClick={() => setShowPopup(false)}
+                    className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    className="px-4 py-2 bg-[#00308F] dark:bg-[#4A6CF7] text-white rounded-md hover:bg-[#00218f] dark:hover:bg-[#3B5AEB]"
+                  >
+                    Add Member
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
 };
 
 export default Team;
-

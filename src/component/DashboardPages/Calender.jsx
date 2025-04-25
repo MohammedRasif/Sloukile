@@ -131,7 +131,7 @@ const Calender = () => {
       <div className="relative flex items-center justify-center h-full">
         <span>{dayNumber}</span>
         {hasEvent && (
-          <span className="absolute bottom-1 w-4 h-4 bg-blue-500 rounded-full"></span>
+          <span className="absolute bottom-1 w-4 h-4 bg-blue-500 dark:bg-[#4A6CF7] rounded-full"></span>
         )}
       </div>
     );
@@ -140,7 +140,7 @@ const Calender = () => {
   return (
     <div className="space-y-6 p-6">
       <div className="bg-white dark:bg-[#1E232E] p-6 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
-        <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-100">
+        <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200">
           Project Calendar
         </h2>
         <p className="text-gray-500 dark:text-gray-400 mb-4">
@@ -155,7 +155,7 @@ const Calender = () => {
               onChange={handleRangeChange}
               moveRangeOnFirstSelection={false}
               ranges={dateRange}
-              className="border-none bg-transparent w-full"
+              className="border-none bg-transparent w-full dark:bg-[#1E232E]"
               showDateDisplay={false} // Hides the default range display
               dayContentRenderer={renderDayContent} // Custom day renderer for event markers
               weekStartsOn={1} // Start the week on Monday
@@ -176,13 +176,13 @@ const Calender = () => {
 
         {/* Add Event Form */}
         {showForm && (
-          <div className="mb-6 p-4 border border-gray-200 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-800">
-            <h3 className="text-lg font-medium text-gray-800 dark:text-gray-100 mb-4">
+          <div className="mb-6 p-4 border border-gray-200 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-[#2A2F3B]">
+            <h3 className="text-lg font-medium text-gray-800 dark:text-gray-200 mb-4">
               Add New Event
             </h3>
             <div className="space-y-4">
               <div>
-                <label className="text-sm font-medium text-gray-800 dark:text-gray-100">
+                <label className="text-sm font-medium text-gray-800 dark:text-gray-200">
                   Project Name
                 </label>
                 <input
@@ -190,12 +190,12 @@ const Calender = () => {
                   name="projectName"
                   value={formData.projectName}
                   onChange={handleInputChange}
-                  className="w-full mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-[#2A2F3B] text-gray-800 dark:text-gray-200"
+                  className="w-full mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-[#2A2F3B] text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#00308F] dark:focus:ring-[#4A6CF7]"
                   placeholder="Enter project name"
                 />
               </div>
               <div>
-                <label className="text-sm font-medium text-gray-800 dark:text-gray-100">
+                <label className="text-sm font-medium text-gray-800 dark:text-gray-200">
                   Title
                 </label>
                 <input
@@ -203,32 +203,32 @@ const Calender = () => {
                   name="title"
                   value={formData.title}
                   onChange={handleInputChange}
-                  className="w-full mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-[#2A2F3B] text-gray-800 dark:text-gray-200"
+                  className="w-full mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-[#2A2F3B] text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#00308F] dark:focus:ring-[#4A6CF7]"
                   placeholder="Enter event title"
                 />
               </div>
               <div>
-                <label className="text-sm font-medium text-gray-800 dark:text-gray-100">
+                <label className="text-sm font-medium text-gray-800 dark:text-gray-200">
                   Description
                 </label>
                 <textarea
                   name="description"
                   value={formData.description}
                   onChange={handleInputChange}
-                  className="w-full mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-[#2A2F3B] text-gray-800 dark:text-gray-200 h-24"
+                  className="w-full mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-[#2A2F3B] text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#00308F] dark:focus:ring-[#4A6CF7] h-24"
                   placeholder="Enter event description"
                 />
               </div>
               <div className="flex justify-end gap-2">
                 <button
                   onClick={addEvent}
-                  className="px-3 py-1 rounded-md bg-green-500 text-white text-sm font-medium hover:bg-green-600"
+                  className="px-3 py-1 rounded-md bg-[#00308F] dark:bg-[#4A6CF7] text-white text-sm font-medium hover:bg-[#00218f] dark:hover:bg-[#3B5AEB]"
                 >
                   Add
                 </button>
                 <button
                   onClick={() => setShowForm(false)}
-                  className="px-3 py-1 rounded-md bg-gray-300 dark:bg-gray-600 text-gray-800 dark:text-gray-200 text-sm font-medium hover:bg-gray-400 dark:hover:bg-gray-500"
+                  className="px-3 py-1 rounded-md bg-gray-300 dark:bg-[#353A47] text-gray-800 dark:text-gray-200 text-sm font-medium hover:bg-gray-400 dark:hover:bg-[#2A2F3B]"
                 >
                   Cancel
                 </button>
@@ -239,7 +239,7 @@ const Calender = () => {
 
         {/* Events for Selected Date Range */}
         <div className="space-y-4">
-          <h3 className="text-lg font-medium text-gray-800 dark:text-gray-100">
+          <h3 className="text-lg font-medium text-gray-800 dark:text-gray-200">
             Events from {dateRange[0].startDate.toDateString()} to{" "}
             {dateRange[0].endDate.toDateString()}
           </h3>
@@ -248,7 +248,7 @@ const Calender = () => {
               {eventsInRange.map((event) => (
                 <div
                   key={event.id}
-                  className="p-4 border border-gray-200 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-800"
+                  className="p-4 border border-gray-200 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-[#2A2F3B]"
                 >
                   <h4 className="text-gray-800 dark:text-gray-200 font-semibold">
                     {event.title}

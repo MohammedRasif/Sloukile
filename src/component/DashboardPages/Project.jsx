@@ -467,8 +467,8 @@
 
 // export default Project;
 
-
-import { Calendar, Users, FileText, Search, Plus } from "lucide-react";
+import { useState } from "react";
+import { Calendar, Users, FileText, Search, Plus, Pencil, Trash, X } from "lucide-react";
 import { NavLink } from "react-router-dom";
 
 // Static dummy data for projects
@@ -476,7 +476,7 @@ const dummyProjects = [
   {
     id: 1,
     name: "Website Redesign",
-    project_goal: "Revamp the company website  experience.",
+    project_goal: "Revamp the company website experience.",
     buget: "15000.00",
     progress: 75,
     status: "In Progress",
@@ -509,6 +509,19 @@ const dummyProjects = [
 ];
 
 const Project = () => {
+  // State for projects (to allow adding new projects)
+  const [projects, setProjects] = useState(dummyProjects);
+  // State for popup visibility
+  const [showPopup, setShowPopup] = useState(false);
+  // State for new project form
+  const [newProject, setNewProject] = useState({
+    name: "",
+    project_goal: "",
+    buget: "",
+    due_date: "",
+    labor_costs: "",
+  });
+
   // Static RACI chart grid (4 rows x 5 columns) based on the image
   const raciGrid = [
     ["A", "R", "C", "I", "A"],
@@ -530,6 +543,60 @@ const Project = () => {
       default:
         return "bg-gray-500";
     }
+  };
+
+  // Handle input changes for new project form
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setNewProject((prev) => ({ ...prev, [name]: value }));
+  };
+
+  // Handle form submission for new project
+  const handleAddProject = (e) => {
+    e.preventDefault();
+    if (
+      newProject.name.trim() &&
+      newProject.project_goal.trim() &&
+      newProject.buget.trim() &&
+      newProject.due_date.trim()
+    ) {
+      const nextId = projects.length + 1;
+      setProjects((prev) => [
+        ...prev,
+        {
+          id: nextId,
+          name: newProject.name,
+          project_goal: newProject.project_goal,
+          buget: parseFloat(newProject.buget).toFixed(2),
+          progress: 0,
+          status: "In Progress",
+          due_date: newProject.due_date,
+          created_at: new Date().toISOString().split("T")[0],
+          labor_costs: newProject.labor_costs
+            ? newProject.labor_costs.split(",").map((name) => name.trim())
+            : [],
+        },
+      ]);
+      setNewProject({
+        name: "",
+        project_goal: "",
+        buget: "",
+        due_date: "",
+        labor_costs: "",
+      });
+      setShowPopup(false);
+    }
+  };
+
+  // Handle delete project
+  const handleDeleteProject = (id) => {
+    setProjects((prev) => prev.filter((project) => project.id !== id));
+  };
+
+  // Handle edit project (placeholder for future functionality)
+  const handleEditProject = (id) => {
+    alert(`Edit project with ID: ${id} (Functionality to be implemented)`);
+    // Future implementation: Open a popup with pre-filled project details
   };
 
   return (
@@ -555,66 +622,89 @@ const Project = () => {
         </div>
       </div>
 
-      {/* Static Project Cards */}
+      {/* Project Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
-        {dummyProjects.map((project) => (
+        {projects.map((project) => (
           <NavLink key={project.id} to="/dashboard/ProjectDetails">
             <div
-            key={project.id}
-            className="bg-[#EDEDED] dark:bg-[#1E232E] rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-5 block"
-          >
-            <div className="flex justify-between items-start mb-1">
-              <h3 className="text-[22px] font-bold text-gray-800 dark:text-gray-100">
-                {project.name}
-              </h3>
-            </div>
+              className="bg-[#EDEDED] dark:bg-[#1E232E] rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-5 block relative"
+            >
+              {/* Edit and Delete Icons */}
+              <div className="absolute top-0 right-0 flex space-x-2 p-2">
+                <button
+                  onClick={(e) => {
+                    e.preventDefault(); // Prevent NavLink navigation
+                    handleEditProject(project.id);
+                  }}
+                  className="text-gray-500 hover:text-[#00308F] dark:hover:text-[#4A6CF7] cursor-pointer"
+                  title="Edit Project"
+                >
+                  <Pencil size={22}/>
+                </button>
+                <button
+                  onClick={(e) => {
+                    e.preventDefault(); // Prevent NavLink navigation
+                    handleDeleteProject(project.id);
+                  }}
+                  className="text-gray-500 cursor-pointer"
+                  title="Delete Project"
+                >
+                  <Trash size={22}/>
+                </button>
+              </div>
 
-            <p className="text-sm text-gray-500 dark:text-gray-400 mb-3">
-              {project.project_goal}
-            </p>
+              <div className="flex justify-between items-start mb-1">
+                <h3 className="text-[22px] font-bold text-gray-800 dark:text-gray-100">
+                  {project.name}
+                </h3>
+              </div>
 
-            <div className="mb-3">
-              <p className="text-md font-medium text-[#00308F] dark:text-[#4A6CF7] mb-1">
-                Budget: ${parseFloat(project.buget).toLocaleString()}
+              <p className="text-sm text-gray-500 dark:text-gray-400 mb-3">
+                {project.project_goal}
               </p>
-            </div>
 
-            <div className="mb-4">
-              <div className="flex justify-between items-center mb-1">
-                <p className="text-sm text-gray-500 dark:text-gray-400">Progress</p>
-                <p className="text-sm text-[#00308F] dark:text-[#4A6CF7] font-medium">
-                  {project.progress}%
+              <div className="mb-3">
+                <p className="text-md font-medium text-[#00308F] dark:text-[#4A6CF7] mb-1">
+                  Budget: ${parseFloat(project.buget).toLocaleString()}
                 </p>
               </div>
-              <div className="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-3">
-                <div
-                  className="bg-[#00308F] dark:bg-[#4A6CF7] h-3 rounded-full"
-                  style={{ width: `${project.progress}%` }}
-                ></div>
-              </div>
-            </div>
 
-            <div className="flex justify-between items-center mb-4">
-              <span className="bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-300 text-xs px-2.5 py-1 rounded-full">
-                {project.status}
-              </span>
-              <div className="flex items-center text-xs text-[#00308F] dark:text-[#4A6CF7]">
-                <Calendar className="h-3.5 w-3.5 mr-1" />
-                <span>Due: {project.due_date}</span>
+              <div className="mb-4">
+                <div className="flex justify-between items-center mb-1">
+                  <p className="text-sm text-gray-500 dark:text-gray-400">Progress</p>
+                  <p className="text-sm text-[#00308F] dark:text-[#4A6CF7] font-medium">
+                    {project.progress}%
+                  </p>
+                </div>
+                <div className="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-3">
+                  <div
+                    className="bg-[#00308F] dark:bg-[#4A6CF7] h-3 rounded-full"
+                    style={{ width: `${project.progress}%` }}
+                  ></div>
+                </div>
               </div>
-            </div>
 
-            <div className="flex justify-between items-center pt-2 border-t border-gray-200 dark:border-gray-700">
-              <div className="flex items-center text-xs text-[#00308F] dark:text-[#4A6CF7]">
-                <Users className="h-3.5 w-3.5 mr-1" />
-                <span>{project.labor_costs.length} members</span>
+              <div className="flex justify-between items-center mb-4">
+                <span className="bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-300 text-xs px-2.5 py-1 rounded-full">
+                  {project.status}
+                </span>
+                <div className="flex items-center text-xs text-[#00308F] dark:text-[#4A6CF7]">
+                  <Calendar className="h-3.5 w-3.5 mr-1" />
+                  <span>Due: {project.due_date}</span>
+                </div>
               </div>
-              <div className="flex items-center text-xs text-[#00308F] dark:text-[#4A6CF7]">
-                <FileText className="h-3.5 w-3.5 mr-1" />
-                <span>Created: {new Date(project.created_at).toLocaleDateString()}</span>
+
+              <div className="flex justify-between items-center pt-2 border-t border-gray-200 dark:border-gray-700">
+                <div className="flex items-center text-xs text-[#00308F] dark:text-[#4A6CF7]">
+                  <Users className="h-3.5 w-3.5 mr-1" />
+                  <span>{project.labor_costs.length} members</span>
+                </div>
+                <div className="flex items-center text-xs text-[#00308F] dark:text-[#4A6CF7]">
+                  <FileText className="h-3.5 w-3.5 mr-1" />
+                  <span>Created: {new Date(project.created_at).toLocaleDateString()}</span>
+                </div>
               </div>
             </div>
-          </div>
           </NavLink>
         ))}
 
@@ -627,6 +717,7 @@ const Project = () => {
             New Project AI
           </h3>
           <button
+            onClick={() => setShowPopup(true)}
             className="bg-[#00308F] dark:bg-[#4A6CF7] text-white px-4 py-2 rounded-md flex items-center space-x-2 hover:bg-[#00218f] dark:hover:bg-[#3B5AEB] transition-colors"
           >
             <Plus className="h-4 w-4" />
@@ -635,8 +726,137 @@ const Project = () => {
         </div>
       </div>
 
+      {/* Popup for Adding New Project */}
+      {showPopup && (
+        <div className="fixed inset-0 backdrop-blur-[3px] flex items-center justify-center z-50">
+          <div className="bg-white dark:bg-[#1E232E] p-6 rounded-lg shadow-lg w-full max-w-md relative">
+            <button
+              onClick={() => setShowPopup(false)}
+              className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 dark:hover:text-gray-300"
+            >
+              <X size={20} />
+            </button>
+
+            <h3 className="text-xl font-bold mb-4 text-gray-800 dark:text-gray-200">
+              Add New Project
+            </h3>
+
+            <form onSubmit={handleAddProject} className="space-y-4">
+              <div>
+                <label
+                  htmlFor="name"
+                  className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+                >
+                  Project Name
+                </label>
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  value={newProject.name}
+                  onChange={handleInputChange}
+                  className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-[#1E232E] text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#00308F] dark:focus:ring-[#4A6CF7]"
+                  placeholder="Enter project name"
+                  required
+                />
+              </div>
+
+              <div>
+                <label
+                  htmlFor="project_goal"
+                  className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+                >
+                  Project Goal
+                </label>
+                <textarea
+                  id="project_goal"
+                  name="project_goal"
+                  value={newProject.project_goal}
+                  onChange={handleInputChange}
+                  className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-[#1E232E] text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#00308F] dark:focus:ring-[#4A6CF7]"
+                  placeholder="Enter project goal"
+                  rows="3"
+                  required
+                />
+              </div>
+
+              <div>
+                <label
+                  htmlFor="buget"
+                  className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+                >
+                  Budget ($)
+                </label>
+                <input
+                  type="number"
+                  id="buget"
+                  name="buget"
+                  value={newProject.buget}
+                  onChange={handleInputChange}
+                  className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-[#1E232E] text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#00308F] dark:focus:ring-[#4A6CF7]"
+                  placeholder="Enter budget (e.g., 10000)"
+                  step="0.01"
+                  required
+                />
+              </div>
+
+              <div>
+                <label
+                  htmlFor="due_date"
+                  className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+                >
+                  Due Date
+                </label>
+                <input
+                  type="date"
+                  id="due_date"
+                  name="due_date"
+                  value={newProject.due_date}
+                  onChange={handleInputChange}
+                  className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-[#1E232E] text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#00308F] dark:focus:ring-[#4A6CF7]"
+                  required
+                />
+              </div>
+
+              <div>
+                <label
+                  htmlFor="labor_costs"
+                  className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+                >
+                  Team Members (comma-separated)
+                </label>
+                <input
+                  type="text"
+                  id="labor_costs"
+                  name="labor_costs"
+                  value={newProject.labor_costs}
+                  onChange={handleInputChange}
+                  className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-[#1E232E] text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#00308F] dark:focus:ring-[#4A6CF7]"
+                  placeholder="Enter team members (e.g., Alice, Bob)"
+                />
+              </div>
+
+              <div className="flex justify-end gap-2 mt-6">
+                <button
+                  type="button"
+                  onClick={() => setShowPopup(false)}
+                  className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="px-4 py-2 bg-[#00308F] dark:bg-[#4A6CF7] text-white rounded-md hover:bg-[#00218f] dark:hover:bg-[#3B5AEB]"
+                >
+                  Add Project
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
       {/* Static RACI Chart */}
-      
     </div>
   );
 };

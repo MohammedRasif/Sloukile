@@ -212,37 +212,76 @@ export default function Communication() {
     setSending(true)
     
     try {
-      // Simulate API call with delay
-      await new Promise(resolve => setTimeout(resolve, 1500))
-      
+      // Prepare email data
+      const emailData = {
+        to: selectedUsers.map(user => user.email),
+        subject: subject,
+        html: `
+          <div style="font-family: Arial, sans-serif; padding: 20px;">
+            <h2>Task Update Newsletter</h2>
+            <p>Hello team,</p>
+            <p>Here's an update on our recent tasks:</p>
+            ${taskUpdate ? `
+              <div style="background-color: #EFF6FF; padding: 15px; border-left: 4px solid #3B82F6; margin: 20px 0;">
+                ${taskUpdate.replace(/\n/g, '<br>')}
+              </div>
+            ` : ''}
+            ${content ? `<p>${content.replace(/\n/g, '<br>')}</p>` : ''}
+            <p>Best regards,<br>The Team</p>
+          </div>
+        `,
+      }
+
+      // Replace this with your actual email sending API call
+      // Example using fetch to a backend API (e.g., Node.js with Nodemailer or SendGrid)
+      const response = await fetch('/api/send-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(emailData),
+      })
+
+      if (!response.ok) {
+        throw new Error('Failed to send email')
+      }
+
+      const result = await response.json()
+      console.log('Email sent:', result)
+
       setSending(false)
       setSent(true)
       
       // Reset form after 3 seconds
       setTimeout(() => {
         setSent(false)
+        setSubject("")
+        setContent("")
+        setTaskUpdate("")
+        setSelectedUsers([])
       }, 3000)
     } catch (err) {
       setSending(false)
       setError("Failed to send newsletter. Please try again.")
+      console.error('Email sending error:', err)
     }
   }
 
   return (
-    <div className="container mx-auto p-6 bg-white rounded-lg shadow-lg">
-      <h1 className="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2">
+    <div className="container mx-auto p-6 bg-white dark:bg-[#1E232E] rounded-lg shadow-lg">
+      <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-200 mb-6 flex items-center gap-2">
         <Mail className="h-6 w-6" />
         Task Update Newsletter
       </h1>
 
       {/* Error message */}
       {error && (
-        <div className="mb-6 p-4 bg-red-50 border-l-4 border-red-500 text-red-700 flex items-center gap-2">
+        <div className="mb-6 p-4 bg-red-50 dark:bg-red-900/20 border-l-4 border-red-500 dark:border-red-400 text-red-700 dark:text-red-300 flex items-center gap-2">
           <AlertCircle className="h-5 w-5" />
           <span>{error}</span>
           <button 
             onClick={() => setError(null)} 
-            className="ml-auto text-red-700 hover:text-red-900"
+            className="ml-auto text-red-700 dark:text-red-300 hover:text-red-900 dark:hover:text-red-100"
           >
             <X className="h-5 w-5" />
           </button>
@@ -251,7 +290,7 @@ export default function Communication() {
 
       {/* Success message */}
       {sent && (
-        <div className="mb-6 p-4 bg-green-50 border-l-4 border-green-500 text-green-700 flex items-center gap-2">
+        <div className="mb-6 p-4 bg-green-50 dark:bg-green-900/20 border-l-4 border-green-500 dark:border-green-400 text-green-700 dark:text-green-300 flex items-center gap-2">
           <CheckCircle2 className="h-5 w-5" />
           <span>Newsletter sent successfully!</span>
         </div>
@@ -261,21 +300,21 @@ export default function Communication() {
         <div>
           {/* User selection section */}
           <div className="mb-6">
-            <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center gap-1">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2 flex items-center gap-1">
               <Users className="h-4 w-4" />
               Select Recipients
             </label>
             
             <div className="relative">
               <div 
-                className="border border-gray-300 rounded-md p-2 min-h-[42px] cursor-pointer flex flex-wrap gap-1"
+                className="border border-gray-300 dark:border-gray-600 rounded-md p-2 min-h-[42px] cursor-pointer flex flex-wrap gap-1 bg-white dark:bg-[#2A2F3B]"
                 onClick={() => setShowUserDropdown(!showUserDropdown)}
               >
                 {selectedUsers.length > 0 ? (
                   selectedUsers.map(user => (
                     <div 
                       key={user.id} 
-                      className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full flex items-center"
+                      className="bg-blue-100 dark:bg-blue-900/50 text-blue-800 dark:text-blue-200 text-xs px-2 py-1 rounded-full flex items-center"
                     >
                       {user.name}
                       <button 
@@ -283,36 +322,36 @@ export default function Communication() {
                           e.stopPropagation()
                           toggleUserSelection(user)
                         }}
-                        className="ml-1 text-blue-600 hover:text-blue-800"
+                        className="ml-1 text-blue-600 dark:text-blue-300 hover:text-blue-800 dark:hover:text-blue-100"
                       >
                         <X className="h-3 w-3" />
                       </button>
                     </div>
                   ))
                 ) : (
-                  <span className="text-gray-500">Select users...</span>
+                  <span className="text-gray-500 dark:text-gray-400">Select users...</span>
                 )}
                 <div className="ml-auto flex items-center">
-                  <ChevronDown className={`h-4 w-4 transition-transform ${showUserDropdown ? "rotate-180" : ""}`} />
+                  <ChevronDown className={`h-4 w-4 text-gray-600 dark:text-gray-300 transition-transform ${showUserDropdown ? "rotate-180" : ""}`} />
                 </div>
               </div>
               
               {showUserDropdown && (
-                <div className="absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-auto">
-                  <div className="p-2 border-b sticky top-0 bg-white">
+                <div className="absolute z-10 mt-1 w-full bg-white dark:bg-[#2A2F3B] border border-gray-300 dark:border-gray-600 rounded-md shadow-lg max-h-60 overflow-auto">
+                  <div className="p-2 border-b dark:border-gray-600 sticky top-0 bg-white dark:bg-[#2A2F3B]">
                     <input
                       type="text"
                       placeholder="Search users..."
-                      className="w-full p-2 border border-gray-300 rounded-md"
+                      className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-[#353A47] text-gray-800 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#00308F] dark:focus:ring-[#4A6CF7]"
                       value={filterText}
                       onChange={(e) => setFilterText(e.target.value)}
                       onClick={(e) => e.stopPropagation()}
                     />
                   </div>
                   
-                  <div className="p-2 border-b flex justify-between">
+                  <div className="p-2 border-b dark:border-gray-600 flex justify-between">
                     <button 
-                      className="text-xs text-blue-600 hover:text-blue-800"
+                      className="text-xs text-blue-600 dark:text-blue-300 hover:text-blue-800 dark:hover:text-blue-100"
                       onClick={(e) => {
                         e.stopPropagation()
                         selectAllFiltered()
@@ -321,7 +360,7 @@ export default function Communication() {
                       Select All
                     </button>
                     <button 
-                      className="text-xs text-blue-600 hover:text-blue-800"
+                      className="text-xs text-blue-600 dark:text-blue-300 hover:text-blue-800 dark:hover:text-blue-100"
                       onClick={(e) => {
                         e.stopPropagation()
                         deselectAllFiltered()
@@ -335,8 +374,8 @@ export default function Communication() {
                     filteredUsers.map(user => (
                       <div 
                         key={user.id}
-                        className={`p-2 hover:bg-gray-100 cursor-pointer flex items-center ${
-                          selectedUsers.some(u => u.id === user.id) ? "bg-blue-50" : ""
+                        className={`p-2 hover:bg-gray-100 dark:hover:bg-[#353A47] cursor-pointer flex items-center ${
+                          selectedUsers.some(u => u.id === user.id) ? "bg-blue-50 dark:bg-blue-900/30" : ""
                         }`}
                         onClick={(e) => {
                           e.stopPropagation()
@@ -344,38 +383,38 @@ export default function Communication() {
                         }}
                       >
                         <div className="flex-1">
-                          <div className="font-medium">{user.name}</div>
-                          <div className="text-sm text-gray-500">{user.email}</div>
+                          <div className="font-medium text-gray-800 dark:text-gray-200">{user.name}</div>
+                          <div className="text-sm text-gray-500 dark:text-gray-400">{user.email}</div>
                         </div>
-                        <div className="text-xs bg-gray-200 px-2 py-1 rounded-full">
+                        <div className="text-xs bg-gray-200 dark:bg-[#353A47] px-2 py-1 rounded-full text-gray-700 dark:text-gray-200">
                           {user.department}
                         </div>
                         {selectedUsers.some(u => u.id === user.id) && (
-                          <CheckCircle2 className="h-4 w-4 text-blue-600 ml-2" />
+                          <CheckCircle2 className="h-4 w-4 text-blue-600 dark:text-blue-300 ml-2" />
                         )}
                       </div>
                     ))
                   ) : (
-                    <div className="p-4 text-center text-gray-500">No users found</div>
+                    <div className="p-4 text-center text-gray-500 dark:text-gray-400">No users found</div>
                   )}
                 </div>
               )}
             </div>
             
-            <div className="mt-2 text-sm text-gray-500">
+            <div className="mt-2 text-sm text-gray-500 dark:text-gray-400">
               {selectedUsers.length} {selectedUsers.length === 1 ? "recipient" : "recipients"} selected
             </div>
           </div>
 
           {/* Newsletter content */}
           <div className="mb-6">
-            <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-2">
+            <label htmlFor="subject" className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
               Subject Line
             </label>
             <input
               type="text"
               id="subject"
-              className="w-full p-2 border border-gray-300 rounded-md"
+              className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-[#2A2F3B] text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#00308F] dark:focus:ring-[#4A6CF7]"
               placeholder="Task Update: [Project Name]"
               value={subject}
               onChange={(e) => setSubject(e.target.value)}
@@ -383,12 +422,12 @@ export default function Communication() {
           </div>
           
           <div className="mb-6">
-            <label htmlFor="taskUpdate" className="block text-sm font-medium text-gray-700 mb-2">
+            <label htmlFor="taskUpdate" className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
               Task Update Details
             </label>
             <textarea
               id="taskUpdate"
-              className="w-full p-2 border border-gray-300 rounded-md h-24"
+              className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-[#2A2F3B] text-gray-800 dark:text-gray-200 h-24 focus:outline-none focus:ring-2 focus:ring-[#00308F] dark:focus:ring-[#4A6CF7]"
               placeholder="Describe the recent task updates..."
               value={taskUpdate}
               onChange={(e) => setTaskUpdate(e.target.value)}
@@ -396,12 +435,12 @@ export default function Communication() {
           </div>
           
           <div className="mb-6">
-            <label htmlFor="content" className="block text-sm font-medium text-gray-700 mb-2">
+            <label htmlFor="content" className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
               Additional Content
             </label>
             <textarea
               id="content"
-              className="w-full p-2 border border-gray-300 rounded-md h-32"
+              className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-[#2A2F3B] text-gray-800 dark:text-gray-200 h-32 focus:outline-none focus:ring-2 focus:ring-[#00308F] dark:focus:ring-[#4A6CF7]"
               placeholder="Add any additional information or context..."
               value={content}
               onChange={(e) => setContent(e.target.value)}
@@ -411,14 +450,14 @@ export default function Communication() {
         
         <div>
           {/* Preview section */}
-          <div className="border border-gray-300 rounded-md p-4 h-full">
+          <div className="border border-gray-300 dark:border-gray-600 rounded-md p-4 h-full bg-white dark:bg-[#2A2F3B]">
             <div className="flex justify-between items-center mb-4">
-              <h2 className="text-lg font-medium text-gray-800">
+              <h2 className="text-lg font-medium text-gray-800 dark:text-gray-200">
                 {showPreview ? "Newsletter Preview" : "Newsletter Template"}
               </h2>
               <button
                 onClick={() => setShowPreview(!showPreview)}
-                className="flex items-center gap-1 text-sm text-blue-600 hover:text-blue-800"
+                className="flex items-center gap-1 text-sm text-blue-600 dark:text-blue-300 hover:text-blue-800 dark:hover:text-blue-100"
               >
                 {showPreview ? (
                   <>
@@ -435,20 +474,20 @@ export default function Communication() {
             </div>
             
             {showPreview ? (
-              <div className="bg-gray-50 p-4 rounded-md h-[calc(100%-40px)] overflow-auto">
-                <div className="bg-white border border-gray-200 p-4 rounded-md shadow-sm">
-                  <div className="border-b pb-2 mb-4">
-                    <div className="font-medium">To: {selectedUsers.map(u => u.name).join(", ")}</div>
-                    <div className="font-medium">Subject: {subject || "[No subject]"}</div>
+              <div className="bg-gray-50 dark:bg-[#353A47] p-4 rounded-md h-[calc(100%-40px)] overflow-auto">
+                <div className="bg-white dark:bg-[#1E232E] border border-gray-200 dark:border-gray-600 p-4 rounded-md shadow-sm">
+                  <div className="border-b dark:border-gray-600 pb-2 mb-4">
+                    <div className="font-medium text-gray-800 dark:text-gray-200">To: {selectedUsers.map(u => u.name).join(", ")}</div>
+                    <div className="font-medium text-gray-800 dark:text-gray-200">Subject: {subject || "[No subject]"}</div>
                   </div>
                   
-                  <div className="prose prose-sm max-w-none">
+                  <div className="prose prose-sm max-w-none text-gray-800 dark:text-gray-200">
                     <p>Hello team,</p>
                     
                     <p>Here's an update on our recent tasks:</p>
                     
                     {taskUpdate && (
-                      <div className="bg-blue-50 p-3 rounded-md border-l-4 border-blue-500 my-4">
+                      <div className="bg-blue-50 dark:bg-blue-900/30 p-3 rounded-md border-l-4 border-blue-500 dark:border-[#4A6CF7] my-4">
                         <p className="whitespace-pre-line">{taskUpdate}</p>
                       </div>
                     )}
@@ -460,7 +499,7 @@ export default function Communication() {
                 </div>
               </div>
             ) : (
-              <div className="text-gray-500 text-sm h-[calc(100%-40px)] overflow-auto">
+              <div className="text-gray-500 dark:text-gray-400 text-sm h-[calc(100%-40px)] overflow-auto">
                 <p className="mb-4">This newsletter will include:</p>
                 <ul className="list-disc pl-5 space-y-2">
                   <li>Greeting to recipients</li>
@@ -468,23 +507,23 @@ export default function Communication() {
                   <li>
                     Task update details
                     {taskUpdate ? (
-                      <span className="text-green-600 ml-2">✓</span>
+                      <span className="text-green-600 dark:text-green-400 ml-2">✓</span>
                     ) : (
-                      <span className="text-red-600 ml-2">✗</span>
+                      <span className="text-red-600 dark:text-red-400 ml-2">✗</span>
                     )}
                   </li>
                   <li>
                     Additional content
                     {content ? (
-                      <span className="text-green-600 ml-2">✓</span>
+                      <span className="text-green-600 dark:text-green-400 ml-2">✓</span>
                     ) : (
-                      <span className="text-red-600 ml-2">✗</span>
+                      <span className="text-red-600 dark:text-red-400 ml-2">✗</span>
                     )}
                   </li>
                   <li>Sign-off</li>
                 </ul>
                 
-                <div className="mt-6 p-3 bg-yellow-50 border-l-4 border-yellow-400 text-yellow-800">
+                <div className="mt-6 p-3 bg-yellow-50 dark:bg-yellow-900/20 border-l-4 border-yellow-400 dark:border-yellow-400 text-yellow-800 dark:text-yellow-200">
                   <p className="font-medium">Tips:</p>
                   <ul className="list-disc pl-5 mt-2">
                     <li>Keep your update concise and focused</li>
@@ -507,8 +546,8 @@ export default function Communication() {
           className={`
             flex items-center gap-2 px-6 py-3 rounded-md text-white font-medium
             ${sending || sent 
-              ? "bg-gray-400 cursor-not-allowed" 
-              : "bg-blue-600 hover:bg-blue-700"}
+              ? "bg-gray-400 dark:bg-gray-600 cursor-not-allowed" 
+              : "bg-[#00308F] dark:bg-[#4A6CF7] hover:bg-[#00218f] dark:hover:bg-[#3B5AEB]"}
           `}
         >
           {sending ? (

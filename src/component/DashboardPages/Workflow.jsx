@@ -131,14 +131,10 @@ export default function Workflow() {
           <div key={index} className="flex-shrink-0 w-64 px-2 relative">
             {/* Arrow card with gradient */}
             <div className="relative h-64">
-              {/* Dotted border */}
-              
-
               {/* Card with arrow shape */}
               <div className="absolute inset-0 bg-white shadow-lg rounded-lg flex flex-col overflow-hidden">
                 {/* Content area */}
                 <div className="flex-1 p-5 flex flex-col items-center">
-                  
                   {/* Text content */}
                   <h3 className="font-bold text-gray-800 text-center mb-2 text-2xl">{item.name}</h3>
                   <p className=" text-gray-700 font-medium text-center mb-1 text-xl">{item.value}</p>
@@ -156,11 +152,9 @@ export default function Workflow() {
                 </div>
 
                 {/* Arrow point */}
-                {index < workflowItems.length - 1 && (
-                  <div
-                    // className={`absolute right-0 top-1/2 transform translate-x-1/2 -translate-y-1/2 w-10 h-10 bg-gradient-to-r ${getColor(index)} rotate-75 z-10`}
-                  ></div>
-                )}
+                <div
+                  className={`absolute -left-20 transform translate-x-1/2 -translate-y-1/2 w-20 h-20 bg-gradient-to-r ${getColor(index)} rotate-45 z-10`}
+                ></div>
               </div>
             </div>
           </div>
@@ -228,8 +222,6 @@ export default function Workflow() {
                   required
                 />
               </div>
-
-             
 
               <div className="flex justify-end gap-2 mt-6">
                 <button

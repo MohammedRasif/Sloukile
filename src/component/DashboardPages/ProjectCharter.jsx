@@ -11,35 +11,36 @@ import {
   FaShareAlt,
   FaRocket,
   FaClipboardList,
+  FaChevronDown,
+  FaChevronRight,
+  FaRegFilePdf,
+  FaPrint,
+  FaDownload,
 } from "react-icons/fa"
 import { IoIosTimer } from "react-icons/io"
 import { MdAccountBalance } from "react-icons/md"
 import {
   FacebookShareButton,
-  FacebookMessengerShareButton,
   TwitterShareButton,
-  TelegramShareButton,
-  WhatsappShareButton,
   LinkedinShareButton,
   EmailShareButton,
   FacebookIcon,
-  FacebookMessengerIcon,
   TwitterIcon,
-  TelegramIcon,
-  WhatsappIcon,
   LinkedinIcon,
   EmailIcon,
 } from "react-share"
-import ProjectRisks from "./ProjectRisks.jsx"
-import Planning from "./Planning.jsx"
-import Budget from "./Bugget.jsx"
-import Tasks from "./Tasks.jsx"
-import Team from "./Team.jsx"
-import Timeline from "./Timeline.jsx"
-import GovernmentSetup from "./GovernanceSetup.jsx"
-import RACI from "./RACI.jsx"
-import Deployment from "./Deployment.jsx"
-import Overview from "./Overview.jsx"
+
+// Placeholder components - these would be your actual components
+const Overview = () => <div>Overview Component</div>
+const GovernmentSetup = () => <div>Government Setup Component</div>
+const Planning = () => <div>Planning Component</div>
+const Tasks = () => <div>Tasks Component</div>
+const Team = () => <div>Team Component</div>
+const Timeline = () => <div>Timeline Component</div>
+const Budget = () => <div>Budget Component</div>
+const ProjectRisks = () => <div>Project Risks Component</div>
+const RACI = () => <div>RACI Component</div>
+const Deployment = () => <div>Deployment Component</div>
 
 // Updated charterSections with correct icons and order
 const charterSections = [
@@ -55,9 +56,101 @@ const charterSections = [
   { label: "Strategy", icon: <FaRocket />, component: <Deployment /> },
 ]
 
+// Sample project data
+const projectData = {
+  title: "Downtown Commercial Tower Construction",
+  orchestrator: "Emily Thompson",
+  manager: "Rahul Patel",
+  objective:
+    "The Downtown Commercial Tower Construction project aims to build a state-of-the-art, sustainable commercial building in the city center, optimizing resource use, ensuring timely completion, and delivering a high-quality, eco-friendly structure that enhances urban development and tenant satisfaction.",
+
+  scopeItems: [
+    {
+      capability: "Site Preparation and Foundation",
+      description:
+        "Clearing and grading the site, followed by laying a reinforced concrete foundation to support the multi-story commercial structure.",
+      endGame:
+        "Expected outcomes:\n• Completion of site clearing within 4 weeks\n• Foundation ready for structural work: 95% quality compliance\n• Cost savings: $500K through optimized excavation\n• Zero safety incidents\n• 100% adherence to local regulations\n• Reduced environmental impact via sustainable practices",
+    },
+    {
+      capability: "Structural Framework",
+      description:
+        "Erecting the steel and concrete framework for the building, including columns, beams, and floors, to ensure structural integrity.",
+      endGame: "",
+    },
+    {
+      capability: "Building Envelope and Facade",
+      description:
+        "Installing exterior walls, windows, and cladding to create a weather-tight and energy-efficient building envelope with a modern aesthetic.",
+      endGame: "",
+    },
+    {
+      capability: "Interior Fit-Out and Systems",
+      description:
+        "Completing interior construction, including electrical, plumbing, HVAC, and tenant-specific fit-outs to meet commercial leasing requirements.",
+      endGame: "",
+    },
+  ],
+
+  interdependencies: [
+    {
+      item: "Availability of Skilled Labor",
+      description:
+        "The project relies on the availability of qualified construction workers, including masons, electricians, and HVAC technicians, to meet tight deadlines.",
+    },
+    {
+      item: "Timely Material Supply",
+      description:
+        "Delays in the delivery of critical materials like steel, concrete, and glass could impact the construction schedule and increase costs.",
+    },
+  ],
+
+  keyRisks: [
+    {
+      risk: "Weather-Related Delays",
+      description:
+        "Adverse weather conditions, such as heavy rain or extreme heat, could halt outdoor construction activities and delay the project timeline.",
+    },
+    {
+      risk: "Regulatory Compliance Issues",
+      description:
+        "Failure to meet building codes or obtain necessary permits on time could result in fines or construction halts.",
+    },
+    {
+      risk: "Labor Shortages",
+      description:
+        "A lack of skilled workers due to market demand or labor disputes could slow progress and increase labor costs.",
+    },
+    {
+      risk: "Material Cost Volatility",
+      description:
+        "Fluctuations in the prices of key materials like steel or cement could exceed the allocated budget, impacting financial planning.",
+    },
+  ],
+
+
+  deliverables: [
+    { name: "Spend Scope Baseline", date: "02/21" },
+    { name: "Peripherals Definition", date: "02/21" },
+    { name: "Peripherals Scoping", date: "04/21" },
+    { name: "Solution Design", date: "05/21" },
+    { name: "RFP", date: "07/21" },
+    { name: "Implementation/Run", date: "TBD" },
+  ],
+
+  resources: [{ role: "Project Manager", required: "Yes", name: "Sami Loukile", fte: "0.2" }],
+}
+
 export default function ProjectCharter() {
   const [selectedSection, setSelectedSection] = useState("Overview") // Default to Overview
   const [isShareDropdownOpen, setIsShareDropdownOpen] = useState(false)
+  const [expandedSections, setExpandedSections] = useState({
+    scope: true,
+    interdependencies: true,
+    risks: true,
+    deliverables: true,
+    resources: true,
+  })
 
   const handleSectionClick = (section) => {
     setSelectedSection(section.label)
@@ -68,120 +161,306 @@ export default function ProjectCharter() {
     setIsShareDropdownOpen((prev) => !prev)
   }
 
+  const toggleSection = (section) => {
+    setExpandedSections((prev) => ({
+      ...prev,
+      [section]: !prev[section],
+    }))
+  }
+
   const shareUrl = typeof window !== "undefined" ? window.location.href : ""
   const shareTitle = `Project Charter: ${selectedSection || "Overview"}`
 
   return (
-    <div className="flex flex-col items-center justify-center dark:bg-gray-900 p-6 w-full min-h-screen">
-      {/* Title and Description */}
-      <div className="flex items-center justify-between w-full max-w-7xl">
-        <div></div>
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-[#00308F] mb-2">
-            Project Charter Overview
-          </h1>
-          <p className="text-gray-600 dark:text-gray-300 text-md mb-4">
-            Visualize the key components of the project charter for effective management.
-          </p>
-          <p className="text-gray-500 dark:text-gray-400 text-sm">
-            Click on each section to view detailed information about its role in the project.
-          </p>
+    <div className="flex flex-col items-center justify-center p-6 w-full  ">
+      <div className="w-full  bg-white shadow-lg rounded-lg overflow-hidden">
+        {/* Header with actions */}
+        <div className="flex justify-between items-center p-4 bg-[#00308F] text-white">
+          <h1 className="text-2xl font-bold">Program Charter: {projectData.title}</h1>
+          <div className="flex items-center space-x-4">
+            <div className="relative">
+              <FaShareAlt className="text-xl cursor-pointer hover:text-gray-300" onClick={toggleShareDropdown} />
+              {isShareDropdownOpen && (
+                <div className="absolute top-full right-0 mt-2 bg-white rounded-lg shadow-lg p-4 flex flex-wrap gap-2 z-50">
+                  <FacebookShareButton url={shareUrl} quote={shareTitle}>
+                    <FacebookIcon size={32} round />
+                  </FacebookShareButton>
+                  <TwitterShareButton url={shareUrl} title={shareTitle}>
+                    <TwitterIcon size={32} round />
+                  </TwitterShareButton>
+                  <LinkedinShareButton url={shareUrl} title={shareTitle}>
+                    <LinkedinIcon size={32} round />
+                  </LinkedinShareButton>
+                  <EmailShareButton url={shareUrl} subject={shareTitle}>
+                    <EmailIcon size={32} round />
+                  </EmailShareButton>
+                </div>
+              )}
+            </div>
+          </div>
         </div>
 
-        <div className="relative mb-4">
-          <FaShareAlt
-            className="text-3xl text-[#00308F] cursor-pointer hover:text-[#002080]"
-            onClick={toggleShareDropdown}
-          />
-          {isShareDropdownOpen && (
-            <div className="absolute top-full right-0 mt-2 bg-white dark:bg-gray-800 rounded-lg shadow-lg p-4 flex flex-wrap gap-2 z-50">
-              <FacebookShareButton url={shareUrl} quote={shareTitle}>
-                <FacebookIcon size={32} round />
-              </FacebookShareButton>
-              <FacebookMessengerShareButton url={shareUrl} appId="YOUR_FB_APP_ID">
-                <FacebookMessengerIcon size={32} round />
-              </FacebookMessengerShareButton>
-              <TwitterShareButton url={shareUrl} title={shareTitle}>
-                <TwitterIcon size={32} round />
-              </TwitterShareButton>
-              <TelegramShareButton url={shareUrl} title={shareTitle}>
-                <TelegramIcon size={32} round />
-              </TelegramShareButton>
-              <WhatsappShareButton url={shareUrl} title={shareTitle}>
-                <WhatsappIcon size={32} round />
-              </WhatsappShareButton>
-              <LinkedinShareButton url={shareUrl} title={shareTitle}>
-                <LinkedinIcon size={32} round />
-              </LinkedinShareButton>
-              <EmailShareButton url={shareUrl} subject={shareTitle}>
-                <EmailIcon size={32} round />
-              </EmailShareButton>
+        {/* Project info */}
+        <div className="p-4 border-b">
+          <div className="flex justify-between mb-4">
+            <div>
+              <span className="text-gray-600 font-medium">Project Orchestrator:</span> {projectData.orchestrator}
             </div>
-          )}
+            <div>
+              <span className="text-gray-600 font-medium">Project Manager:</span> {projectData.manager}
+            </div>
+          </div>
+
+          <div className="mb-4">
+            <h2 className="text-gray-700 font-bold mb-2">Program Goal/Objective:</h2>
+            <p className="text-gray-600">{projectData.objective}</p>
+          </div>
+        </div>
+
+        {/* Main content */}
+        <div className="p-4">
+          {/* Scope/Capabilities Section */}
+          <div className="mb-6 border rounded-lg overflow-hidden">
+            <div
+              className="flex justify-between items-center p-3 bg-[#00308F] text-white cursor-pointer"
+              onClick={() => toggleSection("scope")}
+            >
+              <h2 className="font-bold">Scope/Capabilities to deliver</h2>
+              {expandedSections.scope ? <FaChevronDown /> : <FaChevronRight />}
+            </div>
+
+            {expandedSections.scope && (
+              <div className="overflow-x-auto">
+                <table className="min-w-full">
+                  <thead>
+                    <tr className="bg-gray-100">
+                      <th className="p-3 text-left font-semibold text-gray-700 border">
+                        Scope/Capabilities to deliver
+                      </th>
+                      <th className="p-3 text-left font-semibold text-gray-700 border">Short description</th>
+                      <th className="p-3 text-left font-semibold text-gray-700 border">End-game</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {projectData.scopeItems.map((item, index) => (
+                      <tr key={index} className={index % 2 === 0 ? "bg-white" : "bg-gray-50"}>
+                        <td className="p-3 border">{item.capability}</td>
+                        <td className="p-3 border">{item.description}</td>
+                        <td className="p-3 border whitespace-pre-line">{item.endGame}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </div>
+
+          {/* Critical Interdependencies Section */}
+          <div className="mb-6 border rounded-lg overflow-hidden">
+            <div
+              className="flex justify-between items-center p-3 bg-[#00308F] text-white cursor-pointer"
+              onClick={() => toggleSection("interdependencies")}
+            >
+              <h2 className="font-bold">Critical Interdependencies</h2>
+              {expandedSections.interdependencies ? <FaChevronDown /> : <FaChevronRight />}
+            </div>
+
+            {expandedSections.interdependencies && (
+              <div className="overflow-x-auto">
+                <table className="min-w-full">
+                  <thead>
+                    <tr className="bg-gray-100">
+                      <th className="p-3 text-left font-semibold text-gray-700 border">Item</th>
+                      <th className="p-3 text-left font-semibold text-gray-700 border">Description</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {projectData.interdependencies.map((item, index) => (
+                      <tr key={index} className={index % 2 === 0 ? "bg-white" : "bg-gray-50"}>
+                        <td className="p-3 border">{item.item}</td>
+                        <td className="p-3 border">{item.description}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </div>
+
+          {/* Key Risks Section */}
+          <div className="mb-6 border rounded-lg overflow-hidden">
+            <div
+              className="flex justify-between items-center p-3 bg-[#00308F] text-white cursor-pointer"
+              onClick={() => toggleSection("risks")}
+            >
+              <h2 className="font-bold">Key Risks</h2>
+              {expandedSections.risks ? <FaChevronDown /> : <FaChevronRight />}
+            </div>
+
+            {expandedSections.risks && (
+              <div className="overflow-x-auto">
+                <table className="min-w-full">
+                  <thead>
+                    <tr className="bg-gray-100">
+                      <th className="p-3 text-left font-semibold text-gray-700 border">Risk</th>
+                      <th className="p-3 text-left font-semibold text-gray-700 border">
+                        Description / Mitigation (if available)
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {projectData.keyRisks.map((item, index) => (
+                      <tr key={index} className={index % 2 === 0 ? "bg-white" : "bg-gray-50"}>
+                        <td className="p-3 border">{item.risk}</td>
+                        <td className="p-3 border">{item.description}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </div>
+
+          {/* Key Deliverables Section */}
+          <div className="mb-6 border rounded-lg overflow-hidden">
+            <div
+              className="flex justify-between items-center p-3 bg-[#00308F] text-white cursor-pointer"
+              onClick={() => toggleSection("deliverables")}
+            >
+              <h2 className="font-bold">Key Deliverables</h2>
+              {expandedSections.deliverables ? <FaChevronDown /> : <FaChevronRight />}
+            </div>
+
+            {expandedSections.deliverables && (
+              <div className="overflow-x-auto">
+                <table className="min-w-full">
+                  <thead>
+                    
+                  </thead>
+                  <tbody>
+                    {projectData.deliverables.map((item, index) => (
+                      <tr key={index} className={index % 2 === 0 ? "bg-white" : "bg-gray-50"}>
+                        <td className="p-3 border flex items-center">
+                          <span className="inline-block  "></span>
+                          {item.name}
+                        </td>
+                        <td className="p-3 border">{item.date}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </div>
+
+          {/* Resource Requirements Section */}
+          <div className="mb-6 border rounded-lg overflow-hidden">
+            <div
+              className="flex justify-between items-center p-3 bg-[#00308F] text-white cursor-pointer"
+              onClick={() => toggleSection("resources")}
+            >
+              <h2 className="font-bold">Resource Requirements</h2>
+              {expandedSections.resources ? <FaChevronDown /> : <FaChevronRight />}
+            </div>
+
+            {expandedSections.resources && (
+              <div className="overflow-x-auto">
+                <table className="min-w-full">
+                  <thead>
+                    <tr className="bg-gray-100">
+                      <th className="p-3 text-left font-semibold text-gray-700 border">Project Manager</th>
+                      <th className="p-3 text-left font-semibold text-gray-700 border">Yes/No</th>
+                      <th className="p-3 text-left font-semibold text-gray-700 border">Name(s), if known</th>
+                      <th className="p-3 text-left font-semibold text-gray-700 border">FTE</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {projectData.resources.map((item, index) => (
+                      <tr key={index} className={index % 2 === 0 ? "bg-white" : "bg-gray-50"}>
+                        <td className="p-3 border">{item.role}</td>
+                        <td className="p-3 border">{item.required}</td>
+                        <td className="p-3 border">{item.name}</td>
+                        <td className="p-3 border">{item.fte}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
-      {/* Circular Chart */}
-      <div className="relative w-[500px] h-[500px] flex items-center justify-center">
-        <div className="absolute text-center z-10">
-          <h1 className="text-3xl font-bold text-[#00308F] mt-14">
-            PROJECT CHARTER
-          </h1>
-        </div>
-        <div className="absolute w-[300px] h-[300px] border-8 border-[#00308F] rounded-full mt-14" />
+      {/* Circular Chart - Keeping this from your original design */}
+      <div className="mt-12 mb-8">
+        <h2 className="text-2xl font-bold text-center text-[#00308F] mb-8">Project Charter Components</h2>
+        <div className="relative w-[500px] h-[500px] flex items-center justify-center">
+          <div className="absolute text-center z-10">
+            <h1 className="text-[26px] font-bold text-[#00308F] mt-14">PROJECT CHARTER</h1>
+          </div>
+          <div className="absolute w-[300px] h-[300px] border-8 border-[#00308F] rounded-full mt-14" />
 
-        {charterSections.map((section, index) => {
-          const angle = (index / charterSections.length) * 360
-          const radians = (angle * Math.PI) / 180
-          const radius = 220
-          const x = radius * Math.cos(radians)
-          const y = radius * Math.sin(radians)
-          const isLeftSide = angle > 90 && angle < 270
+          {charterSections.map((section, index) => {
+            const angle = (index / charterSections.length) * 360
+            const radians = (angle * Math.PI) / 180
+            const radius = 220
+            const x = radius * Math.cos(radians)
+            const y = radius * Math.sin(radians)
+            const isLeftSide = angle > 90 && angle < 270
 
-          return (
-            <div
-              key={section.label}
-              className="absolute flex flex-col items-center cursor-pointer hover:scale-110 transition-transform"
-              style={{
-                transform: `translate(${x}px, ${y}px)`,
-                transformOrigin: "center",
-              }}
-              onClick={() => handleSectionClick(section)}
-              role="button"
-              aria-label={`View details for ${section.label}`}
-            >
-              <div className="text-3xl text-[#00308F] mb-2" style={{ fontSize: "35px" }}>
-                {section.icon}
-              </div>
-              <span
-                className="text-xl font-extrabold text-[#00308F] text-center"
+            return (
+              <div
+                key={section.label}
+                className={`absolute flex flex-col items-center cursor-pointer hover:scale-110 transition-transform ${
+                  selectedSection === section.label ? "scale-110" : ""
+                }`}
                 style={{
-                  transform: isLeftSide
-                    ? `translateX(-50%) rotate(0deg)`
-                    : `translateX(-50%) rotate(0deg)`,
-                  width: "120px",
-                  position: "absolute",
-                  left: "50%",
-                  top: "50px",
+                  transform: `translate(${x}px, ${y}px)`,
+                  transformOrigin: "center",
                 }}
+                onClick={() => handleSectionClick(section)}
+                role="button"
+                aria-label={`View details for ${section.label}`}
               >
-                {section.label}
-              </span>
-            </div>
-          )
-        })}
+                <div
+                  className={`text-3xl pb-2 cursor-pointer ${
+                    selectedSection === section.label ? "text-blue-700" : "text-[#00308F]"
+                  }`}
+                  style={{ fontSize: "35px" }}
+                >
+                  {section.icon}
+                </div>
+                <span
+                  className={`text-xl font-extrabold text-center cursor-pointer ${
+                    selectedSection === section.label ? "text-blue-700" : "text-[#00308F]"
+                  }`}
+                  style={{
+                    transform: isLeftSide ? `translateX(-50%) rotate(0deg)` : `translateX(-50%) rotate(0deg)`,
+                    width: "120px",
+                    position: "absolute",
+                    left: "50%",
+                    top: "50px",
+                  }}
+                >
+                  {section.label}
+                </span>
+              </div>
+            )
+          })}
+        </div>
       </div>
 
       {/* Section Content Display */}
-      <div className="p-4 sm:p-6 w-full max-w-8xl flex justify-center mt-10">
-        <div className="w-full">
-          {charterSections.find((section) => section.label === selectedSection)?.component || (
-            <div className="text-gray-500 dark:text-gray-400 text-center">
-              Select a section to view details
-            </div>
-          )}
+      {selectedSection && (
+        <div className="p-4 sm:p-6 w-full max-w-7xl bg-white shadow-lg rounded-lg mb-12">
+          <h2 className="text-2xl font-bold text-[#00308F] mb-4">{selectedSection} Details</h2>
+          <div className="w-full">
+            {charterSections.find((section) => section.label === selectedSection)?.component || (
+              <div className="text-gray-500 dark:text-gray-400 text-center">Select a section to view details</div>
+            )}
+          </div>
         </div>
-      </div>
+      )}
     </div>
   )
 }

@@ -327,12 +327,12 @@ const ProjectDetails = () => {
       </div>
 
       {/* Navigation Tabs */}
-      <div className="border-b border-gray-200 dark:border-gray-700 px-4 sm:px-6">
-        <nav className="flex flex-wrap gap-4 sm:gap-6 overflow-x-auto pb-2">
+      <div className="border-b border-gray-200 dark:border-gray-700 px-4 sm:px-6 mb-3">
+        <nav className="flex flex-wrap gap-4 sm:gap-3 overflow-x-auto pb-2">
           {['overview', 'planning', 'tasks', 'team', 'timeline', 'budget', 'risks', 'communication', 'reporting', 'projectCharter', 'governanceSetup', 'stakeholders','Deployment Strategy',  'RACI',].map((tab) => (
             <button
               key={tab}
-              className={`py-2 sm:py-3 px-1 border-b-2 font-bold text-sm sm:text-base whitespace-nowrap cursor-pointer ${activeTab === tab
+              className={` px-1 border-b-2 font-bold text-sm sm:text-base whitespace-nowrap cursor-pointer ${activeTab === tab
                 ? 'border-gray-800 dark:border-[#4A6CF7] text-gray-800 dark:text-gray-100'
                 : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:border-gray-300 dark:hover:border-gray-600'
                 }`}
@@ -346,7 +346,7 @@ const ProjectDetails = () => {
       
 
       {/* Content Area */}
-      <div className="p-4 sm:p-6 ">
+      <div className="px-3 ">
         {activeTab === 'overview' && <Overview projectData={projectData} darkMode={darkMode} />}
         {activeTab === 'planning' && <Planning projectData={projectData} darkMode={darkMode} />}
         {activeTab === 'tasks' && <Tasks projectData={projectData} />}
