@@ -329,7 +329,7 @@ const ProjectDetails = () => {
       {/* Navigation Tabs */}
       <div className="border-b border-gray-200 dark:border-gray-700 px-4 sm:px-6 mb-3">
         <nav className="flex flex-wrap gap-4 sm:gap-3 overflow-x-auto pb-2">
-          {['overview', 'planning', 'tasks', 'team', 'timeline', 'budget', 'risks', 'communication', 'reporting', 'projectCharter', 'governanceSetup', 'stakeholders','Deployment Strategy',  'RACI',].map((tab) => (
+          {['overview', 'planning', 'team',  'budget', 'risks', 'communication', 'reporting', 'projectCharter', 'governanceSetup', 'stakeholders','Deployment Strategy',  'RACI',].map((tab) => (
             <button
               key={tab}
               className={` px-1 border-b-2 font-bold text-sm sm:text-base whitespace-nowrap cursor-pointer ${activeTab === tab
@@ -349,11 +349,11 @@ const ProjectDetails = () => {
       <div className="px-3 ">
         {activeTab === 'overview' && <Overview projectData={projectData} darkMode={darkMode} />}
         {activeTab === 'planning' && <Planning projectData={projectData} darkMode={darkMode} />}
-        {activeTab === 'tasks' && <Tasks projectData={projectData} />}
+        {/* {activeTab === 'tasks' && <Tasks projectData={projectData} />} */}
         {activeTab === 'budget' && <Budget projectData={projectData} />}
         {activeTab === 'risks' && <ProjectRisks projectData={projectData} />}
         {activeTab === 'team' && <Teams projectData={projectData} />}
-        {activeTab === 'timeline' && <Timeline projectData={projectData} />}
+        {/* {activeTab === 'timeline' && <Timeline projectData={projectData} />} */}
         {activeTab === 'communication' && <Communication projectData={projectData} />}
         {activeTab === 'reporting' && <Reporting projectData={projectData} />}
         {activeTab === 'projectCharter' && <ProjectCharter projectData={projectData} />}

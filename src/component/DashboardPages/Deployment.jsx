@@ -137,7 +137,7 @@ const Deployment = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white dark:from-[#2A2F3B] dark:to-[#1E232E] py-12 px-4 sm:px-6 lg:px-8">
+    <div className="  py-12 px-4 sm:px-6 lg:px-8">
       <div className="container mx-auto">
         {/* Header */}
         <div className="text-center mb-12">

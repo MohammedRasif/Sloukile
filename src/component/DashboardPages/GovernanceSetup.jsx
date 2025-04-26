@@ -1,19 +1,14 @@
-"use client"
-
 import { useState } from "react"
 import {
   Users,
-  MessageSquare,
   Briefcase,
   ChevronDown,
   ChevronUp,
   ArrowRight,
   Building,
-  UserCheck,
-  FileText,
   Calendar,
   AlertCircle,
-  Edit,
+  Edit, // Added Edit icon
 } from "lucide-react"
 
 const GovernanceSetup = () => {
@@ -80,12 +75,8 @@ const GovernanceSetup = () => {
   const [showTeamModal, setShowTeamModal] = useState(false)
   const [showImpactModal, setShowImpactModal] = useState({ userImpact: false, businessImpact: false, timelineImpact: false })
   const [showRiskModal, setShowRiskModal] = useState(false)
-
-  // State for edit modals
-  const [editLevelModal, setEditLevelModal] = useState({ show: false, index: null, data: { title: "", description: "" } })
-  const [editTeamModal, setEditTeamModal] = useState({ show: false, index: null, data: { title: "", description: "" } })
-  const [editImpactModal, setEditImpactModal] = useState({ show: false, section: "", index: null, data: "" })
-  const [editRiskModal, setEditRiskModal] = useState({ show: false, index: null, data: { risk: "", impact: "Medium", probability: "Medium", mitigation: "" } })
+  const [showEditModal, setShowEditModal] = useState(false) // New state for edit modal
+  const [editModalData, setEditModalData] = useState({ type: "", index: null, field: "", value: "" }) // Data for edit modal
 
   const [newLevelInput, setNewLevelInput] = useState({ title: "", description: "" })
   const [newTeamInput, setNewTeamInput] = useState({ title: "", description: "" })
@@ -141,64 +132,80 @@ const GovernanceSetup = () => {
     }
   }
 
-  // Functions to handle editing items
-  const handleEditLevel = () => {
-    if (editLevelModal.data.title.trim() && editLevelModal.data.description.trim()) {
-      setStructureData((prev) => {
-        const newData = [...prev]
-        newData[editLevelModal.index] = editLevelModal.data
-        return newData
-      })
-      setEditLevelModal({ show: false, index: null, data: { title: "", description: "" } })
-    }
+  // Function to open edit modal
+  const openEditModal = (type, index, field, value, teamIndex = null) => {
+    setEditModalData({ type, index, field, value, teamIndex })
+    setShowEditModal(true)
   }
 
-  const handleEditTeam = () => {
-    if (editTeamModal.data.title.trim() && editTeamModal.data.description.trim()) {
+  // Function to handle edit modal save
+  const saveEdit = () => {
+    const { type, index, field, value, teamIndex } = editModalData
+
+    if (type === "structure") {
+      setStructureData((prev) => {
+        const newData = [...prev]
+        if (Array.isArray(newData[index])) {
+          return newData
+        }
+        newData[index] = { ...newData[index], [field]: value }
+        return newData
+      })
+    } else if (type === "team") {
       setStructureData((prev) => {
         const newData = [...prev]
         const teams = newData[newData.length - 1]
         if (Array.isArray(teams)) {
-          teams[editTeamModal.index] = editTeamModal.data
+          teams[teamIndex] = { ...teams[teamIndex], [field]: value }
         }
         return newData
       })
-      setEditTeamModal({ show: false, index: null, data: { title: "", description: "" } })
-    }
-  }
-
-  const handleEditImpact = () => {
-    if (editImpactModal.data.trim()) {
+    } else if (type === "impact") {
       setImpactData((prev) => {
-        const newSectionData = [...prev[editImpactModal.section]]
-        newSectionData[editImpactModal.index] = editImpactModal.data
-        return { ...prev, [editImpactModal.section]: newSectionData }
+        const newSectionData = [...prev[field]]
+        newSectionData[index] = value
+        return { ...prev, [field]: newSectionData }
       })
-      setEditImpactModal({ show: false, section: "", index: null, data: "" })
-    }
-  }
-
-  const handleEditRisk = () => {
-    if (editRiskModal.data.risk.trim() && editRiskModal.data.mitigation.trim()) {
+    } else if (type === "risk") {
       setRisks((prev) => {
         const newRisks = [...prev]
-        newRisks[editRiskModal.index] = editRiskModal.data
+        newRisks[index] = { ...newRisks[index], [field]: value }
         return newRisks
       })
-      setEditRiskModal({ show: false, index: null, data: { risk: "", impact: "Medium", probability: "Medium", mitigation: "" } })
+    } else if (type === "header") {
+      // Handle header edits if needed
     }
+
+    setShowEditModal(false)
+    setEditModalData({ type: "", index: null, field: "", value: "" })
   }
 
   return (
     <div className="container py-6 bg-white dark:bg-[#1E232E] rounded-lg shadow-lg">
       {/* Header */}
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-800 dark:text-gray-200 mb-2">
-          Governance Setup
-        </h1>
-        <p className="text-gray-600 dark:text-gray-400">
-          Communication Flow and Stakeholder Management
-        </p>
+        <div className="flex items-center">
+          <h1
+            className="text-3xl font-bold text-gray-800 dark:text-gray-200 mr-2"
+          >
+            Governance Setup
+          </h1>
+          <Edit
+            className="h-5 w-5 text-gray-600 dark:text-gray-400 cursor-pointer"
+            onClick={() => openEditModal("header", null, "title", "Governance Setup")}
+          />
+        </div>
+        <div className="flex items-center">
+          <p
+            className="text-gray-600 dark:text-gray-400"
+          >
+            Communication Flow and Stakeholder Management
+          </p>
+          <Edit
+            className="h-5 w-5 text-gray-600 dark:text-gray-400 cursor-pointer ml-2"
+            onClick={() => openEditModal("header", null, "subtitle", "Communication Flow and Stakeholder Management")}
+          />
+        </div>
       </div>
 
       {/* Governance Structure Section */}
@@ -209,9 +216,16 @@ const GovernanceSetup = () => {
         >
           <div className="flex items-center">
             <Briefcase className="h-5 w-5 text-blue-600 dark:text-blue-300 mr-2" />
-            <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200">
+            <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200 mr-2">
               Governance Structure
             </h2>
+            <Edit
+              className="h-5 w-5 text-gray-600 dark:text-gray-400 cursor-pointer"
+              onClick={(e) => {
+                e.stopPropagation() // Prevent section toggle
+                openEditModal("header", null, "structureTitle", "Governance Structure")
+              }}
+            />
           </div>
           {expandedSections.structure ? (
             <ChevronUp className="h-5 w-5 text-gray-600 dark:text-gray-300" />
@@ -232,15 +246,21 @@ const GovernanceSetup = () => {
                           {level.map((team, teamIndex) => (
                             <div key={teamIndex} className="w-1/3 flex flex-col items-center">
                               <div className="h-8 w-1 bg-gray-300 dark:bg-gray-600"></div>
-                              <div className="bg-[#00308F] dark:bg-[#4A6CF7] text-white p-2 rounded-lg text-center w-full relative">
-                                <p className="font-bold">{team.title}</p>
-                                <p className="text-xs text-blue-100 dark:text-blue-200">{team.description}</p>
-                                <button
-                                  onClick={() => setEditTeamModal({ show: true, index: teamIndex, data: team })}
-                                  className="absolute top-1 right-1 text-white hover:text-blue-200"
-                                >
-                                  <Edit className="h-4 w-4" />
-                                </button>
+                              <div className="bg-[#00308F] dark:bg-[#4A6CF7] text-white p-2 rounded-lg text-center w-full">
+                                <div className="flex items-center justify-center">
+                                  <p className="font-bold mr-2">{team.title}</p>
+                                  <Edit
+                                    className="h-4 w-4 text-blue-100 dark:text-blue-200 cursor-pointer"
+                                    onClick={() => openEditModal("team", index, "title", team.title, teamIndex)}
+                                  />
+                                </div>
+                                <div className="flex items-center justify-center">
+                                  <p className="text-xs text-blue-100 dark:text-blue-200">{team.description}</p>
+                                  <Edit
+                                    className="h-4 w-4 text-blue-100 dark:text-blue-200 cursor-pointer ml-2"
+                                    onClick={() => openEditModal("team", index, "description", team.description, teamIndex)}
+                                  />
+                                </div>
                               </div>
                             </div>
                           ))}
@@ -250,15 +270,21 @@ const GovernanceSetup = () => {
                   }
                   return (
                     <div key={index}>
-                      <div className="bg-[#00308F] dark:bg-[#4A6CF7] text-white p-3 rounded-lg text-center mb-4 relative">
-                        <p className="font-bold">{level.title}</p>
-                        <p className="text-sm text-blue-100 dark:text-blue-200">{level.description}</p>
-                        <button
-                          onClick={() => setEditLevelModal({ show: true, index, data: level })}
-                          className="absolute top-1 right-1 text-white hover:text-blue-200"
-                        >
-                          <Edit className="h-4 w-4" />
-                        </button>
+                      <div className="bg-[#00308F] dark:bg-[#4A6CF7] text-white p-3 rounded-lg text-center mb-4">
+                        <div className="flex items-center justify-center">
+                          <p className="font-bold mr-2">{level.title}</p>
+                          <Edit
+                            className="h-4 w-4 text-blue-100 dark:text-blue-200 cursor-pointer"
+                            onClick={() => openEditModal("structure", index, "title", level.title)}
+                          />
+                        </div>
+                        <div className="flex items-center justify-center">
+                          <p className="text-sm text-blue-100 dark:text-blue-200">{level.description}</p>
+                          <Edit
+                            className="h-4 w-4 text-blue-100 dark:text-blue-200 cursor-pointer ml-2"
+                            onClick={() => openEditModal("structure", index, "description", level.description)}
+                          />
+                        </div>
                       </div>
                       {index < structureData.length - 1 && (
                         <div className="flex justify-center mb-4">
@@ -268,17 +294,16 @@ const GovernanceSetup = () => {
                     </div>
                   )
                 })}
-                {/* Buttons to open modals for adding new hierarchy level and team */}
                 <div className="flex justify-center space-x-4 mt-4">
                   <button
                     onClick={() => setShowLevelModal(true)}
-                    className="bg-[#00308F] cursor-pointer text-white px-4 py-2 rounded hover:bg-blue-600"
+                    className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
                   >
                     Add Hierarchy Level
                   </button>
                   <button
                     onClick={() => setShowTeamModal(true)}
-                    className="bg-[#00308F] cursor-pointer text-white px-4 py-2 rounded hover:bg-blue-600"
+                    className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
                   >
                     Add Team
                   </button>
@@ -297,9 +322,16 @@ const GovernanceSetup = () => {
         >
           <div className="flex items-center">
             <AlertCircle className="h-5 w-5 text-amber-600 dark:text-amber-400 mr-2" />
-            <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200">
+            <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200 mr-2">
               Project Impact Analysis
             </h2>
+            <Edit
+              className="h-5 w-5 text-gray-600 dark:text-gray-400 cursor-pointer"
+              onClick={(e) => {
+                e.stopPropagation()
+                openEditModal("header", null, "impactTitle", "Project Impact Analysis")
+              }}
+            />
           </div>
           {expandedSections.impact ? (
             <ChevronUp className="h-5 w-5 text-gray-600 dark:text-gray-300" />
@@ -313,23 +345,23 @@ const GovernanceSetup = () => {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {/* User Impact */}
               <div className="border border-gray-200 dark:border-gray-600 rounded-lg p-4 bg-white dark:bg-[#2A2F3B] shadow-sm">
-                <h3 className="font-bold text-gray-800 dark:text-gray-200 mb-3 flex items-center">
+                <div className="flex items-center mb-3">
                   <Users className="h-5 w-5 text-blue-600 dark:text-blue-300 mr-2" />
-                  <span>User Impact</span>
-                </h3>
+                  <h3 className="font-bold text-gray-800 dark:text-gray-200 mr-2">User Impact</h3>
+                  <Edit
+                    className="h-5 w-5 text-gray-600 dark:text-gray-400 cursor-pointer"
+                    onClick={() => openEditModal("header", null, "userImpactTitle", "User Impact")}
+                  />
+                </div>
                 <ul className="space-y-2">
                   {impactData.userImpact.map((item, index) => (
-                    <li key={index} className="flex items-center justify-between">
-                      <div className="flex items-center">
-                        <ArrowRight className="h-4 w-4 text-blue-600 dark:text-blue-300 mr-2 flex-shrink-0" />
-                        <span className="text-gray-700 dark:text-gray-300">{item}</span>
-                      </div>
-                      <button
-                        onClick={() => setEditImpactModal({ show: true, section: "userImpact", index, data: item })}
-                        className="text-blue-500 hover:text-blue-600"
-                      >
-                        <Edit className="h-4 w-4" />
-                      </button>
+                    <li key={index} className="flex items-center">
+                      <ArrowRight className="h-4 w-4 text-blue-600 dark:text-blue-300 mr-2 flex-shrink-0" />
+                      <span className="text-gray-700 dark:text-gray-300 mr-2">{item}</span>
+                      <Edit
+                        className="h-4 w-4 text-gray-600 dark:text-gray-400 cursor-pointer"
+                        onClick={() => openEditModal("impact", index, "userImpact", item)}
+                      />
                     </li>
                   ))}
                   <li>
@@ -345,23 +377,23 @@ const GovernanceSetup = () => {
 
               {/* Business Impact */}
               <div className="border border-gray-200 dark:border-gray-600 rounded-lg p-4 bg-white dark:bg-[#2A2F3B] shadow-sm">
-                <h3 className="font-bold text-gray-800 dark:text-gray-200 mb-3 flex items-center">
+                <div className="flex items-center mb-3">
                   <Building className="h-5 w-5 text-green-600 dark:text-green-400 mr-2" />
-                  <span>Business Impact</span>
-                </h3>
+                  <h3 className="font-bold text-gray-800 dark:text-gray-200 mr-2">Business Impact</h3>
+                  <Edit
+                    className="h-5 w-5 text-gray-600 dark:text-gray-400 cursor-pointer"
+                    onClick={() => openEditModal("header", null, "businessImpactTitle", "Business Impact")}
+                  />
+                </div>
                 <ul className="space-y-2">
                   {impactData.businessImpact.map((item, index) => (
-                    <li key={index} className="flex items-center justify-between">
-                      <div className="flex items-center">
-                        <ArrowRight className="h-4 w-4 text-green-600 dark:text-green-400 mr-2 flex-shrink-0" />
-                        <span className="text-gray-700 dark:text-gray-300">{item}</span>
-                      </div>
-                      <button
-                        onClick={() => setEditImpactModal({ show: true, section: "businessImpact", index, data: item })}
-                        className="text-blue-500 hover:text-blue-600"
-                      >
-                        <Edit className="h-4 w-4" />
-                      </button>
+                    <li key={index} className="flex items-center">
+                      <ArrowRight className="h-4 w-4 text-green-600 dark:text-green-400 mr-2 flex-shrink-0" />
+                      <span className="text-gray-700 dark:text-gray-300 mr-2">{item}</span>
+                      <Edit
+                        className="h-4 w-4 text-gray-600 dark:text-gray-400 cursor-pointer"
+                        onClick={() => openEditModal("impact", index, "businessImpact", item)}
+                      />
                     </li>
                   ))}
                   <li>
@@ -377,23 +409,23 @@ const GovernanceSetup = () => {
 
               {/* Timeline Impact */}
               <div className="border border-gray-200 dark:border-gray-600 rounded-lg p-4 bg-white dark:bg-[#2A2F3B] shadow-sm">
-                <h3 className="font-bold text-gray-800 dark:text-gray-200 mb-3 flex items-center">
+                <div className="flex items-center mb-3">
                   <Calendar className="h-5 w-5 text-purple-600 dark:text-purple-400 mr-2" />
-                  <span>Timeline Impact</span>
-                </h3>
+                  <h3 className="font-bold text-gray-800 dark:text-gray-200 mr-2">Timeline Impact</h3>
+                  <Edit
+                    className="h-5 w-5 text-gray-600 dark:text-gray-400 cursor-pointer"
+                    onClick={() => openEditModal("header", null, "timelineImpactTitle", "Timeline Impact")}
+                  />
+                </div>
                 <ul className="space-y-2">
                   {impactData.timelineImpact.map((item, index) => (
-                    <li key={index} className="flex items-center justify-between">
-                      <div className="flex items-center">
-                        <ArrowRight className="h-4 w-4 text-purple-600 dark:text-purple-400 mr-2 flex-shrink-0" />
-                        <span className="text-gray-700 dark:text-gray-300">{item}</span>
-                      </div>
-                      <button
-                        onClick={() => setEditImpactModal({ show: true, section: "timelineImpact", index, data: item })}
-                        className="text-blue-500 hover:text-blue-600"
-                      >
-                        <Edit className="h-4 w-4" />
-                      </button>
+                    <li key={index} className="flex items-center">
+                      <ArrowRight className="h-4 w-4 text-purple-600 dark:text-purple-400 mr-2 flex-shrink-0" />
+                      <span className="text-gray-700 dark:text-gray-300 mr-2">{item}</span>
+                      <Edit
+                        className="h-4 w-4 text-gray-600 dark:text-gray-400 cursor-pointer"
+                        onClick={() => openEditModal("impact", index, "timelineImpact", item)}
+                      />
                     </li>
                   ))}
                   <li>
@@ -410,9 +442,13 @@ const GovernanceSetup = () => {
 
             {/* Risk and Mitigation */}
             <div className="mt-6 border border-gray-200 dark:border-gray-600 rounded-lg p-4 bg-white dark:bg-[#2A2F3B]">
-              <h3 className="font-bold text-red-800 dark:text-red-400 mb-3">
-                Key Risks and Mitigation
-              </h3>
+              <div className="flex items-center mb-3">
+                <h3 className="font-bold text-red-800 dark:text-red-400 mr-2">Key Risks and Mitigation</h3>
+                <Edit
+                  className="h-5 w-5 text-gray-600 dark:text-gray-400 cursor-pointer"
+                  onClick={() => openEditModal("header", null, "riskTitle", "Key Risks and Mitigation")}
+                />
+              </div>
               <div className="overflow-x-auto">
                 <table className="min-w-full bg-white dark:bg-[#1E232E] border border-gray-200 dark:border-gray-600">
                   <thead>
@@ -421,47 +457,58 @@ const GovernanceSetup = () => {
                       <th className="py-2 px-4 text-left border-b dark:border-gray-600 text-gray-800 dark:text-gray-200">Impact</th>
                       <th className="py-2 px-4 text-left border-b dark:border-gray-600 text-gray-800 dark:text-gray-200">Probability</th>
                       <th className="py-2 px-4 text-left border-b dark:border-gray-600 text-gray-800 dark:text-gray-200">Mitigation Strategy</th>
-                      <th className="py-2 px-4 text-left border-b dark:border-gray-600 text-gray-800 dark:text-gray-200"></th>
                     </tr>
                   </thead>
                   <tbody>
                     {risks.map((risk, index) => (
                       <tr key={index} className={index % 2 === 0 ? "" : "bg-gray-50 dark:bg-[#2A2F3B]"}>
-                        <td className="py-2 px-4 border-b dark:border-gray-600 text-gray-700 dark:text-gray-300">
-                          {risk.risk}
+                        <td className="py-2 px-4 border-b dark:border-gray-600">
+                          <div className="flex items-center">
+                            <span className="text-gray-700 dark:text-gray-300 mr-2">{risk.risk}</span>
+                            <Edit
+                              className="h-4 w-4 text-gray-600 dark:text-gray-400 cursor-pointer"
+                              onClick={() => openEditModal("risk", index, "risk", risk.risk)}
+                            />
+                          </div>
                         </td>
                         <td className="py-2 px-4 border-b dark:border-gray-600">
-                          <span
-                            className={`px-2 py-1 rounded text-xs ${
+                          <select
+                            value={risk.impact}
+                            onChange={(e) => updateRiskText(index, "impact", e.target.value)}
+                            className={`px-2 py-1 rounded text-xs outline-none ${
                               risk.impact === "High"
                                 ? "bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300"
                                 : "bg-amber-100 dark:bg-amber-900/30 text-amber-800 dark:text-amber-300"
                             }`}
                           >
-                            {risk.impact}
-                          </span>
+                            <option value="High">High</option>
+                            <option value="Medium">Medium</option>
+                            <option value="Low">Low</option>
+                          </select>
                         </td>
                         <td className="py-2 px-4 border-b dark:border-gray-600">
-                          <span
-                            className={`px-2 py-1 rounded text-xs ${
+                          <select
+                            value={risk.probability}
+                            onChange={(e) => updateRiskText(index, "probability", e.target.value)}
+                            className={`px-2 py-1 rounded text-xs outline-none ${
                               risk.probability === "High"
                                 ? "bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300"
                                 : "bg-amber-100 dark:bg-amber-900/30 text-amber-800 dark:text-amber-300"
                             }`}
                           >
-                            {risk.probability}
-                          </span>
-                        </td>
-                        <td className="py-2 px-4 border-b dark:border-gray-600 text-gray-700 dark:text-gray-300">
-                          {risk.mitigation}
+                            <option value="High">High</option>
+                            <option value="Medium">Medium</option>
+                            <option value="Low">Low</option>
+                          </select>
                         </td>
                         <td className="py-2 px-4 border-b dark:border-gray-600">
-                          <button
-                            onClick={() => setEditRiskModal({ show: true, index, data: risk })}
-                            className="text-blue-500 hover:text-blue-600"
-                          >
-                            <Edit className="h-4 w-4" />
-                          </button>
+                          <div className="flex items-center">
+                            <span className="text-gray-700 dark:text-gray-300 mr-2">{risk.mitigation}</span>
+                            <Edit
+                              className="h-4 w-4 text-gray-600 dark:text-gray-400 cursor-pointer"
+                              onClick={() => openEditModal("risk", index, "mitigation", risk.mitigation)}
+                            />
+                          </div>
                         </td>
                       </tr>
                     ))}
@@ -469,7 +516,7 @@ const GovernanceSetup = () => {
                 </table>
                 <button
                   onClick={() => setShowRiskModal(true)}
-                  className="mt-4 bg-[#00308F] cursor-pointer text-white px-4 py-2 rounded hover:bg-blue-600"
+                  className="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
                 >
                   Add Risk
                 </button>
@@ -481,8 +528,8 @@ const GovernanceSetup = () => {
 
       {/* Modal for Adding Hierarchy Level */}
       {showLevelModal && (
-        <div className="fixed inset-0 backdrop-blur-[2px] flex items-center justify-center z-50">
-          <div className="bg-white dark:bg-gray-800 rounded-lg p-6 w-full max-w-md border border-gray-300 dark:border-gray-700">
+        <div className="fixed inset-0 backdrop-blur-[2px] shadow-lg  flex items-center justify-center z-50">
+          <div className="bg-white dark:bg-gray-800 rounded-lg p-6 w-full max-w-md">
             <h2 className="text-xl font-bold mb-4 text-gray-800 dark:text-gray-200">Add Hierarchy Level</h2>
             <div className="space-y-4">
               <div>
@@ -515,7 +562,7 @@ const GovernanceSetup = () => {
               </button>
               <button
                 onClick={addStructureLevel}
-                className="bg-[#00308F] cursor-pointer text-white px-4 py-2 rounded hover:bg-blue-600"
+                className="bg-blue-500 text-white px-4 py-2 rounded Lipstickhover:bg-blue-600"
               >
                 Add
               </button>
@@ -524,53 +571,10 @@ const GovernanceSetup = () => {
         </div>
       )}
 
-      {/* Modal for Editing Hierarchy Level */}
-      {editLevelModal.show && (
-        <div className="fixed inset-0 backdrop-blur-[2px] flex items-center justify-center z-50">
-          <div className="bg-white dark:bg-gray-800 rounded-lg p-6 w-full max-w-md border border-gray-300 dark:border-gray-700">
-            <h2 className="text-xl font-bold mb-4 text-gray-800 dark:text-gray-200">Edit Hierarchy Level</h2>
-            <div className="space-y-4">
-              <div>
-                <label className="block text-gray-700 dark:text-gray-300 mb-1">Title</label>
-                <input
-                  type="text"
-                  value={editLevelModal.data.title}
-                  onChange={(e) => setEditLevelModal((prev) => ({ ...prev, data: { ...prev.data, title: e.target.value } }))}
-                  className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-[#2A2F3B] text-gray-800 dark:text-gray-200"
-                />
-              </div>
-              <div>
-                <label className="block text-gray-700 dark:text-gray-300 mb-1">Description</label>
-                <input
-                  type="text"
-                  value={editLevelModal.data.description}
-                  onChange={(e) => setEditLevelModal((prev) => ({ ...prev, data: { ...prev.data, description: e.target.value } }))}
-                  className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-[#2A2F3B] text-gray-800 dark:text-gray-200"
-                />
-              </div>
-            </div>
-            <div className="mt-6 flex justify-end space-x-2">
-              <button
-                onClick={() => setEditLevelModal({ show: false, index: null, data: { title: "", description: "" } })}
-                className="bg-gray-200 dark:bg-gray-600 text-gray-800 dark:text-gray-200 px-4 py-2 rounded hover:bg-gray-300 dark:hover:bg-gray-500"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={handleEditLevel}
-                className="bg-[#00308F] cursor-pointer text-white px-4 py-2 rounded hover:bg-blue-600"
-              >
-                Save
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
       {/* Modal for Adding Team */}
       {showTeamModal && (
-        <div className="fixed inset-0 backdrop-blur-[2px] flex items-center justify-center z-50">
-          <div className="bg-white dark:bg-gray-800 rounded-lg p-6 w-full max-w-md border border-gray-300 dark:border-gray-700">
+        <div className="fixed inset-0 backdrop-blur-[2px] shadow-lg  flex items-center justify-center z-50">
+          <div className="bg-white dark:bg-gray-800 rounded-lg p-6 w-full max-w-md">
             <h2 className="text-xl font-bold mb-4 text-gray-800 dark:text-gray-200">Add Team</h2>
             <div className="space-y-4">
               <div>
@@ -603,7 +607,7 @@ const GovernanceSetup = () => {
               </button>
               <button
                 onClick={addTeam}
-                className="bg-[#00308F] cursor-pointer text-white px-4 py-2 rounded hover:bg-blue-600"
+                className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
               >
                 Add
               </button>
@@ -612,53 +616,10 @@ const GovernanceSetup = () => {
         </div>
       )}
 
-      {/* Modal for Editing Team */}
-      {editTeamModal.show && (
-        <div className="fixed inset-0 backdrop-blur-[2px] flex items-center justify-center z-50">
-          <div className="bg-white dark:bg-gray-800 rounded-lg p-6 w-full max-w-md border border-gray-300 dark:border-gray-700">
-            <h2 className="text-xl font-bold mb-4 text-gray-800 dark:text-gray-200">Edit Team</h2>
-            <div className="space-y-4">
-              <div>
-                <label className="block text-gray-700 dark:text-gray-300 mb-1">Title</label>
-                <input
-                  type="text"
-                  value={editTeamModal.data.title}
-                  onChange={(e) => setEditTeamModal((prev) => ({ ...prev, data: { ...prev.data, title: e.target.value } }))}
-                  className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-[#2A2F3B] text-gray-800 dark:text-gray-200"
-                />
-              </div>
-              <div>
-                <label className="block text-gray-700 dark:text-gray-300 mb-1">Description</label>
-                <input
-                  type="text"
-                  value={editTeamModal.data.description}
-                  onChange={(e) => setEditTeamModal((prev) => ({ ...prev, data: { ...prev.data, description: e.target.value } }))}
-                  className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-[#2A2F3B] text-gray-800 dark:text-gray-200"
-                />
-              </div>
-            </div>
-            <div className="mt-6 flex justify-end space-x-2">
-              <button
-                onClick={() => setEditTeamModal({ show: false, index: null, data: { title: "", description: "" } })}
-                className="bg-gray-200 dark:bg-gray-600 text-gray-800 dark:text-gray-200 px-4 py-2 rounded hover:bg-gray-300 dark:hover:bg-gray-500"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={handleEditTeam}
-                className="bg-[#00308F] cursor-pointer text-white px-4 py-2 rounded hover:bg-blue-600"
-              >
-                Save
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
       {/* Modal for Adding User Impact */}
       {showImpactModal.userImpact && (
-        <div className="fixed inset-0 backdrop-blur-[2px] flex items-center justify-center z-50">
-          <div className="bg-white dark:bg-gray-800 rounded-lg p-6 w-full max-w-md border border-gray-300 dark:border-gray-700">
+        <div className="fixed inset-0 backdrop-blur-[2px] shadow-lg  flex items-center justify-center z-50">
+          <div className="bg-white dark:bg-gray-800 rounded-lg p-6 w-full max-w-md">
             <h2 className="text-xl font-bold mb-4 text-gray-800 dark:text-gray-200">Add User Impact</h2>
             <div className="space-y-4">
               <div>
@@ -681,7 +642,7 @@ const GovernanceSetup = () => {
               </button>
               <button
                 onClick={() => addImpactItem("userImpact")}
-                className="bg-[#00308F] cursor-pointer text-white px-4 py-2 rounded hover:bg-blue-600"
+                className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
               >
                 Add
               </button>
@@ -690,44 +651,10 @@ const GovernanceSetup = () => {
         </div>
       )}
 
-      {/* Modal for Editing User Impact */}
-      {editImpactModal.show && editImpactModal.section === "userImpact" && (
-        <div className="fixed inset-0 backdrop-blur-[2px] flex items-center justify-center z-50">
-          <div className="bg-white dark:bg-gray-800 rounded-lg p-6 w-full max-w-md border border-gray-300 dark:border-gray-700">
-            <h2 className="text-xl font-bold mb-4 text-gray-800 dark:text-gray-200">Edit User Impact</h2>
-            <div className="space-y-4">
-              <div>
-                <label className="block text-gray-700 dark:text-gray-300 mb-1">Impact Item</label>
-                <input
-                  type="text"
-                  value={editImpactModal.data}
-                  onChange={(e) => setEditImpactModal((prev) => ({ ...prev, data: e.target.value }))}
-                  className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-[#2A2F3B] text-gray-800 dark:text-gray-200"
-                />
-              </div>
-            </div>
-            <div className="mt-6 flex justify-end space-x-2">
-              <button
-                onClick={() => setEditImpactModal({ show: false, section: "", index: null, data: "" })}
-                className="bg-gray-200 dark:bg-gray-600 text-gray-800 dark:text-gray-200 px-4 py-2 rounded hover:bg-gray-300 dark:hover:bg-gray-500"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={handleEditImpact}
-                className="bg-[#00308F] cursor-pointer text-white px-4 py-2 rounded hover:bg-blue-600"
-              >
-                Save
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
       {/* Modal for Adding Business Impact */}
       {showImpactModal.businessImpact && (
-        <div className="fixed inset-0 backdrop-blur-[2px] flex items-center justify-center z-50">
-          <div className="bg-white dark:bg-gray-800 rounded-lg p-6 w-full max-w-md border border-gray-300 dark:border-gray-700">
+        <div className="fixed inset-0 backdrop-blur-[2px] shadow-lg flex items-center justify-center z-50">
+          <div className="bg-white dark:bg-gray-800 rounded-lg p-6 w-full max-w-md">
             <h2 className="text-xl font-bold mb-4 text-gray-800 dark:text-gray-200">Add Business Impact</h2>
             <div className="space-y-4">
               <div>
@@ -740,7 +667,7 @@ const GovernanceSetup = () => {
                   className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-[#2A2F3B] text-gray-800 dark:text-gray-200"
                 />
               </div>
-            </div>
+            </ div>
             <div className="mt-6 flex justify-end space-x-2">
               <button
                 onClick={() => setShowImpactModal((prev) => ({ ...prev, businessImpact: false }))}
@@ -750,7 +677,7 @@ const GovernanceSetup = () => {
               </button>
               <button
                 onClick={() => addImpactItem("businessImpact")}
-                className="bg-[#00308F] cursor-pointer text-white px-4 py-2 rounded hover:bg-blue-600"
+                className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
               >
                 Add
               </button>
@@ -759,44 +686,10 @@ const GovernanceSetup = () => {
         </div>
       )}
 
-      {/* Modal for Editing Business Impact */}
-      {editImpactModal.show && editImpactModal.section === "businessImpact" && (
-        <div className="fixed inset-0 backdrop-blur-[2px] flex items-center justify-center z-50">
-          <div className="bg-white dark:bg-gray-800 rounded-lg p-6 w-full max-w-md border border-gray-300 dark:border-gray-700">
-            <h2 className="text-xl font-bold mb-4 text-gray-800 dark:text-gray-200">Edit Business Impact</h2>
-            <div className="space-y-4">
-              <div>
-                <label className="block text-gray-700 dark:text-gray-300 mb-1">Impact Item</label>
-                <input
-                  type="text"
-                  value={editImpactModal.data}
-                  onChange={(e) => setEditImpactModal((prev) => ({ ...prev, data: e.target.value }))}
-                  className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-[#2A2F3B] text-gray-800 dark:text-gray-200"
-                />
-              </div>
-            </div>
-            <div className="mt-6 flex justify-end space-x-2">
-              <button
-                onClick={() => setEditImpactModal({ show: false, section: "", index: null, data: "" })}
-                className="bg-gray-200 dark:bg-gray-600 text-gray-800 dark:text-gray-200 px-4 py-2 rounded hover:bg-gray-300 dark:hover:bg-gray-500"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={handleEditImpact}
-                className="bg-[#00308F] cursor-pointer text-white px-4 py-2 rounded hover:bg-blue-600"
-              >
-                Save
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Modal for Adding Timeline Impact */}
+    
       {showImpactModal.timelineImpact && (
-        <div className="fixed inset-0 backdrop-blur-[2px] flex items-center justify-center z-50">
-          <div className="bg-white dark:bg-gray-800 rounded-lg p-6 w-full max-w-md border border-gray-300 dark:border-gray-700">
+        <div className="fixed inset-0 backdrop-blur-[2px] shadow-lg  flex items-center justify-center z-50">
+          <div className="bg-white dark:bg-gray-800 rounded-lg p-6 w-full max-w-md">
             <h2 className="text-xl font-bold mb-4 text-gray-800 dark:text-gray-200">Add Timeline Impact</h2>
             <div className="space-y-4">
               <div>
@@ -819,7 +712,7 @@ const GovernanceSetup = () => {
               </button>
               <button
                 onClick={() => addImpactItem("timelineImpact")}
-                className="bg-[#00308F] cursor-pointer text-white px-4 py-2 rounded hover:bg-blue-600"
+                className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
               >
                 Add
               </button>
@@ -828,44 +721,10 @@ const GovernanceSetup = () => {
         </div>
       )}
 
-      {/* Modal for Editing Timeline Impact */}
-      {editImpactModal.show && editImpactModal.section === "timelineImpact" && (
-        <div className="fixed inset-0 backdrop-blur-[2px] flex items-center justify-center z-50">
-          <div className="bg-white dark:bg-gray-800 rounded-lg p-6 w-full max-w-md border border-gray-300 dark:border-gray-700">
-            <h2 className="text-xl font-bold mb-4 text-gray-800 dark:text-gray-200">Edit Timeline Impact</h2>
-            <div className="space-y-4">
-              <div>
-                <label className="block text-gray-700 dark:text-gray-300 mb-1">Impact Item</label>
-                <input
-                  type="text"
-                  value={editImpactModal.data}
-                  onChange={(e) => setEditImpactModal((prev) => ({ ...prev, data: e.target.value }))}
-                  className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-[#2A2F3B] text-gray-800 dark:text-gray-200"
-                />
-              </div>
-            </div>
-            <div className="mt-6 flex justify-end space-x-2">
-              <button
-                onClick={() => setEditImpactModal({ show: false, section: "", index: null, data: "" })}
-                className="bg-gray-200 dark:bg-gray-600 text-gray-800 dark:text-gray-200 px-4 py-2 rounded hover:bg-gray-300 dark:hover:bg-gray-500"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={handleEditImpact}
-                className="bg-[#00308F] cursor-pointer text-white px-4 py-2 rounded hover:bg-blue-600"
-              >
-                Save
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Modal for Adding Risk */}
+     
       {showRiskModal && (
-        <div className="fixed inset-0 backdrop-blur-[2px] flex items-center justify-center z-50">
-          <div className="bg-white dark:bg-gray-800 rounded-lg p-6 w-full max-w-md border border-gray-300 dark:border-gray-700">
+        <div className="fixed inset-0 backdrop-blur-[2px] shadow-lg  flex items-center justify-center z-50">
+          <div className="bg-white dark:bg-gray-800 rounded-lg p-6 w-full max-w-md">
             <h2 className="text-xl font-bold mb-4 text-gray-800 dark:text-gray-200">Add Risk</h2>
             <div className="space-y-4">
               <div>
@@ -922,7 +781,7 @@ const GovernanceSetup = () => {
               </button>
               <button
                 onClick={addRisk}
-                className="bg-[#00308F] cursor-pointer text-white px-4 py-2 rounded hover:bg-blue-600"
+                className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
               >
                 Add
               </button>
@@ -931,65 +790,32 @@ const GovernanceSetup = () => {
         </div>
       )}
 
-      {/* Modal for Editing Risk */}
-      {editRiskModal.show && (
-        <div className="fixed inset-0 backdrop-blur-[2px] flex items-center justify-center z-50">
-          <div className="bg-white dark:bg-gray-800 rounded-lg p-6 w-full max-w-md border border-gray-300 dark:border-gray-700">
-            <h2 className="text-xl font-bold mb-4 text-gray-800 dark:text-gray-200">Edit Risk</h2>
+      {/* Edit Modal */}
+      {showEditModal && (
+        <div className="fixed inset-0 backdrop-blur-[2px] shadow-lg  flex items-center justify-center z-50">
+          <div className="bg-white dark:bg-gray-800 rounded-lg p-6 w-full max-w-md">
+            <h2 className="text-xl font-bold mb-4 text-gray-800 dark:text-gray-200">Edit {editModalData.field}</h2>
             <div className="space-y-4">
               <div>
-                <label className="block text-gray-700 dark:text-gray-300 mb-1">Risk</label>
+                <label className="block text-gray-700 dark:text-gray-300 mb-1">Value</label>
                 <input
                   type="text"
-                  value={editRiskModal.data.risk}
-                  onChange={(e) => setEditRiskModal((prev) => ({ ...prev, data: { ...prev.data, risk: e.target.value } }))}
-                  className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-[#2A2F3B] text-gray-800 dark:text-gray-200"
-                />
-              </div>
-              <div>
-                <label className="block text-gray-700 dark:text-gray-300 mb-1">Impact</label>
-                <select
-                  value={editRiskModal.data.impact}
-                  onChange={(e) => setEditRiskModal((prev) => ({ ...prev, data: { ...prev.data, impact: e.target.value } }))}
-                  className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-[#2A2F3B] text-gray-800 dark:text-gray-200"
-                >
-                  <option value="High">High</option>
-                  <option value="Medium">Medium</option>
-                  <option value="Low">Low</option>
-                </select>
-              </div>
-              <div>
-                <label className="block text-gray-700 dark:text-gray-300 mb-1">Probability</label>
-                <select
-                  value={editRiskModal.data.probability}
-                  onChange={(e) => setEditRiskModal((prev) => ({ ...prev, data: { ...prev.data, probability: e.target.value } }))}
-                  className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-[#2A2F3B] text-gray-800 dark:text-gray-200"
-                >
-                  <option value="High">High</option>
-                  <option value="Medium">Medium</option>
-                  <option value="Low">Low</option>
-                </select>
-              </div>
-              <div>
-                <label className="block text-gray-700 dark:text-gray-300 mb-1">Mitigation Strategy</label>
-                <input
-                  type="text"
-                  value={editRiskModal.data.mitigation}
-                  onChange={(e) => setEditRiskModal((prev) => ({ ...prev, data: { ...prev.data, mitigation: e.target.value } }))}
+                  value={editModalData.value}
+                  onChange={(e) => setEditModalData((prev) => ({ ...prev, value: e.target.value }))}
                   className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-[#2A2F3B] text-gray-800 dark:text-gray-200"
                 />
               </div>
             </div>
             <div className="mt-6 flex justify-end space-x-2">
               <button
-                onClick={() => setEditRiskModal({ show: false, index: null, data: { risk: "", impact: "Medium", probability: "Medium", mitigation: "" } })}
+                onClick={() => setShowEditModal(false)}
                 className="bg-gray-200 dark:bg-gray-600 text-gray-800 dark:text-gray-200 px-4 py-2 rounded hover:bg-gray-300 dark:hover:bg-gray-500"
               >
                 Cancel
               </button>
               <button
-                onClick={handleEditRisk}
-                className="bg-[#00308F] cursor-pointer text-white px-4 py-2 rounded hover:bg-blue-600"
+                onClick={saveEdit}
+                className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
               >
                 Save
               </button>

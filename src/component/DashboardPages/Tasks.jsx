@@ -219,77 +219,7 @@ const Tasks = () => {
     <div className="min-h-screen  dark:bg-gray-900 py-10 px-4 sm:px-6 ">
       <div className="container mx-auto">
         {/* Header Section */}
-        <div className="flex justify-between items-center mb-4">
-          <div>
-            <h2 className="text-[23px] font-bold text-gray-800 dark:text-gray-100 mb-1">
-              Tasks & Milestones
-            </h2>
-            <p className="text-gray-500 dark:text-gray-400 text-[15px]">
-              Manage project tasks and track progress
-            </p>
-          </div>
-        </div>
-
-        {/* Filters and Actions */}
-        <div className="flex justify-between items-center mb-4">
-          <div className="relative w-64">
-            <input
-              type="text"
-              placeholder="Search tasks..."
-              className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-[#2A2F3B] text-gray-800 dark:text-gray-200 text-[15px] focus:outline-none focus:ring-2 focus:ring-[#00308F] dark:focus:ring-[#4A6CF7]"
-            />
-            <div className="absolute left-3 top-2.5 text-gray-400 dark:text-gray-500">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <circle cx="11" cy="11" r="8" />
-                <line x1="21" y1="21" x2="16.65" y2="16.65" />
-              </svg>
-            </div>
-          </div>
-
-          <div className="flex items-center">
-            <div className="relative w-40 mr-2">
-              <select
-                value={statusFilter}
-                onChange={handleStatusFilterChange}
-                className="w-full pl-4 pr-10 py-2 border border-gray-300 dark:border-gray-600 rounded-md appearance-none bg-white dark:bg-[#2A2F3B] text-gray-800 dark:text-gray-200 text-[15px] focus:outline-none focus:ring-2 focus:ring-[#00308F] dark:focus:ring-[#4A6CF7]"
-              >
-                <option>All Statuses</option>
-                <option>In Progress</option>
-                <option>Completed</option>
-                <option>Not Started</option>
-              </select>
-              <div className="absolute right-3 top-3 text-gray-400 dark:text-gray-500 pointer-events-none">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M6 9l6 6 6-6" />
-                </svg>
-              </div>
-            </div>
-
-            <button className="flex items-center gap-1 bg-gray-800 dark:bg-[#4A6CF7] text-white px-3 py-2 rounded-md text-[15px] font-medium hover:bg-gray-700 dark:hover:bg-[#3B5AEB]">
-              Add Task ➕
-            </button>
-          </div>
-        </div>
+       
 
         {/* Task Table */}
         <div className="overflow-x-auto">
@@ -474,47 +404,7 @@ const Tasks = () => {
           </table>
         </div>
 
-        {/* Static RACI Chart */}
-        <div className="mt-10">
-          <h3 className="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-4">
-            RACI Chart
-          </h3>
-          <div className="overflow-x-auto">
-            <table className="min-w-full border-collapse">
-              <tbody>
-                {raciGrid.map((row, rowIndex) => (
-                  <tr key={rowIndex}>
-                    {row.map((role, colIndex) => (
-                      <td
-                        key={colIndex}
-                        className={`border border-gray-300 dark:border-gray-600 ${getRaciColor(
-                          role
-                        )} text-white text-center py-4 text-[16px] font-bold`}
-                      >
-                        {role}
-                      </td>
-                    ))}
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-          {/* Legend */}
-          <div className="mt-4 text-sm text-gray-500 dark:text-gray-400">
-            <p>
-              <span className="inline-block w-4 h-4 bg-blue-500 mr-2"></span>
-              In Progress (A, R)
-            </p>
-            <p>
-              <span className="inline-block w-4 h-4 bg-orange-500 mr-2"></span>
-              Not Started (C)
-            </p>
-            <p>
-              <span className="inline-block w-4 h-4 bg-pink-500 mr-2"></span>
-              Completed (I)
-            </p>
-          </div>
-        </div>
+       
       </div>
     </div>
   );

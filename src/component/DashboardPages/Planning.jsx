@@ -1,41 +1,35 @@
 import { useState } from "react";
 import Calender from "./Calender";
 import Dependance from "./Dependance";
+import TimeLine from "./Timeline";
 
-// Static dummy data for milestones
+// Static dummy data for milestones, now including tasks
 const initialMilestonesData = [
   {
     id: "1",
     title: "Project Initiation",
     deadline: "2023-06-15",
     status: "completed",
-    subMilestones: [
+    tasks: [
       {
-        id: "1-1",
-        title: "Define Project Scope",
-        description: "Outline the boundaries and deliverables of the project",
-        output: "Project Scope Document",
-        deadline: "2023-06-01",
-        status: "completed",
-        dependencies: [],
-      },
-      {
-        id: "1-2",
-        title: "Stakeholder Analysis",
-        description: "Identify and analyze project stakeholders",
-        output: "Stakeholder Matrix",
-        deadline: "2023-06-10",
-        status: "completed",
-        dependencies: ["1-1"],
-      },
-      {
-        id: "1-3",
-        title: "Initial Resource Planning",
-        description: "Estimate required resources for the project",
-        output: "Resource Plan",
-        deadline: "2023-06-15",
-        status: "completed",
-        dependencies: ["1-1"],
+        name: "UI/UX Design",
+        description: "Create UI/UX design for the application",
+        status: "Completed",
+        priority: "High",
+        dueDate: "7/1/2025",
+        assignee: "Sajib",
+        progress: 100,
+        raci: {
+          Responsible: "Sajib",
+          Accountable: "Sajib",
+          Consulted: ["Rasif"],
+          Informed: [ "Ramisa"],
+        },
+        subtasks: [
+          { id: 1, title: "Wireframe design", completed: true },
+          { id: 2, title: "Prototype creation", completed: true },
+          { id: 3, title: "User testing", completed: true },
+        ],
       },
     ],
   },
@@ -44,33 +38,47 @@ const initialMilestonesData = [
     title: "Design Phase",
     deadline: "2023-07-30",
     status: "in-progress",
-    subMilestones: [
+    tasks: [
       {
-        id: "2-1",
-        title: "Requirements Gathering",
-        description: "Collect detailed requirements from stakeholders",
-        output: "Requirements Document",
-        deadline: "2023-07-10",
-        status: "completed",
-        dependencies: ["1-2"],
+        name: "Backend API Development",
+        description: "Develop RESTful APIs for the application",
+        status: "In Progress",
+        priority: "High",
+        dueDate: "7/15/2025",
+        assignee: "Siam",
+        progress: 60,
+        raci: {
+          Responsible: "Siam",
+          Accountable: "Siam",
+          Consulted: ["Rasif"],
+          Informed: ["Sajib", "Ramisa"],
+        },
+        subtasks: [
+          { id: 1, title: "Design API schema", completed: true },
+          { id: 2, title: "Implement endpoints", completed: true },
+          { id: 3, title: "Test APIs", completed: false },
+          { id: 4, title: "Deploy to staging", completed: false },
+        ],
       },
       {
-        id: "2-2",
-        title: "System Architecture Design",
-        description: "Design the overall system architecture",
-        output: "Architecture Diagram",
-        deadline: "2023-07-20",
-        status: "in-progress",
-        dependencies: ["2-1"],
-      },
-      {
-        id: "2-3",
-        title: "UI/UX Design",
-        description: "Create user interface and experience designs",
-        output: "UI/UX Mockups",
-        deadline: "2023-07-30",
-        status: "not-started",
-        dependencies: ["2-1"],
+        name: "Frontend UI Implementation",
+        description: "Implement user interface components",
+        status: "In Progress",
+        priority: "Medium",
+        dueDate: "7/20/2025",
+        assignee: "Rasif",
+        progress: 40,
+        raci: {
+          Responsible: "Rasif",
+          Accountable: "Rasif",
+          Consulted: ["Siam", "Sajib"],
+          Informed: ["Ramisa"],
+        },
+        subtasks: [
+          { id: 1, title: "Set up React components", completed: true },
+          { id: 2, title: "Style components", completed: false },
+          { id: 3, title: "Integrate with API", completed: false },
+        ],
       },
     ],
   },
@@ -79,33 +87,47 @@ const initialMilestonesData = [
     title: "Development Phase",
     deadline: "2023-09-30",
     status: "not-started",
-    subMilestones: [
+    tasks: [
       {
-        id: "3-1",
-        title: "Frontend Development",
-        description: "Develop the user interface components",
-        output: "Frontend Code",
-        deadline: "2023-08-30",
-        status: "not-started",
-        dependencies: ["2-2", "2-3"],
+        name: "AI Integration",
+        description: "Integrate AI features into the application",
+        status: "Not Started",
+        priority: "Medium",
+        dueDate: "8/1/2025",
+        assignee: "Ramisa",
+        progress: 0,
+        raci: {
+          Responsible: "Ramisa",
+          Accountable: "Ramisa",
+          Consulted: ["Siam"],
+          Informed: ["Rasif", "Sajib"],
+        },
+        subtasks: [
+          { id: 1, title: "Research AI models", completed: false },
+          { id: 2, title: "Integrate model", completed: false },
+          { id: 3, title: "Test AI features", completed: false },
+          { id: 4, title: "Optimize performance", completed: false },
+        ],
       },
       {
-        id: "3-2",
-        title: "Backend Development",
-        description: "Develop the server-side components",
-        output: "Backend Code",
-        deadline: "2023-09-15",
-        status: "not-started",
-        dependencies: ["2-2"],
-      },
-      {
-        id: "3-3",
-        title: "Integration",
-        description: "Integrate frontend and backend components",
-        output: "Integrated System",
-        deadline: "2023-09-30",
-        status: "not-started",
-        dependencies: ["3-1", "3-2"],
+        name: "Testing and QA",
+        description: "Perform testing and quality assurance",
+        status: "Not Started",
+        priority: "High",
+        dueDate: "8/10/2025",
+        assignee: "Siam",
+        progress: 0,
+        raci: {
+          Responsible: "Siam",
+          Accountable: "Siam",
+          Consulted: ["Rasif", "Ramisa"],
+          Informed: ["Sajib"],
+        },
+        subtasks: [
+          { id: 1, title: "Write test cases", completed: false },
+          { id: 2, title: "Perform unit tests", completed: false },
+          { id: 3, title: "Conduct QA", completed: false },
+        ],
       },
     ],
   },
@@ -115,14 +137,17 @@ const initialMilestonesData = [
 const getStatusBadge = (status) => {
   let bgColor, textColor;
   switch (status) {
+    case "Completed":
     case "completed":
       bgColor = "bg-green-500";
       textColor = "text-white";
       break;
+    case "In Progress":
     case "in-progress":
       bgColor = "bg-blue-500";
       textColor = "text-white";
       break;
+    case "Not Started":
     case "not-started":
       bgColor = "bg-slate-500";
       textColor = "text-white";
@@ -135,9 +160,20 @@ const getStatusBadge = (status) => {
   return `inline-block px-2 py-1 rounded text-xs font-medium ${bgColor} ${textColor}`;
 };
 
+// Function to get priority badge styling
+const getPriorityBadge = (priority) => {
+  return `px-2 py-1 text-xs rounded-full ${
+    priority === "High"
+      ? "bg-red-100 dark:bg-red-500/20 text-red-800 dark:text-red-300"
+      : priority === "Medium"
+      ? "bg-yellow-100 dark:bg-yellow-500/20 text-yellow-800 dark:text-yellow-300"
+      : "bg-gray-100 dark:bg-gray-600 text-gray-800 dark:text-gray-200"
+  }`;
+};
+
 const Planning = () => {
   // State for active tab
-  const [activeTab, setActiveTab] = useState("planning");
+  const [activeTab, setActiveTab] = useState("Planning");
 
   // State for milestones data
   const [milestones, setMilestones] = useState(initialMilestonesData);
@@ -145,8 +181,8 @@ const Planning = () => {
   // State to track which milestones are open
   const [openMilestones, setOpenMilestones] = useState([]);
 
-  // State to track which sub-milestone is being edited
-  const [editingSubMilestoneId, setEditingSubMilestoneId] = useState(null);
+  // State to track which task is being edited
+  const [editingTaskId, setEditingTaskId] = useState(null);
   const [editFormData, setEditFormData] = useState(null);
 
   // State for adding new milestone
@@ -166,56 +202,40 @@ const Planning = () => {
     );
   };
 
-  // Start editing a sub-milestone
-  const startEditing = (subMilestone) => {
-    setEditingSubMilestoneId(subMilestone.id);
-    setEditFormData({ ...subMilestone });
+  // Start editing a task
+  const startEditing = (task, milestoneId, taskIndex) => {
+    setEditingTaskId(`${milestoneId}-${taskIndex}`);
+    setEditFormData({ ...task });
   };
 
-  // Handle form input changes for editing sub-milestone
+  // Handle form input changes for editing task
   const handleEditChange = (e) => {
     const { name, value } = e.target;
     setEditFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  // Save edited sub-milestone
+  // Save edited task
   const saveEdit = (milestoneId) => {
     setMilestones((prev) =>
       prev.map((milestone) =>
         milestone.id === milestoneId
           ? {
               ...milestone,
-              subMilestones: milestone.subMilestones.map((sm) =>
-                sm.id === editingSubMilestoneId ? { ...editFormData } : sm
+              tasks: milestone.tasks.map((task, idx) =>
+                `${milestoneId}-${idx}` === editingTaskId ? { ...editFormData } : task
               ),
             }
           : milestone
       )
     );
-    setEditingSubMilestoneId(null);
+    setEditingTaskId(null);
     setEditFormData(null);
   };
 
   // Cancel editing
   const cancelEdit = () => {
-    setEditingSubMilestoneId(null);
+    setEditingTaskId(null);
     setEditFormData(null);
-  };
-
-  // Delete a sub-milestone
-  const deleteSubMilestone = (milestoneId, subMilestoneId) => {
-    setMilestones((prev) =>
-      prev.map((milestone) =>
-        milestone.id === milestoneId
-          ? {
-              ...milestone,
-              subMilestones: milestone.subMilestones.filter(
-                (sm) => sm.id !== subMilestoneId
-              ),
-            }
-          : milestone
-      )
-    );
   };
 
   // Handle form input changes for new milestone
@@ -237,7 +257,7 @@ const Planning = () => {
       title: newMilestoneData.title,
       deadline: newMilestoneData.deadline,
       status: newMilestoneData.status,
-      subMilestones: [],
+      tasks: [],
     };
 
     setMilestones((prev) => [...prev, newMilestone]);
@@ -251,15 +271,47 @@ const Planning = () => {
     setShowAddMilestoneForm(false);
   };
 
+  // Confirm a subtask
+  const handleConfirmSubtask = (milestoneId, taskIndex, subtaskId) => {
+    setMilestones((prev) =>
+      prev.map((milestone) => {
+        if (milestone.id !== milestoneId) return milestone;
+        return {
+          ...milestone,
+          tasks: milestone.tasks.map((task, idx) => {
+            if (idx !== taskIndex) return task;
+            const updatedSubtasks = task.subtasks.map((subtask) =>
+              subtask.id === subtaskId ? { ...subtask, completed: true } : subtask
+            );
+            const completedCount = updatedSubtasks.filter((subtask) => subtask.completed).length;
+            const progress = Math.round((completedCount / updatedSubtasks.length) * 100);
+            const status =
+              progress === 100
+                ? "Completed"
+                : task.status === "Not Started" && progress > 0
+                ? "In Progress"
+                : task.status;
+            return {
+              ...task,
+              subtasks: updatedSubtasks,
+              progress,
+              status,
+            };
+          }),
+        };
+      })
+    );
+  };
+
   return (
     <div className="p-4 sm:p-6 space-y-6">
       {/* Tab Navigation (Styled as Buttons) */}
       <nav className="flex flex-wrap gap-3 sm:gap-4 overflow-x-auto pb-2">
-        {["planning", "calendar", "dependencies"].map((tab) => (
+        {["Planning", "Calendar", "Dependencies","Timeline"].map((tab) => (
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}
-            className={`px-4 py-2 rounded-lg font-medium text-sm sm:text-base whitespace-nowrap transition-all duration-200 shadow-sm ${
+            className={`px-4 py-2 rounded-lg font-medium text-sm sm:text-base whitespace-nowrap transition-all duration-200 shadow-sm cursor-pointer ${
               activeTab === tab
                 ? "bg-gray-800 dark:bg-[#4A6CF7] text-white shadow-md"
                 : "bg-gray-100 dark:bg-[#2A2F3B] text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-[#353A47] hover:shadow-md"
@@ -271,7 +323,7 @@ const Planning = () => {
       </nav>
 
       {/* Content Area */}
-      {activeTab === "planning" && (
+      {activeTab === "Planning" && (
         <div className="space-y-6">
           <div className="flex justify-between items-center">
             <h2 className="text-2xl font-semibold text-gray-800 dark:text-gray-100">
@@ -314,39 +366,33 @@ const Planning = () => {
                   </div>
                 </div>
 
-                {/* Sub-Milestones Section */}
+                {/* Tasks Section */}
                 {openMilestones.includes(milestone.id) && (
                   <div className="px-4 py-2">
                     <div className="space-y-4">
                       <div className="flex justify-between items-center">
                         <h3 className="text-lg font-medium text-gray-800 dark:text-gray-100">
-                          Sub-Milestones
+                          Tasks
                         </h3>
-                        <div
-                          className="flex items-center gap-2 px-3 py-1 rounded-md bg-gray-100 dark:bg-[#2A2F3B] text-gray-700 dark:text-gray-300 text-sm font-medium cursor-not-allowed"
-                        >
-                          <span>➕</span>
-                          <span>Add Sub-Milestone</span>
-                        </div>
                       </div>
 
                       <div className="grid grid-cols-1 gap-4">
-                        {milestone.subMilestones.map((subMilestone) => (
+                        {milestone.tasks.map((task, taskIndex) => (
                           <div
-                            key={subMilestone.id}
+                            key={taskIndex}
                             className="border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-[#1E232E] shadow-sm"
                           >
-                            {editingSubMilestoneId === subMilestone.id ? (
+                            {editingTaskId === `${milestone.id}-${taskIndex}` ? (
                               /* Edit Form */
                               <div className="p-4 space-y-3">
                                 <div>
                                   <label className="text-sm font-medium text-gray-800 dark:text-gray-100">
-                                    Title
+                                    Name
                                   </label>
                                   <input
                                     type="text"
-                                    name="title"
-                                    value={editFormData.title}
+                                    name="name"
+                                    value={editFormData.name}
                                     onChange={handleEditChange}
                                     className="w-full mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-[#2A2F3B] text-gray-800 dark:text-gray-200"
                                   />
@@ -365,24 +411,24 @@ const Planning = () => {
                                 </div>
                                 <div>
                                   <label className="text-sm font-medium text-gray-800 dark:text-gray-100">
-                                    Expected Output
+                                    Due Date
                                   </label>
                                   <input
                                     type="text"
-                                    name="output"
-                                    value={editFormData.output}
+                                    name="dueDate"
+                                    value={editFormData.dueDate}
                                     onChange={handleEditChange}
                                     className="w-full mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-[#2A2F3B] text-gray-800 dark:text-gray-200"
                                   />
                                 </div>
                                 <div>
                                   <label className="text-sm font-medium text-gray-800 dark:text-gray-100">
-                                    Deadline
+                                    Assignee
                                   </label>
                                   <input
-                                    type="date"
-                                    name="deadline"
-                                    value={editFormData.deadline}
+                                    type="text"
+                                    name="assignee"
+                                    value={editFormData.assignee}
                                     onChange={handleEditChange}
                                     className="w-full mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-[#2A2F3B] text-gray-800 dark:text-gray-200"
                                   />
@@ -397,9 +443,24 @@ const Planning = () => {
                                     onChange={handleEditChange}
                                     className="w-full mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-[#2A2F3B] text-gray-800 dark:text-gray-200"
                                   >
-                                    <option value="completed">Completed</option>
-                                    <option value="in-progress">In Progress</option>
-                                    <option value="not-started">Not Started</option>
+                                    <option value="Completed">Completed</option>
+                                    <option value="In Progress">In Progress</option>
+                                    <option value="Not Started">Not Started</option>
+                                  </select>
+                                </div>
+                                <div>
+                                  <label className="text-sm font-medium text-gray-800 dark:text-gray-100">
+                                    Priority
+                                  </label>
+                                  <select
+                                    name="priority"
+                                    value={editFormData.priority}
+                                    onChange={handleEditChange}
+                                    className="w-full mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-[#2A2F3B] text-gray-800 dark:text-gray-200"
+                                  >
+                                    <option value="High">High</option>
+                                    <option value="Medium">Medium</option>
+                                    <option value="Low">Low</option>
                                   </select>
                                 </div>
                                 <div className="flex justify-end gap-2">
@@ -419,83 +480,133 @@ const Planning = () => {
                               </div>
                             ) : (
                               <>
-                                {/* Sub-Milestone Header */}
+                                {/* Task Header */}
                                 <div className="px-4 pt-3 flex justify-between items-start">
                                   <div>
                                     <h4 className="text-base font-medium text-gray-800 dark:text-gray-100">
-                                      {subMilestone.title}
+                                      {task.name}
                                     </h4>
                                     <p className="text-sm text-gray-500 dark:text-gray-400">
-                                      {subMilestone.description}
+                                      {task.description}
                                     </p>
                                   </div>
-                                  <span className={getStatusBadge(subMilestone.status)}>
-                                    {subMilestone.status.charAt(0).toUpperCase() +
-                                      subMilestone.status.slice(1).replace("-", " ")}
+                                  <span className={getStatusBadge(task.status)}>
+                                    {task.status}
                                   </span>
                                 </div>
 
-                                {/* Sub-Milestone Content */}
+                                {/* Task Content */}
                                 <div className="px-4 py-2">
-                                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                  <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                                     <div>
                                       <p className="text-sm font-medium text-gray-800 dark:text-gray-100">
-                                        Expected Output
-                                      </p>
-                                      <p className="text-sm text-gray-500 dark:text-gray-400">
-                                        {subMilestone.output}
-                                      </p>
-                                    </div>
-                                    <div>
-                                      <p className="text-sm font-medium text-gray-800 dark:text-gray-100">
-                                        Deadline
+                                        Due Date
                                       </p>
                                       <p className="text-sm text-gray-500 dark:text-gray-400 flex items-center gap-1">
                                         <span>📅</span>
-                                        {new Date(subMilestone.deadline).toLocaleDateString()}
+                                        {task.dueDate}
                                       </p>
+                                    </div>
+                                    <div>
+                                      <p className="text-sm font-medium text-gray-800 dark:text-gray-100">
+                                        Assignee
+                                      </p>
+                                      <p className="text-sm text-gray-500 dark:text-gray-400 flex items-center gap-1">
+                                        <span className="w-6 h-6 rounded-full bg-gray-200 dark:bg-gray-600 flex items-center justify-center text-xs font-medium">
+                                          {task.assignee.charAt(0)}
+                                        </span>
+                                        {task.assignee}
+                                      </p>
+                                    </div>
+                                    <div>
+                                      <p className="text-sm font-medium text-gray-800 dark:text-gray-100">
+                                        Priority
+                                      </p>
+                                      <span className={getPriorityBadge(task.priority)}>
+                                        {task.priority}
+                                      </span>
+                                    </div>
+                                    <div>
+                                      <p className="text-sm font-medium text-gray-800 dark:text-gray-100">
+                                        Progress
+                                      </p>
+                                      <div className="w-72 bg-gray-200 dark:bg-gray-600 rounded-full h-1.5">
+                                        <div
+                                          className="bg-gray-800 dark:bg-[#4A6CF7] h-1.5 rounded-full"
+                                          style={{ width: `${task.progress}%` }}
+                                        ></div>
+                                      </div>
+                                      <span className="text-xs text-gray-500 dark:text-gray-400">
+                                        {task.progress}%
+                                      </span>
                                     </div>
                                   </div>
-                                  {subMilestone.dependencies.length > 0 && (
-                                    <div className="mt-2">
-                                      <p className="text-sm font-medium text-gray-800 dark:text-gray-100">
-                                        Dependencies
-                                      </p>
-                                      <div className="flex flex-wrap gap-1 mt-1">
-                                        {subMilestone.dependencies.map((depId) => {
-                                          const depName =
-                                            milestones
-                                              .flatMap((m) => m.subMilestones)
-                                              .find((sm) => sm.id === depId)?.title || depId;
-                                          return (
-                                            <span
-                                              key={depId}
-                                              className="inline-block px-2 py-1 rounded text-xs border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 bg-gray-50 dark:bg-[#2A2F3B]"
-                                            >
-                                              {depName}
-                                            </span>
-                                          );
-                                        })}
-                                      </div>
+                                  {/* <div className="mt-2">
+                                    <p className="text-sm font-medium text-gray-800 dark:text-gray-100">
+                                      RACI
+                                    </p>
+                                    <div className="flex flex-wrap gap-2 mt-1">
+                                      <span className="inline-block px-2 py-1 rounded text-xs border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 bg-gray-50 dark:bg-[#2A2F3B]">
+                                        R: {task.raci.Responsible}
+                                      </span>
+                                      <span className="inline-block px-2 py-1 rounded text-xs border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 bg-gray-50 dark:bg-[#2A2F3B]">
+                                        A: {task.raci.Accountable}
+                                      </span>
+                                      <span className="inline-block px-2 py-1 rounded text-xs border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 bg-gray-50 dark:bg-[#2A2F3B]">
+                                        C: {task.raci.Consulted.join(", ")}
+                                      </span>
+                                      <span className="inline-block px-2 py-1 rounded text-xs border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 bg-gray-50 dark:bg-[#2A2F3B]">
+                                        I: {task.raci.Informed.join(", ")}
+                                      </span>
                                     </div>
-                                  )}
+                                  </div> */}
+                                  <div className="mt-2">
+                                    <p className="text-sm font-medium text-gray-800 dark:text-gray-100">
+                                      Subtasks
+                                    </p>
+                                    <div className="mt-1 space-y-1">
+                                      {task.subtasks.map((subtask) => (
+                                        <div
+                                          key={subtask.id}
+                                          className="flex items-center justify-between"
+                                        >
+                                          <span
+                                            className={`text-sm ${
+                                              subtask.completed
+                                                ? "text-gray-500 dark:text-gray-400 line-through"
+                                                : "text-gray-800 dark:text-gray-200"
+                                            }`}
+                                          >
+                                            {subtask.title}
+                                          </span>
+                                          {!subtask.completed && (
+                                            <button
+                                              onClick={() =>
+                                                handleConfirmSubtask(
+                                                  milestone.id,
+                                                  taskIndex,
+                                                  subtask.id
+                                                )
+                                              }
+                                              className="text-xs bg-green-500 text-white px-2 py-1 rounded-md hover:bg-green-600 cursor-pointer"
+                                            >
+                                              Confirm
+                                            </button>
+                                          )}
+                                        </div>
+                                      ))}
+                                    </div>
+                                  </div>
                                 </div>
 
-                                {/* Sub-Milestone Footer */}
+                                {/* Task Footer */}
                                 <div className="px-4 pb-3 flex justify-end gap-2">
                                   <button
-                                    onClick={() => startEditing(subMilestone)}
-                                    className="flex items-center gap-1 px-3 py-1 rounded-md border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 text-sm hover:bg-gray-100 dark:hover:bg-gray-700"
+                                    onClick={() => startEditing(task, milestone.id, taskIndex)}
+                                    className="flex items-center gap-1 px-3 py-1 rounded-md border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer "
                                   >
                                     <span>✏️</span>
                                     <span>Edit</span>
-                                  </button>
-                                  <button
-                                    onClick={() => deleteSubMilestone(milestone.id, subMilestone.id)}
-                                    className="flex items-center gap-1 px-3 py-1 rounded-md border border-gray-300 dark:border-gray-600 text-red-500 dark:text-red-400 text-sm hover:bg-red-50 dark:hover:bg-red-900/20"
-                                  >
-                                    <span>🗑️</span>
-                                    <span>Delete</span>
                                   </button>
                                 </div>
                               </>
@@ -579,9 +690,11 @@ const Planning = () => {
         </div>
       )}
 
-      {activeTab === "calendar" && <Calender />}
+      {activeTab === "Calendar" && <Calender />}
 
-      {activeTab === "dependencies" && <Dependance />}
+      {activeTab === "Dependencies" && <Dependance />}
+      {activeTab === "Timeline" && <TimeLine />}
+
     </div>
   );
 };

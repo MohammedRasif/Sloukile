@@ -240,7 +240,7 @@ export default function Workflow() {
         {workflowItems.map((item, index) => (
           <div key={index} className="flex-shrink-0 w-64  px-2 relative ">
             {/* Arrow card with gradient */}
-            <div className="relative h-96 border border-gray-300 shadow-xl rounded-[10px]">
+            <div className="relative h-80 border border-gray-300 shadow-xl rounded-[10px]">
               {/* Card with arrow shape */}
               <div className="absolute inset-0 bg-white shadow-lg rounded-lg flex flex-col overflow-hidden">
                 {/* Content area */}
@@ -255,7 +255,7 @@ export default function Workflow() {
 
                   {/* Approver info */}
                   <div className="w-full mt-auto">
-                    <div className="flex items-center mb-2">
+                    {/* <div className="flex items-center mb-2">
                       <div className="h-8 w-8 mr-2 rounded-full overflow-hidden">
                         <img
                           src={item.approver.avatar || "/placeholder.svg"}
@@ -275,7 +275,7 @@ export default function Workflow() {
                         <p className="text-sm font-medium text-gray-700">{item.approver.name}</p>
                         <p className="text-xs text-gray-500">{item.approver.role}</p>
                       </div>
-                    </div>
+                    </div> */}
 
                     {item.approver.date && (
                       <p className="text-xs text-gray-500 mb-1">Reviewed on: {item.approver.date}</p>
