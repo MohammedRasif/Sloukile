@@ -1,4 +1,4 @@
-"use client"
+
 
 import { useState } from "react"
 import {
@@ -29,20 +29,18 @@ import {
   LinkedinIcon,
   EmailIcon,
 } from "react-share"
+import Overview from "./Overview"
+import Planning from "./Planning"
+import Tasks from "./Tasks"
+import ProjectRisks from "./ProjectRisks"
+import RACI from "./RACI"
+import Deployment from "./Deployment"
+import GovernmentSetup from "./GovernanceSetup"
+import Team from "./Team.jsx"
+import Timeline from "./Timeline.jsx"
+import Bugget from "./Bugget.jsx"
 
-// Placeholder components - these would be your actual components
-const Overview = () => <div>Overview Component</div>
-const GovernmentSetup = () => <div>Government Setup Component</div>
-const Planning = () => <div>Planning Component</div>
-const Tasks = () => <div>Tasks Component</div>
-const Team = () => <div>Team Component</div>
-const Timeline = () => <div>Timeline Component</div>
-const Budget = () => <div>Budget Component</div>
-const ProjectRisks = () => <div>Project Risks Component</div>
-const RACI = () => <div>RACI Component</div>
-const Deployment = () => <div>Deployment Component</div>
 
-// Updated charterSections with correct icons and order
 const charterSections = [
   { label: "Overview", icon: <FaClipboardList />, component: <Overview /> },
   { label: "Government Setup", icon: <MdAccountBalance />, component: <GovernmentSetup /> },
@@ -50,13 +48,13 @@ const charterSections = [
   { label: "Tasks", icon: <FaTasks />, component: <Tasks /> },
   { label: "Team", icon: <FaUsers />, component: <Team /> },
   { label: "Timeline", icon: <IoIosTimer />, component: <Timeline /> },
-  { label: "Budget", icon: <FaDollarSign />, component: <Budget /> },
+  { label: "Budget", icon: <FaDollarSign />, component: <Bugget /> },
   { label: "Risks", icon: <FaExclamationTriangle />, component: <ProjectRisks /> },
   { label: "RACI", icon: <FaSitemap />, component: <RACI /> },
   { label: "Strategy", icon: <FaRocket />, component: <Deployment /> },
 ]
 
-// Sample project data
+// Updated projectData with construction-specific deliverables
 const projectData = {
   title: "Downtown Commercial Tower Construction",
   orchestrator: "Emily Thompson",
@@ -128,17 +126,18 @@ const projectData = {
     },
   ],
 
-
   deliverables: [
-    { name: "Spend Scope Baseline", date: "02/21" },
-    { name: "Peripherals Definition", date: "02/21" },
-    { name: "Peripherals Scoping", date: "04/21" },
-    { name: "Solution Design", date: "05/21" },
-    { name: "RFP", date: "07/21" },
-    { name: "Implementation/Run", date: "TBD" },
+    { name: "Site Preparation Plan", date: "02/25" },
+    { name: "Foundation Design Approval", date: "03/25" },
+    { name: "Structural Framework Completion", date: "06/25" },
+    { name: "Facade Installation Milestone", date: "09/25" },
+    { name: "Interior Fit-Out Completion", date: "12/25" },
+    { name: "Building Handover", date: "TBD" },
   ],
 
-  resources: [{ role: "Project Manager", required: "Yes", name: "Sami Loukile", fte: "0.2" }],
+  resources: [
+    { role: "Project Manager", required: "Yes", name: "Rahul Patel", fte: "0.2" },
+  ],
 }
 
 export default function ProjectCharter() {
@@ -172,16 +171,19 @@ export default function ProjectCharter() {
   const shareTitle = `Project Charter: ${selectedSection || "Overview"}`
 
   return (
-    <div className="flex flex-col items-center justify-center p-6 w-full  ">
-      <div className="w-full  bg-white shadow-lg rounded-lg overflow-hidden">
+    <div className="flex flex-col items-center justify-center p-6 w-full  dark:bg-[#1E232E]">
+      <div className="w-full  bg-white dark:bg-[#1E232E] shadow-lg rounded-lg overflow-hidden">
         {/* Header with actions */}
-        <div className="flex justify-between items-center p-4 bg-[#00308F] text-white">
+        <div className="flex justify-between items-center p-4 bg-[#00308F] dark:bg-[#4A6CF7] text-white">
           <h1 className="text-2xl font-bold">Program Charter: {projectData.title}</h1>
           <div className="flex items-center space-x-4">
             <div className="relative">
-              <FaShareAlt className="text-xl cursor-pointer hover:text-gray-300" onClick={toggleShareDropdown} />
+              <FaShareAlt
+                className="text-xl cursor-pointer hover:text-gray-300"
+                onClick={toggleShareDropdown}
+              />
               {isShareDropdownOpen && (
-                <div className="absolute top-full right-0 mt-2 bg-white rounded-lg shadow-lg p-4 flex flex-wrap gap-2 z-50">
+                <div className="absolute top-full right-0 mt-2 bg-white dark:bg-[#2A2F3B] rounded-lg shadow-lg p-4 flex flex-wrap gap-2 z-50">
                   <FacebookShareButton url={shareUrl} quote={shareTitle}>
                     <FacebookIcon size={32} round />
                   </FacebookShareButton>
@@ -201,28 +203,36 @@ export default function ProjectCharter() {
         </div>
 
         {/* Project info */}
-        <div className="p-4 border-b">
+        <div className="p-4 border-b dark:border-gray-600">
           <div className="flex justify-between mb-4">
             <div>
-              <span className="text-gray-600 font-medium">Project Orchestrator:</span> {projectData.orchestrator}
+              <span className="text-gray-600 dark:text-gray-400 font-medium">
+                Project Orchestrator:
+              </span>{" "}
+              {projectData.orchestrator}
             </div>
             <div>
-              <span className="text-gray-600 font-medium">Project Manager:</span> {projectData.manager}
+              <span className="text-gray-600 dark:text-gray-400 font-medium">
+                Project Manager:
+              </span>{" "}
+              {projectData.manager}
             </div>
           </div>
 
           <div className="mb-4">
-            <h2 className="text-gray-700 font-bold mb-2">Program Goal/Objective:</h2>
-            <p className="text-gray-600">{projectData.objective}</p>
+            <h2 className="text-gray-700 dark:text-gray-200 font-bold mb-2">
+              Program Goal/Objective:
+            </h2>
+            <p className="text-gray-600 dark:text-gray-400">{projectData.objective}</p>
           </div>
         </div>
 
         {/* Main content */}
         <div className="p-4">
           {/* Scope/Capabilities Section */}
-          <div className="mb-6 border rounded-lg overflow-hidden">
+          <div className="mb-6 border dark:border-gray-600 rounded-lg overflow-hidden">
             <div
-              className="flex justify-between items-center p-3 bg-[#00308F] text-white cursor-pointer"
+              className="flex justify-between items-center p-3 bg-[#00308F] dark:bg-[#4A6CF7] text-white cursor-pointer"
               onClick={() => toggleSection("scope")}
             >
               <h2 className="font-bold">Scope/Capabilities to deliver</h2>
@@ -233,20 +243,37 @@ export default function ProjectCharter() {
               <div className="overflow-x-auto">
                 <table className="min-w-full">
                   <thead>
-                    <tr className="bg-gray-100">
-                      <th className="p-3 text-left font-semibold text-gray-700 border">
+                    <tr className="bg-gray-100 dark:bg-[#353A47]">
+                      <th className="p-3 text-left font-semibold text-gray-700 dark:text-gray-200 border dark:border-gray-600">
                         Scope/Capabilities to deliver
                       </th>
-                      <th className="p-3 text-left font-semibold text-gray-700 border">Short description</th>
-                      <th className="p-3 text-left font-semibold text-gray-700 border">End-game</th>
+                      <th className="p-3 text-left font-semibold text-gray-700 dark:text-gray-200 border dark:border-gray-600">
+                        Short description
+                      </th>
+                      <th className="p-3 text-left font-semibold text-gray-700 dark:text-gray-200 border dark:border-gray-600">
+                        End-game
+                      </th>
                     </tr>
                   </thead>
                   <tbody>
                     {projectData.scopeItems.map((item, index) => (
-                      <tr key={index} className={index % 2 === 0 ? "bg-white" : "bg-gray-50"}>
-                        <td className="p-3 border">{item.capability}</td>
-                        <td className="p-3 border">{item.description}</td>
-                        <td className="p-3 border whitespace-pre-line">{item.endGame}</td>
+                      <tr
+                        key={index}
+                        className={
+                          index % 2 === 0
+                            ? "bg-white dark:bg-[#1E232E]"
+                            : "bg-gray-50 dark:bg-[#2A2F3B]"
+                        }
+                      >
+                        <td className="p-3 border dark:border-gray-600 text-gray-700 dark:text-gray-300">
+                          {item.capability}
+                        </td>
+                        <td className="p-3 border dark:border-gray-600 text-gray-700 dark:text-gray-300">
+                          {item.description}
+                        </td>
+                        <td className="p-3 border dark:border-gray-600 text-gray-700 dark:text-gray-300 whitespace-pre-line">
+                          {item.endGame}
+                        </td>
                       </tr>
                     ))}
                   </tbody>
@@ -256,9 +283,9 @@ export default function ProjectCharter() {
           </div>
 
           {/* Critical Interdependencies Section */}
-          <div className="mb-6 border rounded-lg overflow-hidden">
+          <div className="mb-6 border dark:border-gray-600 rounded-lg overflow-hidden">
             <div
-              className="flex justify-between items-center p-3 bg-[#00308F] text-white cursor-pointer"
+              className="flex justify-between items-center p-3 bg-[#00308F] dark:bg-[#4A6CF7] text-white cursor-pointer"
               onClick={() => toggleSection("interdependencies")}
             >
               <h2 className="font-bold">Critical Interdependencies</h2>
@@ -269,16 +296,31 @@ export default function ProjectCharter() {
               <div className="overflow-x-auto">
                 <table className="min-w-full">
                   <thead>
-                    <tr className="bg-gray-100">
-                      <th className="p-3 text-left font-semibold text-gray-700 border">Item</th>
-                      <th className="p-3 text-left font-semibold text-gray-700 border">Description</th>
+                    <tr className="bg-gray-100 dark:bg-[#353A47]">
+                      <th className="p-3 text-left font-semibold text-gray-700 dark:text-gray-200 border dark:border-gray-600">
+                        Item
+                      </th>
+                      <th className="p-3 text-left font-semibold text-gray-700 dark:text-gray-200 border dark:border-gray-600">
+                        Description
+                      </th>
                     </tr>
                   </thead>
                   <tbody>
                     {projectData.interdependencies.map((item, index) => (
-                      <tr key={index} className={index % 2 === 0 ? "bg-white" : "bg-gray-50"}>
-                        <td className="p-3 border">{item.item}</td>
-                        <td className="p-3 border">{item.description}</td>
+                      <tr
+                        key={index}
+                        className={
+                          index % 2 === 0
+                            ? "bg-white dark:bg-[#1E232E]"
+                            : "bg-gray-50 dark:bg-[#2A2F3B]"
+                        }
+                      >
+                        <td className="p-3 border dark:border-gray-600 text-gray-700 dark:text-gray-300">
+                          {item.item}
+                        </td>
+                        <td className="p-3 border dark:border-gray-600 text-gray-700 dark:text-gray-300">
+                          {item.description}
+                        </td>
                       </tr>
                     ))}
                   </tbody>
@@ -288,9 +330,9 @@ export default function ProjectCharter() {
           </div>
 
           {/* Key Risks Section */}
-          <div className="mb-6 border rounded-lg overflow-hidden">
+          <div className="mb-6 border dark:border-gray-600 rounded-lg overflow-hidden">
             <div
-              className="flex justify-between items-center p-3 bg-[#00308F] text-white cursor-pointer"
+              className="flex justify-between items-center p-3 bg-[#00308F] dark:bg-[#4A6CF7] text-white cursor-pointer"
               onClick={() => toggleSection("risks")}
             >
               <h2 className="font-bold">Key Risks</h2>
@@ -301,18 +343,31 @@ export default function ProjectCharter() {
               <div className="overflow-x-auto">
                 <table className="min-w-full">
                   <thead>
-                    <tr className="bg-gray-100">
-                      <th className="p-3 text-left font-semibold text-gray-700 border">Risk</th>
-                      <th className="p-3 text-left font-semibold text-gray-700 border">
+                    <tr className="bg-gray-100 dark:bg-[#353A47]">
+                      <th className="p-3 text-left font-semibold text-gray-700 dark:text-gray-200 border dark:border-gray-600">
+                        Risk
+                      </th>
+                      <th className="p-3 text-left font-semibold text-gray-700 dark:text-gray-200 border dark:border-gray-600">
                         Description / Mitigation (if available)
                       </th>
                     </tr>
                   </thead>
                   <tbody>
                     {projectData.keyRisks.map((item, index) => (
-                      <tr key={index} className={index % 2 === 0 ? "bg-white" : "bg-gray-50"}>
-                        <td className="p-3 border">{item.risk}</td>
-                        <td className="p-3 border">{item.description}</td>
+                      <tr
+                        key={index}
+                        className={
+                          index % 2 === 0
+                            ? "bg-white dark:bg-[#1E232E]"
+                            : "bg-gray-50 dark:bg-[#2A2F3B]"
+                        }
+                      >
+                        <td className="p-3 border dark:border-gray-600 text-gray-700 dark:text-gray-300">
+                          {item.risk}
+                        </td>
+                        <td className="p-3 border dark:border-gray-600 text-gray-700 dark:text-gray-300">
+                          {item.description}
+                        </td>
                       </tr>
                     ))}
                   </tbody>
@@ -322,9 +377,9 @@ export default function ProjectCharter() {
           </div>
 
           {/* Key Deliverables Section */}
-          <div className="mb-6 border rounded-lg overflow-hidden">
+          <div className="mb-6 border dark:border-gray-600 rounded-lg overflow-hidden">
             <div
-              className="flex justify-between items-center p-3 bg-[#00308F] text-white cursor-pointer"
+              className="flex justify-between items-center p-3 bg-[#00308F] dark:bg-[#4A6CF7] text-white cursor-pointer"
               onClick={() => toggleSection("deliverables")}
             >
               <h2 className="font-bold">Key Deliverables</h2>
@@ -335,16 +390,31 @@ export default function ProjectCharter() {
               <div className="overflow-x-auto">
                 <table className="min-w-full">
                   <thead>
-                    
+                    <tr className="bg-gray-100 dark:bg-[#353A47]">
+                      <th className="p-3 text-left font-semibold text-gray-700 dark:text-gray-200 border dark:border-gray-600">
+                        Deliverable
+                      </th>
+                      <th className="p-3 text-left font-semibold text-gray-700 dark:text-gray-200 border dark:border-gray-600">
+                        Date
+                      </th>
+                    </tr>
                   </thead>
                   <tbody>
                     {projectData.deliverables.map((item, index) => (
-                      <tr key={index} className={index % 2 === 0 ? "bg-white" : "bg-gray-50"}>
-                        <td className="p-3 border flex items-center">
-                          <span className="inline-block  "></span>
+                      <tr
+                        key={index}
+                        className={
+                          index % 2 === 0
+                            ? "bg-white dark:bg-[#1E232E]"
+                            : "bg-gray-50 dark:bg-[#2A2F3B]"
+                        }
+                      >
+                        <td className="p-3 border dark:border-gray-600 text-gray-700 dark:text-gray-300">
                           {item.name}
                         </td>
-                        <td className="p-3 border">{item.date}</td>
+                        <td className="p-3 border dark:border-gray-600 text-gray-700 dark:text-gray-300">
+                          {item.date}
+                        </td>
                       </tr>
                     ))}
                   </tbody>
@@ -354,9 +424,9 @@ export default function ProjectCharter() {
           </div>
 
           {/* Resource Requirements Section */}
-          <div className="mb-6 border rounded-lg overflow-hidden">
+          <div className="mb-6 border dark:border-gray-600 rounded-lg overflow-hidden">
             <div
-              className="flex justify-between items-center p-3 bg-[#00308F] text-white cursor-pointer"
+              className="flex justify-between items-center p-3 bg-[#00308F] dark:bg-[#4A6CF7] text-white cursor-pointer"
               onClick={() => toggleSection("resources")}
             >
               <h2 className="font-bold">Resource Requirements</h2>
@@ -367,20 +437,43 @@ export default function ProjectCharter() {
               <div className="overflow-x-auto">
                 <table className="min-w-full">
                   <thead>
-                    <tr className="bg-gray-100">
-                      <th className="p-3 text-left font-semibold text-gray-700 border">Project Manager</th>
-                      <th className="p-3 text-left font-semibold text-gray-700 border">Yes/No</th>
-                      <th className="p-3 text-left font-semibold text-gray-700 border">Name(s), if known</th>
-                      <th className="p-3 text-left font-semibold text-gray-700 border">FTE</th>
+                    <tr className="bg-gray-100 dark:bg-[#353A47]">
+                      <th className="p-3 text-left font-semibold text-gray-700 dark:text-gray-200 border dark:border-gray-600">
+                        Role
+                      </th>
+                      <th className="p-3 text-left font-semibold text-gray-700 dark:text-gray-200 border dark:border-gray-600">
+                        Required
+                      </th>
+                      <th className="p-3 text-left font-semibold text-gray-700 dark:text-gray-200 border dark:border-gray-600">
+                        Name(s), if known
+                      </th>
+                      <th className="p-3 text-left font-semibold text-gray-700 dark:text-gray-200 border dark:border-gray-600">
+                        FTE
+                      </th>
                     </tr>
                   </thead>
                   <tbody>
                     {projectData.resources.map((item, index) => (
-                      <tr key={index} className={index % 2 === 0 ? "bg-white" : "bg-gray-50"}>
-                        <td className="p-3 border">{item.role}</td>
-                        <td className="p-3 border">{item.required}</td>
-                        <td className="p-3 border">{item.name}</td>
-                        <td className="p-3 border">{item.fte}</td>
+                      <tr
+                        key={index}
+                        className={
+                          index % 2 === 0
+                            ? "bg-white dark:bg-[#1E232E]"
+                            : "bg-gray-50 dark:bg-[#2A2F3B]"
+                        }
+                      >
+                        <td className="p-3 border dark:border-gray-600 text-gray-700 dark:text-gray-300">
+                          {item.role}
+                        </td>
+                        <td className="p-3 border dark:border-gray-600 text-gray-700 dark:text-gray-300">
+                          {item.required}
+                        </td>
+                        <td className="p-3 border dark:border-gray-600 text-gray-700 dark:text-gray-300">
+                          {item.name}
+                        </td>
+                        <td className="p-3 border dark:border-gray-600 text-gray-700 dark:text-gray-300">
+                          {item.fte}
+                        </td>
                       </tr>
                     ))}
                   </tbody>
@@ -391,14 +484,18 @@ export default function ProjectCharter() {
         </div>
       </div>
 
-      {/* Circular Chart - Keeping this from your original design */}
+      {/* Circular Chart */}
       <div className="mt-12 mb-8">
-        <h2 className="text-2xl font-bold text-center text-[#00308F] mb-8">Project Charter Components</h2>
+        <h2 className="text-2xl font-bold text-center text-[#00308F] dark:text-[#4A6CF7] mb-8">
+          Project Charter Components
+        </h2>
         <div className="relative w-[500px] h-[500px] flex items-center justify-center">
           <div className="absolute text-center z-10">
-            <h1 className="text-[26px] font-bold text-[#00308F] mt-14">PROJECT CHARTER</h1>
+            <h1 className="text-[26px] font-bold text-[#00308F] dark:text-[#4A6CF7] mt-14">
+              PROJECT CHARTER
+            </h1>
           </div>
-          <div className="absolute w-[300px] h-[300px] border-8 border-[#00308F] rounded-full mt-14" />
+          <div className="absolute w-[300px] h-[300px] border-8 border-[#00308F] dark:border-[#4A6CF7] rounded-full mt-14" />
 
           {charterSections.map((section, index) => {
             const angle = (index / charterSections.length) * 360
@@ -424,7 +521,9 @@ export default function ProjectCharter() {
               >
                 <div
                   className={`text-3xl pb-2 cursor-pointer ${
-                    selectedSection === section.label ? "text-blue-700" : "text-[#00308F]"
+                    selectedSection === section.label
+                      ? "text-blue-700 dark:text-blue-300"
+                      : "text-[#00308F] dark:text-[#4A6CF7]"
                   }`}
                   style={{ fontSize: "35px" }}
                 >
@@ -432,7 +531,9 @@ export default function ProjectCharter() {
                 </div>
                 <span
                   className={`text-xl font-extrabold text-center cursor-pointer ${
-                    selectedSection === section.label ? "text-blue-700" : "text-[#00308F]"
+                    selectedSection === section.label
+                      ? "text-blue-700 dark:text-blue-300"
+                      : "text-[#00308F] dark:text-[#4A6CF7]"
                   }`}
                   style={{
                     transform: isLeftSide ? `translateX(-50%) rotate(0deg)` : `translateX(-50%) rotate(0deg)`,
@@ -452,11 +553,15 @@ export default function ProjectCharter() {
 
       {/* Section Content Display */}
       {selectedSection && (
-        <div className="p-4 sm:p-6 w-full max-w-7xl bg-white shadow-lg rounded-lg mb-12">
-          <h2 className="text-2xl font-bold text-[#00308F] mb-4">{selectedSection} Details</h2>
+        <div className="p-4 sm:p-6 w-full max-w-7xl bg-white dark:bg-[#1E232E] shadow-lg rounded-lg mb-12">
+          <h2 className="text-2xl font-bold text-[#00308F] dark:text-[#4A6CF7] mb-4">
+            {selectedSection} Details
+          </h2>
           <div className="w-full">
             {charterSections.find((section) => section.label === selectedSection)?.component || (
-              <div className="text-gray-500 dark:text-gray-400 text-center">Select a section to view details</div>
+              <div className="text-gray-500 dark:text-gray-400 text-center">
+                Select a section to view details
+              </div>
             )}
           </div>
         </div>
