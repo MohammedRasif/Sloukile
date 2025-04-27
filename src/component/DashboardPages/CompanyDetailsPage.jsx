@@ -786,7 +786,7 @@ const CompanyDetailsPage = () => {
         <h2 className="text-[24px] font-bold mb-2">Custom Title</h2>
 
         <div className="p-5 bg-gray-100 border border-gray-300 rounded-lg shadow-lg">
-          <div className="h-64 ">
+          <div className="h-[350px] ">
             <Chart
               chartType="BarChart"
               width="100%"

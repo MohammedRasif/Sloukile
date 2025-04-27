@@ -90,7 +90,7 @@ const Overview = () => {
 
   // Define project data
   const projectData = {
-    name: 'AI-Powered Project Management Tool',
+    name: 'Project Management Tool',
     description:
       'A comprehensive project management platform leveraging AI to streamline task management, budget tracking, and risk assessment for efficient project delivery.',
     projectManager: 'Siam',
@@ -132,8 +132,17 @@ const Overview = () => {
   const isDarkMode = false;
 
   return (
-    <div className="px-5">
-      <ConstructionWorkflow />
+    <div className="px-4">
+      {/* Header Section */}
+      <div className="  mb-5 ">
+        <h1 className="text-2xl font-bold  mb-2 bg-gradient-to-r  bg-clip-text ">
+          {projectData.name}
+        </h1>
+        <p className="text-[15px] text-gray-600 leading-relaxed">
+          Streamlining project management with AI-driven solutions for efficient task coordination, budget oversight, and risk mitigation.
+        </p>
+      </div>
+
       {/* Circular Chart */}
       <div className="mt-12 mb-8 flex items-center justify-center">
         <div className="relative w-[500px] h-[500px] flex items-center justify-center">
@@ -199,8 +208,7 @@ const Overview = () => {
       </div>
 
       {/* Section Content Display */}
-      <div className="p-4 sm:p-6 w-full    mb-12">
-       
+      <div className="p-4 sm:p-6 w-full mb-12">
         <div className="w-full">
           {(() => {
             const section = charterSections.find((section) => section.label === selectedSection);
@@ -322,6 +330,7 @@ const Overview = () => {
           </div>
         </div>
       )}
+      <ConstructionWorkflow />
     </div>
   );
 };

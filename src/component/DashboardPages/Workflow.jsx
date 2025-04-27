@@ -106,6 +106,16 @@ export default function Workflow() {
   const [selectedItem, setSelectedItem] = useState(null)
   const [approvalComment, setApprovalComment] = useState("")
   const [approvalAction, setApprovalAction] = useState("approve")
+  const [commentError, setCommentError] = useState("")
+  const [approverError, setApproverError] = useState("")
+  const [selectedApprover, setSelectedApprover] = useState("")
+  const [approvalPoints, setApprovalPoints] = useState({ approve: 0, "soft-reject": 0 })
+
+  // Dynamic approvers list from workflowItems
+  const approvers = workflowItems.map((item) => ({
+    name: item.approver.name,
+    role: item.approver.role,
+  }))
 
   // Icons for selection with corresponding colors
   const icons = [
@@ -157,21 +167,23 @@ export default function Workflow() {
     setSelectedItem(item)
     setApprovalComment("")
     setApprovalAction("approve")
+    setSelectedApprover("")
+    setCommentError("")
+    setApproverError("")
     setShowApprovalDialog(true)
   }
 
   // Handle approval submission
-  const handleApprovalSubmit = () => {
+  const handleApprovalSubmit = (updatedItem) => {
     const today = new Date().toISOString().split("T")[0]
-
     setWorkflowItems((prev) =>
       prev.map((item) =>
-        item.step === selectedItem.step
+        item.step === updatedItem.step
           ? {
               ...item,
               status: approvalAction,
               approver: {
-                ...item.approver,
+                ...updatedItem.approver,
                 date: today,
                 comments: approvalComment,
               },
@@ -179,7 +191,48 @@ export default function Workflow() {
           : item,
       ),
     )
+  }
 
+  // Extended handleApprovalSubmit with validation and points
+  const handleApprovalSubmitExtended = () => {
+    let hasError = false
+
+    // Validate comment
+    if (!approvalComment.trim()) {
+      setCommentError("Comment is required")
+      hasError = true
+    } else {
+      setCommentError("")
+    }
+
+    // Validate approver
+    if (!selectedApprover) {
+      setApproverError("Please select an approver")
+      hasError = true
+    } else {
+      setApproverError("")
+    }
+
+    if (hasError) return
+
+    // Update points
+    setApprovalPoints((prev) => ({
+      ...prev,
+      [approvalAction]: prev[approvalAction] + (approvalAction === "approve" ? 10 : 5),
+    }))
+
+    // Call handleApprovalSubmit with updated approver
+    handleApprovalSubmit({
+      ...selectedItem,
+      approver: {
+        ...selectedItem.approver,
+        name: selectedApprover,
+        role: approvers.find((a) => a.name === selectedApprover)?.role || "Not Assigned",
+      },
+    })
+
+    // Reset states and close dialog
+    setSelectedApprover("")
     setShowApprovalDialog(false)
   }
 
@@ -192,10 +245,10 @@ export default function Workflow() {
             <CheckCircle className="w-3 h-3 mr-1" /> Approved
           </span>
         )
-      case "rejected":
+      case "soft-reject":
         return (
-          <span className="inline-flex items-center px-2 py-1 text-xs font-medium text-white bg-red-500 rounded hover:bg-red-600">
-            <XCircle className="w-3 h-3 mr-1" /> Rejected
+          <span className="inline-flex items-center px-2 py-1 text-xs font-medium text-white bg-orange-500 rounded hover:bg-orange-600">
+            <XCircle className="w-3 h-3 mr-1" /> Soft Rejected
           </span>
         )
       case "in-review":
@@ -238,7 +291,7 @@ export default function Workflow() {
       {/* Workflow items in arrow style */}
       <div className="flex flex-nowrap overflow-x-auto pb-8 gap-0 -mx-2">
         {workflowItems.map((item, index) => (
-          <div key={index} className="flex-shrink-0 w-64  px-2 relative ">
+          <div key={index} className="flex-shrink-0 w-64 px-2 relative">
             {/* Arrow card with gradient */}
             <div className="relative h-80 border border-gray-300 shadow-xl rounded-[10px]">
               {/* Card with arrow shape */}
@@ -246,7 +299,7 @@ export default function Workflow() {
                 {/* Content area */}
                 <div className="flex-1 p-5 flex flex-col items-center">
                   {/* Status badge */}
-                  <div className="self-end -mt-2 mb-2 ">{getStatusBadge(item.status)}</div>
+                  <div className="self-end -mt-2 mb-2">{getStatusBadge(item.status)}</div>
 
                   {/* Text content */}
                   <h3 className="font-bold text-gray-800 text-center mb-2 text-2xl">{item.name}</h3>
@@ -255,34 +308,12 @@ export default function Workflow() {
 
                   {/* Approver info */}
                   <div className="w-full mt-auto">
-                    {/* <div className="flex items-center mb-2">
-                      <div className="h-8 w-8 mr-2 rounded-full overflow-hidden">
-                        <img
-                          src={item.approver.avatar || "/placeholder.svg"}
-                          alt={item.approver.name}
-                          className="h-full w-full object-cover"
-                        />
-                        {!item.approver.avatar && (
-                          <div className="h-full w-full flex items-center justify-center bg-gray-200 text-gray-600 text-xs">
-                            {item.approver.name
-                              .split(" ")
-                              .map((n) => n[0])
-                              .join("")}
-                          </div>
-                        )}
-                      </div>
-                      <div>
-                        <p className="text-sm font-medium text-gray-700">{item.approver.name}</p>
-                        <p className="text-xs text-gray-500">{item.approver.role}</p>
-                      </div>
-                    </div> */}
-
                     {item.approver.date && (
                       <p className="text-xs text-gray-500 mb-1">Reviewed on: {item.approver.date}</p>
                     )}
-
-                    {item.approver.comments && <p className="text-xs text-gray-600 italic">{item.approver.comments}</p>}
-
+                    {item.approver.comments && (
+                      <p className="text-xs text-gray-600 italic">{item.approver.comments}</p>
+                    )}
                     {item.status === "pending" || item.status === "in-review" ? (
                       <button
                         onClick={() => openApprovalDialog(item)}
@@ -306,7 +337,7 @@ export default function Workflow() {
 
                 {/* Arrow point */}
                 <div
-                  className={`absolute -left-10  transform -translate-y-1/2 w-20 h-20 bg-gradient-to-r ${getColor(index)} rotate-45 z-10`}
+                  className={`absolute -left-10 transform -translate-y-1/2 w-20 h-20 bg-gradient-to-r ${getColor(index)} rotate-45 z-10`}
                 ></div>
               </div>
             </div>
@@ -334,7 +365,6 @@ export default function Workflow() {
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
-
               <div>
                 <label htmlFor="value" className="block text-sm font-medium text-gray-700 mb-1">
                   Approval Type
@@ -349,7 +379,6 @@ export default function Workflow() {
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
-
               <div>
                 <label htmlFor="amount" className="block text-sm font-medium text-gray-700 mb-1">
                   Description
@@ -361,10 +390,23 @@ export default function Workflow() {
                   onChange={handleInputChange}
                   placeholder="Enter description of this approval stage"
                   required
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 "
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
-
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Select Icon</label>
+                <select
+                  value={selectedIcon}
+                  onChange={(e) => setSelectedIcon(Number(e.target.value))}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                  {icons.map((icon, index) => (
+                    <option key={icon.name} value={index}>
+                      {icon.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
               <div className="flex justify-end gap-2">
                 <button
                   type="button"
@@ -387,47 +429,74 @@ export default function Workflow() {
 
       {/* Approval Dialog */}
       {showApprovalDialog && (
-        <div className="fixed inset-0 backdrop-blur-[3px] flex items-center justify-center z-50  ">
-          <div className="bg-white rounded-lg p-6 w-full max-w-md border border-gray-300 shadow-xl">
-            <h3 className="text-lg font-semibold mb-4">
-              {selectedItem ? `Review: ${selectedItem.value}` : "Review Stage"}
+        <div className="fixed inset-0 backdrop-blur-[3px] flex items-center justify-center z-50">
+          <div className="bg-gradient-to-br from-blue-50 to-gray-100 rounded-xl p-6 w-full max-w-md border border-blue-200 shadow-2xl">
+            <h3 className="text-xl font-bold text-blue-900 mb-4 bg-gradient-to-r from-blue-900 to-blue-600 bg-clip-text text-transparent">
+              {selectedItem ? `Review` : ""}
             </h3>
-            <div className="space-y-4">
+            <div className="space-y-5">
+              {/* Approver Selection */}
               <div>
-                <label className="block text-sm font-medium mb-1">Action</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Select Person</label>
+                <select
+                  value={selectedApprover}
+                  onChange={(e) => setSelectedApprover(e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 transition-colors"
+                >
+                  <option value="">Select an approver</option>
+                  {approvers.map((approver) => (
+                    <option key={approver.name} value={approver.name}>
+                      {approver.name} ({approver.role})
+                    </option>
+                  ))}
+                </select>
+                {approverError && (
+                  <p className="text-red-500 text-xs mt-1 animate-shake">{approverError}</p>
+                )}
+              </div>
+
+              {/* Action Selection */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Action</label>
                 <select
                   value={approvalAction}
                   onChange={(e) => setApprovalAction(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 transition-colors"
                 >
                   <option value="approve">Approve</option>
-                  <option value="in-review">Mark as In Review</option>
-                  <option value="rejected">Reject</option>
+                  <option value="soft-reject">Soft Reject</option>
                 </select>
               </div>
 
+              {/* Comment Input */}
               <div>
-                <label className="block text-sm font-medium mb-1">Comments</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Comments (Required)</label>
                 <textarea
                   value={approvalComment}
                   onChange={(e) => setApprovalComment(e.target.value)}
                   placeholder="Add your review comments"
                   rows={4}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 transition-colors"
                 />
+                {commentError && (
+                  <p className="text-red-500 text-xs mt-1 animate-shake">{commentError}</p>
+                )}
               </div>
 
+              
+
+              {/* Buttons */}
               <div className="flex justify-end gap-2">
                 <button
                   type="button"
                   onClick={() => setShowApprovalDialog(false)}
-                  className="px-4 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-100 transition-colors cursor-pointer"
+                  className="px-4 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-200 hover:scale-105 transition-all duration-200 cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
-                  onClick={handleApprovalSubmit}
-                  className="px-4 py-2 bg-blue-800 text-white rounded-md hover:bg-blue-700 transition-colors cursor-pointer"
+                  onClick={handleApprovalSubmitExtended}
+                  className="px-4 py-2 bg-gradient-to-r from-blue-800 to-blue-600 text-white rounded-md hover:scale-105 transition-all duration-200 cursor-pointer"
                 >
                   Submit Review
                 </button>

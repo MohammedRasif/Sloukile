@@ -1,6 +1,4 @@
-
-
-import { useState } from "react"
+import { useState, useEffect, useRef } from "react"
 import {
   FaCogs,
   FaTasks,
@@ -20,14 +18,10 @@ import {
 import { IoIosTimer } from "react-icons/io"
 import { MdAccountBalance } from "react-icons/md"
 import {
-  FacebookShareButton,
-  TwitterShareButton,
-  LinkedinShareButton,
   EmailShareButton,
-  FacebookIcon,
-  TwitterIcon,
-  LinkedinIcon,
+  WhatsappShareButton,
   EmailIcon,
+  WhatsappIcon,
 } from "react-share"
 import Overview from "./Overview"
 import Planning from "./Planning"
@@ -39,7 +33,6 @@ import GovernmentSetup from "./GovernanceSetup"
 import Team from "./Team.jsx"
 import Timeline from "./Timeline.jsx"
 import Bugget from "./Bugget.jsx"
-
 
 const charterSections = [
   { label: "Overview", icon: <FaClipboardList />, component: <Overview /> },
@@ -54,7 +47,6 @@ const charterSections = [
   { label: "Strategy", icon: <FaRocket />, component: <Deployment /> },
 ]
 
-// Updated projectData with construction-specific deliverables
 const projectData = {
   title: "Downtown Commercial Tower Construction",
   orchestrator: "Emily Thompson",
@@ -141,7 +133,7 @@ const projectData = {
 }
 
 export default function ProjectCharter() {
-  const [selectedSection, setSelectedSection] = useState("Overview") // Default to Overview
+  const [selectedSection, setSelectedSection] = useState("Overview")
   const [isShareDropdownOpen, setIsShareDropdownOpen] = useState(false)
   const [expandedSections, setExpandedSections] = useState({
     scope: true,
@@ -150,6 +142,19 @@ export default function ProjectCharter() {
     deliverables: true,
     resources: true,
   })
+  const dropdownRef = useRef(null)
+
+  useEffect(() => {
+    const handleOutsideClick = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsShareDropdownOpen(false)
+      }
+    }
+    document.addEventListener("mousedown", handleOutsideClick)
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick)
+    }
+  }, [])
 
   const handleSectionClick = (section) => {
     setSelectedSection(section.label)
@@ -171,31 +176,29 @@ export default function ProjectCharter() {
   const shareTitle = `Project Charter: ${selectedSection || "Overview"}`
 
   return (
-    <div className="flex flex-col items-center justify-center p-6 w-full  dark:bg-[#1E232E]">
-      <div className="w-full  bg-white dark:bg-[#1E232E] shadow-lg rounded-lg overflow-hidden">
+    <div className="flex flex-col items-center justify-center p-6 w-full dark:bg-[#1E232E]">
+      <div className="w-full bg-white dark:bg-[#1E232E] shadow-lg rounded-lg overflow-hidden">
         {/* Header with actions */}
         <div className="flex justify-between items-center p-4 bg-[#00308F] dark:bg-[#4A6CF7] text-white">
           <h1 className="text-2xl font-bold">Program Charter: {projectData.title}</h1>
           <div className="flex items-center space-x-4">
-            <div className="relative">
+            <div className="relative" ref={dropdownRef}>
               <FaShareAlt
-                className="text-xl cursor-pointer hover:text-gray-300"
+                className="text-xl cursor-pointer hover:text-blue-200 transition-colors"
                 onClick={toggleShareDropdown}
               />
               {isShareDropdownOpen && (
-                <div className="absolute top-full right-0 mt-2 bg-white dark:bg-[#2A2F3B] rounded-lg shadow-lg p-4 flex flex-wrap gap-2 z-50">
-                  <FacebookShareButton url={shareUrl} quote={shareTitle}>
-                    <FacebookIcon size={32} round />
-                  </FacebookShareButton>
-                  <TwitterShareButton url={shareUrl} title={shareTitle}>
-                    <TwitterIcon size={32} round />
-                  </TwitterShareButton>
-                  <LinkedinShareButton url={shareUrl} title={shareTitle}>
-                    <LinkedinIcon size={32} round />
-                  </LinkedinShareButton>
+                <div className="absolute top-full right-0 mt-2 bg-gradient-to-br from-blue-50 to-gray-100 dark:bg-gradient-to-br dark:from-gray-800 dark:to-gray-900 rounded-xl shadow-xl p-4 flex gap-3 z-50">
                   <EmailShareButton url={shareUrl} subject={shareTitle}>
-                    <EmailIcon size={32} round />
+                    <div className="hover:scale-105 transition-all duration-200">
+                      <EmailIcon size={40} round />
+                    </div>
                   </EmailShareButton>
+                  <WhatsappShareButton url={shareUrl} title={shareTitle}>
+                    <div className="hover:scale-105 transition-all duration-200">
+                      <WhatsappIcon size={40} round />
+                    </div>
+                  </WhatsappShareButton>
                 </div>
               )}
             </div>
@@ -483,8 +486,6 @@ export default function ProjectCharter() {
           </div>
         </div>
       </div>
-
-      
     </div>
   )
 }
