@@ -2,6 +2,7 @@ import { useState } from "react";
 import Calender from "./Calender";
 import Dependance from "./Dependance";
 import TimeLine from "./Timeline";
+import RACI from "./RACI";
 
 // Static dummy data for milestones, now including tasks
 const initialMilestonesData = [
@@ -307,7 +308,7 @@ const Planning = () => {
     <div className="p-4 sm:p-6 space-y-6">
       {/* Tab Navigation (Styled as Buttons) */}
       <nav className="flex flex-wrap gap-3 sm:gap-4 overflow-x-auto pb-2">
-        {["Planning", "Calendar", "Dependencies","Timeline"].map((tab) => (
+        {["Planning", "Calendar","Timeline","RACI"].map((tab) => (
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}
@@ -692,8 +693,9 @@ const Planning = () => {
 
       {activeTab === "Calendar" && <Calender />}
 
-      {activeTab === "Dependencies" && <Dependance />}
+      {/* {activeTab === "Dependencies" && <Dependance />} */}
       {activeTab === "Timeline" && <TimeLine />}
+      {activeTab === "RACI" && <RACI />}
 
     </div>
   );

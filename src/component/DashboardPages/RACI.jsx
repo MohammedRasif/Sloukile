@@ -199,7 +199,7 @@ export default function RACI() {
   }
 
   return (
-    <div className="container mx-auto p-4">
+    <div className="container mx-auto">
       <div className="mb-6">
         <h1 className="text-2xl font-bold text-gray-800 mb-2">RACI Matrix</h1>
         <p className="text-gray-600">Responsibility Assignment Matrix for Project Tasks</p>
