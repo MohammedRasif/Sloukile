@@ -1,7 +1,6 @@
-"use client"
-
-import { useState, useEffect } from "react"
-import { ChevronLeft, ChevronRight, Calendar, Link2, FileText, Flag } from "lucide-react"
+import { useState, useEffect } from "react";
+import { ChevronLeft, ChevronRight, Calendar } from "lucide-react";
+import { GoChevronLeft, GoChevronDown } from "react-icons/go";
 
 const allProjects = [
   {
@@ -12,17 +11,17 @@ const allProjects = [
     priority: "Normal",
     startDate: new Date("2022-07-10"),
     endDate: new Date("2022-09-15"),
-    color: "#00308F",
+    color: "#00309F",
     owner: {
       name: "Sarah Johnson",
       avatar: "https://res.cloudinary.com/dfsu0cuvb/image/upload/v1737529178/samples/man-portrait.jpg",
       role: "Project Manager",
     },
     description: "Organize and execute the annual OpenProject summit for team members and stakeholders",
-    deliverables: [
-      { id: "d1", name: "Venue Selection", status: "completed", link: "#" },
-      { id: "d2", name: "Agenda Planning", status: "in-progress", link: "#" },
-      { id: "d3", name: "Speaker Invitations", status: "in-progress", link: "#" },
+    milestones: [
+      { m: "Venue Selection", d: { projectName: "Organize OpenProject summit", status: "completed", priority: "High" } },
+      { m: "Agenda Planning", d: { projectName: "Organize OpenProject summit", status: "in-progress", priority: "Normal" } },
+      { m: "Speaker Invitations", d: { projectName: "Organize OpenProject summit", status: "in-progress", priority: "Normal" } },
     ],
     dependencies: [],
   },
@@ -41,9 +40,9 @@ const allProjects = [
       role: "Event Coordinator",
     },
     description: "Research and select appropriate dates and venues for the summit",
-    deliverables: [
-      { id: "d4", name: "Venue Options Document", status: "completed", link: "#" },
-      { id: "d5", name: "Date Selection Report", status: "completed", link: "#" },
+    milestones: [
+      { m: "Venue Options Document", d: { projectName: "Find date and location", status: "completed", priority: "High" } },
+      { m: "Date Selection Report", d: { projectName: "Find date and location", status: "completed", priority: "High" } },
     ],
     dependencies: ["539"],
   },
@@ -62,9 +61,9 @@ const allProjects = [
       role: "Content Manager",
     },
     description: "Create detailed agenda for all summit days including workshops and presentations",
-    deliverables: [
-      { id: "d6", name: "Draft Agenda", status: "in-progress", link: "#" },
-      { id: "d7", name: "Session Descriptions", status: "not-started", link: "#" },
+    milestones: [
+      { m: "Draft Agenda", d: { projectName: "Prepare agenda", status: "in-progress", priority: "Normal" } },
+      { m: "Session Descriptions", d: { projectName: "Prepare agenda", status: "not-started", priority: "Normal" } },
     ],
     dependencies: ["540"],
   },
@@ -83,7 +82,9 @@ const allProjects = [
       role: "Logistics Coordinator",
     },
     description: "Research potential venues that meet capacity and technical requirements",
-    deliverables: [{ id: "d8", name: "Venue Comparison Sheet", status: "completed", link: "#" }],
+    milestones: [
+      { m: "Venue Comparison Sheet", d: { projectName: "Research venues", status: "completed", priority: "Normal" } },
+    ],
     dependencies: ["539"],
   },
   {
@@ -101,9 +102,9 @@ const allProjects = [
       role: "Marketing Specialist",
     },
     description: "Design and produce all marketing materials for the summit",
-    deliverables: [
-      { id: "d9", name: "Event Brochure", status: "not-started", link: "#" },
-      { id: "d10", name: "Social Media Assets", status: "not-started", link: "#" },
+    milestones: [
+      { m: "Event Brochure", d: { projectName: "Create marketing materials", status: "not-started", priority: "Normal" } },
+      { m: "Social Media Assets", d: { projectName: "Create marketing materials", status: "not-started", priority: "Normal" } },
     ],
     dependencies: ["541"],
   },
@@ -122,219 +123,149 @@ const allProjects = [
       role: "Communications Lead",
     },
     description: "Send out invitations to all participants and track responses",
-    deliverables: [
-      { id: "d11", name: "Invitation Template", status: "not-started", link: "#" },
-      { id: "d12", name: "Attendee Tracking Sheet", status: "not-started", link: "#" },
+    milestones: [
+      { m: "Invitation Template", d: { projectName: "Send invitations", status: "not-started", priority: "Normal" } },
+      { m: "Attendee Tracking Sheet", d: { projectName: "Send invitations", status: "not-started", priority: "Normal" } },
     ],
     dependencies: ["544"],
   },
-]
+];
 
-const allMilestones = [
-  {
-    date: new Date("2022-09-05"),
-    title: "Project management workshop",
-    description: "Workshop focusing on project management methodologies",
-    owner: {
-      name: "Sarah Johnson",
-      avatar: "https://res.cloudinary.com/dfsu0cuvb/image/upload/v1737529178/samples/man-on-a-street.jpg",
-      role: "Project Manager",
-    },
-    deliverables: [{ id: "md1", name: "Workshop Materials", status: "in-progress", link: "#" }],
-  },
-  {
-    date: new Date("2022-09-25"),
-    title: "Core conference",
-    description: "Main conference event with keynote speakers and breakout sessions",
-    owner: {
-      name: "Michael Chen",
-      avatar: "https://res.cloudinary.com/dfsu0cuvb/image/upload/v1737529168/samples/people/kitchen-bar.jpg",
-      role: "Event Coordinator",
-    },
-    deliverables: [
-      { id: "md2", name: "Conference Schedule", status: "not-started", link: "#" },
-      { id: "md3", name: "Speaker Profiles", status: "not-started", link: "#" },
-    ],
-  },
-  {
-    date: new Date("2022-10-10"),
-    title: "OpenProject Summit",
-    description: "Annual summit bringing together all project stakeholders",
-    owner: {
-      name: "Jessica Lee",
-      avatar: "https://res.cloudinary.com/dfsu0cuvb/image/upload/v1737529169/samples/people/smiling-man.jpg",
-      role: "Content Manager",
-    },
-    deliverables: [{ id: "md4", name: "Summit Agenda", status: "not-started", link: "#" }],
-  },
-  {
-    date: new Date("2022-08-11"),
-    title: "Pre-conference Meeting",
-    description: "Final planning meeting before the conference",
-    owner: {
-      name: "David Kim",
-      avatar: "https://res.cloudinary.com/dfsu0cuvb/image/upload/v1737529178/samples/man-portrait.jpg",
-      role: "Logistics Coordinator",
-    },
-    deliverables: [
-      { id: "md5", name: "Meeting Minutes", status: "not-started", link: "#" },
-      { id: "md6", name: "Action Items", status: "not-started", link: "#" },
-    ],
-  },
-]
-
-const availableYears = [2021, 2022, 2023]
+const availableYears = [2021, 2022, 2023];
 
 const quarters = [
   { name: "Q1", months: [0, 1, 2] },
   { name: "Q2", months: [3, 4, 5] },
   { name: "Q3", months: [6, 7, 8] },
   { name: "Q4", months: [9, 10, 11] },
-]
+];
 
 export default function TimeLine() {
-  const [selectedYear, setSelectedYear] = useState(2022)
-  const [selectedQuarter, setSelectedQuarter] = useState(2)
-  const [filteredProjects, setFilteredProjects] = useState([])
-  const [filteredMilestones, setFilteredMilestones] = useState([])
-  const [startDate, setStartDate] = useState(new Date())
-  const [endDate, setEndDate] = useState(new Date())
-  const [showProjectDetails, setShowProjectDetails] = useState(false)
-  const [selectedProject, setSelectedProject] = useState(null)
-  const [showMilestoneDetails, setShowMilestoneDetails] = useState(false)
-  const [selectedMilestone, setSelectedMilestone] = useState(null)
+  const [selectedYear, setSelectedYear] = useState(2022);
+  const [selectedQuarter, setSelectedQuarter] = useState(2);
+  const [filteredProjects, setFilteredProjects] = useState([]);
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
+  const [expandedProjects, setExpandedProjects] = useState([]);
+  const [expandedMilestones, setExpandedMilestones] = useState([]);
 
   useEffect(() => {
-    const currentQuarter = quarters[selectedQuarter]
-    const quarterStartMonth = currentQuarter.months[0]
-    const quarterEndMonth = currentQuarter.months[2]
+    const currentQuarter = quarters[selectedQuarter];
+    const quarterStartMonth = currentQuarter.months[0];
+    const quarterEndMonth = currentQuarter.months[2];
 
-    const newStartDate = new Date(selectedYear, quarterStartMonth, 1)
-    const newEndDate = new Date(selectedYear, quarterEndMonth + 1, 0)
+    const newStartDate = new Date(selectedYear, quarterStartMonth, 1);
+    const newEndDate = new Date(selectedYear, quarterEndMonth + 1, 0);
 
     if (isNaN(newStartDate) || isNaN(newEndDate)) {
-      console.error("Invalid date range calculated:", { newStartDate, newEndDate })
-      return
+      console.error("Invalid date range calculated:", { newStartDate, newEndDate });
+      return;
     }
 
-    setStartDate(newStartDate)
-    setEndDate(newEndDate)
+    setStartDate(newStartDate);
+    setEndDate(newEndDate);
 
     const projects = allProjects.filter((project) => {
-      const projectStart = new Date(project.startDate)
-      const projectEnd = new Date(project.endDate)
-
+      const projectStart = new Date(project.startDate);
+      const projectEnd = new Date(project.endDate);
       return (
         (projectStart.getFullYear() === selectedYear || projectEnd.getFullYear() === selectedYear) &&
         ((projectStart.getMonth() >= quarterStartMonth && projectStart.getMonth() <= quarterEndMonth) ||
           (projectEnd.getMonth() >= quarterStartMonth && projectEnd.getMonth() <= quarterEndMonth) ||
           (projectStart.getMonth() < quarterStartMonth && projectEnd.getMonth() > quarterEndMonth))
-      )
-    })
+      );
+    });
 
-    const milestones = allMilestones.filter((milestone) => {
-      const milestoneDate = new Date(milestone.date)
-      return (
-        milestoneDate.getFullYear() === selectedYear &&
-        milestoneDate.getMonth() >= quarterStartMonth &&
-        milestoneDate.getMonth() <= quarterEndMonth
-      )
-    })
+    setFilteredProjects(projects);
+  }, [selectedYear, selectedQuarter]);
 
-    setFilteredProjects(projects)
-    setFilteredMilestones(milestones)
-  }, [selectedYear, selectedQuarter])
-
-  const months = []
-  let currentDate = new Date(startDate)
+  const months = [];
+  let currentDate = new Date(startDate);
   while (currentDate <= endDate) {
-    const monthName = currentDate.toLocaleString("en-US", { month: "short" })
-    const year = currentDate.getFullYear()
-    months.push({ name: `${monthName} ${year}`, month: currentDate.getMonth(), year })
-    currentDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1)
+    const monthName = currentDate.toLocaleString("en-US", { month: "short" });
+    const year = currentDate.getFullYear();
+    months.push({ name: `${monthName} ${year}`, month: currentDate.getMonth(), year });
+    currentDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1);
   }
 
-  const allDays = []
-  currentDate = new Date(startDate)
+  const allDays = [];
+  currentDate = new Date(startDate);
   while (currentDate <= endDate) {
     allDays.push({
       date: new Date(currentDate),
       day: currentDate.getDate(),
       month: currentDate.getMonth(),
       year: currentDate.getFullYear(),
-    })
-    currentDate.setDate(currentDate.getDate() + 1)
+    });
+    currentDate.setDate(currentDate.getDate() + 1);
   }
 
-  const daysByMonth = months.map((month) => {
-    return {
-      ...month,
-      days: allDays.filter((day) => day.month === month.month && day.year === month.year),
-    }
-  })
+  const daysByMonth = months.map((month) => ({
+    ...month,
+    days: allDays.filter((day) => day.month === month.month && day.year === month.year),
+  }));
 
   const calculatePosition = (date) => {
-    const diffTime = Math.abs(date - startDate)
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
-    return diffDays
-  }
+    const diffTime = Math.abs(date - startDate);
+    return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+  };
 
   const calculateWidth = (startDate, endDate) => {
-    const diffTime = Math.abs(endDate - startDate)
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1
-    return diffDays
-  }
+    const diffTime = Math.abs(endDate - startDate);
+    return Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
+  };
 
   const prevQuarter = () => {
     if (selectedQuarter > 0) {
-      setSelectedQuarter(selectedQuarter - 1)
+      setSelectedQuarter(selectedQuarter - 1);
     } else {
-      setSelectedQuarter(3)
-      setSelectedYear(selectedYear - 1)
+      setSelectedQuarter(3);
+      setSelectedYear(selectedYear - 1);
     }
-  }
+  };
 
   const nextQuarter = () => {
     if (selectedQuarter < 3) {
-      setSelectedQuarter(selectedQuarter + 1)
+      setSelectedQuarter(selectedQuarter + 1);
     } else {
-      setSelectedQuarter(0)
-      setSelectedYear(selectedYear + 1)
+      setSelectedQuarter(0);
+      setSelectedYear(selectedYear + 1);
     }
-  }
+  };
 
-  const openProjectDetails = (project) => {
-    setSelectedProject(project)
-    setShowProjectDetails(true)
-  }
+  const toggleProjectDetails = (projectId) => {
+    setExpandedProjects((prev) =>
+      prev.includes(projectId) ? prev.filter((id) => id !== projectId) : [...prev, projectId]
+    );
+  };
 
-  const openMilestoneDetails = (milestone) => {
-    setSelectedMilestone(milestone)
-    setShowMilestoneDetails(true)
-  }
+  const toggleMilestoneDetails = (milestoneIndex, projectId) => {
+    const uniqueId = `${projectId}-${milestoneIndex}`;
+    setExpandedMilestones((prev) =>
+      prev.includes(uniqueId) ? prev.filter((id) => id !== uniqueId) : [...prev, uniqueId]
+    );
+  };
 
-  const getStatusStyle = (status) => {
-    const statusLower = status.toLowerCase()
-    if (statusLower.includes("complete")) {
-      return "bg-green-500 text-white px-2 py-1 rounded text-xs"
-    } else if (statusLower.includes("progress") || statusLower.includes("progress")) {
-      return "bg-blue-500 text-white px-2 py-1 rounded text-xs"
-    } else if (statusLower.includes("not") || statusLower === "new") {
-      return "bg-gray-500 text-white px-2 py-1 rounded text-xs"
-    }
-    return "bg-gray-500 text-white px-2 py-1 rounded text-xs"
-  }
+  const today = new Date();
+  const isCurrentQuarter = today >= startDate && today <= endDate;
+  const todayPosition = isCurrentQuarter ? calculatePosition(today) : -1;
 
-  const today = new Date()
-  const isCurrentQuarter = today >= startDate && today <= endDate
-  const todayPosition = isCurrentQuarter ? calculatePosition(today) : -1
-
-  // Limit to 10 projects
-  const displayedProjects = filteredProjects.slice(0, 10)
+  const rowHeight = 40;
+  const subRowHeight = 40;
+  const getRowHeight = (project) => {
+    const isExpanded = expandedProjects.includes(project.id);
+    if (!isExpanded) return rowHeight;
+    let height = rowHeight + project.milestones.length * subRowHeight;
+    project.milestones.forEach((_, index) => {
+      if (expandedMilestones.includes(`${project.id}-${index}`)) {
+        height += subRowHeight;
+      }
+    });
+    return height;
+  };
 
   return (
-    <div className="w-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-lg overflow-hidden">
-      {/* Header with title and filters */}
+    <div className="w-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-lg flex flex-col">
       <div className="bg-[#00308F] dark:bg-[#4A6CF7] text-white p-4">
         <div className="flex justify-between items-center">
           <div>
@@ -343,26 +274,23 @@ export default function TimeLine() {
               Track project progress, milestones, and deliverables
             </p>
           </div>
-          <div className="flex items-center space-x-4">
-            <div className="flex items-center bg-blue-700 dark:bg-[#3B5AEB] rounded-md p-2">
-              <Calendar className="h-4 w-4 mr-2" />
-              <select
-                className="bg-transparent text-white text-sm focus:outline-none cursor-pointer"
-                value={selectedYear}
-                onChange={(e) => setSelectedYear(Number.parseInt(e.target.value))}
-              >
-                {availableYears.map((year) => (
-                  <option key={year} value={year} className="text-gray-800 dark:text-gray-200">
-                    {year}
-                  </option>
-                ))}
-              </select>
-            </div>
+          <div className="flex items-center bg-blue-700 dark:bg-[#3B5AEB] rounded-md p-2">
+            <Calendar className="h-4 w-4 mr-2" />
+            <select
+              className="bg-transparent text-white text-sm focus:outline-none cursor-pointer"
+              value={selectedYear}
+              onChange={(e) => setSelectedYear(Number.parseInt(e.target.value))}
+            >
+              {availableYears.map((year) => (
+                <option key={year} value={year} className="text-gray-800 dark:text-gray-200">
+                  {year}
+                </option>
+              ))}
+            </select>
           </div>
         </div>
       </div>
 
-      {/* Quarter navigation */}
       <div className="bg-gray-50 dark:bg-gray-700 border-b border-gray-200 dark:border-gray-600 px-4 py-2 flex justify-between items-center">
         <div className="text-sm text-gray-500 dark:text-gray-400">
           Showing {quarters[selectedQuarter].name} {selectedYear}
@@ -388,299 +316,179 @@ export default function TimeLine() {
         </div>
       </div>
 
-      <div className="flex
-       h-[35vh]
-       ">
-        {/* Table section */}
-        <div className="w-[400px] flex-shrink-0 border-r border-gray-300 dark:border-gray-600 overflow-y-auto">
-          {/* Header */}
-          <div className="flex bg-gray-100 dark:bg-gray-700 border-b border-gray-300 dark:border-gray-600 sticky top-0 z-10">
-            <div className="w-[200px] p-2 font-medium text-gray-700 dark:text-gray-200 text-sm">Project Name</div>
-            <div className="w-[70px] p-2 font-medium text-gray-700 dark:text-gray-200 text-sm">Status</div>
-            <div className="w-[60px] p-2 font-medium text-gray-700 dark:text-gray-200 text-sm">Priority</div>
-            <div className="w-[70px] p-2 font-medium text-gray-700 dark:text-gray-200 text-sm">Owner</div>
+      <div className="flex">
+        {/* Table section - Sticky on the left */}
+        <div className="w-[450px] flex-shrink-0 border-r border-gray-300 dark:border-gray-600 sticky left-0 z-20 bg-white dark:bg-gray-800">
+          <div className="flex bg-gray-100 dark:bg-gray-700 border-b border-gray-300 dark:border-gray-600 sticky top-0 z-30">
+            <div className="w-[150px] p-2 font-medium text-gray-700 dark:text-gray-200 text-sm">Subject</div>
+            <div className="w-[70px] p-2 font-medium text-gray-700 dark:text-gray-200 text-sm">Type</div>
+            <div className="w-[80px] p-2 font-medium text-gray-700 dark:text-gray-200 text-sm">Status</div>
+            <div className="w-[50px] p-2 font-medium text-gray-700 dark:text-gray-200 text-sm">Priority</div>
+            <div className="w-[50px] p-2 font-medium text-gray-700 dark:text-gray-200 text-sm">Owner</div>
           </div>
-
-          {/* Empty row to align with days */}
           <div className="h-8 border-b border-gray-300 dark:border-gray-600"></div>
 
-          {/* Table rows - Limited to 10 projects */}
-          {displayedProjects.length > 0 ? (
-            displayedProjects.map((project) => (
-              <div
-                key={project.id}
-                className="flex items-center h-10 border-b border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-600 cursor-pointer"
-                onClick={() => openProjectDetails(project)}
-              >
-                <div className="w-[200px] px-2 flex items-center">
-                  <span className="text-[13px] text-gray-800 dark:text-gray-200">{project.subject}</span>
+          {filteredProjects.length ? (
+            filteredProjects.map((project) => {
+              const isExpanded = expandedProjects.includes(project.id);
+
+              return (
+                <div key={project.id} style={{ height: `${getRowHeight(project)}px` }}>
+                  <div className="flex items-center h-10 border-b border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-600">
+                    <div className="w-[50px] px-2 text-[13px] text-gray-800 dark:text-gray-200">{project.id}</div>
+                    <div className="w-[150px] px-2 flex items-center">
+                      <button onClick={() => toggleProjectDetails(project.id)} className="focus:outline-none mr-1">
+                        {isExpanded ? (
+                          <GoChevronDown className="h-4 w-4 text-gray-500 dark:text-gray-400" />
+                        ) : (
+                          <GoChevronLeft className="h-4 w-4 text-gray-500 dark:text-gray-400" />
+                        )}
+                      </button>
+                      <span className="text-[13px] text-gray-800 dark:text-gray-200 truncate">{project.subject}</span>
+                    </div>
+                    <div className="w-[70px] px-2 text-xs text-gray-600 dark:text-gray-300">{project.type}</div>
+                    <div className="w-[80px] px-2 text-xs text-gray-600 dark:text-gray-300">
+                      {project.status.charAt(0).toUpperCase() + project.status.slice(1)}
+                    </div>
+                    <div className="w-[50px] px-2 text-xs text-gray-600 dark:text-gray-300">{project.priority}</div>
+                    <div className="w-[50px] px-2">
+                      <img
+                        src={project.owner.avatar || "/placeholder.svg"}
+                        alt={project.owner.name}
+                        className="h-6 w-6 rounded-full"
+                      />
+                    </div>
+                  </div>
+
+                  {isExpanded &&
+                    project.milestones.map((milestone, index) => (
+                      <div key={index}>
+                        <div
+                          className="flex h-10 border-b border-gray-200 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer"
+                          onClick={() => toggleMilestoneDetails(index, project.id)}
+                        >
+                          <div className="w-[50px] px-2 text-[13px] text-gray-800 dark:text-gray-200"></div>
+                          <div className="w-[150px] px-2 pl-8 text-[13px] text-gray-800 dark:text-gray-200 truncate">
+                            {milestone.m}
+                          </div>
+                          <div className="w-[70px] px-2 text-xs text-gray-600 dark:text-gray-300"></div>
+                          <div className="w-[80px] px-2 text-xs text-gray-600 dark:text-gray-300"></div>
+                          <div className="w-[50px] px-2 text-xs text-gray-600 dark:text-gray-300"></div>
+                          <div className="w-[50px] px-2"></div>
+                        </div>
+                        {expandedMilestones.includes(`${project.id}-${index}`) && (
+                          <div className="flex h-10 border-b border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700">
+                            <div className="w-[50px] px-2 text-[13px] text-gray-800 dark:text-gray-200"></div>
+                            <div className="w-[150px] px-2 pl-8 text-[13px] text-gray-800 dark:text-gray-200 truncate">
+                              {milestone.d.projectName}
+                            </div>
+                            <div className="w-[70px] px-2 text-xs text-gray-600 dark:text-gray-300">
+                              {milestone.d.status.charAt(0).toUpperCase() + milestone.d.status.slice(1)}
+                            </div>
+                            <div className="w-[80px] px-2 text-xs text-gray-600 dark:text-gray-300">{milestone.d.priority}</div>
+                            <div className="w-[50px] px-2 text-xs text-gray-600 dark:text-gray-300"></div>
+                            <div className="w-[50px] px-2"></div>
+                          </div>
+                        )}
+                      </div>
+                    ))}
                 </div>
-                <div className="w-[70px] px-2">
-                  {project.status && (
-                    <span className="text-xs text-gray-600 dark:text-gray-300">{project.status}</span>
-                  )}
-                </div>
-                <div className="w-[60px] px-2">
-                  {project.priority && (
-                    <span className="text-xs text-gray-600 dark:text-gray-300">{project.priority}</span>
-                  )}
-                </div>
-                <div className="w-[70px] px-2">
-                  <img
-                    src={project.owner.avatar || "/placeholder.svg"}
-                    alt={project.owner.name}
-                    className="h-6 w-6 rounded-full"
-                  />
-                </div>
-              </div>
-            ))
+              );
+            })
           ) : (
             <div className="p-4 text-center text-gray-500 dark:text-gray-400">No projects in this quarter</div>
           )}
         </div>
 
-        {/* Timeline section */}
-        <div className="flex-grow overflow-x-auto overflow-y-auto">
-          {/* Months header */}
-          <div className="flex border-b border-gray-300 dark:border-gray-600 sticky top-0 z-10 bg-white dark:bg-gray-800">
-            {daysByMonth.map((month, monthIndex) => (
-              <div
-                key={monthIndex}
-                className="flex-shrink-0 bg-gray-100 dark:bg-gray-700"
-                style={{ width: `${month.days.length * 25}px` }}
-              >
-                <div className="h-9 flex items-center justify-center font-medium text-gray-700 dark:text-gray-200 border-r border-gray-300 dark:border-gray-600">
-                  {month.name}
+        {/* Chart section - Scrollable horizontally */}
+        <div className="flex-grow overflow-x-auto">
+          <div className="relative" style={{ minWidth: `${allDays.length * 25}px` }}>
+            <div className="flex border-b border-gray-300 dark:border-gray-600 sticky top-0 z-10 bg-white dark:bg-gray-800">
+              {daysByMonth.map((month, index) => (
+                <div
+                  key={index}
+                  className="flex-shrink-0 bg-gray-100 dark:bg-gray-700"
+                  style={{ width: `${month.days.length * 25}px` }}
+                >
+                  <div className="h-9 flex items-center justify-center font-medium text-gray-700 dark:text-gray-200 border-r border-gray-300 dark:border-gray-600">
+                    {month.name}
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
-
-          {/* Days header */}
-          <div className="flex border-b border-gray-300 dark:border-gray-600 h-8 sticky top-9 z-10 bg-white dark:bg-gray-800">
-            {allDays.map((day, dayIndex) => (
-              <div
-                key={dayIndex}
-                className="flex-shrink-0 w-[25px] flex items-center justify-center text-xs text-gray-600 dark:text-gray-300 border-r border-gray-200 dark:border-gray-600"
-              >
-                {day.day}
-              </div>
-            ))}
-          </div>
-
-          {/* Timeline grid with bars */}
-          <div className="relative">
-            {/* Background grid */}
-            <div className="absolute inset-0 grid" style={{ gridTemplateColumns: `repeat(${allDays.length}, 25px)` }}>
-              {allDays.map((_, index) => (
-                <div key={index} className="h-full border-r border-gray-200 dark:border-gray-600"></div>
+              ))}
+            </div>
+            <div className="flex border-b border-gray-300 dark:border-gray-600 h-8 sticky top-9 z-10 bg-white dark:bg-gray-800">
+              {allDays.map((day, index) => (
+                <div
+                  key={index}
+                  className="flex-shrink-0 w-[25px] flex items-center justify-center text-xs text-gray-600 dark:text-gray-300 border-r border-gray-200 dark:border-gray-600"
+                >
+                  {day.day}
+                </div>
               ))}
             </div>
 
-            {/* Today marker (red vertical line) */}
-            {isCurrentQuarter && (
-              <div
-                className="absolute top-0 bottom-0 w-px bg-red-500 dark:bg-red-400 z-10"
-                style={{ left: `${todayPosition * 25 + 12.5}px` }}
-              ></div>
-            )}
-
-            {/* Empty rows for no projects case */}
-            {displayedProjects.length === 0 && (
-              <div className="h-40 flex items-center justify-center text-gray-500 dark:text-gray-400">
-                No projects to display in this quarter
+            <div className="relative">
+              <div className="absolute inset-0 grid" style={{ gridTemplateColumns: `repeat(${allDays.length}, 25px)` }}>
+                {allDays.map((_, index) => (
+                  <div key={index} className="h-full border-r border-gray-200 dark:border-gray-600"></div>
+                ))}
               </div>
-            )}
-
-            {/* Project rows - Limited to 10 projects */}
-            {displayedProjects.map((project, index) => {
-              const projectStart = new Date(Math.max(project.startDate, startDate))
-              const projectEnd = new Date(Math.min(project.endDate, endDate))
-
-              const left = calculatePosition(projectStart) * 25
-              const width = calculateWidth(projectStart, projectEnd) * 25
-
-              return (
-                <div key={project.id} className="h-10 relative">
-                  <div
-                    className="absolute h-6 rounded flex items-center px-2 text-white text-xs font-medium z-20 cursor-pointer"
-                    style={{
-                      left: `${left}px`,
-                      width: `${width}px`,
-                      backgroundColor: project.color === "#00308F" ? "#4A6CF7" : project.color,
-                      top: "50%",
-                      transform: "translateY(-50%)",
-                    }}
-                    onClick={() => openProjectDetails(project)}
-                    title={`${project.subject}\nStatus: ${project.status}\nOwner: ${project.owner.name}\n${project.startDate.toLocaleDateString()} - ${project.endDate.toLocaleDateString()}`}
-                  >
-                    {project.subject}
-                  </div>
+              {isCurrentQuarter && (
+                <div
+                  className="absolute top-0 bottom-0 w-px bg-red-500 dark:bg-red-400 z-10"
+                  style={{ left: `${todayPosition * 25 + 12.5}px` }}
+                ></div>
+              )}
+              {filteredProjects.length ? (
+                filteredProjects.map((project) => {
+                  const isExpanded = expandedProjects.includes(project.id);
+                  return (
+                    <div key={project.id} style={{ height: `${getRowHeight(project)}px` }}>
+                      <div className="relative h-10">
+                        <div
+                          className="absolute h-6 rounded flex items-center px-2 text-white text-xs font-medium z-20"
+                          style={{
+                            left: `${calculatePosition(project.startDate) * 25}px`,
+                            width: `${calculateWidth(project.startDate, project.endDate) * 25}px`,
+                            backgroundColor: project.color === "#00308F" ? "#4A6CF7" : project.color,
+                            top: "50%",
+                            transform: "translateY(-50%)",
+                          }}
+                          title={`${project.subject}\nStatus: ${project.status}\nOwner: ${project.owner.name}\n${project.startDate.toLocaleDateString()} - ${project.endDate.toLocaleDateString()}`}
+                        >
+                          {project.subject}
+                        </div>
+                      </div>
+                      {isExpanded &&
+                        project.milestones.map((milestone, index) => (
+                          <div key={index} className="relative" style={{ height: `${expandedMilestones.includes(`${project.id}-${index}`) ? 80 : 40}px` }}>
+                            <div
+                              className="absolute h-6 rounded flex items-center px-2 text-white text-xs font-medium z-20"
+                              style={{
+                                left: `${calculatePosition(project.startDate) * 25}px`,
+                                width: `${calculateWidth(project.startDate, project.endDate) * 25}px`,
+                                backgroundColor: "#6B7280",
+                                top: "50%",
+                                transform: "translateY(-50%)",
+                              }}
+                              title={`${milestone.m}\nStatus: ${milestone.d.status}\nPriority: ${milestone.d.priority}`}
+                            >
+                              {milestone.m}
+                            </div>
+                          </div>
+                        ))}
+                    </div>
+                  );
+                })
+              ) : (
+                <div className="h-40 flex items-center justify-center text-gray-500 dark:text-gray-400">
+                  No projects to display in this quarter
                 </div>
-              )
-            })}
-
-            
+              )}
+            </div>
           </div>
         </div>
       </div>
-
-      {/* Project Details Modal */}
-      {showProjectDetails && selectedProject && (
-        <div className="fixed inset-0 backdrop-blur-[3px] flex items-center justify-center z-50">
-          <div className="bg-white dark:bg-gray-800 rounded-lg p-6 w-full max-w-md border border-gray-300 dark:border-gray-700">
-            <h2 className="text-xl font-bold mb-4 text-gray-800 dark:text-gray-200">{selectedProject.subject}</h2>
-
-            <div className="space-y-4">
-              <div className="flex items-center gap-3">
-                <img
-                  src={selectedProject.owner.avatar || "/placeholder.svg"}
-                  alt={selectedProject.owner.name}
-                  className="h-10 w-10 rounded-full"
-                />
-                <div>
-                  <p className="font-medium text-gray-800 dark:text-gray-200">{selectedProject.owner.name}</p>
-                  <p className="text-sm text-gray-500 dark:text-gray-400">{selectedProject.owner.role}</p>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-2 gap-2 text-sm">
-                <div>
-                  <p className="font-medium text-gray-800 dark:text-gray-200">Status</p>
-                  <span className={getStatusStyle(selectedProject.status)}>{selectedProject.status}</span>
-                </div>
-                <div>
-                  <p className="font-medium text-gray-800 dark:text-gray-200">Priority</p>
-                  <p className="text-gray-600 dark:text-gray-300">{selectedProject.priority}</p>
-                </div>
-                <div>
-                  <p className="font-medium text-gray-800 dark:text-gray-200">Start Date</p>
-                  <p className="text-gray-600 dark:text-gray-300">{selectedProject.startDate.toLocaleDateString()}</p>
-                </div>
-                <div>
-                  <p className="font-medium text-gray-800 dark:text-gray-200">End Date</p>
-                  <p className="text-gray-600 dark:text-gray-300">{selectedProject.endDate.toLocaleDateString()}</p>
-                </div>
-              </div>
-
-              <div>
-                <p className="font-medium text-gray-800 dark:text-gray-200">Description</p>
-                <p className="text-sm text-gray-600 dark:text-gray-300">{selectedProject.description}</p>
-              </div>
-
-              {selectedProject.dependencies && selectedProject.dependencies.length > 0 && (
-                <div>
-                  <p className="font-medium flex items-center gap-1 text-gray-800 dark:text-gray-200">
-                    <Link2 className="w-4 h-4" /> Dependencies
-                  </p>
-                  <div className="flex flex-wrap gap-1 mt-1">
-                    {selectedProject.dependencies.map((depId) => {
-                      const dep = allProjects.find((p) => p.id === depId)
-                      return (
-                        <span
-                          key={depId}
-                          className="border border-gray-300 dark:border-gray-600 rounded px-2 py-1 text-xs text-gray-600 dark:text-gray-300"
-                        >
-                          {dep ? dep.subject : `Task #${depId}`}
-                        </span>
-                      )
-                    })}
-                  </div>
-                </div>
-              )}
-
-              {selectedProject.deliverables && selectedProject.deliverables.length > 0 && (
-                <div>
-                  <p className="font-medium flex items-center gap-1 text-gray-800 dark:text-gray-200">
-                    <FileText className="w-4 h-4" /> Deliverables
-                  </p>
-                  <div className="space-y-2 mt-2">
-                    {selectedProject.deliverables.map((deliverable) => (
-                      <div
-                        key={deliverable.id}
-                        className="flex justify-between items-center bg-gray-50 dark:bg-gray-700 p-2 rounded-md"
-                      >
-                        <span className="text-sm text-gray-600 dark:text-gray-300">{deliverable.name}</span>
-                        <span className={getStatusStyle(deliverable.status)}>{deliverable.status}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
-
-            <div className="mt-6 flex justify-end">
-              <button
-                onClick={() => setShowProjectDetails(false)}
-                className="bg-gray-200 dark:bg-gray-600 text-gray-800 dark:text-gray-200 px-4 py-2 rounded hover:bg-gray-300 dark:hover:bg-gray-500"
-              >
-                Close
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Milestone Details Modal */}
-      {showMilestoneDetails && selectedMilestone && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white dark:bg-gray-800 rounded-lg p-6 w-full max-w-md">
-            <h2 className="text-xl font-bold mb-4 text-gray-800 dark:text-gray-200">{selectedMilestone.title}</h2>
-
-            <div className="space-y-4">
-              <div className="flex items-center gap-3">
-                <img
-                  src={selectedMilestone.owner.avatar || "/placeholder.svg"}
-                  alt={selectedMilestone.owner.name}
-                  className="h-10 w-10 rounded-full"
-                />
-                <div>
-                  <p className="font-medium text-gray-800 dark:text-gray-200">{selectedMilestone.owner.name}</p>
-                  <p className="text-sm text-gray-500 dark:text-gray-400">{selectedMilestone.owner.role}</p>
-                </div>
-              </div>
-
-              <div>
-                <p className="font-medium text-gray-800 dark:text-gray-200">Date</p>
-                <p className="text-sm text-gray-600 dark:text-gray-300">{selectedMilestone.date.toLocaleDateString()}</p>
-              </div>
-
-              <div>
-                <p className="font-medium text-gray-800 dark:text-gray-200">Description</p>
-                <p className="text-sm text-gray-600 dark:text-gray-300">{selectedMilestone.description}</p>
-              </div>
-
-              {selectedMilestone.deliverables && selectedMilestone.deliverables.length > 0 && (
-                <div>
-                  <p className="font-medium flex items-center gap-1 text-gray-800 dark:text-gray-200">
-                    <Flag className="w-4 h-4" /> Deliverables
-                  </p>
-                  <div className="space-y-2 mt-2">
-                    {selectedMilestone.deliverables.map((deliverable) => (
-                      <div
-                        key={deliverable.id}
-                        className="flex justify-between items-center bg-gray-50 dark:bg-gray-700 p-2 rounded-md"
-                      >
-                        <span className="text-sm text-gray-600 dark:text-gray-300">{deliverable.name}</span>
-                        <span className={getStatusStyle(deliverable.status)}>{deliverable.status}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
-
-            <div className="mt-6 flex justify-end">
-              <button
-                onClick={() => setShowMilestoneDetails(false)}
-                className="bg-gray-200 dark:bg-gray-600 text-gray-800 dark:text-gray-200 px-4 py-2 rounded hover:bg-gray-300 dark:hover:bg-gray-500"
-              >
-                Close
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
-  )
+  );
 }
