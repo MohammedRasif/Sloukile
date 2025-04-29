@@ -4,26 +4,11 @@ import { useState, useEffect } from "react"
 import { ChevronLeft, ChevronRight, Calendar, CheckCircle } from "lucide-react"
 import { IoMdNavigate } from "react-icons/io"
 
-// Updated project data structure
+// Your project data structure remains unchanged
 const allProjects = [
- 
   {
     id: "540",
-    subject: "Find date and location",
     title: "Venue Selection",
-    type: "TASK",
-    status: "progress",
-    priority: "High",
-    startDate: new Date("2022-07-20"),
-    endDate: new Date("2022-08-10"),
-    deadline: new Date("2022-08-05"),
-    color: "#00308F",
-    owner: {
-      name: "Michael Chen",
-      avatar: "https://res.cloudinary.com/dfsu0cuvb/image/upload/v1737529178/samples/man-on-a-street.jpg",
-      role: "Event Coordinator",
-    },
-    description: "Research and select appropriate dates and venues for the summit",
     milestones: [
       {
         name: "Venue Options Document",
@@ -31,12 +16,12 @@ const allProjects = [
         details: {
           id: "540-1",
           subject: "Venue Options Document",
-          type: "SUBTASK",
+          type: "PHASE",
           status: "completed",
           priority: "High",
           startDate: new Date("2022-07-20"),
           endDate: new Date("2022-07-30"),
-          color: "#406dc7",
+          color: "#00308F",
           owner: {
             name: "Michael Chen",
             avatar: "https://res.cloudinary.com/dfsu0cuvb/image/upload/v1737529178/samples/man-on-a-street.jpg",
@@ -50,11 +35,10 @@ const allProjects = [
         details: {
           id: "540-2",
           subject: "Date Selection Report",
-          type: "SUBTASK",
+          type: "MILESTONE",
           status: "completed",
           priority: "High",
           startDate: new Date("2022-07-25"),
-          endDate: new Date("2022-08-05"),
           color: "#406dc7",
           owner: {
             name: "Michael Chen",
@@ -69,7 +53,7 @@ const allProjects = [
         details: {
           id: "540-3",
           subject: "Date Selection Report",
-          type: "SUBTASK",
+          type: "TASK",
           status: "completed",
           priority: "High",
           startDate: new Date("2022-07-25"),
@@ -88,11 +72,10 @@ const allProjects = [
         details: {
           id: "540-4",
           subject: "Date Selection Report",
-          type: "SUBTASK",
+          type: "MILESTONE",
           status: "completed",
           priority: "High",
           startDate: new Date("2022-07-25"),
-          endDate: new Date("2022-08-05"),
           color: "#406dc7",
           owner: {
             name: "Michael Chen",
@@ -107,7 +90,7 @@ const allProjects = [
         details: {
           id: "540-5",
           subject: "Date Selection Report",
-          type: "SUBTASK",
+          type: "TASK",
           status: "completed",
           priority: "High",
           startDate: new Date("2022-07-25"),
@@ -126,7 +109,7 @@ const allProjects = [
         details: {
           id: "540-6",
           subject: "Date Selection Report",
-          type: "SUBTASK",
+          type: "TASK",
           status: "completed",
           priority: "High",
           startDate: new Date("2022-07-25"),
@@ -145,7 +128,7 @@ const allProjects = [
         details: {
           id: "540-7",
           subject: "Date Selection Report",
-          type: "SUBTASK",
+          type: "TASK",
           status: "completed",
           priority: "High",
           startDate: new Date("2022-07-25"),
@@ -164,7 +147,7 @@ const allProjects = [
         details: {
           id: "540-5",
           subject: "Date Selection Report",
-          type: "SUBTASK",
+          type: "TASK",
           status: "completed",
           priority: "High",
           startDate: new Date("2022-07-25"),
@@ -182,21 +165,7 @@ const allProjects = [
   },
   {
     id: "541",
-    subject: "Prepare agenda",
     title: "Agenda Preparation",
-    type: "TASK",
-    status: "New",
-    priority: "Normal",
-    startDate: new Date("2022-08-01"),
-    endDate: new Date("2022-08-20"),
-    deadline: new Date("2022-08-18"),
-    color: "#00308F",
-    owner: {
-      name: "Jessica Lee",
-      avatar: "https://res.cloudinary.com/dfsu0cuvb/image/upload/v1737529169/samples/people/smiling-man.jpg",
-      role: "Content Manager",
-    },
-    description: "Create detailed agenda for all summit days including workshops and presentations",
     milestones: [
       {
         name: "Draft Agenda",
@@ -204,12 +173,12 @@ const allProjects = [
         details: {
           id: "541-1",
           subject: "Draft Agenda",
-          type: "SUBTASK",
+          type: "PHASE",
           status: "in-progress",
           priority: "Normal",
           startDate: new Date("2022-08-01"),
           endDate: new Date("2022-08-10"),
-          color: "#406dc7",
+          color: "#00308F",
           owner: {
             name: "Jessica Lee",
             avatar: "https://res.cloudinary.com/dfsu0cuvb/image/upload/v1737529169/samples/people/smiling-man.jpg",
@@ -223,7 +192,7 @@ const allProjects = [
         details: {
           id: "541-2",
           subject: "Session Descriptions",
-          type: "SUBTASK",
+          type: "TASK",
           status: "not-started",
           priority: "Normal",
           startDate: new Date("2022-08-10"),
@@ -242,11 +211,10 @@ const allProjects = [
         details: {
           id: "541-3",
           subject: "Session Descriptions",
-          type: "SUBTASK",
+          type: "MILESTONE",
           status: "not-started",
           priority: "Normal",
           startDate: new Date("2022-08-10"),
-          endDate: new Date("2022-08-20"),
           color: "#406dc7",
           owner: {
             name: "Jessica Lee",
@@ -261,7 +229,7 @@ const allProjects = [
         details: {
           id: "541-4",
           subject: "Session Descriptions",
-          type: "SUBTASK",
+          type: "TASK",
           status: "not-started",
           priority: "Normal",
           startDate: new Date("2022-08-10"),
@@ -280,7 +248,7 @@ const allProjects = [
         details: {
           id: "541-5",
           subject: "Session Descriptions",
-          type: "SUBTASK",
+          type: "TASK",
           status: "not-started",
           priority: "Normal",
           startDate: new Date("2022-08-10"),
@@ -299,11 +267,10 @@ const allProjects = [
         details: {
           id: "541-6",
           subject: "Session Descriptions",
-          type: "SUBTASK",
+          type: "MILESTONE",
           status: "not-started",
           priority: "Normal",
           startDate: new Date("2022-08-10"),
-          endDate: new Date("2022-08-20"),
           color: "#406dc7",
           owner: {
             name: "Jessica Lee",
@@ -318,7 +285,7 @@ const allProjects = [
         details: {
           id: "541-7",
           subject: "Session Descriptions",
-          type: "SUBTASK",
+          type: "TASK",
           status: "not-started",
           priority: "Normal",
           startDate: new Date("2022-08-10"),
@@ -331,45 +298,6 @@ const allProjects = [
           },
         },
       },
-      {
-        name: "Session Descriptions",
-        completed: false,
-        details: {
-          id: "541-8",
-          subject: "Session Descriptions",
-          type: "SUBTASK",
-          status: "not-started",
-          priority: "Normal",
-          startDate: new Date("2022-08-10"),
-          endDate: new Date("2022-08-20"),
-          color: "#406dc7",
-          owner: {
-            name: "Jessica Lee",
-            avatar: "https://res.cloudinary.com/dfsu0cuvb/image/upload/v1737529169/samples/people/smiling-man.jpg",
-            role: "Content Manager",
-          },
-        },
-      },
-      {
-        name: "Session Descriptions",
-        completed: false,
-        details: {
-          id: "541-9",
-          subject: "Session Descriptions",
-          type: "SUBTASK",
-          status: "not-started",
-          priority: "Normal",
-          startDate: new Date("2022-08-10"),
-          endDate: new Date("2022-08-20"),
-          color: "#406dc7",
-          owner: {
-            name: "Jessica Lee",
-            avatar: "https://res.cloudinary.com/dfsu0cuvb/image/upload/v1737529169/samples/people/smiling-man.jpg",
-            role: "Content Manager",
-          },
-        },
-      },
-      
     ],
     dependencies: ["540"],
   },
@@ -422,14 +350,16 @@ export default function TimeLine() {
     setEndDate(newEndDate)
 
     const projects = allProjects.filter((project) => {
-      const projectStart = new Date(project.startDate)
-      const projectEnd = new Date(project.endDate)
-      return (
-        (projectStart.getFullYear() === selectedYear || projectEnd.getFullYear() === selectedYear) &&
-        ((projectStart.getMonth() >= quarterStartMonth && projectStart.getMonth() <= quarterEndMonth) ||
-          (projectEnd.getMonth() >= quarterStartMonth && projectEnd.getMonth() <= quarterEndMonth) ||
-          (projectStart.getMonth() < quarterStartMonth && projectEnd.getMonth() > quarterEndMonth))
-      )
+      return project.milestones.some((milestone) => {
+        const milestoneStart = new Date(milestone.details.startDate)
+        const milestoneEnd = milestone.details.endDate ? new Date(milestone.details.endDate) : milestoneStart
+        return (
+          (milestoneStart.getFullYear() === selectedYear || milestoneEnd.getFullYear() === selectedYear) &&
+          ((milestoneStart.getMonth() >= quarterStartMonth && milestoneStart.getMonth() <= quarterEndMonth) ||
+            (milestoneEnd.getMonth() >= quarterStartMonth && milestoneEnd.getMonth() <= quarterEndMonth) ||
+            (milestoneStart.getMonth() < quarterStartMonth && milestoneEnd.getMonth() > quarterEndMonth))
+        )
+      })
     })
 
     setFilteredProjects(projects)
@@ -473,18 +403,13 @@ export default function TimeLine() {
     return Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1
   }
 
-  // Calculate progress percentage based on dates
   const calculateProgress = (startDate, endDate) => {
     if (!startDate || !endDate || isNaN(startDate) || isNaN(endDate)) return 0
     const today = new Date()
 
-    // If not started yet
     if (today < startDate) return 0
-
-    // If already completed
     if (today > endDate) return 100
 
-    // Calculate progress
     const totalDuration = endDate.getTime() - startDate.getTime()
     const elapsedDuration = today.getTime() - startDate.getTime()
     return Math.min(100, Math.round((elapsedDuration / totalDuration) * 100))
@@ -617,9 +542,13 @@ export default function TimeLine() {
                         )}
                       </button>
                       <span className="text-[13px] text-gray-800 dark:text-gray-200 truncate font-bold">
-                        {project.title || project.subject}
+                        {project.title}
                       </span>
                     </div>
+                    <div className="w-[70px] px-2 text-xs text-gray-600 dark:text-gray-300 pt-3"></div>
+                    <div className="w-[80px] px-2 text-xs text-gray-600 dark:text-gray-300 pt-3"></div>
+                    <div className="w-[50px] px-2 text-xs text-gray-600 dark:text-gray-300 pt-3"></div>
+                    <div className="w-[50px] px-2 pt-3"></div>
                   </div>
 
                   {/* Milestones Section */}
@@ -708,83 +637,58 @@ export default function TimeLine() {
               {filteredProjects.length ? (
                 filteredProjects.map((project) => {
                   const isExpanded = expandedProjects.includes(project.id)
-                  const progress = calculateProgress(project.startDate, project.endDate)
 
                   return (
                     <div key={project.id} className="relative" style={{ height: `${getRowHeight(project)}px` }}>
                       <div className="relative h-10">
-                        {/* Main project bar */}
-                        <div
-                          className="absolute h-6 rounded flex items-center px-2 text-xs font-medium z-20 overflow-hidden"
-                          style={{
-                            left: `${calculatePosition(project.startDate) * 25}px`,
-                            width: `${calculateWidth(project.startDate, project.endDate) * 25}px`,
-                            backgroundColor: project.color,
-                            top: "50%",
-                            transform: "translateY(-50%)",
-                          }}
-                          title={`${project.title}\nStart: ${project.startDate.toLocaleDateString()}\nEnd: ${project.endDate.toLocaleDateString()}\nProgress: ${progress}%`}
-                        >
-                          {/* Progress bar */}
-                          <div
-                            className="absolute top-0 left-0 bottom-0 opacity-50"
-                            style={{
-                              width: `${progress}%`,
-                              backgroundColor: project.color,
-                            }}
-                          ></div>
-                          <span className="z-10 relative text-white">{project.title}</span>
-                        </div>
+                        {/* No project bar, just the title in the table section */}
                       </div>
-
-                      {/* Deadline marker */}
-                      {project.deadline && (
-                        <div
-                          className="absolute top-0 bottom-0 w-px bg-red-500 z-30"
-                          style={{
-                            left: `${calculatePosition(project.deadline) * 25}px`,
-                          }}
-                          title={`Deadline: ${project.deadline.toLocaleDateString()}`}
-                        >
-                          <div className="h-2 w-2 rounded-full bg-red-500 absolute top-0 -ml-1"></div>
-                        </div>
-                      )}
 
                       {/* Milestones */}
                       {isExpanded && (
                         <div className="mt-0">
                           {project.milestones.map((milestone, index) => {
-                            const milestoneProgress = calculateProgress(
-                              milestone.details.startDate,
-                              milestone.details.endDate,
-                            )
+                            const milestoneProgress = milestone.details.endDate
+                              ? calculateProgress(milestone.details.startDate, milestone.details.endDate)
+                              : 0
 
                             return (
                               <div key={index} className="relative h-10">
-                                <div
-                                  className="absolute h-6 rounded-lg flex items-center px-2 text-white text-xs font-medium z-20 shadow-md overflow-hidden"
-                                  style={{
-                                    left: `${calculatePosition(milestone.details.startDate) * 25}px`,
-                                    width: `${calculateWidth(milestone.details.startDate, milestone.details.endDate) * 25}px`,
-                                    backgroundColor: milestone.details.color,
-                                    top: "50%",
-                                    transform: "translateY(-50%)",
-                                  }}
-                                  title={`${milestone.name}\nStatus: ${milestone.details.status}\nPriority: ${milestone.details.priority}\nProgress: ${milestoneProgress}%`}
-                                >
-                                  {/* Milestone progress bar */}
+                                {milestone.details.type === "MILESTONE" ? (
                                   <div
-                                    className="absolute top-0 left-0 bottom-0 opacity-50"
+                                    className="absolute bg-green-500 h-5 w-5 transform rotate-45 z-20"
                                     style={{
-                                      width: `${milestoneProgress}%`,
-                                      backgroundColor: milestone.details.color,
+                                      left: `${calculatePosition(milestone.details.startDate) * 25 + 10}px`,
+                                      top: "50%",
+                                      transform: "translateY(-50%) rotate(45deg)",
                                     }}
+                                    title={`${milestone.name}\nStart: ${milestone.details.startDate.toLocaleDateString()}`}
                                   ></div>
-                                  <span className="z-10 relative">
-                                    {milestone.name}
-                                    {milestone.completed && <CheckCircle className="h-3 w-3 ml-1 inline" />}
-                                  </span>
-                                </div>
+                                ) : (
+                                  <div
+                                    className="absolute h-6 rounded-lg flex items-center px-2 text-white text-xs font-medium z-20 shadow-md overflow-hidden"
+                                    style={{
+                                      left: `${calculatePosition(milestone.details.startDate) * 25}px`,
+                                      width: `${calculateWidth(milestone.details.startDate, milestone.details.endDate) * 25}px`,
+                                      backgroundColor: milestone.details.color,
+                                      top: "50%",
+                                      transform: "translateY(-50%)",
+                                    }}
+                                    title={`${milestone.name}\nStatus: ${milestone.details.status}\nPriority: ${milestone.details.priority}\nProgress: ${milestoneProgress}%`}
+                                  >
+                                    <div
+                                      className="absolute top-0 left-0 bottom-0 opacity-50"
+                                      style={{
+                                        width: `${milestoneProgress}%`,
+                                        backgroundColor: milestone.details.color,
+                                      }}
+                                    ></div>
+                                    <span className="z-10 relative">
+                                      {milestone.name}
+                                      {milestone.completed && <CheckCircle className="h-3 w-3 ml-1 inline" />}
+                                    </span>
+                                  </div>
+                                )}
 
                                 {/* Milestone deadline marker */}
                                 {milestone.details.deadline && (
