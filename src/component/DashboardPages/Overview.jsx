@@ -21,7 +21,7 @@ const charterSections = [
     icon: <FaClipboardList />,
     component: ({ projectData }) => (
       <div>
-        <h3 className="font-medium text-[18px] text-gray-700 dark:text-gray-300 mb-2">Description</h3>
+        {/* <h3 className="font-medium text-[18px] text-gray-700 dark:text-gray-300 mb-2">Description</h3>
         <p className="text-gray-700 dark:text-gray-200 text-[16px] mb-6">{projectData.description}</p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-6">
@@ -66,7 +66,7 @@ const charterSections = [
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
     ),
   },
@@ -134,78 +134,14 @@ const Overview = () => {
   return (
     <div className="px-4">
       {/* Header Section */}
-      <div className="  mb-5 ">
-        <h1 className="text-2xl font-bold  mb-2 bg-gradient-to-r  bg-clip-text ">
+      {/* <div className="mb-5">
+        <h1 className="text-2xl font-bold mb-2 bg-gradient-to-r bg-clip-text">
           {projectData.name}
         </h1>
         <p className="text-[15px] text-gray-600 leading-relaxed">
           Streamlining project management with AI-driven solutions for efficient task coordination, budget oversight, and risk mitigation.
         </p>
-      </div>
-
-      {/* Circular Chart */}
-      <div className="mt-12 mb-8 flex items-center justify-center">
-        <div className="relative w-[500px] h-[500px] flex items-center justify-center">
-          <div className="absolute text-center z-10">
-            <h1 className="text-[26px] font-bold text-[#00308F] dark:text-[#4A6CF7] mt-14">
-              PROJECT CHARTER
-            </h1>
-          </div>
-          <div className="absolute w-[300px] h-[300px] border-8 border-[#00308F] dark:border-[#4A6CF7] rounded-full mt-14" />
-
-          {charterSections.map((section, index) => {
-            const angle = (index / charterSections.length) * 360;
-            const radians = (angle * Math.PI) / 180;
-            const radius = 220;
-            const x = radius * Math.cos(radians);
-            const y = radius * Math.sin(radians);
-            const isLeftSide = angle > 90 && angle < 270;
-
-            return (
-              <div
-                key={section.label}
-                className={`absolute flex flex-col items-center cursor-pointer hover:scale-110 transition-transform ${
-                  selectedSection === section.label ? "scale-110" : ""
-                }`}
-                style={{
-                  transform: `translate(${x}px, ${y}px)`,
-                  transformOrigin: "center",
-                }}
-                onClick={() => handleSectionClick(section)}
-                role="button"
-                aria-label={`View details for ${section.label}`}
-              >
-                <div
-                  className={`text-3xl pb-2 cursor-pointer ${
-                    selectedSection === section.label
-                      ? "text-blue-700 dark:text-blue-300"
-                      : "text-[#00308F] dark:text-[#4A6CF7]"
-                  }`}
-                  style={{ fontSize: "35px" }}
-                >
-                  {section.icon}
-                </div>
-                <span
-                  className={`text-xl font-extrabold text-center cursor-pointer ${
-                    selectedSection === section.label
-                      ? "text-blue-700 dark:text-blue-300"
-                      : "text-[#00308F] dark:text-[#4A6CF7]"
-                  }`}
-                  style={{
-                    transform: isLeftSide ? `translateX(-50%) rotate(0deg)` : `translateX(-50%) rotate(0deg)`,
-                    width: "120px",
-                    position: "absolute",
-                    left: "50%",
-                    top: "50px",
-                  }}
-                >
-                  {section.label}
-                </span>
-              </div>
-            );
-          })}
-        </div>
-      </div>
+      </div> */}
 
       {/* Section Content Display */}
       <div className="p-4 sm:p-6 w-full mb-12">
@@ -224,12 +160,46 @@ const Overview = () => {
 
       {/* Project Overview Section - Only shown when Overview is selected */}
       {selectedSection === "Overview" && (
-        <div className="mb-8">
+        <div className="mb-8 -mt-16">
           <h2 className="text-[23px] font-bold text-gray-800 dark:text-gray-100 mb-1">Project Overview</h2>
           <p className="text-gray-500 dark:text-gray-400 text-[15px] mb-6">
             Key information about {projectData.name}
           </p>
 
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div>
+              <h3 className="font-medium text-[18px] text-gray-700 dark:text-gray-300 mb-4">Recent Activities 🕒</h3>
+              <div className="space-y-4">
+                {projectData.recentActivities.map((activity, index) => (
+                  <div key={index} className="flex gap-3">
+                    <div className="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-600 flex items-center justify-center text-[15px] font-medium flex-shrink-0">
+                      {activity.user.charAt(0)}
+                    </div>
+                    <div>
+                      <p className="text-[15px] text-gray-800 dark:text-gray-200">
+                        <span className="font-medium">{activity.user}</span> {activity.action}
+                      </p>
+                      <p className="text-[14px] text-gray-500 dark:text-gray-400">{activity.time}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <h3 className="font-medium text-[18px] text-gray-700 dark:text-gray-300 mb-4">Upcoming Milestones 🎯</h3>
+              <div className="space-y-4">
+                {projectData.milestones.map((milestone, index) => (
+                  <div key={index} className="flex justify-between items-center">
+                    <div>
+                      <p className="font-medium text-[16px] text-gray-800 dark:text-gray-200">{milestone.name}</p>
+                      <p className="text-[15px] text-gray-500 dark:text-gray-400">{milestone.date}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
           <h3 className="font-medium text-[18px] text-gray-700 dark:text-gray-300 mb-4">Project Progress</h3>
           <div className="h-64 bg-blue-50 dark:bg-[#2A2F3B] rounded-lg mb-6 py-5">
             <ResponsiveContainer width="100%" height="100%">
@@ -293,43 +263,73 @@ const Overview = () => {
               </AreaChart>
             </ResponsiveContainer>
           </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div>
-              <h3 className="font-medium text-[18px] text-gray-700 dark:text-gray-300 mb-4">Recent Activities 🕒</h3>
-              <div className="space-y-4">
-                {projectData.recentActivities.map((activity, index) => (
-                  <div key={index} className="flex gap-3">
-                    <div className="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-600 flex items-center justify-center text-[15px] font-medium flex-shrink-0">
-                      {activity.user.charAt(0)}
-                    </div>
-                    <div>
-                      <p className="text-[15px] text-gray-800 dark:text-gray-200">
-                        <span className="font-medium">{activity.user}</span> {activity.action}
-                      </p>
-                      <p className="text-[14px] text-gray-500 dark:text-gray-400">{activity.time}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div>
-              <h3 className="font-medium text-[18px] text-gray-700 dark:text-gray-300 mb-4">Upcoming Milestones 🎯</h3>
-              <div className="space-y-4">
-                {projectData.milestones.map((milestone, index) => (
-                  <div key={index} className="flex justify-between items-center">
-                    <div>
-                      <p className="font-medium text-[16px] text-gray-800 dark:text-gray-200">{milestone.name}</p>
-                      <p className="text-[15px] text-gray-500 dark:text-gray-400">{milestone.date}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
         </div>
       )}
+
+      {/* Circular Chart - Moved to the Bottom */}
+      <div className="mt-12 mb-8 flex items-center justify-center">
+        <div className="relative w-[500px] h-[500px] flex items-center justify-center">
+          <div className="absolute text-center z-10">
+            <h1 className="text-[26px] font-bold text-[#00308F] dark:text-[#4A6CF7] mt-14">
+              PROJECT CHARTER
+            </h1>
+          </div>
+          <div className="absolute w-[300px] h-[300px] border-8 border-[#00308F] dark:border-[#4A6CF7] rounded-full mt-14" />
+
+          {charterSections.map((section, index) => {
+            const angle = (index / charterSections.length) * 360;
+            const radians = (angle * Math.PI) / 180;
+            const radius = 220;
+            const x = radius * Math.cos(radians);
+            const y = radius * Math.sin(radians);
+            const isLeftSide = angle > 90 && angle < 270;
+
+            return (
+              <div
+                key={section.label}
+                className={`absolute flex flex-col items-center cursor-pointer hover:scale-110 transition-transform ${
+                  selectedSection === section.label ? "scale-110" : ""
+                }`}
+                style={{
+                  transform: `translate(${x}px, ${y}px)`,
+                  transformOrigin: "center",
+                }}
+                onClick={() => handleSectionClick(section)}
+                role="button"
+                aria-label={`View details for ${section.label}`}
+              >
+                <div
+                  className={`text-3xl pb-2 cursor-pointer ${
+                    selectedSection === section.label
+                      ? "text-blue-700 dark:text-blue-300"
+                      : "text-[#00308F] dark:text-[#4A6CF7]"
+                  }`}
+                  style={{ fontSize: "35px" }}
+                >
+                  {section.icon}
+                </div>
+                <span
+                  className={`text-xl font-extrabold text-center cursor-pointer ${
+                    selectedSection === section.label
+                      ? "text-blue-700 dark:text-blue-300"
+                      : "text-[#00308F] dark:text-[#4A6CF7]"
+                  }`}
+                  style={{
+                    transform: isLeftSide ? `translateX(-50%) rotate(0deg)` : `translateX(-50%) rotate(0deg)`,
+                    width: "120px",
+                    position: "absolute",
+                    left: "50%",
+                    top: "50px",
+                  }}
+                >
+                  {section.label}
+                </span>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
       <ConstructionWorkflow />
     </div>
   );
