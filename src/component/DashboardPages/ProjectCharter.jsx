@@ -188,15 +188,15 @@ export default function ProjectCharter() {
                 onClick={toggleShareDropdown}
               />
               {isShareDropdownOpen && (
-                <div className="absolute top-full right-0 mt-2 bg-gradient-to-br from-blue-50 to-gray-100 dark:bg-gradient-to-br dark:from-gray-800 dark:to-gray-900 rounded-xl shadow-xl p-4 flex gap-3 z-50">
+                <div className="absolute top-full right-0 mt-2 bg-gradient-to-br from-blue-50 to-gray-100 dark:bg-gradient-to-br dark:from-gray-800 dark:to-gray-900 rounded-xl shadow-xl p-2 flex gap-3 z-50">
                   <EmailShareButton url={shareUrl} subject={shareTitle}>
                     <div className="hover:scale-105 transition-all duration-200">
-                      <EmailIcon size={40} round />
+                      <EmailIcon size={36} round />
                     </div>
                   </EmailShareButton>
                   <WhatsappShareButton url={shareUrl} title={shareTitle}>
                     <div className="hover:scale-105 transition-all duration-200">
-                      <WhatsappIcon size={40} round />
+                      <WhatsappIcon size={36} round />
                     </div>
                   </WhatsappShareButton>
                 </div>

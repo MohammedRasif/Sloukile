@@ -9,6 +9,7 @@ const Stakeholders = () => {
       role: "Project Manager",
       contact: "john.doe@example.com",
       influence: "High",
+      governanceType: "Sponsor", // Added default governance type
     },
     {
       id: 2,
@@ -16,6 +17,7 @@ const Stakeholders = () => {
       role: "Lead Developer",
       contact: "sarah.smith@example.com",
       influence: "Medium",
+      governanceType: "Team Member",
     },
     {
       id: 3,
@@ -23,6 +25,7 @@ const Stakeholders = () => {
       role: "QA Engineer",
       contact: "emily.johnson@example.com",
       influence: "Low",
+      governanceType: "Team Member",
     },
     {
       id: 4,
@@ -30,6 +33,7 @@ const Stakeholders = () => {
       role: "Product Owner",
       contact: "michael.brown@example.com",
       influence: "High",
+      governanceType: "Advisor",
     },
     {
       id: 5,
@@ -37,6 +41,7 @@ const Stakeholders = () => {
       role: "End User Representative",
       contact: "lisa.davis@example.com",
       influence: "Medium",
+      governanceType: "Other",
     },
   ]);
 
@@ -45,7 +50,8 @@ const Stakeholders = () => {
     name: "",
     role: "",
     contact: "",
-    influence: "Low", // Default value
+    influence: "Low",
+    governanceType: "Sponsor", // Default value for governance type
   });
 
   const handleAddClick = () => {
@@ -59,6 +65,7 @@ const Stakeholders = () => {
       role: "",
       contact: "",
       influence: "Low",
+      governanceType: "Sponsor",
     });
   };
 
@@ -75,6 +82,7 @@ const Stakeholders = () => {
       role: formData.role,
       contact: formData.contact,
       influence: formData.influence,
+      governanceType: formData.governanceType, // Include governance type
     };
     setStakeholders((prev) => [...prev, newStakeholder]);
     handleClosePopup();
@@ -128,8 +136,11 @@ const Stakeholders = () => {
             <p className="text-sm text-gray-500 dark:text-gray-400 mb-1">
               Contact: {stakeholder.contact}
             </p>
-            <p className="text-sm text-gray-500 dark:text-gray-400">
+            <p className="text-sm text-gray-500 dark:text-gray-400 mb-1">
               Influence: {stakeholder.influence}
+            </p>
+            <p className="text-sm text-gray-500 dark:text-gray-400">
+              Governance Type: {stakeholder.governanceType}
             </p>
           </div>
         ))}
@@ -200,6 +211,23 @@ const Stakeholders = () => {
                   <option value="Low">Low</option>
                   <option value="Medium">Medium</option>
                   <option value="High">High</option>
+                </select>
+              </div>
+              <div>
+                <label className="block text-gray-700 dark:text-gray-300 mb-1">
+                  Governance Type
+                </label>
+                <select
+                  name="governanceType"
+                  value={formData.governanceType}
+                  onChange={handleInputChange}
+                  className="w-full p-3 rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-[#1E232E] text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#00308F] dark:focus:ring-[#4A6CF7]"
+                  required
+                >
+                  <option value="Sponsor">Sponsor</option>
+                  <option value="Advisor">Advisor</option>
+                  <option value="Team Member">Team Member</option>
+                  <option value="Other">Other</option>
                 </select>
               </div>
               <div className="flex justify-center gap-4 mt-6">

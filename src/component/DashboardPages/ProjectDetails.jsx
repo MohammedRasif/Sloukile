@@ -329,7 +329,7 @@ const ProjectDetails = () => {
       {/* Navigation Tabs */}
       <div className="border-b border-gray-200 dark:border-gray-700 px-4 sm:px-6 mb-3">
         <nav className="flex flex-wrap gap-4 sm:gap-3 overflow-x-auto pb-2">
-          {['overview', 'planning', 'team',  'budget', 'risks', 'communication', 'reporting', 'projectCharter', 'governanceSetup', 'stakeholders','Deployment Strategy', ].map((tab) => (
+          {['overview', 'planning', 'team',  'budget', 'risks', 'communication', 'reporting',  'governanceSetup', 'stakeholders','Deployment Strategy', ].map((tab) => (
             <button
               key={tab}
               className={` px-1 border-b-2 font-bold text-sm sm:text-base whitespace-nowrap cursor-pointer ${activeTab === tab
@@ -355,8 +355,8 @@ const ProjectDetails = () => {
         {activeTab === 'team' && <Teams projectData={projectData} />}
         {/* {activeTab === 'timeline' && <Timeline projectData={projectData} />} */}
         {activeTab === 'communication' && <Communication projectData={projectData} />}
-        {activeTab === 'reporting' && <Reporting projectData={projectData} />}
-        {activeTab === 'projectCharter' && <ProjectCharter projectData={projectData} />}
+        {activeTab === 'reporting' && <ProjectCharter projectData={projectData} />}
+        {/* {activeTab === 'projectCharter' && <ProjectCharter projectData={projectData} />} */}
         {activeTab === 'governanceSetup' && <GovernanceSetup projectData={projectData} />}
         {activeTab === 'stakeholders' && <Stakeholders projectData={projectData} />}
         {activeTab === 'Deployment Strategy' && <Deployment projectData={projectData} />} 
