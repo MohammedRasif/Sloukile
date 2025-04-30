@@ -1,6 +1,5 @@
-"use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import {
   PlusCircle,
   Search,
@@ -105,11 +104,12 @@ export default function Workflow() {
   const [showApprovalDialog, setShowApprovalDialog] = useState(false)
   const [selectedItem, setSelectedItem] = useState(null)
   const [approvalComment, setApprovalComment] = useState("")
-  const [approvalAction, setApprovalAction] = useState("approve")
+  const [approvalAction, setApprovalAction] = useState("")
   const [commentError, setCommentError] = useState("")
   const [approverError, setApproverError] = useState("")
+  const [actionError, setActionError] = useState("")
   const [selectedApprover, setSelectedApprover] = useState("")
-  const [approvalPoints, setApprovalPoints] = useState({ approve: 0, "soft-reject": 0 })
+  const [approvalPoints, setApprovalPoints] = useState({ "approve": 0, "reject": 0 })
 
   // Dynamic approvers list from workflowItems
   const approvers = workflowItems.map((item) => ({
@@ -166,10 +166,11 @@ export default function Workflow() {
   const openApprovalDialog = (item) => {
     setSelectedItem(item)
     setApprovalComment("")
-    setApprovalAction("approve")
+    setApprovalAction("") // No default selection
     setSelectedApprover("")
     setCommentError("")
     setApproverError("")
+    setActionError("")
     setShowApprovalDialog(true)
   }
 
@@ -196,6 +197,14 @@ export default function Workflow() {
   // Extended handleApprovalSubmit with validation and points
   const handleApprovalSubmitExtended = () => {
     let hasError = false
+
+    // Validate action
+    if (!approvalAction) {
+      setActionError("Please select an approval action")
+      hasError = true
+    } else {
+      setActionError("")
+    }
 
     // Validate comment
     if (!approvalComment.trim()) {
@@ -245,10 +254,10 @@ export default function Workflow() {
             <CheckCircle className="w-3 h-3 mr-1" /> Approved
           </span>
         )
-      case "soft-reject":
+      case "reject":
         return (
           <span className="inline-flex items-center px-2 py-1 text-xs font-medium text-white bg-orange-500 rounded hover:bg-orange-600">
-            <XCircle className="w-3 h-3 mr-1" /> Soft Rejected
+            <XCircle className="w-3 h-3 mr-1" /> Rejected
           </span>
         )
       case "in-review":
@@ -457,15 +466,32 @@ export default function Workflow() {
 
               {/* Action Selection */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Action</label>
-                <select
-                  value={approvalAction}
-                  onChange={(e) => setApprovalAction(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 transition-colors"
-                >
-                  <option value="approve">Approve</option>
-                  <option value="soft-reject">Soft Reject</option>
-                </select>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Action</label>
+                <div className="flex gap-6">
+                  {[
+                    { value: "approve", label: "Approve" },
+                    { value: "reject", label: "Reject" },
+                  ].map((option) => (
+                    <label
+                      key={option.value}
+                      className="flex items-center space-x-2 cursor-pointer hover:bg-blue-100 p-1 rounded transition-colors"
+                    >
+                      <input
+                        type="checkbox"
+                        checked={approvalAction === option.value}
+                        onChange={() => {
+                          setApprovalAction(option.value)
+                          setActionError("")
+                        }}
+                        className="h-4 w-4 text-blue-600 border-gray-300 rounded-full focus:ring-blue-600 accent-blue-600 cursor-pointer"
+                      />
+                      <span className="text-sm text-gray-700">{option.label}</span>
+                    </label>
+                  ))}
+                </div>
+                {actionError && (
+                  <p className="text-red-500 text-xs mt-1 animate-shake">{actionError}</p>
+                )}
               </div>
 
               {/* Comment Input */}
@@ -482,8 +508,6 @@ export default function Workflow() {
                   <p className="text-red-500 text-xs mt-1 animate-shake">{commentError}</p>
                 )}
               </div>
-
-              
 
               {/* Buttons */}
               <div className="flex justify-end gap-2">

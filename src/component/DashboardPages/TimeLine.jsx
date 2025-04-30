@@ -274,7 +274,7 @@ const allProjects = [
           type: "MILESTONE",
           status: "not-started",
           priority: "Normal",
-          startDate: new Date("2022-08-10"),
+          startDate: new Date("2022-07-27"),
           color: "#406dc7",
           owner: {
             name: "Jessica Lee",
