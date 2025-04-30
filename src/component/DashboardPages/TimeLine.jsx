@@ -523,13 +523,13 @@ export default function TimeLine() {
 
       <div className="flex">
         {/* Table section - Sticky on the left */}
-        <div className="w-[450px] flex-shrink-0 border-r border-gray-300 dark:border-gray-600 sticky left-0 z-20 bg-white dark:bg-gray-800">
+        <div className="w-[350px] flex-shrink-0 border-r border-gray-300 dark:border-gray-600 sticky left-0 z-20 bg-white dark:bg-gray-800">
           <div className="flex bg-gray-100 dark:bg-gray-700 border-b border-gray-300 dark:border-gray-600 sticky top-0 z-30">
-            <div className="w-[150px] p-2 font-medium text-gray-700 dark:text-gray-200 text-sm">Subject</div>
+            <div className="w-[150px] p-2 font-medium text-gray-700 dark:text-gray-200 pl-8 text-sm">Activity</div>
             <div className="w-[70px] p-2 font-medium text-gray-700 dark:text-gray-200 text-sm">Type</div>
             <div className="w-[80px] p-2 font-medium text-gray-700 dark:text-gray-200 text-sm">Status</div>
-            <div className="w-[50px] p-2 font-medium text-gray-700 dark:text-gray-200 text-sm">Priority</div>
-            <div className="w-[50px] p-2 font-medium text-gray-700 dark:text-gray-200 text-sm">Owner</div>
+            {/* <div className="w-[50px] p-2 font-medium text-gray-700 dark:text-gray-200 text-sm">Priority</div> */}
+            {/* <div className="w-[50px] p-2 font-medium text-gray-700 dark:text-gray-200 text-sm">Owner</div> */}
           </div>
           <div className="h-8 border-b border-gray-300 dark:border-gray-600"></div>
 
@@ -580,7 +580,7 @@ export default function TimeLine() {
                               <div className="w-[80px] px-2 text-xs text-gray-600 dark:text-gray-300 pt-3">
                                 {milestone.details.status.charAt(0).toUpperCase() + milestone.details.status.slice(1)}
                               </div>
-                              <div className="w-[50px] px-2 text-xs text-gray-600 dark:text-gray-300 pt-3">
+                              {/* <div className="w-[50px] px-2 text-xs text-gray-600 dark:text-gray-300 pt-3">
                                 {milestone.details.priority}
                               </div>
                               <div className="w-[50px] px-2 pt-3">
@@ -589,7 +589,7 @@ export default function TimeLine() {
                                   alt={milestone.details.owner.name}
                                   className="h-6 w-6 rounded-full"
                                 />
-                              </div>
+                              </div> */}
                             </div>
                           </div>
                         )
