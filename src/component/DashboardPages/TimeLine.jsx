@@ -2,7 +2,9 @@
 
 import { useState, useEffect } from "react"
 import { ChevronLeft, ChevronRight, Calendar, CheckCircle } from "lucide-react"
-import { IoMdNavigate } from "react-icons/io"
+import { GoDash } from "react-icons/go";
+import { FiPlus } from "react-icons/fi";
+
 
 // Your project data structure
 const allProjects = [
@@ -20,8 +22,8 @@ const allProjects = [
           type: "PHASE",
           status: "completed",
           priority: "High",
-          startDate: new Date("2022-07-20"),
-          endDate: new Date("2022-07-30"),
+          startDate: new Date("2022-07-05"),
+          endDate: new Date("2022-08-05"),
           color: "#00308F",
           owner: {
             name: "Michael Chen",
@@ -57,8 +59,8 @@ const allProjects = [
           type: "TASK",
           status: "completed",
           priority: "High",
-          startDate: new Date("2022-07-25"),
-          endDate: new Date("2022-08-05"),
+          startDate: new Date("2022-07-10"),
+          endDate: new Date("2022-07-30"),
           color: "#406dc7",
           owner: {
             name: "Michael Chen",
@@ -76,7 +78,7 @@ const allProjects = [
           type: "MILESTONE",
           status: "completed",
           priority: "High",
-          startDate: new Date("2022-07-25"),
+          startDate: new Date("2022-07-15"),
           color: "#406dc7",
           owner: {
             name: "Michael Chen",
@@ -94,8 +96,8 @@ const allProjects = [
           type: "TASK",
           status: "completed",
           priority: "High",
-          startDate: new Date("2022-07-25"),
-          endDate: new Date("2022-08-05"),
+          startDate: new Date("2022-07-20"),
+          endDate: new Date("2022-08-10"),
           color: "#406dc7",
           owner: {
             name: "Michael Chen",
@@ -113,7 +115,7 @@ const allProjects = [
           type: "TASK",
           status: "completed",
           priority: "High",
-          startDate: new Date("2022-07-25"),
+          startDate: new Date("2022-07-07"),
           endDate: new Date("2022-08-05"),
           color: "#406dc7",
           owner: {
@@ -132,8 +134,8 @@ const allProjects = [
           type: "TASK",
           status: "completed",
           priority: "High",
-          startDate: new Date("2022-07-25"),
-          endDate: new Date("2022-08-05"),
+          startDate: new Date("2022-07-10"),
+          endDate: new Date("2022-08-02"),
           color: "#406dc7",
           owner: {
             name: "Michael Chen",
@@ -151,8 +153,8 @@ const allProjects = [
           type: "TASK",
           status: "completed",
           priority: "High",
-          startDate: new Date("2022-07-25"),
-          endDate: new Date("2022-08-05"),
+          startDate: new Date("2022-07-13"),
+          endDate: new Date("2022-08-10"),
           color: "#406dc7",
           owner: {
             name: "Michael Chen",
@@ -178,7 +180,7 @@ const allProjects = [
           type: "PHASE",
           status: "in-progress",
           priority: "Normal",
-          startDate: new Date("2022-08-01"),
+          startDate: new Date("2022-07-10"),
           endDate: new Date("2022-08-10"),
           color: "#00308F",
           owner: {
@@ -197,8 +199,8 @@ const allProjects = [
           type: "TASK",
           status: "not-started",
           priority: "Normal",
-          startDate: new Date("2022-08-10"),
-          endDate: new Date("2022-08-20"),
+          startDate: new Date("2022-07-10"),
+          endDate: new Date("2022-07-03"),
           color: "#406dc7",
           owner: {
             name: "Jessica Lee",
@@ -234,8 +236,8 @@ const allProjects = [
           type: "TASK",
           status: "not-started",
           priority: "Normal",
-          startDate: new Date("2022-08-10"),
-          endDate: new Date("2022-08-20"),
+          startDate: new Date("2022-07-13"),
+          endDate: new Date("2022-08-08"),
           color: "#406dc7",
           owner: {
             name: "Jessica Lee",
@@ -253,8 +255,8 @@ const allProjects = [
           type: "TASK",
           status: "not-started",
           priority: "Normal",
-          startDate: new Date("2022-08-10"),
-          endDate: new Date("2022-08-20"),
+          startDate: new Date("2022-07-14"),
+          endDate: new Date("2022-08-01"),
           color: "#406dc7",
           owner: {
             name: "Jessica Lee",
@@ -290,7 +292,7 @@ const allProjects = [
           type: "TASK",
           status: "not-started",
           priority: "Normal",
-          startDate: new Date("2022-08-10"),
+          startDate: new Date("2022-07-25"),
           endDate: new Date("2022-08-20"),
           color: "#406dc7",
           owner: {
@@ -544,9 +546,9 @@ export default function TimeLine() {
                         className="focus:outline-none mr-1 font-bold"
                       >
                         {isExpanded ? (
-                          <IoMdNavigate className="h-4 w-4 text-blue-900 dark:text-blue-900 rotate-180 cursor-pointer" />
+                          <FiPlus className="h-4 w-4 text-white dark:text-black bg-gray-800 dark:bg-gray-200 cursor-pointer" />
                         ) : (
-                          <IoMdNavigate className="h-4 w-4 text-blue-900 dark:text-blue-900 rotate-270 cursor-pointer" />
+                          <GoDash className="h-4 w-4 text-white dark:text-black bg-gray-800 dark:bg-gray-200 font-bold  cursor-pointer" />
                         )}
                       </button>
                       <span className="text-[13px] text-gray-800 dark:text-gray-200 truncate font-bold">
@@ -651,7 +653,7 @@ export default function TimeLine() {
                           }}
                           title={`Project Dateline: ${projectDateline.toLocaleDateString()}`}
                         >
-                          <div className="h-2 w-2 rounded-full bg-red-500 absolute top-5 -ml-1"></div>
+                          <div className="h-2 w-2 rounded-full bg-red-500 absolute top-0 -ml-1"></div>
                         </div>
                       )}
 
