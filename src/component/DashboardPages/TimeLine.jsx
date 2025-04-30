@@ -563,7 +563,6 @@ export default function TimeLine() {
                                 <span className="text-[13px] text-gray-800 dark:text-gray-200 truncate">
                                   {milestone.name}
                                 </span>
-                                {milestone.completed && <CheckCircle className="h-3 w-3 ml-1 text-green-500" />}
                               </div>
                               <div className="w-[70px] px-2 text-xs text-gray-600 dark:text-gray-300 pt-3">
                                 {milestone.details.type}
@@ -656,9 +655,9 @@ export default function TimeLine() {
                               <div key={index} className="relative h-10">
                                 {milestone.details.type === "MILESTONE" ? (
                                   <div
-                                    className="absolute bg-green-500 h-5 w-5 transform rotate-45 z-20"
+                                    className="absolute bg-green-500 h-5 w-5 transform  z-20"
                                     style={{
-                                      left: `${calculatePosition(milestone.details.startDate) * 25 + 10}px`,
+                                      left: `${calculatePosition(milestone.details.startDate) * 25 + 4}px`,
                                       top: "50%",
                                       transform: "translateY(-50%) rotate(45deg)",
                                     }}
@@ -666,7 +665,7 @@ export default function TimeLine() {
                                   ></div>
                                 ) : (
                                   <div
-                                    className="absolute h-6 rounded-lg flex items-center px-2 text-white text-xs font-medium z-20 shadow-md overflow-hidden"
+                                    className="absolute h-6 rounded-lg flex items-center px-2 text-white text-xs font-medium z-20 shadow-md overflow-hidden -ml-6"
                                     style={{
                                       left: `${calculatePosition(milestone.details.startDate) * 25}px`,
                                       width: `${calculateWidth(milestone.details.startDate, milestone.details.endDate) * 25}px`,
