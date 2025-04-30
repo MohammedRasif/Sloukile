@@ -1,14 +1,15 @@
-"use client"
+
 
 import { useState, useEffect } from "react"
 import { ChevronLeft, ChevronRight, Calendar, CheckCircle } from "lucide-react"
 import { IoMdNavigate } from "react-icons/io"
 
-// Your project data structure remains unchanged
+// Your project data structure
 const allProjects = [
   {
     id: "540",
     title: "Venue Selection",
+    dateline: "07/08/2022",
     milestones: [
       {
         name: "Venue Options Document",
@@ -145,7 +146,7 @@ const allProjects = [
         name: "Date Selection Report",
         completed: false,
         details: {
-          id: "540-5",
+          id: "540-8", // Changed from 540-5 to avoid duplicate
           subject: "Date Selection Report",
           type: "TASK",
           status: "completed",
@@ -166,6 +167,7 @@ const allProjects = [
   {
     id: "541",
     title: "Agenda Preparation",
+    dateline: "30/07/2022",
     milestones: [
       {
         name: "Draft Agenda",
@@ -318,11 +320,7 @@ export default function TimeLine() {
   const [filteredProjects, setFilteredProjects] = useState([])
   const [startDate, setStartDate] = useState(new Date())
   const [endDate, setEndDate] = useState(new Date())
-
-  // Initialize expandedProjects with all project IDs
   const [expandedProjects, setExpandedProjects] = useState(allProjects.map((project) => project.id))
-
-  // Initialize expandedMilestones with all milestone IDs
   const [expandedMilestones, setExpandedMilestones] = useState(() => {
     const milestoneIds = []
     allProjects.forEach((project) => {
@@ -391,22 +389,33 @@ export default function TimeLine() {
     days: allDays.filter((day) => day.month === month.month && day.year === month.year),
   }))
 
+  const parseDate = (dateString) => {
+    if (!dateString) return null
+    const [day, month, year] = dateString.split("/").map(Number)
+    return new Date(year, month - 1, day)
+  }
+
   const calculatePosition = (date) => {
     if (!date || isNaN(date)) return 0
     const diffTime = Math.abs(date - startDate)
-    return Math.ceil(diffTime / (1000 * 60 * 60 * 24))
+    return Math.floor(diffTime / (1000 * 60 * 60 * 24))
   }
 
   const calculateWidth = (startDate, endDate) => {
     if (!startDate || !endDate || isNaN(startDate) || isNaN(endDate)) return 1
     const diffTime = Math.abs(endDate - startDate)
-    return Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1
+    return Math.max(1, Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1)
   }
 
-  const calculateProgress = (startDate, endDate) => {
-    if (!startDate || !endDate || isNaN(startDate) || isNaN(endDate)) return 0
-    const today = new Date()
+  const calculateProgress = (milestone) => {
+    if (milestone.completed || milestone.details.status === "completed") return 100
+    if (!milestone.details.startDate || !milestone.details.endDate) return 0
 
+    const startDate = new Date(milestone.details.startDate)
+    const endDate = new Date(milestone.details.endDate)
+    const today = new Date(2022, 7, 1) // Simulate August 1, 2022 for testing
+
+    if (isNaN(startDate) || isNaN(endDate)) return 0
     if (today < startDate) return 0
     if (today > endDate) return 100
 
@@ -435,18 +444,18 @@ export default function TimeLine() {
 
   const toggleProjectDetails = (projectId) => {
     setExpandedProjects((prev) =>
-      prev.includes(projectId) ? prev.filter((id) => id !== projectId) : [...prev, projectId],
+      prev.includes(projectId) ? prev.filter((id) => id !== projectId) : [...prev, projectId]
     )
   }
 
   const toggleMilestoneDetails = (milestoneIndex, projectId) => {
     const uniqueId = `${projectId}-${milestoneIndex}`
     setExpandedMilestones((prev) =>
-      prev.includes(uniqueId) ? prev.filter((id) => id !== uniqueId) : [...prev, uniqueId],
+      prev.includes(uniqueId) ? prev.filter((id) => id !== uniqueId) : [...prev, uniqueId]
     )
   }
 
-  const today = new Date()
+  const today = new Date(2022, 7, 1) // Simulate August 1, 2022 for testing
   const isCurrentQuarter = today >= startDate && today <= endDate
   const todayPosition = isCurrentQuarter ? calculatePosition(today) : -1
 
@@ -528,7 +537,6 @@ export default function TimeLine() {
 
               return (
                 <div key={project.id} style={{ height: `${getRowHeight(project)}px` }}>
-                  {/* Main Project Row */}
                   <div className="flex items-center h-10 border-b border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-600">
                     <div className="w-[150px] px-2 pl-2 flex items-center">
                       <button
@@ -551,18 +559,18 @@ export default function TimeLine() {
                     <div className="w-[50px] px-2 pt-3"></div>
                   </div>
 
-                  {/* Milestones Section */}
                   {isExpanded && (
                     <div className="milestone-section">
                       {project.milestones.map((milestone, index) => {
                         const isMilestoneExpanded = expandedMilestones.includes(`${project.id}-${index}`)
                         return (
-                          <div key={index}>
+                          <div key={`${project.id}-${index}`}>
                             <div className="flex h-10 border-b border-gray-200 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700">
                               <div className="w-[150px] px-2 pl-8 flex items-center">
                                 <span className="text-[13px] text-gray-800 dark:text-gray-200 truncate">
                                   {milestone.name}
                                 </span>
+                                {milestone.completed && <CheckCircle className="h-3 w-3 ml-1 text-green-500" />}
                               </div>
                               <div className="w-[70px] px-2 text-xs text-gray-600 dark:text-gray-300 pt-3">
                                 {milestone.details.type}
@@ -627,78 +635,77 @@ export default function TimeLine() {
                   <div key={index} className="h-full border-r border-gray-200 dark:border-gray-600"></div>
                 ))}
               </div>
-              {isCurrentQuarter && (
-                <div
-                  className="absolute top-0 bottom-0 w-px bg-red-500 dark:bg-red-400 z-10"
-                  style={{ left: `${todayPosition * 25 + 12.5}px` }}
-                ></div>
-              )}
               {filteredProjects.length ? (
                 filteredProjects.map((project) => {
                   const isExpanded = expandedProjects.includes(project.id)
+                  const projectDateline = parseDate(project.dateline)
 
                   return (
                     <div key={project.id} className="relative" style={{ height: `${getRowHeight(project)}px` }}>
-                      <div className="relative h-10">
-                        {/* No project bar, just the title in the table section */}
-                      </div>
+                      {/* Project dateline red line */}
+                      {projectDateline && !isNaN(projectDateline) && (
+                        <div
+                          className="absolute top-0 bottom-0 w-px bg-red-500 z-30"
+                          style={{
+                            left: `${calculatePosition(projectDateline) * 25 + 12.5}px`,
+                          }}
+                          title={`Project Dateline: ${projectDateline.toLocaleDateString()}`}
+                        >
+                          <div className="h-2 w-2 rounded-full bg-red-500 absolute top-5 -ml-1"></div>
+                        </div>
+                      )}
 
-                      {/* Milestones */}
+                      <div className="relative h-10"></div>
+
                       {isExpanded && (
                         <div className="mt-0">
                           {project.milestones.map((milestone, index) => {
-                            const milestoneProgress = milestone.details.endDate
-                              ? calculateProgress(milestone.details.startDate, milestone.details.endDate)
-                              : 0
+                            const milestoneProgress = calculateProgress(milestone)
+                            const milestoneStart = new Date(milestone.details.startDate)
+                            const milestoneEnd = milestone.details.endDate
+                              ? new Date(milestone.details.endDate)
+                              : milestoneStart
 
                             return (
-                              <div key={index} className="relative h-10">
+                              <div key={`${project.id}-${index}`} className="relative h-10">
                                 {milestone.details.type === "MILESTONE" ? (
                                   <div
-                                    className="absolute bg-green-500 h-5 w-5 transform  z-20"
+                                    className="absolute bg-green-500 h-5 w-5 transform z-20"
                                     style={{
-                                      left: `${calculatePosition(milestone.details.startDate) * 25 + 4}px`,
+                                      left: `${calculatePosition(milestoneStart) * 25}px`,
                                       top: "50%",
                                       transform: "translateY(-50%) rotate(45deg)",
                                     }}
-                                    title={`${milestone.name}\nStart: ${milestone.details.startDate.toLocaleDateString()}`}
+                                    title={`${milestone.name}\nStart: ${milestoneStart.toLocaleDateString()}`}
                                   ></div>
                                 ) : (
                                   <div
-                                    className="absolute h-6 rounded-lg flex items-center px-2 text-white text-xs font-medium z-20 shadow-md overflow-hidden -ml-6"
+                                    className="absolute h-6 rounded-lg flex items-center px-2 text-white text-xs font-medium z-20 shadow-md overflow-hidden"
                                     style={{
-                                      left: `${calculatePosition(milestone.details.startDate) * 25}px`,
-                                      width: `${calculateWidth(milestone.details.startDate, milestone.details.endDate) * 25}px`,
+                                      left: `${calculatePosition(milestoneStart) * 25}px`,
+                                      width: `${
+                                        milestone.details.endDate
+                                          ? calculateWidth(milestoneStart, milestoneEnd) * 25
+                                          : 25
+                                      }px`,
                                       backgroundColor: milestone.details.color,
                                       top: "50%",
                                       transform: "translateY(-50%)",
                                     }}
-                                    title={`${milestone.name}\nStatus: ${milestone.details.status}\nPriority: ${milestone.details.priority}\nProgress: ${milestoneProgress}%`}
+                                    title={`${milestone.name}\nStatus: ${milestone.details.status}\nPriority: ${
+                                      milestone.details.priority
+                                    }\nProgress: ${milestoneProgress}%`}
                                   >
                                     <div
                                       className="absolute top-0 left-0 bottom-0 opacity-50"
                                       style={{
                                         width: `${milestoneProgress}%`,
-                                        backgroundColor: milestone.details.color,
+                                        backgroundColor: `${milestone.details.color}80`,
                                       }}
                                     ></div>
-                                    <span className="z-10 relative">
-                                      {milestone.name}
-                                      {milestone.completed && <CheckCircle className="h-3 w-3 ml-1 inline" />}
+                                    <span className="z-10 relative truncate">
+                                      {milestone.name} 
                                     </span>
-                                  </div>
-                                )}
-
-                                {/* Milestone deadline marker */}
-                                {milestone.details.deadline && (
-                                  <div
-                                    className="absolute top-0 bottom-0 w-px bg-red-500 z-30"
-                                    style={{
-                                      left: `${calculatePosition(milestone.details.deadline) * 25}px`,
-                                    }}
-                                    title={`Deadline: ${milestone.details.deadline.toLocaleDateString()}`}
-                                  >
-                                    <div className="h-2 w-2 rounded-full bg-red-500 absolute top-5 -ml-1"></div>
                                   </div>
                                 )}
                               </div>
