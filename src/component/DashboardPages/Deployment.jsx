@@ -1,3 +1,4 @@
+
 import { useState } from "react"
 import { Cloud, Cpu, Rocket, CheckCircle, Clock, Edit } from "lucide-react"
 
@@ -61,6 +62,8 @@ const Deployment = () => {
   const [showPhaseEditModal, setShowPhaseEditModal] = useState({ show: false, index: null, data: { phase: "", tasks: [] } })
   const [showTaskAddModal, setShowTaskAddModal] = useState({ show: false, phaseIndex: null })
   const [showTaskEditModal, setShowTaskEditModal] = useState({ show: false, phaseIndex: null, taskIndex: null, data: "" })
+  const [showAIModal, setShowAIModal] = useState(false) // New state for AI modal
+  const [selectedAction, setSelectedAction] = useState("") // Track selected action
 
   // State for form inputs
   const [newStrategyInput, setNewStrategyInput] = useState({ title: "", desc: "" })
@@ -136,8 +139,17 @@ const Deployment = () => {
     }
   }
 
+  // Handler for AI modal actions
+  const handleAIAction = () => {
+    if (selectedAction) {
+      console.log(`Selected AI Action: ${selectedAction}`)
+      setShowAIModal(false)
+      setSelectedAction("")
+    }
+  }
+
   return (
-    <div className="  py-12 px-4 sm:px-6 lg:px-8">
+    <div className="py-12 px-4 sm:px-6 lg:px-8">
       <div className="container mx-auto">
         {/* Header */}
         <div className="text-center mb-12">
@@ -147,6 +159,15 @@ const Deployment = () => {
           <p className="mt-3 max-w-3xl mx-auto text-lg text-gray-600 dark:text-gray-400">
             A comprehensive plan for deploying an AI-powered task management application, ensuring scalability, reliability, and seamless AI integration.
           </p>
+          <div className="mt-6 flex justify-center gap-4">
+            <button
+              className="bg-[#00308F] text-white px-4 py-2 rounded hover:bg-blue-600"
+              onClick={() => setShowAIModal(true)}
+            >
+              Review Sent For
+            </button>
+            
+          </div>
         </div>
 
         {/* Strategy Overview */}
@@ -215,7 +236,6 @@ const Deployment = () => {
                         <CheckCircle className="h-4 w-4 text-[#00308F] dark:text-blue-300" />
                         {task}
                       </div>
-                      
                     </li>
                   ))}
                   <li>
@@ -476,6 +496,67 @@ const Deployment = () => {
                 className="bg-[#00308F] cursor-pointer text-white px-4 py-2 rounded hover:bg-blue-600"
               >
                 Save
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modal for AI Actions */}
+      {showAIModal && (
+        <div className="fixed inset-0 backdrop-blur-[2px] flex items-center justify-center z-50">
+          <div className="bg-white dark:bg-gray-800 rounded-lg p-6 w-full max-w-md border border-gray-300 dark:border-gray-700">
+            <h2 className="text-xl font-bold mb-4 text-gray-800 dark:text-gray-200">Select AI Action</h2>
+            <div className="space-y-4">
+              <div className="flex flex-col gap-2">
+                <button
+                  onClick={() => setSelectedAction("Review")}
+                  className={`w-full p-2 rounded text-left ${
+                    selectedAction === "Review"
+                      ? "bg-[#00308F] text-white"
+                      : "bg-gray-200 dark:bg-gray-600 text-gray-800 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-500"
+                  }`}
+                >
+                  Review
+                </button>
+                <button
+                  onClick={() => setSelectedAction("Approve")}
+                  className={`w-full p-2 rounded text-left ${
+                    selectedAction === "Approve"
+                      ? "bg-[#00308F] text-white"
+                      : "bg-gray-200 dark:bg-gray-600 text-gray-800 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-500"
+                  }`}
+                >
+                  Approve
+                </button>
+                <button
+                  onClick={() => setSelectedAction("Sign Off")}
+                  className={`w-full p-2 rounded text-left ${
+                    selectedAction === "Sign Off"
+                      ? "bg-[#00308F] text-white"
+                      : "bg-gray-200 dark:bg-gray-600 text-gray-800 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-500"
+                  }`}
+                >
+                  Sign Off
+                </button>
+              </div>
+            </div>
+            <div className="mt-6 flex justify-end space-x-2">
+              <button
+                onClick={() => {
+                  setShowAIModal(false)
+                  setSelectedAction("")
+                }}
+                className="bg-gray-200 dark:bg-gray-600 text-gray-800 dark:text-gray-200 px-4 py-2 rounded hover:bg-gray-300 dark:hover:bg-gray-500"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleAIAction}
+                className="bg-[#00308F] text-white px-4 py-2 rounded hover:bg-blue-600 disabled:bg-gray-400 disabled:cursor-not-allowed"
+                disabled={!selectedAction}
+              >
+                Confirm
               </button>
             </div>
           </div>
