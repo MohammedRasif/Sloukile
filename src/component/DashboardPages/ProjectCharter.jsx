@@ -1,491 +1,459 @@
-import { useState, useEffect, useRef } from "react"
-import {
-  FaCogs,
-  FaTasks,
-  FaUsers,
-  FaDollarSign,
-  FaExclamationTriangle,
-  FaSitemap,
-  FaShareAlt,
-  FaRocket,
-  FaClipboardList,
-  FaChevronDown,
-  FaChevronRight,
-  FaRegFilePdf,
-  FaPrint,
-  FaDownload,
-} from "react-icons/fa"
-import { IoIosTimer } from "react-icons/io"
-import { MdAccountBalance } from "react-icons/md"
-import {
-  EmailShareButton,
-  WhatsappShareButton,
-  EmailIcon,
-  WhatsappIcon,
-} from "react-share"
-import Overview from "./Overview"
-import Planning from "./Planning"
-import Tasks from "./Tasks"
-import ProjectRisks from "./ProjectRisks"
-import RACI from "./RACI"
-import Deployment from "./Deployment"
-import GovernmentSetup from "./GovernanceSetup"
-import Team from "./Team.jsx"
-import Timeline from "./Timeline.jsx"
-import Bugget from "./Bugget.jsx"
 
-const charterSections = [
-  { label: "Overview", icon: <FaClipboardList />, component: <Overview /> },
-  { label: "Government Setup", icon: <MdAccountBalance />, component: <GovernmentSetup /> },
-  { label: "Planning", icon: <FaCogs />, component: <Planning /> },
-  { label: "Tasks", icon: <FaTasks />, component: <Tasks /> },
-  { label: "Team", icon: <FaUsers />, component: <Team /> },
-  { label: "Timeline", icon: <IoIosTimer />, component: <Timeline /> },
-  { label: "Budget", icon: <FaDollarSign />, component: <Bugget /> },
-  { label: "Risks", icon: <FaExclamationTriangle />, component: <ProjectRisks /> },
-  { label: "RACI", icon: <FaSitemap />, component: <RACI /> },
-  { label: "Strategy", icon: <FaRocket />, component: <Deployment /> },
-]
+import { useState } from "react";
+import { Plus, X } from "lucide-react";
 
-const projectData = {
-  title: "Downtown Commercial Tower Construction",
-  orchestrator: "Emily Thompson",
-  manager: "Rahul Patel",
-  objective:
-    "The Downtown Commercial Tower Construction project aims to build a state-of-the-art, sustainable commercial building in the city center, optimizing resource use, ensuring timely completion, and delivering a high-quality, eco-friendly structure that enhances urban development and tenant satisfaction.",
+export default function ReportingAnalysis() {
+  // State for reports
+  const [reports, setReports] = useState([
+    {
+      name: "Steering Committee Update",
+      frequency: "Monthly",
+      type: "Steering",
+      startDate: "Apr 15, 2024",
+      view: true,
+    },
+    {
+      name: "Project Stage Review: Design",
+      frequency: "One-time",
+      type: "Stage",
+      startDate: "Apr 22, 2024",
+      view: true,
+    },
+    {
+      name: "Program Board Report",
+      frequency: "Monthly",
+      type: "Program Board",
+      startDate: "Apr 30, 2024",
+      view: true,
+    },
+    {
+      name: "Weekly Team Update",
+      frequency: "Weekly",
+      type: "Team",
+      startDate: "Apr 15, 2024",
+      view: true,
+    },
+    {
+      name: "Milestone Summary Phase 1",
+      frequency: "One-time",
+      type: "Milestone",
+      startDate: "Apr 15, 2024",
+      view: true,
+    },
+  ]);
 
-  scopeItems: [
+  // State for versioned reports (unchanged)
+  const versionedReports = [
     {
-      capability: "Site Preparation and Foundation",
-      description:
-        "Clearing and grading the site, followed by laying a reinforced concrete foundation to support the multi-story commercial structure.",
-      endGame:
-        "Expected outcomes:\n• Completion of site clearing within 4 weeks\n• Foundation ready for structural work: 95% quality compliance\n• Cost savings: $500K through optimized excavation\n• Zero safety incidents\n• 100% adherence to local regulations\n• Reduced environmental impact via sustainable practices",
+      name: "Monthly Report",
+      stage: "Development",
+      date: "Jan 15, 2024",
     },
     {
-      capability: "Structural Framework",
-      description:
-        "Erecting the steel and concrete framework for the building, including columns, beams, and floors, to ensure structural integrity.",
-      endGame: "",
+      name: "Monthly Report",
+      stage: "Development",
+      date: "Feb 20, 2024",
     },
     {
-      capability: "Building Envelope and Facade",
-      description:
-        "Installing exterior walls, windows, and cladding to create a weather-tight and energy-efficient building envelope with a modern aesthetic.",
-      endGame: "",
+      name: "Monthly Report",
+      stage: "Development",
+      date: "Mar 15, 2024",
     },
-    {
-      capability: "Interior Fit-Out and Systems",
-      description:
-        "Completing interior construction, including electrical, plumbing, HVAC, and tenant-specific fit-outs to meet commercial leasing requirements.",
-      endGame: "",
-    },
-  ],
+  ];
 
-  interdependencies: [
-    {
-      item: "Availability of Skilled Labor",
-      description:
-        "The project relies on the availability of qualified construction workers, including masons, electricians, and HVAC technicians, to meet tight deadlines.",
-    },
-    {
-      item: "Timely Material Supply",
-      description:
-        "Delays in the delivery of critical materials like steel, concrete, and glass could impact the construction schedule and increase costs.",
-    },
-  ],
+  // State for modal
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalMode, setModalMode] = useState("add"); // "add" or "edit"
+  const [currentReport, setCurrentReport] = useState(null);
+  const [formData, setFormData] = useState({
+    name: "",
+    frequency: "Weekly",
+    type: "Steering",
+    startDate: "",
+  });
+  const [formError, setFormError] = useState("");
 
-  keyRisks: [
-    {
-      risk: "Weather-Related Delays",
-      description:
-        "Adverse weather conditions, such as heavy rain or extreme heat, could halt outdoor construction activities and delay the project timeline.",
-    },
-    {
-      risk: "Regulatory Compliance Issues",
-      description:
-        "Failure to meet building codes or obtain necessary permits on time could result in fines or construction halts.",
-    },
-    {
-      risk: "Labor Shortages",
-      description:
-        "A lack of skilled workers due to market demand or labor disputes could slow progress and increase labor costs.",
-    },
-    {
-      risk: "Material Cost Volatility",
-      description:
-        "Fluctuations in the prices of key materials like steel or cement could exceed the allocated budget, impacting financial planning.",
-    },
-  ],
+  // Open modal for adding new report
+  const openAddModal = () => {
+    setModalMode("add");
+    setFormData({
+      name: "",
+      frequency: "Weekly",
+      type: "Steering",
+      startDate: "",
+    });
+    setFormError("");
+    setIsModalOpen(true);
+  };
 
-  deliverables: [
-    { name: "Site Preparation Plan", date: "02/25" },
-    { name: "Foundation Design Approval", date: "03/25" },
-    { name: "Structural Framework Completion", date: "06/25" },
-    { name: "Facade Installation Milestone", date: "09/25" },
-    { name: "Interior Fit-Out Completion", date: "12/25" },
-    { name: "Building Handover", date: "TBD" },
-  ],
+  // Open modal for editing report
+  const openEditModal = (report, index) => {
+    setModalMode("edit");
+    setCurrentReport({ ...report, index });
+    setFormData({
+      name: report.name,
+      frequency: report.frequency,
+      type: report.type,
+      startDate: report.startDate,
+    });
+    setFormError("");
+    setIsModalOpen(true);
+  };
 
-  resources: [
-    { role: "Project Manager", required: "Yes", name: "Rahul Patel", fte: "0.2" },
-  ],
-}
+  // Close modal
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setCurrentReport(null);
+  };
 
-export default function ProjectCharter() {
-  const [selectedSection, setSelectedSection] = useState("Overview")
-  const [isShareDropdownOpen, setIsShareDropdownOpen] = useState(false)
-  const [expandedSections, setExpandedSections] = useState({
-    scope: true,
-    interdependencies: true,
-    risks: true,
-    deliverables: true,
-    resources: true,
-  })
-  const dropdownRef = useRef(null)
+  // Handle form input changes
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
 
-  useEffect(() => {
-    const handleOutsideClick = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setIsShareDropdownOpen(false)
-      }
+  // Validate and submit form
+  const handleSubmit = () => {
+    if (!formData.name || !formData.startDate) {
+      setFormError("Name and Start Date are required.");
+      return;
     }
-    document.addEventListener("mousedown", handleOutsideClick)
-    return () => {
-      document.removeEventListener("mousedown", handleOutsideClick)
+
+    if (modalMode === "add") {
+      setReports([
+        ...reports,
+        {
+          ...formData,
+          view: true,
+        },
+      ]);
+    } else if (modalMode === "edit" && currentReport) {
+      const updatedReports = [...reports];
+      updatedReports[currentReport.index] = {
+        ...formData,
+        view: true,
+      };
+      setReports(updatedReports);
     }
-  }, [])
 
-  const handleSectionClick = (section) => {
-    setSelectedSection(section.label)
-    setIsShareDropdownOpen(false)
-  }
+    closeModal();
+  };
 
-  const toggleShareDropdown = () => {
-    setIsShareDropdownOpen((prev) => !prev)
-  }
-
-  const toggleSection = (section) => {
-    setExpandedSections((prev) => ({
-      ...prev,
-      [section]: !prev[section],
-    }))
-  }
-
-  const shareUrl = typeof window !== "undefined" ? window.location.href : ""
-  const shareTitle = `Project Charter: ${selectedSection || "Overview"}`
+  // Delete report
+  const handleDelete = (index) => {
+    if (window.confirm("Are you sure you want to delete this report?")) {
+      setReports(reports.filter((_, i) => i !== index));
+    }
+  };
 
   return (
-    <div className="flex flex-col items-center justify-center p-6 w-full dark:bg-[#1E232E]">
-      <div className="w-full bg-white dark:bg-[#1E232E] shadow-lg rounded-lg overflow-hidden">
-        {/* Header with actions */}
-        <div className="flex justify-between items-center p-4 bg-[#00308F] dark:bg-[#4A6CF7] text-white">
-          <h1 className="text-2xl font-bold">Program Charter: {projectData.title}</h1>
-          <div className="flex items-center space-x-4">
-            <div className="relative" ref={dropdownRef}>
-              <FaShareAlt
-                className="text-xl cursor-pointer hover:text-blue-200 transition-colors"
-                onClick={toggleShareDropdown}
-              />
-              {isShareDropdownOpen && (
-                <div className="absolute top-full right-0 mt-2 bg-gradient-to-br from-blue-50 to-gray-100 dark:bg-gradient-to-br dark:from-gray-800 dark:to-gray-900 rounded-xl shadow-xl p-2 flex gap-3 z-50">
-                  <EmailShareButton url={shareUrl} subject={shareTitle}>
-                    <div className="hover:scale-105 transition-all duration-200">
-                      <EmailIcon size={36} round />
-                    </div>
-                  </EmailShareButton>
-                  <WhatsappShareButton url={shareUrl} title={shareTitle}>
-                    <div className="hover:scale-105 transition-all duration-200">
-                      <WhatsappIcon size={36} round />
-                    </div>
-                  </WhatsappShareButton>
-                </div>
-              )}
+    <div className=" p-5 container">
+      {/* Header */}
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-2xl font-bold text-gray-900">Reporting </h1>
+      </div>
+
+      {/* Reporting Frequency Setup Section */}
+      <div className="  mb-6">
+        <h2 className="text-xl font-semibold text-gray-900 mb-4">Reporting Frequency Setup</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* Frequency Select */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Frequency</label>
+            <div className="relative">
+              <select
+                defaultValue="monthly"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-700"
+              >
+                <option value="weekly">Weekly</option>
+                <option value="biweekly">Bi-weekly</option>
+                <option value="monthly">Monthly</option>
+                <option value="quarterly">Quarterly</option>
+              </select>
+            </div>
+          </div>
+          {/* Submit Report By Input */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Submit report by</label>
+            <input
+              type="text"
+              defaultValue="Mar 31"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-700"
+            />
+          </div>
+        </div>
+
+        {/* Linkage to Governance */}
+        <div className="mt-6">
+          <h3 className="text-lg font-medium text-gray-900 mb-2">Linkage to Governance</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Stage Select */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Stage</label>
+              <div className="relative">
+                <select
+                  defaultValue="design"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-700"
+                >
+                  <option value="planning">Planning</option>
+                  <option value="design">Design</option>
+                  <option value="development">Development</option>
+                  <option value="testing">Testing</option>
+                  <option value="deployment">Deployment</option>
+                </select>
+              </div>
+            </div>
+            {/* Committee Select */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Committee</label>
+              <div className="relative">
+                <select
+                  defaultValue="steering"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-700"
+                >
+                  <option value="steering">Steering</option>
+                  <option value="program">Program Board</option>
+                  <option value="executive">Executive</option>
+                  <option value="technical">Technical</option>
+                </select>
+              </div>
             </div>
           </div>
         </div>
 
-        {/* Project info */}
-        <div className="p-4 border-b dark:border-gray-600">
-          <div className="flex justify-between mb-4">
-            <div>
-              <span className="text-gray-600 dark:text-gray-400 font-medium">
-                Project Orchestrator:
-              </span>{" "}
-              {projectData.orchestrator}
-            </div>
-            <div>
-              <span className="text-gray-600 dark:text-gray-400 font-medium">
-                Project Manager:
-              </span>{" "}
-              {projectData.manager}
-            </div>
-          </div>
-
-          <div className="mb-4">
-            <h2 className="text-gray-700 dark:text-gray-200 font-bold mb-2">
-              Program Goal/Objective:
-            </h2>
-            <p className="text-gray-600 dark:text-gray-400">{projectData.objective}</p>
-          </div>
-        </div>
-
-        {/* Main content */}
-        <div className="p-4">
-          {/* Scope/Capabilities Section */}
-          <div className="mb-6 border dark:border-gray-600 rounded-lg overflow-hidden">
-            <div
-              className="flex justify-between items-center p-3 bg-[#00308F] dark:bg-[#4A6CF7] text-white cursor-pointer"
-              onClick={() => toggleSection("scope")}
-            >
-              <h2 className="font-bold">Scope/Capabilities to deliver</h2>
-              {expandedSections.scope ? <FaChevronDown /> : <FaChevronRight />}
-            </div>
-
-            {expandedSections.scope && (
-              <div className="overflow-x-auto">
-                <table className="min-w-full">
-                  <thead>
-                    <tr className="bg-gray-100 dark:bg-[#353A47]">
-                      <th className="p-3 text-left font-semibold text-gray-700 dark:text-gray-200 border dark:border-gray-600">
-                        Scope/Capabilities to deliver
-                      </th>
-                      <th className="p-3 text-left font-semibold text-gray-700 dark:text-gray-200 border dark:border-gray-600">
-                        Short description
-                      </th>
-                      <th className="p-3 text-left font-semibold text-gray-700 dark:text-gray-200 border dark:border-gray-600">
-                        End-game
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {projectData.scopeItems.map((item, index) => (
-                      <tr
-                        key={index}
-                        className={
-                          index % 2 === 0
-                            ? "bg-white dark:bg-[#1E232E]"
-                            : "bg-gray-50 dark:bg-[#2A2F3B]"
-                        }
-                      >
-                        <td className="p-3 border dark:border-gray-600 text-gray-700 dark:text-gray-300">
-                          {item.capability}
-                        </td>
-                        <td className="p-3 border dark:border-gray-600 text-gray-700 dark:text-gray-300">
-                          {item.description}
-                        </td>
-                        <td className="p-3 border dark:border-gray-600 text-gray-700 dark:text-gray-300 whitespace-pre-line">
-                          {item.endGame}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            )}
-          </div>
-
-          {/* Critical Interdependencies Section */}
-          <div className="mb-6 border dark:border-gray-600 rounded-lg overflow-hidden">
-            <div
-              className="flex justify-between items-center p-3 bg-[#00308F] dark:bg-[#4A6CF7] text-white cursor-pointer"
-              onClick={() => toggleSection("interdependencies")}
-            >
-              <h2 className="font-bold">Critical Interdependencies</h2>
-              {expandedSections.interdependencies ? <FaChevronDown /> : <FaChevronRight />}
-            </div>
-
-            {expandedSections.interdependencies && (
-              <div className="overflow-x-auto">
-                <table className="min-w-full">
-                  <thead>
-                    <tr className="bg-gray-100 dark:bg-[#353A47]">
-                      <th className="p-3 text-left font-semibold text-gray-700 dark:text-gray-200 border dark:border-gray-600">
-                        Item
-                      </th>
-                      <th className="p-3 text-left font-semibold text-gray-700 dark:text-gray-200 border dark:border-gray-600">
-                        Description
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {projectData.interdependencies.map((item, index) => (
-                      <tr
-                        key={index}
-                        className={
-                          index % 2 === 0
-                            ? "bg-white dark:bg-[#1E232E]"
-                            : "bg-gray-50 dark:bg-[#2A2F3B]"
-                        }
-                      >
-                        <td className="p-3 border dark:border-gray-600 text-gray-700 dark:text-gray-300">
-                          {item.item}
-                        </td>
-                        <td className="p-3 border dark:border-gray-600 text-gray-700 dark:text-gray-300">
-                          {item.description}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            )}
-          </div>
-
-          {/* Key Risks Section */}
-          <div className="mb-6 border dark:border-gray-600 rounded-lg overflow-hidden">
-            <div
-              className="flex justify-between items-center p-3 bg-[#00308F] dark:bg-[#4A6CF7] text-white cursor-pointer"
-              onClick={() => toggleSection("risks")}
-            >
-              <h2 className="font-bold">Key Risks</h2>
-              {expandedSections.risks ? <FaChevronDown /> : <FaChevronRight />}
-            </div>
-
-            {expandedSections.risks && (
-              <div className="overflow-x-auto">
-                <table className="min-w-full">
-                  <thead>
-                    <tr className="bg-gray-100 dark:bg-[#353A47]">
-                      <th className="p-3 text-left font-semibold text-gray-700 dark:text-gray-200 border dark:border-gray-600">
-                        Risk
-                      </th>
-                      <th className="p-3 text-left font-semibold text-gray-700 dark:text-gray-200 border dark:border-gray-600">
-                        Description / Mitigation (if available)
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {projectData.keyRisks.map((item, index) => (
-                      <tr
-                        key={index}
-                        className={
-                          index % 2 === 0
-                            ? "bg-white dark:bg-[#1E232E]"
-                            : "bg-gray-50 dark:bg-[#2A2F3B]"
-                        }
-                      >
-                        <td className="p-3 border dark:border-gray-600 text-gray-700 dark:text-gray-300">
-                          {item.risk}
-                        </td>
-                        <td className="p-3 border dark:border-gray-600 text-gray-700 dark:text-gray-300">
-                          {item.description}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            )}
-          </div>
-
-          {/* Key Deliverables Section */}
-          <div className="mb-6 border dark:border-gray-600 rounded-lg overflow-hidden">
-            <div
-              className="flex justify-between items-center p-3 bg-[#00308F] dark:bg-[#4A6CF7] text-white cursor-pointer"
-              onClick={() => toggleSection("deliverables")}
-            >
-              <h2 className="font-bold">Key Deliverables</h2>
-              {expandedSections.deliverables ? <FaChevronDown /> : <FaChevronRight />}
-            </div>
-
-            {expandedSections.deliverables && (
-              <div className="overflow-x-auto">
-                <table className="min-w-full">
-                  <thead>
-                    <tr className="bg-gray-100 dark:bg-[#353A47]">
-                      <th className="p-3 text-left font-semibold text-gray-700 dark:text-gray-200 border dark:border-gray-600">
-                        Deliverable
-                      </th>
-                      <th className="p-3 text-left font-semibold text-gray-700 dark:text-gray-200 border dark:border-gray-600">
-                        Date
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {projectData.deliverables.map((item, index) => (
-                      <tr
-                        key={index}
-                        className={
-                          index % 2 === 0
-                            ? "bg-white dark:bg-[#1E232E]"
-                            : "bg-gray-50 dark:bg-[#2A2F3B]"
-                        }
-                      >
-                        <td className="p-3 border dark:border-gray-600 text-gray-700 dark:text-gray-300">
-                          {item.name}
-                        </td>
-                        <td className="p-3 border dark:border-gray-600 text-gray-700 dark:text-gray-300">
-                          {item.date}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            )}
-          </div>
-
-          {/* Resource Requirements Section */}
-          <div className="mb-6 border dark:border-gray-600 rounded-lg overflow-hidden">
-            <div
-              className="flex justify-between items-center p-3 bg-[#00308F] dark:bg-[#4A6CF7] text-white cursor-pointer"
-              onClick={() => toggleSection("resources")}
-            >
-              <h2 className="font-bold">Resource Requirements</h2>
-              {expandedSections.resources ? <FaChevronDown /> : <FaChevronRight />}
-            </div>
-
-            {expandedSections.resources && (
-              <div className="overflow-x-auto">
-                <table className="min-w-full">
-                  <thead>
-                    <tr className="bg-gray-100 dark:bg-[#353A47]">
-                      <th className="p-3 text-left font-semibold text-gray-700 dark:text-gray-200 border dark:border-gray-600">
-                        Role
-                      </th>
-                      <th className="p-3 text-left font-semibold text-gray-700 dark:text-gray-200 border dark:border-gray-600">
-                        Required
-                      </th>
-                      <th className="p-3 text-left font-semibold text-gray-700 dark:text-gray-200 border dark:border-gray-600">
-                        Name(s), if known
-                      </th>
-                      <th className="p-3 text-left font-semibold text-gray-700 dark:text-gray-200 border dark:border-gray-600">
-                        FTE
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {projectData.resources.map((item, index) => (
-                      <tr
-                        key={index}
-                        className={
-                          index % 2 === 0
-                            ? "bg-white dark:bg-[#1E232E]"
-                            : "bg-gray-50 dark:bg-[#2A2F3B]"
-                        }
-                      >
-                        <td className="p-3 border dark:border-gray-600 text-gray-700 dark:text-gray-300">
-                          {item.role}
-                        </td>
-                        <td className="p-3 border dark:border-gray-600 text-gray-700 dark:text-gray-300">
-                          {item.required}
-                        </td>
-                        <td className="p-3 border dark:border-gray-600 text-gray-700 dark:text-gray-300">
-                          {item.name}
-                        </td>
-                        <td className="p-3 border dark:border-gray-600 text-gray-700 dark:text-gray-300">
-                          {item.fte}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            )}
+        {/* Versioned Reports Table */}
+        <div className="mt-6">
+          <h3 className="text-lg font-medium text-gray-900 mb-2">Versioned Reports</h3>
+          <div className="overflow-x-auto">
+            <table className="min-w-full divide-y divide-gray-200">
+              <thead className="bg-gray-50">
+                <tr>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Name
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Stage
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-500 uppercase tracking-wider">
+                    Date
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="bg-white divide-y divide-gray-200">
+                {versionedReports.map((report, index) => (
+                  <tr key={index}>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                      {report.name}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{report.stage}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{report.date}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
+
+      {/* Reports Section */}
+      <div className="bg-white shadow rounded-lg p-6">
+        <div className="flex justify-between items-center mb-6">
+          <h2 className="text-xl font-semibold text-gray-900">Reports</h2>
+          <button
+            onClick={openAddModal}
+            className="flex items-center px-4 py-2 bg-[#00308F] text-white rounded-md hover:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer"
+          >
+            <Plus className="h-4 w-4 mr-2" /> New Report
+          </button>
+        </div>
+
+        {/* Filters */}
+        <div className="flex space-x-4 mb-4">
+          {/* Frequency Filter */}
+          <div className="relative">
+            <select
+              defaultValue="all"
+              className="w-44 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-700"
+            >
+              <option value="all">All Frequencies</option>
+              <option value="weekly">Weekly</option>
+              <option value="monthly">Monthly</option>
+              <option value="quarterly">Quarterly</option>
+              <option value="one-time">One-time</option>
+            </select>
+          </div>
+          {/* Type Filter */}
+          <div className="relative">
+            <select
+              defaultValue="all"
+              className="w-44 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-700"
+            >
+              <option value="all">All Types</option>
+              <option value="steering">Steering</option>
+              <option value="program">Program Board</option>
+              <option value="team">Team</option>
+              <option value="milestone">Milestone</option>
+            </select>
+          </div>
+          {/* Start Date Filter */}
+          <div className="relative">
+            <select
+              defaultValue="all"
+              className="w-44 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-700"
+            >
+              <option value="all">All Dates</option>
+              <option value="this-month">This Month</option>
+              <option value="last-month">Last Month</option>
+              <option value="custom">Custom Range</option>
+            </select>
+          </div>
+        </div>
+
+        {/* Reports Table */}
+        <div className="overflow-x-auto">
+          <table className="min-w-full divide-y divide-gray-200">
+            <thead className="bg-gray-50">
+              <tr>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Name
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Frequency
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Type
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Start Date
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Actions
+                </th>
+              </tr>
+            </thead>
+            <tbody className="bg-white divide-y divide-gray-200">
+              {reports.map((report, index) => (
+                <tr key={index}>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                    {report.name}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{report.frequency}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{report.type}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{report.startDate}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 flex space-x-2">
+                    <button
+                      onClick={() => openEditModal(report, index)}
+                      className="  text-sm bg-gray-200 px-2 py-1 rounded-sm cursor-pointer"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => handleDelete(index)}
+                      className="text-red-600 hover:text-red-800 text-sm bg-gray-200 px-2 py-1 rounded-sm cursor-pointer"
+                    >
+                      Delete
+                    </button>
+                   
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      {/* Modal for Add/Edit Report */}
+      {isModalOpen && (
+        <div className="fixed inset-0 backdrop-blur-[3px] flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg border border-gray-300 p-6 w-full max-w-md">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-xl font-semibold text-gray-900">
+                {modalMode === "add" ? "Add New Report" : "Edit Report"}
+              </h2>
+              <button
+                onClick={closeModal}
+                className="text-gray-500 hover:text-gray-700 cursor-pointer"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+            {formError && (
+              <p className="text-red-500 text-sm mb-4">{formError}</p>
+            )}
+            <div className="space-y-4">
+              {/* Name Input */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Name</label>
+                <input
+                  type="text"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleInputChange}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-700"
+                />
+              </div>
+              {/* Frequency Select */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Frequency</label>
+                <select
+                  name="frequency"
+                  value={formData.frequency}
+                  onChange={handleInputChange}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-700"
+                >
+                  <option value="Weekly">Weekly</option>
+                  <option value="Bi-weekly">Bi-weekly</option>
+                  <option value="Monthly">Monthly</option>
+                  <option value="Quarterly">Quarterly</option>
+                  <option value="One-time">One-time</option>
+                </select>
+              </div>
+              {/* Type Select */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Type</label>
+                <select
+                  name="type"
+                  value={formData.type}
+                  onChange={handleInputChange}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-700"
+                >
+                  <option value="Steering">Steering</option>
+                  <option value="Program Board">Program Board</option>
+                  <option value="Team">Team</option>
+                  <option value="Milestone">Milestone</option>
+                  <option value="Stage">Stage</option>
+                </select>
+              </div>
+              {/* Start Date Input */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Start Date</label>
+                <input
+                  type="text"
+                  name="startDate"
+                  value={formData.startDate}
+                  onChange={handleInputChange}
+                  placeholder="e.g., Apr 15, 2024"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-700"
+                />
+              </div>
+            </div>
+            <div className="flex justify-end space-x-2 mt-6">
+              <button
+                onClick={closeModal}
+                className="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleSubmit}
+                className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                {modalMode === "add" ? "Add Report" : "Save Changes"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
-  )
+  );
 }

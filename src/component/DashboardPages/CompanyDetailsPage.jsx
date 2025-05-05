@@ -1,463 +1,28 @@
-// "use client"
-
-// import { useState } from "react"
-// import { Chart } from "react-google-charts"
-// import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api"
-
-// const CompanyDetailsPage = () => {
-//   const [mapLoaded, setMapLoaded] = useState(false)
-
-//   // Program metrics data
-//   const programMetrics = [
-//     { title: "Total Projects", value: "5", color: "#8e44ad" },
-//     { title: "Program Budget", value: "7.2m", color: "#e67e22" },
-//     { title: "Committed to Date", value: "4.2m", color: "#3498db" },
-//     { title: "Final Forecast Cost", value: "8.3m", color: "#5dade2" },
-//     { title: "Variance to Budget", value: "-1.1m", color: "#f1c40f" },
-//     { title: "Paid to Date", value: "1.0m", color: "#7dcea0" },
-//   ]
-
-//   // Project locations for map
-//   const projectLocations = [
-//     { name: "Project A", lat: 37.7749, lng: -122.4194 },
-//     { name: "Project B", lat: 40.7128, lng: -74.006 },
-//     { name: "Project C", lat: 41.8781, lng: -87.6298 },
-//     { name: "Project D", lat: 34.0522, lng: -118.2437 },
-//     { name: "Project E", lat: 39.9526, lng: -75.1652 },
-//   ]
-
-//   // Project phases donut chart data
-//   const projectPhasesData = [
-//     ["Phase", "Count"],
-//     ["Initiation", 1],
-//     ["Procurement", 1],
-//     ["Design", 1],
-//     ["Delivery", 1],
-//     ["DLP", 1],
-//   ]
-
-//   const projectPhasesOptions = {
-//     pieHole: 0.7,
-//     legend: { position: "bottom" },
-//     pieSliceText: "none",
-//     colors: ["#2980b9", "#27ae60", "#f39c12", "#e74c3c", "#f1c40f"],
-//     chartArea: { width: "100%", height: "70%" },
-//   }
-
-//   // Finance data
-//   const financeData = {
-//     budget: "7,594,387.93",
-//     estimatedAtCompletion: "8,537,599.74",
-//     variance: "-943,211.81",
-//     paid: "1,064,665.99",
-//   }
-
-//   // Health metrics data
-//   const healthMetrics = [
-//     { name: "Scope", values: [2, 1, 2] },
-//     { name: "Time", values: [1, 1, 3] },
-//     { name: "Cost", values: [1, 2, 2] },
-//     { name: "Risk", values: [2, 1, 2] },
-//     { name: "Social", values: [1, 2, 2] },
-//     { name: "Quality", values: [1, 1, 3] },
-//     { name: "Ovrl Perf", values: [0, 0, 5] },
-//   ]
-
-//   // Projects table data
-//   const projectsTableData = [
-//     {
-//       name: "Project A - Project",
-//       completionDate: "Jul 1, 2027",
-//       budget: "4,200,000.00",
-//       totalPaid: "725,000.00",
-//       paymentProgress: 17,
-//       scopeHealth: "Green",
-//       timeHealth: "Green",
-//       costHealth: "Green",
-//       cashFlowHealth: "Green",
-//       safetyHealth: "Green",
-//       riskHealth: "Green",
-//       qualityHealth: "Green",
-//     },
-//     {
-//       name: "Project B - Treatment Plant Expansion Project",
-//       completionDate: "Dec 5, 2024",
-//       budget: "840,619.30",
-//       totalPaid: "159,756.89",
-//       paymentProgress: 19,
-//       scopeHealth: "Red",
-//       timeHealth: "Red",
-//       costHealth: "Yellow",
-//       cashFlowHealth: "Green",
-//       safetyHealth: "Red",
-//       riskHealth: "Yellow",
-//       qualityHealth: "Red",
-//     },
-//     {
-//       name: "Project C - Wharf Infill Project",
-//       completionDate: "Oct 15, 2025",
-//       budget: "850,599.20",
-//       totalPaid: "25,000.12",
-//       paymentProgress: 3,
-//       scopeHealth: "Green",
-//       timeHealth: "Green",
-//       costHealth: "Green",
-//       cashFlowHealth: "Yellow",
-//       safetyHealth: "Green",
-//       riskHealth: "Green",
-//       qualityHealth: "Green",
-//     },
-//     {
-//       name: "Project D - Wastewater Project",
-//       completionDate: "Dec 31, 2025",
-//       budget: "703,770.00",
-//       totalPaid: "47,116.98",
-//       paymentProgress: 7,
-//       scopeHealth: "Green",
-//       timeHealth: "Yellow",
-//       costHealth: "Green",
-//       cashFlowHealth: "Red",
-//       safetyHealth: "Green",
-//       riskHealth: "Red",
-//       qualityHealth: "Green",
-//     },
-//     {
-//       name: "Project E - Disaster Recovery Project",
-//       completionDate: "Feb 28, 2027",
-//       budget: "1,000,000.00",
-//       totalPaid: "55,172.00",
-//       paymentProgress: 6,
-//       scopeHealth: "Green",
-//       timeHealth: "Green",
-//       costHealth: "Green",
-//       cashFlowHealth: "Green",
-//       safetyHealth: "Red",
-//       riskHealth: "Red",
-//       qualityHealth: "Green",
-//     },
-//   ]
-
-//   // Custom title chart data
-//   const customTitleData = [
-//     ["Project", "Budget", "Spent", "Remaining"],
-//     ["Project A - Project", 4200000, 725000, 3475000],
-//     ["Project E - Disaster Recovery Project", 1000000, 55172, 944828],
-//     ["Project D - Wastewater Project", 703770, 47117, 656653],
-//     ["Project B - Treatment Plant Expansion Project", 840619, 159757, 680862],
-//     ["Project C - Wharf Infill Project", 850599, 25000, 825599],
-//   ]
-
-//   const customTitleOptions = {
-//     chartArea: { width: "70%", height: "80%" },
-//     isStacked: true,
-//     hAxis: { minValue: 0, format: "short" },
-//     legend: { position: "top" },
-//     colors: ["#f39c12", "#3498db", "#2ecc71"],
-//   }
-
-//   // Cash flow chart data
-//   const generateCashFlowData = () => {
-//     const months = [
-//       "Jan '22", "Feb '22", "Mar '22", "Apr '22", "May '22", "Jun '22",
-//       "Jul '22", "Aug '22", "Sep '22", "Oct '22", "Nov '22", "Dec '22",
-//       "Jan '23", "Feb '23", "Mar '23", "Apr '23", "May '23", "Jun '23",
-//       "Jul '23", "Aug '23", "Sep '23", "Oct '23", "Nov '23", "Dec '23",
-//     ]
-
-//     const data = [["Month", "Project A", "Project B", "Project C", "Project D", "Project E"]]
-
-//     months.forEach((month, i) => {
-//       const projectA = i < 5 ? 0 : Math.floor(Math.random() * 100000)
-//       const projectB = i < 8 ? 0 : Math.floor(Math.random() * 80000)
-//       const projectC = i < 10 ? 0 : Math.floor(Math.random() * 60000)
-//       const projectD = i < 12 ? 0 : Math.floor(Math.random() * 50000)
-//       const projectE = i < 15 ? 0 : Math.floor(Math.random() * 40000)
-
-//       data.push([month, projectA, projectB, projectC, projectD, projectE])
-//     })
-
-//     return data
-//   }
-
-//   const cashFlowData = generateCashFlowData()
-
-//   const cashFlowOptions = {
-//     chartArea: { width: "85%", height: "70%" },
-//     isStacked: true,
-//     legend: { position: "top" },
-//     hAxis: { slantedText: true, slantedTextAngle: 45 },
-//     vAxis: { format: "short" },
-//     colors: ["#2980b9", "#27ae60", "#f39c12", "#e74c3c", "#8e44ad"],
-//   }
-
-//   const mapContainerStyle = {
-//     width: "100%",
-//     height: "100%",
-//   }
-
-//   const mapCenter = {
-//     lat: 39.8283,
-//     lng: -98.5795,
-//   }
-
-//   const getHealthColor = (status) => {
-//     switch (status.toLowerCase()) {
-//       case "green":
-//         return "bg-green-500"
-//       case "yellow":
-//         return "bg-yellow-500"
-//       case "red":
-//         return "bg-red-500"
-//       default:
-//         return "bg-gray-300"
-//     }
-//   }
-
-//   const renderHealthBar = (values) => {
-//     return (
-//       <div className="flex h-4 w-full">
-//         {values.map((value, i) => (
-//           <div
-//             key={i}
-//             className={`h-full ${i === 0 ? "bg-red-500" : i === 1 ? "bg-yellow-500" : "bg-green-500"}`}
-//             style={{ width: `${(value / values.reduce((a, b) => a + b, 0)) * 100}%` }}
-//           ></div>
-//         ))}
-//       </div>
-//     )
-//   }
-
-//   const renderProgressBar = (percentage, color = "bg-blue-500") => {
-//     return (
-//       <div className="w-full  rounded-full h-2.5">
-//         <div className={`${color} h-2.5 rounded-full`} style={{ width: `${percentage}%` }}></div>
-//       </div>
-//     )
-//   }
-
-//   return (
-//     <div className="p-4  text-lg">
-//       <div className=" p-4 mb-4">
-//         <h1 className="text-2xl font-bold mb-4">Program A - Construction Program</h1>
-
-//         {/* Program Metrics */}
-//         <div className="grid grid-cols-6 gap-3 mb-4">
-//           {programMetrics.map((metric, index) => (
-//             <div key={index} className="p-4 rounded-lg text-white" style={{ backgroundColor: metric.color }}>
-//               <div className="text-[20px]">{metric.title}</div>
-//               <div className="text-4xl font-bold">{metric.value}</div>
-//             </div>
-//           ))}
-//         </div>
-
-//         {/* Map, Project Phases, Finance, Health */}
-//         <div className="grid grid-cols-12 gap-4 mb-4">
-//           {/* Map */}
-//           {/* <div className="col-span-3 bg-white rounded-lg border border-gray-300 shadow-md h-[300px] overflow-hidden">
-
-//             <LoadScript googleMapsApiKey="YOUR_API_KEY" onLoad={() => setMapLoaded(true)}>
-//               {mapLoaded && (
-//                 <GoogleMap mapContainerStyle={mapContainerStyle} center={mapCenter} zoom={4}>
-//                   {projectLocations.map((location, index) => (
-//                     <Marker key={index} position={{ lat: location.lat, lng: location.lng }} title={location.name} />
-//                   ))}
-//                 </GoogleMap>
-//               )}
-//             </LoadScript>
-//           </div> */}
-
-//           {/* Project Phases */}
-//           <div className="col-span-3 bg-gray-100 rounded-lg border-2 border-gray-300 shadow-md p-4 h-[300px] ">
-//             <h2 className="text-[17px] font-medium ">Project Phases</h2>
-//             <div className="h-[270px] -mt-5">
-//               <Chart
-//                 chartType="PieChart"
-//                 width="100%"
-//                 height="100%"
-//                 data={projectPhasesData}
-//                 options={{
-//                   ...projectPhasesOptions,
-//                   backgroundColor: 'transparent', // Ensure chart background is transparent
-//                 }}
-//               />
-//             </div>
-//           </div>
-
-//           {/* Finance */}
-//           {/* <div className="col-span-3 bg-gray-100 rounded-lg border border-gray-300 shadow-md p-4 h-[300px]">
-//             <h2 className="text-[17px] font-semibold mb-4">Finance</h2>
-//             <div className="space-y-2">
-//               <div>
-//                 <div className="text-sm text-gray-500">Budget</div>
-//                 <div className="text-base font-medium">${financeData.budget}</div>
-//                 <div className="h-1 bg-gray-200 w-full"></div>
-//               </div>
-//               <div>
-//                 <div className="text-sm text-gray-500">Estimated At Completion</div>
-//                 <div className="text-base font-medium">${financeData.estimatedAtCompletion}</div>
-//                 <div className="h-2 bg-blue-600 w-full"></div>
-//               </div>
-//               <div>
-//                 <div className="text-sm text-gray-500">Variance</div>
-//                 <div className="text-base font-medium text-red-500">${financeData.variance}</div>
-//                 <div className="flex items-center">
-//                   <div className="h-1 bg-gray-300 w-full"></div>
-//                   <div className="h-4 w-1 bg-black mx-1"></div>
-//                   <div className="h-1 bg-gray-300 w-full"></div>
-//                 </div>
-//               </div>
-//               <div>
-//                 <div className="text-sm text-gray-500">Paid</div>
-//                 <div className="text-base font-medium">${financeData.paid}</div>
-//               </div>
-//             </div>
-//           </div>
-
-
-//           <div className="col-span-3 bg-gray-100 rounded-lg border border-gray-300 shadow-md p-4 h-[300px]">
-//             <h2 className="text-[17px] font-semibold mb-2">Health</h2>
-//             <div className="space-y-4">
-//               {healthMetrics.map((metric, index) => (
-//                 <div key={index} className="flex items-center">
-//                   <div className="w-16 text-sm font-medium">{metric.name}</div>
-//                   <div className="flex-1">{renderHealthBar(metric.values)}</div>
-//                 </div>
-//               ))}
-//             </div>
-//           </div> */}
-//           <div>
-//           <h2 className="text-base font-semibold mb-2">Cash Flow</h2>
-//           <div className="h-96">
-//             <Chart chartType="ColumnChart" width="100%" height="100%" data={cashFlowData} options={cashFlowOptions} />
-//           </div>
-//         </div>
-//         </div>
-
-//         {/* Projects Table */}
-//         <div className="mb-4">
-//           <h2 className="text-base font-semibold mb-2">Projects Table</h2>
-//           <div className="overflow-x-auto">
-//             <table className="min-w-full  border">
-//               <thead>
-//                 <tr className="bg-gray-200 text-sm text-gray-600">
-//                   <th className="py-2 px-3 text-left">Name</th>
-//                   <th className="py-2 px-3 text-left">Completion Date</th>
-//                   <th className="py-2 px-3 text-left">Budget</th>
-//                   <th className="py-2 px-3 text-left">Total Paid</th>
-//                   <th className="py-2 px-3 text-left">Payment Progress</th>
-//                   <th className="py-2 px-3 text-center">Scope Health</th>
-//                   <th className="py-2 px-3 text-center">Time Health</th>
-//                   <th className="py-2 px-3 text-center">Cost Health</th>
-//                   <th className="py-2 px-3 text-center">Cash Flow Health</th>
-//                   <th className="py-2 px-3 text-center">Safety Health</th>
-//                   <th className="py-2 px-3 text-center">Risk Health</th>
-//                   <th className="py-2 px-3 text-center">Quality Health</th>
-//                 </tr>
-//               </thead>
-//               <tbody className="text-base">
-//                 {projectsTableData.map((project, index) => (
-//                   <tr key={index} className="border-t bg-gray-100">
-//                     <td className="py-2 px-3 text-[14px] font-medium">{project.name}</td>
-//                     <td className="py-2 px-3 text-[14px] font-medium">{project.completionDate}</td>
-//                     <td className="py-2 px-3 text-[14px] font-medium">${project.budget}</td>
-//                     <td className="py-2 px-3 text-[14px] font-medium">${project.totalPaid}</td>
-//                     <td className="py-2 px-3  w-32">{renderProgressBar(project.paymentProgress, "bg-green-500 ")}</td>
-//                     <td className="py-2 px-3 text-center">
-//                       <div className={`inline-block w-4 h-4 rounded-full ${getHealthColor(project.scopeHealth)}`}></div>
-//                     </td>
-//                     <td className="py-2 px-3 text-center">
-//                       <div className={`inline-block w-4 h-4 rounded-full ${getHealthColor(project.timeHealth)}`}></div>
-//                     </td>
-//                     <td className="py-2 px-3 text-center">
-//                       <div className={`inline-block w-4 h-4 rounded-full ${getHealthColor(project.costHealth)}`}></div>
-//                     </td>
-//                     <td className="py-2 px-3 text-center">
-//                       <div className={`inline-block w-4 h-4 rounded-full ${getHealthColor(project.cashFlowHealth)}`}></div>
-//                     </td>
-//                     <td className="py-2 px-3 text-center">
-//                       <div className={`inline-block w-4 h-4 rounded-full ${getHealthColor(project.safetyHealth)}`}></div>
-//                     </td>
-//                     <td className="py-2 px-3 text-center">
-//                       <div className={`inline-block w-4 h-4 rounded-full ${getHealthColor(project.riskHealth)}`}></div>
-//                     </td>
-//                     <td className="py-2 px-3 text-center">
-//                       <div className={`inline-block w-4 h-4 rounded-full ${getHealthColor(project.qualityHealth)}`}></div>
-//                     </td>
-//                   </tr>
-//                 ))}
-//               </tbody>
-//             </table>
-//           </div>
-//         </div>
-
-//         {/* Custom title chart */}
-//         <div className="mb-4">
-//           <h2 className="text-base font-semibold mb-2">Custom Title</h2>
-//           <div className="h-64">
-//             <Chart
-//               chartType="BarChart"
-//               width="100%"
-//               height="100%"
-//               data={customTitleData}
-//               options={customTitleOptions}
-//             />
-//           </div>
-//         </div>
-
-//         {/* Cash Flow chart */}
-
-//       </div>
-//     </div>
-//   )
-// }
-
-// export default CompanyDetailsPage
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-"use client"
-
-import { useState } from "react"
-import { Chart } from "react-google-charts"
-import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api"
+import { useState } from "react";
+import { Chart } from "react-google-charts";
+import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
 
 const CompanyDetailsPage = () => {
-  const [mapLoaded, setMapLoaded] = useState(false)
+  const [mapLoaded, setMapLoaded] = useState(false);
 
   // Program metrics data
   const programMetrics = [
-    { title: "Total Projects", value: "5", color: "#8e44ad" },
-    { title: "Program Budget", value: "7.2m", color: "#e67e22" },
-    { title: "Committed to Date", value: "4.2m", color: "#3498db" },
-    { title: "Final Forecast Cost", value: "8.3m", color: "#5dade2" },
-    { title: "Variance to Budget", value: "-1.1m", color: "#f1c40f" },
-    { title: "Paid to Date", value: "1.0m", color: "#7dcea0" },
-  ]
+    { title: "Total Projects", value: "5", color: "#00308F" },
+    { title: "Program Budget", value: "7.2m", color: "#00308F" },
+    { title: "Committed to Date", value: "4.2m", color: "#00308F" },
+    { title: "Final Forecast Cost", value: "8.3m", color: "#00308F" },
+    { title: "Variance to Budget", value: "-1.1m", color: "#00308F" },
+    { title: "Paid to Date", value: "1.0m", color: "#00308F" },
+  ];
 
   // Project locations for map
   const projectLocations = [
-    { name: "Project A", lat: 37.7749, lng: -122.4194 },
-    { name: "Project B", lat: 40.7128, lng: -74.006 },
-    { name: "Project C", lat: 41.8781, lng: -87.6298 },
-    { name: "Project D", lat: 34.0522, lng: -118.2437 },
-    { name: "Project E", lat: 39.9526, lng: -75.1652 },
-  ]
+    { lat: 37.7749, lng: -122.4194 },
+    {  lat: 40.7128, lng: -74.006 },
+    {  lat: 41.8781, lng: -87.6298 },
+    {  lat: 34.0522, lng: -118.2437 },
+    {  lat: 39.9526, lng: -75.1652 },
+  ];
 
   // Project phases donut chart data
   const projectPhasesData = [
@@ -467,7 +32,7 @@ const CompanyDetailsPage = () => {
     ["Design", 1],
     ["Delivery", 1],
     ["DLP", 1],
-  ]
+  ];
 
   const projectPhasesOptions = {
     pieHole: 0.7,
@@ -475,8 +40,8 @@ const CompanyDetailsPage = () => {
     pieSliceText: "none",
     colors: ["#2980b9", "#27ae60", "#f39c12", "#e74c3c", "#f1c40f"],
     chartArea: { width: "100%", height: "70%" },
-    backgroundColor: 'transparent', // Ensure chart background is transparent
-  }
+    backgroundColor: "transparent",
+  };
 
   // Finance data
   const financeData = {
@@ -484,7 +49,7 @@ const CompanyDetailsPage = () => {
     estimatedAtCompletion: "8,537,599.74",
     variance: "-943,211.81",
     paid: "1,064,665.99",
-  }
+  };
 
   // Health metrics data
   const healthMetrics = [
@@ -495,7 +60,7 @@ const CompanyDetailsPage = () => {
     { name: "Social", values: [1, 2, 2] },
     { name: "Quality", values: [1, 1, 3] },
     { name: "Ovrl Perf", values: [0, 0, 5] },
-  ]
+  ];
 
   // Projects table data
   const projectsTableData = [
@@ -505,13 +70,13 @@ const CompanyDetailsPage = () => {
       budget: "4,200,000.00",
       totalPaid: "725,000.00",
       paymentProgress: 17,
-      scopeHealth: "Green",
-      timeHealth: "Green",
-      costHealth: "Green",
-      cashFlowHealth: "Green",
-      safetyHealth: "Green",
-      riskHealth: "Green",
-      qualityHealth: "Green",
+      scopeHealth: "#00308F",
+      timeHealth: "#00308F",
+      costHealth: "#00308F",
+      cashFlowHealth: "#00308F",
+      safetyHealth: "#00308F",
+      riskHealth: "#00308F",
+      qualityHealth: "#00308F",
     },
     {
       name: "Project B - Treatment Plant Expansion Project",
@@ -519,13 +84,13 @@ const CompanyDetailsPage = () => {
       budget: "840,619.30",
       totalPaid: "159,756.89",
       paymentProgress: 19,
-      scopeHealth: "Red",
-      timeHealth: "Red",
-      costHealth: "Yellow",
+      scopeHealth: "#00308F",
+      timeHealth: "#00308F",
+      costHealth: "#00308F",
       cashFlowHealth: "Green",
-      safetyHealth: "Red",
-      riskHealth: "Yellow",
-      qualityHealth: "Red",
+      safetyHealth: "#00308F",
+      riskHealth: "#00308F",
+      qualityHealth: "#00308F",
     },
     {
       name: "Project C - Wharf Infill Project",
@@ -536,7 +101,7 @@ const CompanyDetailsPage = () => {
       scopeHealth: "Green",
       timeHealth: "Green",
       costHealth: "Green",
-      cashFlowHealth: "Yellow",
+      cashFlowHealth: "#00308F",
       safetyHealth: "Green",
       riskHealth: "Green",
       qualityHealth: "Green",
@@ -548,11 +113,11 @@ const CompanyDetailsPage = () => {
       totalPaid: "47,116.98",
       paymentProgress: 7,
       scopeHealth: "Green",
-      timeHealth: "Yellow",
+      timeHealth: "#00308F",
       costHealth: "Green",
-      cashFlowHealth: "Red",
+      cashFlowHealth: "#00308F",
       safetyHealth: "Green",
-      riskHealth: "Red",
+      riskHealth: "#00308F",
       qualityHealth: "Green",
     },
     {
@@ -565,21 +130,20 @@ const CompanyDetailsPage = () => {
       timeHealth: "Green",
       costHealth: "Green",
       cashFlowHealth: "Green",
-      safetyHealth: "Red",
-      riskHealth: "Red",
+      safetyHealth: "#00308F",
+      riskHealth: "#00308F",
       qualityHealth: "Green",
     },
-  ]
+  ];
 
   // Custom title chart data
   const customTitleData = [
-    ["Project", "Budget", "Spent", "Remaining"],
     ["Project A - Project", 4200000, 725000, 3475000],
     ["Project E - Disaster Recovery Project", 1000000, 55172, 944828],
     ["Project D - Wastewater Project", 703770, 47117, 656653],
     ["Project B - Treatment Plant Expansion Project", 840619, 159757, 680862],
     ["Project C - Wharf Infill Project", 850599, 25000, 825599],
-  ]
+  ];
 
   const customTitleOptions = {
     chartArea: { width: "70%", height: "80%" },
@@ -587,7 +151,7 @@ const CompanyDetailsPage = () => {
     hAxis: { minValue: 0, format: "short" },
     legend: { position: "top" },
     colors: ["#f39c12", "#3498db", "#2ecc71"],
-  }
+  };
 
   // Cash flow chart data
   const generateCashFlowData = () => {
@@ -596,24 +160,24 @@ const CompanyDetailsPage = () => {
       "Jul '22", "Aug '22", "Sep '22", "Oct '22", "Nov '22", "Dec '22",
       "Jan '23", "Feb '23", "Mar '23", "Apr '23", "May '23", "Jun '23",
       "Jul '23", "Aug '23", "Sep '23", "Oct '23", "Nov '23", "Dec '23",
-    ]
+    ];
 
-    const data = [["Month", "Project A", "Project B", "Project C", "Project D", "Project E"]]
+    const data = [["Month"]];
 
     months.forEach((month, i) => {
-      const projectA = i < 5 ? 0 : Math.floor(Math.random() * 100000)
-      const projectB = i < 8 ? 0 : Math.floor(Math.random() * 80000)
-      const projectC = i < 10 ? 0 : Math.floor(Math.random() * 60000)
-      const projectD = i < 12 ? 0 : Math.floor(Math.random() * 50000)
-      const projectE = i < 15 ? 0 : Math.floor(Math.random() * 40000)
+      const projectA = i < 5 ? 0 : Math.floor(Math.random() * 100000);
+      const projectB = i < 8 ? 0 : Math.floor(Math.random() * 80000);
+      const projectC = i < 10 ? 0 : Math.floor(Math.random() * 60000);
+      const projectD = i < 12 ? 0 : Math.floor(Math.random() * 50000);
+      const projectE = i < 15 ? 0 : Math.floor(Math.random() * 40000);
 
-      data.push([month, projectA, projectB, projectC, projectD, projectE])
-    })
+      data.push([month, projectA, projectB, projectC, projectD, projectE]);
+    });
 
-    return data
-  }
+    return data;
+  };
 
-  const cashFlowData = generateCashFlowData()
+  const cashFlowData = generateCashFlowData();
 
   const cashFlowOptions = {
     chartArea: { width: "85%", height: "70%" },
@@ -621,31 +185,31 @@ const CompanyDetailsPage = () => {
     legend: { position: "top" },
     hAxis: { slantedText: true, slantedTextAngle: 45 },
     vAxis: { format: "short" },
-    colors: ["#2980b9", "#27ae60", "#f39c12", "#e74c3c", "#8e44ad"],
-  }
+    colors: ["#00308F"], // Changed to single color #00308F
+  };
 
   const mapContainerStyle = {
     width: "100%",
     height: "100%",
-  }
+  };
 
   const mapCenter = {
     lat: 39.8283,
     lng: -98.5795,
-  }
+  };
 
   const getHealthColor = (status) => {
     switch (status.toLowerCase()) {
-      case "green":
-        return "bg-green-500"
-      case "yellow":
-        return "bg-yellow-500"
-      case "red":
-        return "bg-red-500"
+      case "#00308f":
+        return "#00308F";
+      case "#00308f":
+        return "#00308F";
+      case "#00308f":
+        return "#00308F";
       default:
-        return "bg-gray-300"
+        return "bg-gray-300";
     }
-  }
+  };
 
   const renderHealthBar = (values) => {
     return (
@@ -658,20 +222,20 @@ const CompanyDetailsPage = () => {
           ></div>
         ))}
       </div>
-    )
-  }
+    );
+  };
 
   const renderProgressBar = (percentage, color = "bg-blue-500") => {
     return (
       <div className="w-full bg-gray-200 rounded-full h-2.5">
         <div className={`${color} h-2.5 rounded-full`} style={{ width: `${percentage}%` }}></div>
       </div>
-    )
-  }
+    );
+  };
 
   return (
-    <div className="p-4  text-lg">
-      <div className=" p-4-4">
+    <div className="p-4 text-lg">
+      <div className="p-4">
         <h1 className="text-2xl font-bold mb-4"></h1>
 
         {/* Program Metrics */}
@@ -684,13 +248,12 @@ const CompanyDetailsPage = () => {
           ))}
         </div>
 
-        {/* Map, Finance, Health */}
-
+      
 
         {/* Project Phases and Cash Flow */}
         <div className="flex gap-4 mb-4">
           {/* Project Phases */}
-          <div className="w-1/4 bg-gray-100 rounded-lg border-2 border-gray-300 shadow-lg p-4 h-[350px] ">
+          <div className="w-1/4 bg-gray-100 rounded-lg border-2 border-gray-300 shadow-lg p-4 h-[350px]">
             <h2 className="text-[17px] font-extrabold mb-2">Project Phases</h2>
             <div className="h-[310px] -mt-7">
               <Chart
@@ -700,15 +263,15 @@ const CompanyDetailsPage = () => {
                 data={projectPhasesData}
                 options={{
                   ...projectPhasesOptions,
-                  backgroundColor: 'transparent', // Ensure chart background is transparent
+                  backgroundColor: "transparent",
                 }}
               />
             </div>
           </div>
 
           {/* Cash Flow */}
-          <div className="w-3/4 bg-gray-100 rounded-lg border-2 border-gray-300 shadow-lg py-4 h-[350px] ">
-            <h2 className="text-[17px] font-extrabold px-4 ">Cash Flow</h2>
+          <div className="w-3/4 bg-gray-100 rounded-lg border-2 border-gray-300 shadow-lg py-4 h-[350px]">
+            <h2 className="text-[17px] font-extrabold px-4">Cash Flow</h2>
             <div className="h-[300px] bg-gray-100">
               <Chart
                 chartType="ColumnChart"
@@ -717,8 +280,8 @@ const CompanyDetailsPage = () => {
                 data={cashFlowData}
                 options={{
                   ...cashFlowOptions,
-                  backgroundColor: 'transparent', // Ensure chart background is transparent
-                  chartArea: { width: "85%", height: "70%", backgroundColor: 'transparent' }, // Enhance chart area
+                  backgroundColor: "transparent",
+                  chartArea: { width: "85%", height: "70%", backgroundColor: "transparent" },
                 }}
               />
             </div>
@@ -728,8 +291,8 @@ const CompanyDetailsPage = () => {
         {/* Projects Table */}
         <div className="mb-5">
           <h2 className="text-[24px] font-bold mb-2">Projects Table</h2>
-          <div className="overflow-x-auto border border-gray-300 shadow-lg ">
-            <table className="min-w-full  ">
+          <div className="overflow-x-auto border border-gray-300 shadow-lg">
+            <table className="min-w-full">
               <thead>
                 <tr className="bg-gray-200 text-[15px] text-gray-600">
                   <th className="py-2 px-3 text-left">Name</th>
@@ -782,27 +345,27 @@ const CompanyDetailsPage = () => {
           </div>
         </div>
 
-        {/* Custom title chart */}
+        {/* Custom Title Chart */}
         <h2 className="text-[24px] font-bold mb-2">Custom Title</h2>
-
         <div className="p-5 bg-gray-100 border border-gray-300 rounded-lg shadow-lg">
-          <div className="h-[350px] ">
+          <div className="h-[350px]">
             <Chart
               chartType="BarChart"
               width="100%"
               height="100%"
               data={customTitleData}
               options={{
-                ...cashFlowOptions,
-                backgroundColor: 'transparent', // Ensure chart background is transparent
-                chartArea: { width: "85%", height: "70%", backgroundColor: 'transparent' }, // Enhance chart area
+                ...customTitleOptions,
+                colors: ["#00308F"], // Changed to single color #00308F
+                backgroundColor: "transparent",
+                chartArea: { width: "85%", height: "70%", backgroundColor: "transparent" },
               }}
             />
           </div>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default CompanyDetailsPage
+export default CompanyDetailsPage;

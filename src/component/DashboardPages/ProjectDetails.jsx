@@ -172,7 +172,7 @@ const ProjectDetails = () => {
   };
 
   return (
-    <div className="bg-white dark:bg-[#1E232E] min-h-screen text-gray-800 dark:text-gray-200 font-roboto">
+    <div className="bg-white dark:bg-[#2A2F3B] min-h-screen text-gray-800 dark:text-gray-200 font-roboto">
     
       {/* Header */}
       <div className="border-b border-gray-200 dark:border-gray-700 px-4 py-3 sm:px-6 sm:py-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">

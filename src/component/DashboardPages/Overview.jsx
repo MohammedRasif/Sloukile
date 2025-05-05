@@ -203,66 +203,68 @@ const Overview = () => {
           <h3 className="font-medium text-[18px] text-gray-700 dark:text-gray-300 mb-4">Project Progress</h3>
           <div className="h-64 bg-blue-50 dark:bg-[#2A2F3B] rounded-lg mb-6 py-5">
             <ResponsiveContainer width="100%" height="100%">
-              <AreaChart
-                data={projectData.chartData}
-                margin={{
-                  top: 10,
-                  right: 30,
-                  left: 0,
-                  bottom: 0,
-                }}
-              >
-                <CartesianGrid
-                  strokeDasharray="2 2"
-                  vertical={false}
-                  stroke={isDarkMode ? '#4B5563' : '#E5E7EB'}
-                />
-                <XAxis
-                  dataKey="name"
-                  axisLine={false}
-                  tickLine={false}
-                  tick={{ fontSize: 15, fill: isDarkMode ? '#D1D5DB' : '#6B7280' }}
-                />
-                <YAxis
-                  axisLine={false}
-                  tickLine={false}
-                  tick={{ fontSize: 15, fill: isDarkMode ? '#D1D5DB' : '#6B7280' }}
-                  tickFormatter={(value) => `${value / 1000}k`}
-                />
-                <Tooltip
-                  content={({ active, payload }) => {
-                    if (active && payload && payload.length) {
-                      return (
-                        <div
-                          className={`px-3 py-1 rounded shadow-md text-center ${
-                            isDarkMode ? 'bg-gray-700 text-gray-100' : 'bg-blue-800 text-white'
-                          }`}
-                        >
-                          <p className="text-[15px] font-medium">${payload[0].value.toLocaleString()}</p>
-                        </div>
-                      );
-                    }
-                    return null;
-                  }}
-                />
-                <defs>
-                  <linearGradient id="colorValue" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#1e40af" stopOpacity={0.8} />
-                    <stop offset="95%" stopColor="#1e40af" stopOpacity={0} />
-                  </linearGradient>
-                </defs>
-                <Area
-                  type="monotone"
-                  dataKey="value"
-                  stroke="#1e40af"
-                  strokeWidth={2}
-                  fill="url(#colorValue)"
-                  dot={{ r: 4, fill: '#1e40af', strokeWidth: 0 }}
-                  activeDot={{ r: 6, fill: '#1e40af', stroke: '#fff', strokeWidth: 2 }}
-                />
-              </AreaChart>
+                <AreaChart
+                    data={projectData.chartData}
+                    margin={{
+                        top: 10,
+                        right: 30,
+                        left: 0,
+                        bottom: 0,
+                    }}
+                >
+                    <CartesianGrid
+                        strokeDasharray="2 2"
+                        vertical={false}
+                        stroke={isDarkMode ? '#4B5563' : '#E5E7EB'}
+                    />
+                    <XAxis
+                        dataKey="name"
+                        axisLine={false}
+                        tickLine={false}
+                        tick={{ fontSize: 15, fill: isDarkMode ? '#D1D5DB' : '#6B7280' }}
+                    />
+                    <YAxis
+                        axisLine={false}
+                        tickLine={false}
+                        tick={{ fontSize: 15, fill: isDarkMode ? '#D1D5DB' : '#6B7280' }}
+                        tickFormatter={(value) => `${value / 1000}k`}
+                    />
+                    <Tooltip
+                        content={({ active, payload }) => {
+                            if (active && payload && payload.length) {
+                                return (
+                                    <div
+                                        className={`px-3 py-1 rounded shadow-md text-center ${
+                                            isDarkMode ? 'bg-gray-700 text-gray-100' : 'bg-blue-800 text-white'
+                                        }`}
+                                    >
+                                        <p className="text-[15px] font-medium">${payload[0].value.toLocaleString()}</p>
+                                    </div>
+                                );
+                            }
+                            return null;
+                        }}
+                    />
+                    <defs>
+                        <linearGradient id="colorValue" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="100%" stopColor="#00308F" stopOpacity={0.8} />
+                            <stop offset="100%" stopColor="#00308F" stopOpacity={0} />
+                        </linearGradient>
+                    </defs>
+                    <Area
+                        type="monotone"
+                        dataKey="value"
+                        stroke="#00308F"
+                        strokeWidth={2}
+                        fill="url(#colorValue)"
+                        dot={{ r: 4, fill: '#00308F', strokeWidth: 0 }}
+                        activeDot={{ r: 6, fill: '#00308F', stroke: '#fff', strokeWidth: 2 }}
+                        animationDuration={1000} // Animation duration in milliseconds
+                        animationEasing="ease-in-out" // Smooth easing for the animation
+                    />
+                </AreaChart>
             </ResponsiveContainer>
-          </div>
+        </div>
         </div>
       )}
 

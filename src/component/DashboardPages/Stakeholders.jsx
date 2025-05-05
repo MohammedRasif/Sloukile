@@ -101,7 +101,7 @@ const Stakeholders = () => {
         </div>
         <button
           onClick={handleAddClick}
-          className="bg-gray-800 dark:bg-[#4A6CF7] text-white px-4 py-2 rounded-md text-[15px] font-medium hover:bg-gray-700 dark:hover:bg-[#3B5AEB] flex items-center gap-1"
+          className="bg-gray-800 dark:bg-[#4A6CF7] text-white px-4 py-2 rounded-md text-[15px] font-medium hover:bg-gray-700 dark:hover:bg-[#3B5AEB] flex items-center gap-1 cursor-pointer"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -125,7 +125,7 @@ const Stakeholders = () => {
         {stakeholders.map((stakeholder) => (
           <div
             key={stakeholder.id}
-            className="bg-white dark:bg-[#1E232E] rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-5 hover:bg-gray-50 dark:hover:bg-[#2A2F3B] transition-colors"
+            className="bg-white dark:bg-[#1E232E] rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-5  transition-colors"
           >
             <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-2">
               {stakeholder.name}

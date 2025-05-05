@@ -1,426 +1,370 @@
-
-import { useState, useCallback, useRef } from "react"
-import { Send, Users, Mail, CheckCircle2, X, ChevronDown, Eye, Edit3, AlertCircle } from "lucide-react"
-
-// Mock user data - in a real app, this would come from your database
-const mockUsers = [
-  { id: 1, name: "John Doe", email: "john@example.com", department: "Engineering" },
-  { id: 2, name: "Jane Smith", email: "jane@example.com", department: "Design" },
-  { id: 3, name: "Robert Johnson", email: "robert@example.com", department: "Marketing" },
-  { id: 4, name: "Emily Davis", email: "emily@example.com", department: "Engineering" },
-  { id: 5, name: "Michael Wilson", email: "michael@example.com", department: "Product" },
-  { id: 6, name: "Sarah Brown", email: "sarah@example.com", department: "HR" },
-  { id: 7, name: "David Miller", email: "david@example.com", department: "Engineering" },
-  { id: 8, name: "Lisa Taylor", email: "lisa@example.com", department: "Finance" },
-]
+import { useState } from "react";
+import { Search, Plus, X, Trash2 } from "lucide-react";
+import Meeting from "./Meeting";
 
 export default function Communication() {
-  // State for selected users
-  const [selectedUsers, setSelectedUsers] = useState([])
-  const [showUserDropdown, setShowUserDropdown] = useState(false)
-  const [filterText, setFilterText] = useState("")
-  
-  // State for newsletter content
-  const [subject, setSubject] = useState("")
-  const [content, setContent] = useState("")
-  const [taskUpdate, setTaskUpdate] = useState("")
-  
-  // State for UI
-  const [showPreview, setShowPreview] = useState(false)
-  const [sending, setSending] = useState(false)
-  const [sent, setSent] = useState(false)
-  const [error, setError] = useState(null)
+  const [activeTab, setActiveTab] = useState("newsletters");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [modalMode, setModalMode] = useState("add"); // "add" or "edit"
+  const [currentReport, setCurrentReport] =  useState(null);
+  const [formError, setFormError] = useState("");
+  const [communications, setCommunications] = useState([
+    {
+      title: "Project Kickoff Newsletter",
+      type: "Newsletter",
+      audience: "All Stakeholders",
+      status: "Published",
+      lastModified: "03-May-2023",
+    },
+    {
+      title: "SteerCo Monthly Report",
+      type: "Status Report",
+      audience: "Steering Committee",
+      status: "Draft",
+      lastModified: "01-May-2023",
+    },
+    {
+      title: "Workshop Agenda: Risk Planning",
+      type: "Agenda",
+      audience: "Working Group",
+      status: "Scheduled",
+      lastModified: "30-Apr-2023",
+    },
+    {
+      title: "New Member Training Pack",
+      type: "Training Material",
+      audience: "Project Team",
+      status: "Published",
+      lastModified: "25-Apr-2023",
+    },
+  ]);
 
-  // Ref for search input
-  const searchInputRef = useRef(null)
+  const [formData, setFormData] = useState({
+    title: "",
+    audience: "",
+    status: "Draft",
+    lastModified: new Date().toLocaleDateString("en-GB", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+    }),
+  });
 
-  // Filter users based on search text
-  const filteredUsers = mockUsers.filter(user => 
-    user.name.toLowerCase().includes(filterText.toLowerCase()) || 
-    user.email.toLowerCase().includes(filterText.toLowerCase()) ||
-    user.department.toLowerCase().includes(filterText.toLowerCase())
-  )
+  // Modal handlers
+  const openAddModal = () => {
+    setModalMode("add");
+    setFormData({
+      title: "",
+      audience: "",
+      status: "Draft",
+      lastModified: new Date().toLocaleDateString("en-GB", {
+        day: "2-digit",
+        month: "short",
+        year: "numeric",
+      }),
+    });
+    setFormError("");
+    setIsModalOpen(true);
+  };
 
-  // Toggle user selection
-  const toggleUserSelection = useCallback((user) => {
-    setSelectedUsers(prev => 
-      prev.some(u => u.id === user.id)
-        ? prev.filter(u => u.id !== user.id)
-        : [...prev, user]
-    )
-  }, [])
+  const openEditModal = (report) => {
+    setModalMode("edit");
+    setCurrentReport(report);
+    setFormData({
+      title: report.title,
+      audience: report.audience,
+      status: report.status,
+      lastModified: report.lastModified,
+    });
+    setFormError("");
+    setIsModalOpen(true);
+  };
 
-  // Select all filtered users
-  const selectAllFiltered = useCallback(() => {
-    const allFilteredIds = new Set(filteredUsers.map(u => u.id))
-    const currentSelectedNotInFilter = selectedUsers.filter(u => !allFilteredIds.has(u.id))
-    setSelectedUsers([...currentSelectedNotInFilter, ...filteredUsers])
-  }, [filteredUsers, selectedUsers])
+  const openDeleteModal = (report) => {
+    setCurrentReport(report);
+    setIsDeleteModalOpen(true);
+  };
 
-  // Deselect all filtered users
-  const deselectAllFiltered = useCallback(() => {
-    const filteredIds = new Set(filteredUsers.map(u => u.id))
-    setSelectedUsers(selectedUsers.filter(u => !filteredIds.has(u.id)))
-  }, [filteredUsers, selectedUsers])
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setCurrentReport(null);
+  };
 
-  // Handle sending the newsletter
-  const handleSendNewsletter = async () => {
-    if (selectedUsers.length === 0) {
-      setError("Please select at least one recipient")
-      return
+  const closeDeleteModal = () => {
+    setIsDeleteModalOpen(false);
+    setCurrentReport(null);
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = () => {
+    if (!formData.title || !formData.audience) {
+      setFormError("Title and Audience are required.");
+      return;
     }
-    
-    if (!subject.trim()) {
-      setError("Subject is required")
-      return
-    }
-    
-    if (!content.trim()) {
-      setError("Content is required")
-      return
+
+    const newReport = {
+      title: formData.title,
+      type: "Newsletter",
+      audience: formData.audience,
+      status: formData.status,
+      lastModified: formData.lastModified,
+    };
+
+    if (modalMode === "add") {
+      setCommunications([...communications, newReport]);
+    } else if (modalMode === "edit" && currentReport) {
+      setCommunications(
+        communications.map((c) =>
+          c.title === currentReport.title && c.type === "Newsletter" ? newReport : c
+        )
+      );
     }
 
-    setError(null)
-    setSending(true)
-    
-    try {
-      // Simulate email sending (replace with actual API call)
-      await new Promise(resolve => setTimeout(resolve, 1000)) // Mock delay
-      console.log("Sending email to:", selectedUsers.map(u => u.email), "Subject:", subject)
+    closeModal();
+  };
 
-      setSending(false)
-      setSent(true)
-      
-      // Reset form after 3 seconds
-      setTimeout(() => {
-        setSent(false)
-        setSubject("")
-        setContent("")
-        setTaskUpdate("")
-        setSelectedUsers([])
-      }, 3000)
-    } catch (err) {
-      setSending(false)
-      setError("Failed to send newsletter. Please try again.")
-      console.error('Email sending error:', err)
-    }
-  }
+  const handleDelete = () => {
+    setCommunications(
+      communications.filter((c) => !(c.title === currentReport.title && c.type === "Newsletter"))
+    );
+    closeDeleteModal();
+  };
 
-  // Handle dropdown toggle
-  const handleDropdownToggle = () => {
-    setShowUserDropdown(prev => !prev)
-    if (!showUserDropdown) {
-      setTimeout(() => searchInputRef.current?.focus(), 0) // Focus input when opening
-    }
-  }
+  const tabs = [
+    { id: "newsletters", label: "Newsletters" },
+    { id: "meeting-minutes", label: "Meeting Minutes" },
+  ];
 
   return (
-    <div className="container mx-auto p-6 bg-white dark:bg-[#1E232E] rounded-lg shadow-lg">
-      <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-200 mb-6 flex items-center gap-2">
-        <Mail className="h-6 w-6" />
-        Task Update Newsletter
-      </h1>
-
-      {/* Error message */}
-      {error && (
-        <div className="mb-6 p-4 bg-red-50 dark:bg-red-900/20 border-l-4 border-red-500 dark:border-red-400 text-red-700 dark:text-red-300 flex items-center gap-2">
-          <AlertCircle className="h-5 w-5" />
-          <span>{error}</span>
-          <button 
-            onClick={() => setError(null)} 
-            className="ml-auto text-red-700 dark:text-red-300 hover:text-red-900 dark:hover:text-red-100"
+    <div className="container mx-auto ">
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-2xl font-bold text-gray-900">Communication</h1>
+        <div className="flex gap-2">
+          <button
+            onClick={openAddModal}
+            className="flex items-center px-4 py-2 bg-[#00308F] text-white rounded-md hover:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-900"
           >
-            <X className="h-5 w-5" />
+            <Plus className="h-4 w-4 mr-2" /> Create New Communication
           </button>
         </div>
-      )}
+      </div>
 
-      {/* Success message */}
-      {sent && (
-        <div className="mb-6 p-4 bg-green-50 dark:bg-green-900/20 border-l-4 border-green-500 dark:border-green-400 text-green-700 dark:text-green-300 flex items-center gap-2">
-          <CheckCircle2 className="h-5 w-5" />
-          <span>Newsletter sent successfully!</span>
+      <div className="w-full">
+        <div className="mb-4 flex border-b border-gray-200">
+          {tabs.map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              className={`px-4 py-2 text-sm font-medium ${
+                activeTab === tab.id
+                  ? "text-gray-900 border-b-2 border-blue-500"
+                  : "text-gray-500 hover:text-gray-700"
+              }`}
+            >
+              {tab.label}
+            </button>
+          ))}
         </div>
-      )}
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div>
-          {/* User selection section */}
-          <div className="mb-6">
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2 flex items-center gap-1">
-              <Users className="h-4 w-4" />
-              Select Recipients
-            </label>
+        <div className="space-y-4">
+          <div className="flex justify-between mb-4">
             
-            <div className="relative">
-              <div 
-                className="border border-gray-300 dark:border-gray-600 rounded-md p-2 min-h-[42px] cursor-pointer flex flex-wrap gap-1 bg-white dark:bg-[#2A2F3B]"
-                onClick={handleDropdownToggle}
-              >
-                {selectedUsers.length > 0 ? (
-                  selectedUsers.map(user => (
-                    <div 
-                      key={user.id} 
-                      className="bg-blue-100 dark:bg-blue-900/50 text-blue-800 dark:text-blue-200 text-xs px-2 py-1 rounded-full flex items-center"
-                    >
-                      {user.name}
-                      <button 
-                        onClick={(e) => {
-                          e.stopPropagation()
-                          toggleUserSelection(user)
-                        }}
-                        className="ml-1 text-blue-600 dark:text-blue-300 hover:text-blue-800 dark:hover:text-blue-100"
-                      >
-                        <X className="h-3 w-3" />
-                      </button>
-                    </div>
-                  ))
-                ) : (
-                  <span className="text-gray-500 dark:text-gray-400">Select users...</span>
-                )}
-                <div className="ml-auto flex items-center">
-                  <ChevronDown className={`h-4 w-4 text-gray-600 dark:text-gray-300 transition-transform ${showUserDropdown ? "rotate-180" : ""}`} />
-                </div>
-              </div>
-              
-              {showUserDropdown && (
-                <div className="absolute z-10 mt-1 w-full bg-white dark:bg-[#2A2F3B] border border-gray-300 dark:border-gray-600 rounded-md shadow-lg max-h-60 overflow-auto">
-                  <div className="p-2 border-b dark:border-gray-600 sticky top-0 bg-white dark:bg-[#2A2F3B]">
-                    <input
-                      ref={searchInputRef}
-                      type="text"
-                      placeholder="Search users..."
-                      className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-[#353A47] text-gray-800 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#00308F] dark:focus:ring-[#4A6CF7] focus:border-transparent"
-                      value={filterText}
-                      onChange={(e) => setFilterText(e.target.value)}
-                      onClick={(e) => e.stopPropagation()}
-                      autoFocus
-                      autoComplete="off"
-                    />
-                  </div>
-                  
-                  <div className="p-2 border-b dark:border-gray-600 flex justify-between">
-                    <button 
-                      className="text-xs text-blue-600 dark:text-blue-300 hover:text-blue-800 dark:hover:text-blue-100"
-                      onClick={(e) => {
-                        e.stopPropagation()
-                        selectAllFiltered()
-                      }}
-                    >
-                      Select All
-                    </button>
-                    <button 
-                      className="text-xs text-blue-600 dark:text-blue-300 hover:text-blue-800 dark:hover:text-blue-100"
-                      onClick={(e) => {
-                        e.stopPropagation()
-                        deselectAllFiltered()
-                      }}
-                    >
-                      Deselect All
-                    </button>
-                  </div>
-                  
-                  {filteredUsers.length > 0 ? (
-                    filteredUsers.map(user => (
-                      <div 
-                        key={user.id}
-                        className={`p-2 hover:bg-gray-100 dark:hover:bg-[#353A47] cursor-pointer flex items-center ${
-                          selectedUsers.some(u => u.id === user.id) ? "bg-blue-50 dark:bg-blue-900/30" : ""
-                        }`}
-                        onClick={(e) => {
-                          e.stopPropagation()
-                          toggleUserSelection(user)
-                        }}
-                      >
-                        <div className="flex-1">
-                          <div className="font-medium text-gray-800 dark:text-gray-200">{user.name}</div>
-                          <div className="text-sm text-gray-500 dark:text-gray-400">{user.email}</div>
-                        </div>
-                        <div className="text-xs bg-gray-200 dark:bg-[#353A47] px-2 py-1 rounded-full text-gray-700 dark:text-gray-200">
-                          {user.department}
-                        </div>
-                        {selectedUsers.some(u => u.id === user.id) && (
-                          <CheckCircle2 className="h-4 w-4 text-blue-600 dark:text-blue-300 ml-2" />
-                        )}
-                      </div>
-                    ))
-                  ) : (
-                    <div className="p-4 text-center text-gray-500 dark:text-gray-400">No users found</div>
-                  )}
-                </div>
-              )}
-            </div>
-            
-            <div className="mt-2 text-sm text-gray-500 dark:text-gray-400">
-              {selectedUsers.length} {selectedUsers.length === 1 ? "recipient" : "recipients"} selected
-            </div>
           </div>
 
-          {/* Newsletter content */}
-          <div className="mb-6">
-            <label htmlFor="subject" className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
-              Subject Line
-            </label>
-            <input
-              type="text"
-              id="subject"
-              className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-[#2A2F3B] text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#00308F] dark:focus:ring-[#4A6CF7] focus:border-transparent"
-              placeholder="Task Update: [Project Name]"
-              value={subject}
-              onChange={(e) => setSubject(e.target.value)}
-              autoComplete="off"
-            />
-          </div>
-          
-          <div className="mb-6">
-            <label htmlFor="taskUpdate" className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
-              Task Update Details
-            </label>
-            <textarea
-              id="taskUpdate"
-              className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-[#2A2F3B] text-gray-800 dark:text-gray-200 h-24 focus:outline-none focus:ring-2 focus:ring-[#00308F] dark:focus:ring-[#4A6CF7] focus:border-transparent"
-              placeholder="Describe the recent task updates..."
-              value={taskUpdate}
-              onChange={(e) => setTaskUpdate(e.target.value)}
-              autoComplete="off"
-            />
-          </div>
-          
-          <div className="mb-6">
-            <label htmlFor="content" className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
-              Additional Content
-            </label>
-            <textarea
-              id="content"
-              className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-[#2A2F3B] text-gray-800 dark:text-gray-200 h-32 focus:outline-none focus:ring-2 focus:ring-[#00308F] dark:focus:ring-[#4A6CF7] focus:border-transparent"
-              placeholder="Add any additional information or context..."
-              value={content}
-              onChange={(e) => setContent(e.target.value)}
-              autoComplete="off"
-            />
-          </div>
+          {activeTab === "newsletters" && (
+            <div className="bg-white rounded-md shadow">
+              <table className="min-w-full divide-y divide-gray-200">
+                <thead className="bg-gray-50">
+                  <tr>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Title
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Type
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Audience
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Status
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Last Modified
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Actions
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="bg-white divide-y divide-gray-200">
+                  {communications
+                    .filter((comm) => comm.type === "Newsletter")
+                    .map((comm) => (
+                      <tr key={comm.title}>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                          {comm.title}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{comm.type}</td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{comm.audience}</td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <span
+                            className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
+                              comm.status === "Published"
+                                ? "bg-green-100 text-green-800"
+                                : comm.status === "Draft"
+                                ? "bg-gray-100 text-gray-800"
+                                : "bg-blue-100 text-blue-800"
+                            }`}
+                          >
+                            {comm.status}
+                          </span>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                          {comm.lastModified}
+                        </td>
+                        <td className="px-6 py-4  whitespace-nowrap text-sm text-gray-500 flex gap-2">
+                          <button
+                            onClick={() => openEditModal(comm)}
+                            className="text-blue-600 hover:text-blue-800 bg-gray-200 py-1 px-2 rounded-sm cursor-pointer"
+                          >
+                            Edit
+                          </button>
+                          <button
+                            onClick={() => openDeleteModal(comm)}
+                            className="text-red-600 hover:text-red-800 bg-gray-200 py-1 px-2 rounded-sm cursor-pointer"
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+
+          {activeTab === "meeting-minutes" && <Meeting />}
         </div>
-        
-        <div>
-          {/* Preview section */}
-          <div className="border border-gray-300 dark:border-gray-600 rounded-md p-4 h-full bg-white dark:bg-[#2A2F3B]">
+      </div>
+
+      {/* Modal for Add/Edit Newsletter */}
+      {isModalOpen && (
+        <div className="fixed inset-0 backdrop-blur-[3px] flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg p-6 w-full max-w-md border border-gray-300">
             <div className="flex justify-between items-center mb-4">
-              <h2 className="text-lg font-medium text-gray-800 dark:text-gray-200">
-                {showPreview ? "Newsletter Preview" : "Newsletter Template"}
+              <h2 className="text-xl font-semibold text-gray-900">
+                {modalMode === "add" ? "Add New Newsletter" : "Edit Newsletter"}
               </h2>
               <button
-                onClick={() => setShowPreview(!showPreview)}
-                className="flex items-center gap-1 text-sm text-blue-600 dark:text-blue-300 hover:text-blue-800 dark:hover:text-blue-100"
+                onClick={closeModal}
+                className="text-gray-500 hover:text-gray-700 focus:outline-none"
               >
-                {showPreview ? (
-                  <>
-                    <Edit3 className="h-4 w-4" />
-                    Edit
-                  </>
-                ) : (
-                  <>
-                    <Eye className="h-4 w-4" />
-                    Preview
-                  </>
-                )}
+                <X className="h-5 w-5" />
               </button>
             </div>
-            
-            {showPreview ? (
-              <div className="bg-gray-50 dark:bg-[#353A47] p-4 rounded-md h-[calc(100%-40px)] overflow-auto">
-                <div className="bg-white dark:bg-[#1E232E] border border-gray-200 dark:border-gray-600 p-4 rounded-md shadow-sm">
-                  <div className="border-b dark:border-gray-600 pb-2 mb-4">
-                    <div className="font-medium text-gray-800 dark:text-gray-200">To: {selectedUsers.map(u => u.name).join(", ")}</div>
-                    <div className="font-medium text-gray-800 dark:text-gray-200">Subject: {subject || "[No subject]"}</div>
-                  </div>
-                  
-                  <div className="prose prose-sm max-w-none text-gray-800 dark:text-gray-200">
-                    <p>Hello team,</p>
-                    
-                    <p>Here's an update on our recent tasks:</p>
-                    
-                    {taskUpdate && (
-                      <div className="bg-blue-50 dark:bg-blue-900/30 p-3 rounded-md border-l-4 border-blue-500 dark:border-[#4A6CF7] my-4">
-                        <p className="whitespace-pre-line">{taskUpdate}</p>
-                      </div>
-                    )}
-                    
-                    {content && <p className="whitespace-pre-line">{content}</p>}
-                    
-                    <p>Best regards,<br />The Team</p>
-                  </div>
-                </div>
+            {formError && <p className="text-red-500 text-sm mb-4">{formError}</p>}
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Title</label>
+                <input
+                  type="text"
+                  name="title"
+                  value={formData.title}
+                  onChange={handleInputChange}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700"
+                />
               </div>
-            ) : (
-              <div className="text-gray-500 dark:text-gray-400 text-sm h-[calc(100%-40px)] overflow-auto">
-                <p className="mb-4">This newsletter will include:</p>
-                <ul className="list-disc pl-5 space-y-2">
-                  <li>Greeting to recipients</li>
-                  <li>Task update introduction</li>
-                  <li>
-                    Task update details
-                    {taskUpdate ? (
-                      <span className="text-green-600 dark:text-green-400 ml-2">✓</span>
-                    ) : (
-                      <span className="text-red-600 dark:text-red-400 ml-2">✗</span>
-                    )}
-                  </li>
-                  <li>
-                    Additional content
-                    {content ? (
-                      <span className="text-green-600 dark:text-green-400 ml-2">✓</span>
-                    ) : (
-                      <span className="text-red-600 dark:text-red-400 ml-2">✗</span>
-                    )}
-                  </li>
-                  <li>Sign-off</li>
-                </ul>
-                
-                <div className="mt-6 p-3 bg-yellow-50 dark:bg-yellow-900/20 border-l-4 border-yellow-400 dark:border-yellow-400 text-yellow-800 dark:text-yellow-200">
-                  <p className="font-medium">Tips:</p>
-                  <ul className="list-disc pl-5 mt-2">
-                    <li>Keep your update concise and focused</li>
-                    <li>Highlight key achievements or milestones</li>
-                    <li>Include next steps or action items if applicable</li>
-                    <li>Use a professional but friendly tone</li>
-                  </ul>
-                </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Audience</label>
+                <input
+                  type="text"
+                  name="audience"
+                  value={formData.audience}
+                  onChange={handleInputChange}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700"
+                />
               </div>
-            )}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Status</label>
+                <select
+                  name="status"
+                  value={formData.status}
+                  onChange={handleInputChange}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700"
+                >
+                  <option value="Draft">Draft</option>
+                  <option value="Published">Published</option>
+                  <option value="Scheduled">Scheduled</option>
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Last Modified</label>
+                <input
+                  type="text"
+                  name="lastModified"
+                  value={formData.lastModified}
+                  onChange={handleInputChange}
+                  placeholder="e.g., 01-May-2023"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700"
+                />
+              </div>
+            </div>
+            <div className="flex justify-end space-x-2 mt-6">
+              <button
+                onClick={closeModal}
+                className="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleSubmit}
+                className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                {modalMode === "add" ? "Add Newsletter" : "Save Changes"}
+              </button>
+            </div>
           </div>
         </div>
-      </div>
-      
-      {/* Send button */}
-      <div className="mt-6 flex justify-end">
-        <button
-          onClick={handleSendNewsletter}
-          disabled={sending || sent}
-          className={`
-            flex items-center gap-2 px-6 py-3 rounded-md text-white font-medium
-            ${sending || sent 
-              ? "bg-gray-400 dark:bg-gray-600 cursor-not-allowed" 
-              : "bg-[#00308F] dark:bg-[#4A6CF7] hover:bg-[#00218f] dark:hover:bg-[#3B5AEB]"}
-          `}
-        >
-          {sending ? (
-            <>
-              <div className="h-4 w-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-              Sending...
-            </>
-          ) : sent ? (
-            <>
-              <CheckCircle2 className="h-5 w-5" />
-              Sent!
-            </>
-          ) : (
-            <>
-              <Send className="h-5 w-5" />
-              Send Newsletter
-            </>
-          )}
-        </button>
-      </div>
+      )}
+
+      {/* Delete Confirmation Modal */}
+      {isDeleteModalOpen && (
+        <div className="fixed inset-0 backdrop-blur-[3px] flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg border border-gray-300 p-6 w-full max-w-md">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-xl font-semibold text-gray-900">Confirm Delete</h2>
+              <button
+                onClick={closeDeleteModal}
+                className="text-gray-500 hover:text-gray-700 focus:outline-none"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+            <p className="text-gray-600 mb-4">
+              Are you sure you want to delete "{currentReport?.title}"?
+            </p>
+            <div className="flex justify-end space-x-2">
+              <button
+                onClick={closeDeleteModal}
+                className="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleDelete}
+                className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500"
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
-  )
+  );
 }

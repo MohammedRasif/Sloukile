@@ -1,7 +1,6 @@
 
-
 import { useState, useEffect } from "react"
-import { ChevronLeft, ChevronRight, Calendar, CheckCircle } from "lucide-react"
+import { ChevronLeft, ChevronRight, Calendar,  } from "lucide-react"
 import { GoDash } from "react-icons/go";
 import { FiPlus } from "react-icons/fi";
 
@@ -647,7 +646,7 @@ export default function TimeLine() {
                       {/* Project dateline red line */}
                       {projectDateline && !isNaN(projectDateline) && (
                         <div
-                          className="absolute top-0 bottom-0 w-px bg-red-500 z-30"
+                          className="absolute top-10 bottom-0 w-px bg-red-500 z-30"
                           style={{
                             left: `${calculatePosition(projectDateline) * 25 + 12.5}px`,
                           }}

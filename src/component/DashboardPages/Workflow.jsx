@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react"
 import {
   PlusCircle,
@@ -19,7 +18,7 @@ export default function Workflow() {
       name: "STAGE 01",
       value: "Initial Review",
       amount: "Project proposal is reviewed by department head",
-      icon: <Search className="w-5 h-5 text-cyan-500" />,
+      icon: <Search className="w-5 h-5 text-cyan-500 dark:text-cyan-400" />,
       step: "01",
       status: "approved",
       approver: {
@@ -34,7 +33,7 @@ export default function Workflow() {
       name: "STAGE 02",
       value: "Technical Assessment",
       amount: "Technical team evaluates feasibility and resource requirements",
-      icon: <Lightbulb className="w-5 h-5 text-blue-500" />,
+      icon: <Lightbulb className="w-5 h-5 text-blue-500 dark:text-blue-400" />,
       step: "02",
       status: "approved",
       approver: {
@@ -49,7 +48,7 @@ export default function Workflow() {
       name: "STAGE 03",
       value: "Budget Review",
       amount: "Finance team reviews budget allocation and cost estimates",
-      icon: <Sun className="w-5 h-5 text-indigo-600" />,
+      icon: <Sun className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />,
       step: "03",
       status: "in-review",
       approver: {
@@ -64,7 +63,7 @@ export default function Workflow() {
       name: "STAGE 04",
       value: "Executive Approval",
       amount: "Executive committee reviews and provides final approval",
-      icon: <Clock className="w-5 h-5 text-purple-600" />,
+      icon: <Clock className="w-5 h-5 text-purple-600 dark:text-purple-400" />,
       step: "04",
       status: "pending",
       approver: {
@@ -79,7 +78,7 @@ export default function Workflow() {
       name: "STAGE 05",
       value: "Implementation",
       amount: "Project is approved for implementation and resource allocation",
-      icon: <Target className="w-5 h-5 text-purple-500" />,
+      icon: <Target className="w-5 h-5 text-purple-500 dark:text-purple-400" />,
       step: "05",
       status: "pending",
       approver: {
@@ -119,11 +118,11 @@ export default function Workflow() {
 
   // Icons for selection with corresponding colors
   const icons = [
-    { name: "Search", icon: <Search className="w-5 h-5 text-cyan-500" /> },
-    { name: "Lightbulb", icon: <Lightbulb className="w-5 h-5 text-blue-500" /> },
-    { name: "Sun", icon: <Sun className="w-5 h-5 text-indigo-600" /> },
-    { name: "Clock", icon: <Clock className="w-5 h-5 text-purple-600" /> },
-    { name: "Target", icon: <Target className="w-5 h-5 text-purple-500" /> },
+    { name: "Search", icon: <Search className="w-5 h-5 text-cyan-500 dark:text-cyan-400" /> },
+    { name: "Lightbulb", icon: <Lightbulb className="w-5 h-5 text-blue-500 dark:text-blue-400" /> },
+    { name: "Sun", icon: <Sun className="w-5 h-5 text-indigo-600 dark:text-indigo-400" /> },
+    { name: "Clock", icon: <Clock className="w-5 h-5 text-purple-600 dark:text-purple-400" /> },
+    { name: "Target", icon: <Target className="w-5 h-5 text-purple-500 dark:text-purple-400" /> },
   ]
 
   // Handle input changes
@@ -166,7 +165,7 @@ export default function Workflow() {
   const openApprovalDialog = (item) => {
     setSelectedItem(item)
     setApprovalComment("")
-    setApprovalAction("") // No default selection
+    setApprovalAction("")
     setSelectedApprover("")
     setCommentError("")
     setApproverError("")
@@ -250,25 +249,25 @@ export default function Workflow() {
     switch (status) {
       case "approved":
         return (
-          <span className="inline-flex items-center px-2 py-1 text-xs font-medium text-white bg-green-500 rounded hover:bg-green-600">
+          <span className="inline-flex items-center px-2 py-1 text-xs font-medium text-white bg-green-500 dark:bg-green-600 rounded hover:bg-green-600 dark:hover:bg-green-700">
             <CheckCircle className="w-3 h-3 mr-1" /> Approved
           </span>
         )
       case "reject":
         return (
-          <span className="inline-flex items-center px-2 py-1 text-xs font-medium text-white bg-orange-500 rounded hover:bg-orange-600">
+          <span className="inline-flex items-center px-2 py-1 text-xs font-medium text-white bg-orange-500 dark:bg-orange-600 rounded hover:bg-orange-600 dark:hover:bg-orange-700">
             <XCircle className="w-3 h-3 mr-1" /> Rejected
           </span>
         )
       case "in-review":
         return (
-          <span className="inline-flex items-center px-2 py-1 text-xs font-medium text-white bg-blue-500 rounded hover:bg-blue-600">
+          <span className="inline-flex items-center px-2 py-1 text-xs font-medium text-white bg-[#00308F] dark:bg-[#00308F] rounded hover:bg-[#002070] dark:hover:bg-[#002070]">
             <Clock className="w-3 h-3 mr-1" /> In Review
           </span>
         )
       default:
         return (
-          <span className="inline-flex items-center px-2 py-1 text-xs font-medium text-white bg-gray-500 rounded hover:bg-gray-600">
+          <span className="inline-flex items-center px-2 py-1 text-xs font-medium text-white bg-gray-500 dark:bg-gray-600 rounded hover:bg-gray-600 dark:hover:bg-gray-700">
             <AlertCircle className="w-3 h-3 mr-1" /> Pending
           </span>
         )
@@ -277,20 +276,26 @@ export default function Workflow() {
 
   // Get color based on index
   const getColor = (index) => {
-    const colors = ["bg-[#00308F]", "bg-[#00308F]", "bg-[#00308F]", "bg-[#00308F]", "bg-[#00308F]"]
+    const colors = [
+      "from-[#00308F] to-[#002070]",
+      "from-[#00308F] to-[#002070]",
+      "from-[#00308F] to-[#002070]",
+      "from-[#00308F] to-[#002070]",
+      "from-[#00308F] to-[#002070]",
+    ]
     return colors[index % colors.length]
   }
 
   return (
-    <div className="py-6 container mx-auto">
+    <div className="py-6 container mx-auto ">
       <div className="flex justify-between items-center mb-10">
         <div>
-          <h2 className="text-2xl font-bold text-gray-800">Project Approval Workflow</h2>
-          <p className="text-gray-600 mt-1">Review and approve projects through multiple stages</p>
+          <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-200">Project Approval Workflow</h2>
+          <p className="text-gray-600 dark:text-gray-400 mt-1">Review and approve projects through multiple stages</p>
         </div>
         <button
           onClick={() => setShowForm(true)}
-          className="flex items-center gap-2 bg-[#00308F] text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors cursor-pointer"
+          className="flex items-center gap-2 bg-[#00308F] dark:bg-[#00308F] text-white px-4 py-2 rounded-md hover:bg-[#002070] dark:hover:bg-[#002070] transition-colors cursor-pointer"
         >
           <PlusCircle size={18} />
           Add Approval Stage
@@ -302,31 +307,31 @@ export default function Workflow() {
         {workflowItems.map((item, index) => (
           <div key={index} className="flex-shrink-0 w-64 px-2 relative">
             {/* Arrow card with gradient */}
-            <div className="relative h-80 border border-gray-300 shadow-xl rounded-[10px]">
+            <div className="relative h-80 border border-gray-300 dark:border-gray-700 shadow-xl rounded-[10px]">
               {/* Card with arrow shape */}
-              <div className="absolute inset-0 bg-white shadow-lg rounded-lg flex flex-col overflow-hidden">
+              <div className="absolute inset-0 bg-white dark:bg-gray-800 shadow-lg rounded-lg flex flex-col overflow-hidden">
                 {/* Content area */}
                 <div className="flex-1 p-5 flex flex-col items-center">
                   {/* Status badge */}
                   <div className="self-end -mt-2 mb-2">{getStatusBadge(item.status)}</div>
 
                   {/* Text content */}
-                  <h3 className="font-bold text-gray-800 text-center mb-2 text-2xl">{item.name}</h3>
-                  <p className="text-gray-700 font-medium text-center mb-1 text-xl">{item.value}</p>
-                  <p className="text-md text-gray-500 text-center mb-4">{item.amount}</p>
+                  <h3 className="font-bold text-gray-800 dark:text-gray-200 text-center mb-2 text-2xl">{item.name}</h3>
+                  <p className="text-gray-700 dark:text-gray-300 font-medium text-center mb-1 text-xl">{item.value}</p>
+                  <p className="text-md text-gray-500 dark:text-gray-400 text-center mb-4">{item.amount}</p>
 
                   {/* Approver info */}
                   <div className="w-full mt-auto">
                     {item.approver.date && (
-                      <p className="text-xs text-gray-500 mb-1">Reviewed on: {item.approver.date}</p>
+                      <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">Reviewed on: {item.approver.date}</p>
                     )}
                     {item.approver.comments && (
-                      <p className="text-xs text-gray-600 italic">{item.approver.comments}</p>
+                      <p className="text-xs text-gray-600 dark:text-gray-400 italic">{item.approver.comments}</p>
                     )}
                     {item.status === "pending" || item.status === "in-review" ? (
                       <button
                         onClick={() => openApprovalDialog(item)}
-                        className="w-full mt-2 border border-gray-300 text-gray-700 px-3 py-1 rounded-md hover:bg-gray-100 transition-colors cursor-pointer"
+                        className="w-full mt-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 px-3 py-1 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors cursor-pointer"
                       >
                         Review & Approve
                       </button>
@@ -336,7 +341,7 @@ export default function Workflow() {
 
                 {/* Arrow part with gradient */}
                 <div
-                  className={`h-12 bg-gradient-to-r ${getColor(index)} flex items-center justify-center text-white font-bold`}
+                  className={`h-12 bg-gradient-to-r ${getColor(index)} dark:from-[#00308F] dark:to-[#002070] flex items-center justify-center text-white font-bold`}
                 >
                   <div className="flex items-center">
                     <span className="text-2xl">{item.step}</span>
@@ -346,7 +351,7 @@ export default function Workflow() {
 
                 {/* Arrow point */}
                 <div
-                  className={`absolute -left-10 transform -translate-y-1/2 w-20 h-20 bg-gradient-to-r ${getColor(index)} rotate-45 z-10`}
+                  className={`absolute -left-10 transform -translate-y-1/2 w-20 h-20 bg-gradient-to-r ${getColor(index)} dark:from-[#00308F] dark:to-[#002070] rotate-45 z-10`}
                 ></div>
               </div>
             </div>
@@ -357,11 +362,11 @@ export default function Workflow() {
       {/* Add workflow form */}
       {showForm && (
         <div className="fixed inset-0 backdrop-blur-[3px] flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 w-full max-w-md border border-gray-300 shadow-xl">
-            <h3 className="text-lg font-semibold mb-4">Add New Approval Stage</h3>
+          <div className="bg-white dark:bg-gray-800 rounded-lg p-6 w-full max-w-md border border-gray-300 dark:border-gray-700 shadow-xl">
+            <h3 className="text-lg font-semibold mb-4 text-gray-800 dark:text-gray-200">Add New Approval Stage</h3>
             <form onSubmit={handleAddItem} className="space-y-4">
               <div>
-                <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
+                <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                   Stage Title
                 </label>
                 <input
@@ -371,11 +376,11 @@ export default function Workflow() {
                   onChange={handleInputChange}
                   placeholder="Enter title (e.g. STAGE 06)"
                   required
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#00308F] dark:focus:ring-[#00308F]"
                 />
               </div>
               <div>
-                <label htmlFor="value" className="block text-sm font-medium text-gray-700 mb-1">
+                <label htmlFor="value" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                   Approval Type
                 </label>
                 <input
@@ -385,11 +390,11 @@ export default function Workflow() {
                   onChange={handleInputChange}
                   placeholder="Enter approval type"
                   required
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#00308F] dark:focus:ring-[#00308F]"
                 />
               </div>
               <div>
-                <label htmlFor="amount" className="block text-sm font-medium text-gray-700 mb-1">
+                <label htmlFor="amount" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                   Description
                 </label>
                 <textarea
@@ -399,15 +404,15 @@ export default function Workflow() {
                   onChange={handleInputChange}
                   placeholder="Enter description of this approval stage"
                   required
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#00308F] dark:focus:ring-[#00308F]"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Select Icon</label>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Select Icon</label>
                 <select
                   value={selectedIcon}
                   onChange={(e) => setSelectedIcon(Number(e.target.value))}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#00308F] dark:focus:ring-[#00308F]"
                 >
                   {icons.map((icon, index) => (
                     <option key={icon.name} value={index}>
@@ -420,13 +425,13 @@ export default function Workflow() {
                 <button
                   type="button"
                   onClick={() => setShowForm(false)}
-                  className="px-4 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-100 transition-colors cursor-pointer"
+                  className="px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 rounded-md hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 bg-blue-800 text-white rounded-md hover:bg-blue-700 transition-colors cursor-pointer"
+                  className="px-4 py-2 bg-[#00308F] dark:bg-[#00308F] text-white rounded-md hover:bg-[#002070] dark:hover:bg-[#002070] transition-colors cursor-pointer"
                 >
                   Add Stage
                 </button>
@@ -439,18 +444,18 @@ export default function Workflow() {
       {/* Approval Dialog */}
       {showApprovalDialog && (
         <div className="fixed inset-0 backdrop-blur-[3px] flex items-center justify-center z-50">
-          <div className="bg-gradient-to-br from-blue-50 to-gray-100 rounded-xl p-6 w-full max-w-md border border-blue-200 shadow-2xl">
-            <h3 className="text-xl font-bold text-blue-900 mb-4 bg-gradient-to-r from-blue-900 to-blue-600 bg-clip-text text-transparent">
+          <div className="bg-gradient-to-br from-[#E6E9F0] to-gray-100 dark:bg-gray-800 dark:border dark:border-gray-700 rounded-xl p-6 w-full max-w-md shadow-2xl">
+            <h3 className="text-xl font-bold text-[#00308F] dark:text-gray-200 mb-4 bg-gradient-to-r from-[#00308F] to-[#002070] dark:from-[#00308F] dark:to-[#002070] bg-clip-text text-transparent">
               {selectedItem ? `Review` : ""}
             </h3>
             <div className="space-y-5">
               {/* Approver Selection */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Select Person</label>
+              <div expect>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Select Person</label>
                 <select
                   value={selectedApprover}
                   onChange={(e) => setSelectedApprover(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 transition-colors"
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#00308F] dark:focus:ring-[#00308F] transition-colors"
                 >
                   <option value="">Select an approver</option>
                   {approvers.map((approver) => (
@@ -460,13 +465,13 @@ export default function Workflow() {
                   ))}
                 </select>
                 {approverError && (
-                  <p className="text-red-500 text-xs mt-1 animate-shake">{approverError}</p>
+                  <p className="text-red-500 dark:text-red-400 text-xs mt-1 animate-shake">{approverError}</p>
                 )}
               </div>
 
               {/* Action Selection */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Action</label>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Action</label>
                 <div className="flex gap-6">
                   {[
                     { value: "approve", label: "Approve" },
@@ -474,7 +479,7 @@ export default function Workflow() {
                   ].map((option) => (
                     <label
                       key={option.value}
-                      className="flex items-center space-x-2 cursor-pointer hover:bg-blue-100 p-1 rounded transition-colors"
+                      className="flex items-center space-x-2 cursor-pointer hover:bg-[#E6E9F0] dark:hover:bg-gray-700 p-1 rounded transition-colors"
                     >
                       <input
                         type="checkbox"
@@ -483,29 +488,29 @@ export default function Workflow() {
                           setApprovalAction(option.value)
                           setActionError("")
                         }}
-                        className="h-4 w-4 text-blue-600 border-gray-300 rounded-full focus:ring-blue-600 accent-blue-600 cursor-pointer"
+                        className="h-4 w-4 text-[#00308F] dark:text-[#00308F] border-gray-300 dark:border-gray-600 rounded-full focus:ring-[#00308F] dark:focus:ring-[#00308F] accent-[#00308F] dark:accent-[#00308F] cursor-pointer"
                       />
-                      <span className="text-sm text-gray-700">{option.label}</span>
+                      <span className="text-sm text-gray-700 dark:text-gray-300">{option.label}</span>
                     </label>
                   ))}
                 </div>
                 {actionError && (
-                  <p className="text-red-500 text-xs mt-1 animate-shake">{actionError}</p>
+                  <p className="text-red-500 dark:text-red-400 text-xs mt-1 animate-shake">{actionError}</p>
                 )}
               </div>
 
               {/* Comment Input */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Comments (Required)</label>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Comments (Required)</label>
                 <textarea
                   value={approvalComment}
                   onChange={(e) => setApprovalComment(e.target.value)}
                   placeholder="Add your review comments"
                   rows={4}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 transition-colors"
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#00308F] dark:focus:ring-[#00308F] transition-colors"
                 />
                 {commentError && (
-                  <p className="text-red-500 text-xs mt-1 animate-shake">{commentError}</p>
+                  <p className="text-red-500 dark:text-red-400 text-xs mt-1 animate-shake">{commentError}</p>
                 )}
               </div>
 
@@ -514,13 +519,13 @@ export default function Workflow() {
                 <button
                   type="button"
                   onClick={() => setShowApprovalDialog(false)}
-                  className="px-4 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-200 hover:scale-105 transition-all duration-200 cursor-pointer"
+                  className="px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 rounded-md hover:bg-gray-200 dark:hover:bg-gray-600 hover:scale-105 transition-all duration-200 cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   onClick={handleApprovalSubmitExtended}
-                  className="px-4 py-2 bg-gradient-to-r from-blue-800 to-blue-600 text-white rounded-md hover:scale-105 transition-all duration-200 cursor-pointer"
+                  className="px-4 py-2 bg-gradient-to-r from-[#00308F] to-[#002070] dark:from-[#00308F] dark:to-[#002070] text-white rounded-md hover:scale-105 transition-all duration-200 cursor-pointer"
                 >
                   Submit Review
                 </button>
