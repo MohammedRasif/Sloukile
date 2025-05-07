@@ -1,4 +1,8 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
+import { Document, Page, pdfjs } from "react-pdf";
+
+// Set the workerSrc for react-pdf to use the CDN-hosted worker
+pdfjs.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
 
 function DocumentLibrary() {
   const [selectedDocument, setSelectedDocument] = useState(null);
@@ -6,6 +10,12 @@ function DocumentLibrary() {
   const [showLinkingPanel, setShowLinkingPanel] = useState(false);
   const [showApprovalFlow, setShowApprovalFlow] = useState(false);
   const [activeTab, setActiveTab] = useState("all");
+  const [showPdfModal, setShowPdfModal] = useState(false);
+  const [pdfFileUrl, setPdfFileUrl] = useState(null);
+  const [numPages, setNumPages] = useState(null);
+  const [pageNumber, setPageNumber] = useState(1);
+  const fileInputRef = useRef(null);
+
   const [documents, setDocuments] = useState([
     {
       id: 1,
@@ -131,14 +141,12 @@ function DocumentLibrary() {
     { id: 3, name: "Video Tutorials", audience: "End Users", format: "MP4", status: "Not Started" },
   ]);
 
-  // State for linking panel
   const [linkForm, setLinkForm] = useState({
     milestone: "none",
     stage: "none",
     task: "none",
   });
 
-  // State for approval panel
   const [approvalForm, setApprovalForm] = useState({
     approver: "none",
     level: "required",
@@ -197,28 +205,46 @@ function DocumentLibrary() {
   };
 
   const handleUploadDocument = () => {
-    const newDocument = {
-      id: documents.length + 1,
-      name: `New Document ${documents.length + 1}`,
-      type: "DOCX",
-      size: "200 KB",
-      modified: new Date().toLocaleDateString("en-US", { month: "short", day: "2-digit", year: "numeric" }),
-      status: "Draft",
-      category: "General",
-      owner: "Unknown",
-      version: "1.0",
-      linkedTo: [],
-      approvers: [],
-      versions: [
-        { version: "1.0", date: new Date().toLocaleDateString("en-US", { month: "short", day: "2-digit", year: "numeric" }), author: "Unknown", notes: "Initial draft" },
-      ],
-    };
-    setDocuments([...documents, newDocument]);
-    console.log("Added new document:", newDocument);
+    fileInputRef.current?.click();
+  };
+
+  const handleFileChange = (e) => {
+    if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0];
+      const newDocument = {
+        id: documents.length + 1,
+        name: file.name,
+        type: file.name.split('.').pop().toUpperCase(),
+        size: `${(file.size / 1024).toFixed(2)} KB`,
+        modified: new Date().toLocaleDateString("en-US", { month: "short", day: "2-digit", year: "numeric" }),
+        status: "Draft",
+        category: "General",
+        owner: "Unknown",
+        version: "1.0",
+        linkedTo: [],
+        approvers: [],
+        versions: [
+          { version: "1.0", date: new Date().toLocaleDateString("en-US", { month: "short", day: "2-digit", year: "numeric" }), author: "Unknown", notes: "Initial draft" },
+        ],
+        file: file,
+      };
+      setDocuments([...documents, newDocument]);
+      console.log("Uploaded document:", newDocument);
+      fileInputRef.current.value = "";
+    }
   };
 
   const handleViewDocument = (doc) => {
-    console.log(`View document: ${doc.name}`);
+    if (doc.type === "PDF" && doc.file) {
+      const fileUrl = URL.createObjectURL(doc.file);
+      setPdfFileUrl(fileUrl);
+      setShowPdfModal(true);
+      setPageNumber(1);
+      console.log(`Viewing PDF: ${doc.name}`);
+    } else {
+      console.log(`Cannot view document: ${doc.name}. Only PDF files are supported.`);
+      alert("Only PDF files can be viewed. Please upload a PDF or download the document.");
+    }
   };
 
   const handleEditDocument = (doc) => {
@@ -226,7 +252,19 @@ function DocumentLibrary() {
   };
 
   const handleDownloadDocument = (doc) => {
-    console.log(`Download document: ${doc.name}`);
+    if (doc.file) {
+      const fileUrl = URL.createObjectURL(doc.file);
+      const link = document.createElement("a");
+      link.href = fileUrl;
+      link.download = doc.name;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(fileUrl);
+    } else {
+      console.log(`No file available for download: ${doc.name}`);
+      alert("This document cannot be downloaded as no file is associated with it.");
+    }
   };
 
   const handleAddDocumentToStage = (stage) => {
@@ -348,8 +386,35 @@ function DocumentLibrary() {
     setShowApprovalFlow(false);
   };
 
+  const closePdfModal = () => {
+    setShowPdfModal(false);
+    if (pdfFileUrl) {
+      URL.revokeObjectURL(pdfFileUrl);
+      setPdfFileUrl(null);
+    }
+    setNumPages(null);
+    setPageNumber(1);
+  };
+
+  const onDocumentLoadSuccess = ({ numPages }) => {
+    setNumPages(numPages);
+  };
+
+  const changePage = (offset) => {
+    setPageNumber((prevPageNumber) => Math.min(Math.max(prevPageNumber + offset, 1), numPages));
+  };
+
   return (
     <div className="container mx-auto py-6">
+      {/* Hidden File Input for Upload */}
+      <input
+        type="file"
+        ref={fileInputRef}
+        className="hidden"
+        onChange={handleFileChange}
+        accept=".docx,.pdf,.zip,.pptx,.xlsx"
+      />
+
       {/* Header */}
       <div className="flex justify-between items-center mb-6">
         <div className="flex items-center">
@@ -371,7 +436,7 @@ function DocumentLibrary() {
         </button>
       </div>
 
-      <div className="bg-white p-6 rounded-lg shadow">
+      <div className="bg-White p-6 rounded-lg shadow">
         <h2 className="text-xl font-semibold mb-6">Documents</h2>
 
         {/* Tabs */}
@@ -622,16 +687,12 @@ function DocumentLibrary() {
                   </div>
                 </div>
               </div>
-              <div className="flex space-x-2">
-               
-                
-                
-              </div>
+           
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {/* Document Information */}
-              <div className="space-y-4">
+              <div className="space-y-4 -mt-[2px]">
                 <div>
                   <h3 className="text-sm font-medium mb-2">Document Information</h3>
                   <div className="bg-gray-50 p-3 rounded-md space-y-2">
@@ -912,6 +973,62 @@ function DocumentLibrary() {
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* PDF Modal */}
+      {showPdfModal && pdfFileUrl && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg p-6 w-full max-w-4xl relative">
+            <button
+              onClick={closePdfModal}
+              className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
+            >
+              <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+            <h2 className="text-xl font-semibold mb-4">{selectedDocument?.name}</h2>
+            <div className="max-h-[70vh] overflow-y-auto">
+              <Document
+                file={pdfFileUrl}
+                onLoadSuccess={onDocumentLoadSuccess}
+                className="flex justify-center"
+              >
+                <Page pageNumber={pageNumber} />
+              </Document>
+            </div>
+            {numPages && (
+              <div className="flex justify-center items-center mt-4 space-x-4">
+                <button
+                  onClick={() => changePage(-1)}
+                  disabled={pageNumber <= 1}
+                  className="px-3 py-1 bg-[#00308F] text-white rounded-md disabled:bg-gray-300 hover:bg-[#002070]"
+                >
+                  Previous
+                </button>
+                <p className="text-sm">
+                  Page {pageNumber} of {numPages}
+                </p>
+                <button
+                  onClick={() => changePage(1)}
+                  disabled={pageNumber >= numPages}
+                  className="px-3 py-1 bg-[#00308F] text-white rounded-md disabled:bg-gray-300 hover:bg-[#002070]"
+                >
+                  Next
+                </button>
+              </div>
+            )}
+            <button
+              onClick={() => handleDownloadDocument(selectedDocument)}
+              className="mt-4 bg-[#00308F] text-white px-4 py-2 rounded-md hover:bg-[#002070] flex items-center mx-auto"
+            >
+              <svg className="h-4 w-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+              </svg>
+              Download Document
+            </button>
           </div>
         </div>
       )}

@@ -1,12 +1,12 @@
+"use client"
 
 import { useState, useEffect } from "react"
-import { ChevronLeft, ChevronRight, Calendar,  } from "lucide-react"
-import { GoDash } from "react-icons/go";
-import { FiPlus } from "react-icons/fi";
+import { ChevronLeft, ChevronRight, Calendar, Plus, Edit, Trash2 } from "lucide-react"
+import { GoDash } from "react-icons/go"
+import { FiPlus } from "react-icons/fi"
 
-
-// Your project data structure
-const allProjects = [
+// Initial project data structure
+const initialProjects = [
   {
     id: "540",
     title: "Venue Selection",
@@ -316,6 +316,9 @@ const quarters = [
 ]
 
 export default function TimeLine() {
+  // State for projects data
+  const [allProjects, setAllProjects] = useState(initialProjects)
+
   const [selectedYear, setSelectedYear] = useState(2022)
   const [selectedQuarter, setSelectedQuarter] = useState(2)
   const [filteredProjects, setFilteredProjects] = useState([])
@@ -331,6 +334,41 @@ export default function TimeLine() {
     })
     return milestoneIds
   })
+
+  // State for add/edit project popup
+  const [showProjectPopup, setShowProjectPopup] = useState(false)
+  const [isEditing, setIsEditing] = useState(false)
+  const [currentProjectId, setCurrentProjectId] = useState(null)
+
+  // State for project form data
+  const [projectFormData, setProjectFormData] = useState({
+    title: "",
+    dateline: "",
+    milestones: [],
+  })
+
+  // State for milestone form data
+  const [milestoneFormData, setMilestoneFormData] = useState({
+    name: "",
+    completed: false,
+    details: {
+      subject: "",
+      type: "TASK",
+      status: "not-started",
+      priority: "Normal",
+      startDate: "",
+      endDate: "",
+      color: "#406dc7",
+      owner: {
+        name: "",
+        avatar: "",
+        role: "",
+      },
+    },
+  })
+
+  // State for delete confirmation popup
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
 
   useEffect(() => {
     const currentQuarter = quarters[selectedQuarter]
@@ -362,7 +400,7 @@ export default function TimeLine() {
     })
 
     setFilteredProjects(projects)
-  }, [selectedYear, selectedQuarter])
+  }, [selectedYear, selectedQuarter, allProjects])
 
   const months = []
   let currentDate = new Date(startDate)
@@ -394,6 +432,14 @@ export default function TimeLine() {
     if (!dateString) return null
     const [day, month, year] = dateString.split("/").map(Number)
     return new Date(year, month - 1, day)
+  }
+
+  const formatDate = (date) => {
+    if (!date) return ""
+    const day = date.getDate().toString().padStart(2, "0")
+    const month = (date.getMonth() + 1).toString().padStart(2, "0")
+    const year = date.getFullYear()
+    return `${day}/${month}/${year}`
   }
 
   const calculatePosition = (date) => {
@@ -443,17 +489,247 @@ export default function TimeLine() {
     }
   }
 
-  const toggleProjectDetails = (projectId) => {
+  const toggleProject = (projectId) => {
     setExpandedProjects((prev) =>
-      prev.includes(projectId) ? prev.filter((id) => id !== projectId) : [...prev, projectId]
+      prev.includes(projectId) ? prev.filter((id) => id !== projectId) : [...prev, projectId],
     )
   }
 
   const toggleMilestoneDetails = (milestoneIndex, projectId) => {
     const uniqueId = `${projectId}-${milestoneIndex}`
     setExpandedMilestones((prev) =>
-      prev.includes(uniqueId) ? prev.filter((id) => id !== uniqueId) : [...prev, uniqueId]
+      prev.includes(uniqueId) ? prev.filter((id) => id !== uniqueId) : [...prev, uniqueId],
     )
+  }
+
+  // Open add project popup
+  const openAddProjectPopup = () => {
+    setProjectFormData({
+      title: "",
+      dateline: "",
+      milestones: [],
+    })
+    setMilestoneFormData({
+      name: "",
+      completed: false,
+      details: {
+        subject: "",
+        type: "TASK",
+        status: "not-started",
+        priority: "Normal",
+        startDate: "",
+        endDate: "",
+        color: "#406dc7",
+        owner: {
+          name: "",
+          avatar: "",
+          role: "",
+        },
+      },
+    })
+    setIsEditing(false)
+    setShowProjectPopup(true)
+  }
+
+  // Open edit project popup
+  const openEditProjectPopup = (projectId) => {
+    const project = allProjects.find((p) => p.id === projectId)
+    if (!project) return
+
+    // Create a deep copy of the project with properly formatted dates for the form
+    const formattedMilestones = project.milestones.map((milestone) => {
+      const startDate = milestone.details.startDate ? new Date(milestone.details.startDate) : null
+      const endDate = milestone.details.endDate ? new Date(milestone.details.endDate) : null
+
+      return {
+        ...milestone,
+        details: {
+          ...milestone.details,
+          startDate: startDate ? startDate.toISOString().split("T")[0] : "",
+          endDate: endDate ? endDate.toISOString().split("T")[0] : "",
+        },
+      }
+    })
+
+    setProjectFormData({
+      title: project.title,
+      dateline: project.dateline,
+      milestones: formattedMilestones,
+    })
+    setCurrentProjectId(projectId)
+    setIsEditing(true)
+    setShowProjectPopup(true)
+  }
+
+  // Open delete project confirmation
+  const openDeleteProjectConfirm = (projectId) => {
+    setCurrentProjectId(projectId)
+    setShowDeleteConfirm(true)
+  }
+
+  // Handle project form input changes
+  const handleProjectChange = (e) => {
+    const { name, value } = e.target
+    setProjectFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }))
+  }
+
+  // Handle milestone form input changes
+  const handleMilestoneChange = (e) => {
+    const { name, value } = e.target
+
+    if (name.includes("details.")) {
+      const detailField = name.split(".")[1]
+      setMilestoneFormData((prev) => ({
+        ...prev,
+        details: {
+          ...prev.details,
+          [detailField]: value,
+        },
+      }))
+    } else if (name.includes("owner.")) {
+      const ownerField = name.split(".")[1]
+      setMilestoneFormData((prev) => ({
+        ...prev,
+        details: {
+          ...prev.details,
+          owner: {
+            ...prev.details.owner,
+            [ownerField]: value,
+          },
+        },
+      }))
+    } else {
+      setMilestoneFormData((prev) => ({
+        ...prev,
+        [name]: name === "completed" ? e.target.checked : value,
+      }))
+    }
+  }
+
+  // Add milestone to project form
+  const addMilestone = () => {
+    if (!milestoneFormData.name || !milestoneFormData.details.subject) {
+      alert("Milestone name and subject are required!")
+      return
+    }
+
+    // Generate a unique ID for the milestone
+    const milestoneId = `milestone-${Date.now()}`
+
+    // Create a new milestone with the form data
+    const newMilestone = {
+      ...milestoneFormData,
+      details: {
+        ...milestoneFormData.details,
+        id: milestoneId,
+        // Keep dates as strings in the form
+        startDate: milestoneFormData.details.startDate || "",
+        endDate: milestoneFormData.details.endDate || "",
+      },
+    }
+
+    // Add the milestone to the project form data
+    setProjectFormData((prev) => ({
+      ...prev,
+      milestones: [...prev.milestones, newMilestone],
+    }))
+
+    // Reset the milestone form
+    setMilestoneFormData({
+      name: "",
+      completed: false,
+      details: {
+        subject: "",
+        type: "TASK",
+        status: "not-started",
+        priority: "Normal",
+        startDate: "",
+        endDate: "",
+        color: "#406dc7",
+        owner: {
+          name: "",
+          avatar: "",
+          role: "",
+        },
+      },
+    })
+  }
+
+  // Remove milestone from project form
+  const removeMilestone = (index) => {
+    setProjectFormData((prev) => ({
+      ...prev,
+      milestones: prev.milestones.filter((_, i) => i !== index),
+    }))
+  }
+
+  // Save project (add or update)
+  const saveProject = () => {
+    if (!projectFormData.title || !projectFormData.dateline) {
+      alert("Project title and dateline are required!")
+      return
+    }
+
+    if (projectFormData.milestones.length === 0) {
+      alert("At least one milestone is required!")
+      return
+    }
+
+    // Process milestones to ensure dates are properly formatted
+    const processedMilestones = projectFormData.milestones.map((milestone) => {
+      return {
+        ...milestone,
+        details: {
+          ...milestone.details,
+          startDate: milestone.details.startDate ? new Date(milestone.details.startDate) : new Date(),
+          endDate: milestone.details.endDate ? new Date(milestone.details.endDate) : null,
+        },
+      }
+    })
+
+    const updatedProjectData = {
+      ...projectFormData,
+      milestones: processedMilestones,
+    }
+
+    if (isEditing) {
+      // Update existing project
+      setAllProjects((prev) =>
+        prev.map((project) => (project.id === currentProjectId ? { ...project, ...updatedProjectData } : project)),
+      )
+    } else {
+      // Add new project
+      const newId = `${Math.floor(Math.random() * 1000)}`
+      const newProject = {
+        id: newId,
+        ...updatedProjectData,
+        dependencies: [],
+      }
+      setAllProjects((prev) => [...prev, newProject])
+
+      // Expand the new project by default
+      setExpandedProjects((prev) => [...prev, newId])
+    }
+
+    // Close the popup
+    setShowProjectPopup(false)
+    alert(isEditing ? "Project updated successfully!" : "Project added successfully!")
+  }
+
+  // Delete project
+  const deleteProject = () => {
+    setAllProjects((prev) => prev.filter((project) => project.id !== currentProjectId))
+    setShowDeleteConfirm(false)
+    alert("Project deleted successfully!")
+  }
+
+  // Close all popups
+  const closePopup = () => {
+    setShowProjectPopup(false)
+    setShowDeleteConfirm(false)
   }
 
   const today = new Date(2022, 7, 1) // Simulate August 1, 2022 for testing
@@ -478,19 +754,28 @@ export default function TimeLine() {
               Track project progress, milestones, and deliverables
             </p>
           </div>
-          <div className="flex items-center bg-blue-700 dark:bg-[#3B5AEB] rounded-md p-2">
-            <Calendar className="h-4 w-4 mr-2" />
-            <select
-              className="bg-transparent text-white text-sm focus:outline-none cursor-pointer"
-              value={selectedYear}
-              onChange={(e) => setSelectedYear(Number.parseInt(e.target.value))}
+          <div className="flex items-center gap-3">
+            <button
+              onClick={openAddProjectPopup}
+              className="flex items-center gap-1 bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-md transition-colors"
             >
-              {availableYears.map((year) => (
-                <option key={year} value={year} className="text-gray-800 dark:text-gray-200">
-                  {year}
-                </option>
-              ))}
-            </select>
+              <Plus className="h-4 w-4" />
+              <span>Add Timeline</span>
+            </button>
+            <div className="flex items-center bg-blue-700 dark:bg-[#3B5AEB] rounded-md p-2">
+              <Calendar className="h-4 w-4 mr-2" />
+              <select
+                className="bg-transparent text-white text-sm focus:outline-none cursor-pointer"
+                value={selectedYear}
+                onChange={(e) => setSelectedYear(Number.parseInt(e.target.value))}
+              >
+                {availableYears.map((year) => (
+                  <option key={year} value={year} className="text-gray-800 dark:text-gray-200">
+                    {year}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
         </div>
       </div>
@@ -528,7 +813,7 @@ export default function TimeLine() {
             <div className="w-[70px] p-2 font-medium text-gray-700 dark:text-gray-200 text-sm">Type</div>
             <div className="w-[80px] p-2 font-medium text-gray-700 dark:text-gray-200 text-sm">Status</div>
             <div className="w-[50px] p-2 font-medium text-gray-700 dark:text-gray-200 text-sm pl-3">Priority</div>
-            {/* <div className="w-[50px] p-2 font-medium text-gray-700 dark:text-gray-200 text-sm">Owner</div> */}
+            <div className="w-[50px] p-2 font-medium text-gray-700 dark:text-gray-200 text-sm">Actions</div>
           </div>
           <div className="h-8 border-b border-gray-300 dark:border-gray-600"></div>
 
@@ -540,10 +825,7 @@ export default function TimeLine() {
                 <div key={project.id} style={{ height: `${getRowHeight(project)}px` }}>
                   <div className="flex items-center h-10 border-b border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-600">
                     <div className="w-[150px] px-2 pl-2 flex items-center">
-                      <button
-                        onClick={() => toggleProjectDetails(project.id)}
-                        className="focus:outline-none mr-1 font-bold"
-                      >
+                      <button onClick={() => toggleProject(project.id)} className="focus:outline-none mr-1 font-bold">
                         {isExpanded ? (
                           <FiPlus className="h-4 w-4 text-white dark:text-black bg-gray-800 dark:bg-gray-200 cursor-pointer" />
                         ) : (
@@ -557,7 +839,22 @@ export default function TimeLine() {
                     <div className="w-[70px] px-2 text-xs text-gray-600 dark:text-gray-300 pt-3"></div>
                     <div className="w-[80px] px-2 text-xs text-gray-600 dark:text-gray-300 pt-3"></div>
                     <div className="w-[50px] px-2 text-xs text-gray-600 dark:text-gray-300 pt-3"></div>
-                    <div className="w-[50px] px-2 pt-3"></div>
+                    <div className="w-[50px] px-2 pt-3 flex space-x-1">
+                      <button
+                        onClick={() => openEditProjectPopup(project.id)}
+                        className="text-blue-600 hover:text-blue-800"
+                        title="Edit Project"
+                      >
+                        <Edit className="h-4 w-4" />
+                      </button>
+                      <button
+                        onClick={() => openDeleteProjectConfirm(project.id)}
+                        className="text-red-600 hover:text-red-800"
+                        title="Delete Project"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </button>
+                    </div>
                   </div>
 
                   {isExpanded && (
@@ -571,7 +868,7 @@ export default function TimeLine() {
                                 <span className="text-[13px] text-gray-800 dark:text-gray-200 truncate">
                                   {milestone.name}
                                 </span>
-                                {milestone.completed  }
+                                {milestone.completed}
                               </div>
                               <div className="w-[70px] px-2 text-xs text-gray-600 dark:text-gray-300 pt-3">
                                 {milestone.details.type}
@@ -582,13 +879,9 @@ export default function TimeLine() {
                               <div className="w-[50px] px-2 text-xs text-gray-600 dark:text-gray-300 pt-3 pl-3">
                                 {milestone.details.priority}
                               </div>
-                              {/* <div className="w-[50px] px-2 pt-3">
-                                <img
-                                  src={milestone.details.owner.avatar || "/placeholder.svg"}
-                                  alt={milestone.details.owner.name}
-                                  className="h-6 w-6 rounded-full"
-                                />
-                              </div> */}
+                              <div className="w-[50px] px-2 pt-3">
+                                {/* No edit/delete for individual milestones in this version */}
+                              </div>
                             </div>
                           </div>
                         )
@@ -704,9 +997,7 @@ export default function TimeLine() {
                                         backgroundColor: `${milestone.details.color}80`,
                                       }}
                                     ></div>
-                                    <span className="z-10 relative truncate">
-                                      {milestone.name} 
-                                    </span>
+                                    <span className="z-10 relative truncate">{milestone.name}</span>
                                   </div>
                                 )}
                               </div>
@@ -726,6 +1017,279 @@ export default function TimeLine() {
           </div>
         </div>
       </div>
+
+      {/* Add/Edit Project Popup */}
+      {showProjectPopup && (
+        <div className="fixed inset-0 backdrop-blur-[3px] bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white border border-gray-300 dark:bg-gray-800 p-6 rounded-lg shadow-lg max-w-3xl w-full max-h-[90vh] overflow-y-auto">
+            <h2 className="text-xl font-semibold mb-4 dark:text-white">
+              {isEditing ? "Edit Project" : "Add New Project"}
+            </h2>
+
+            <div className="space-y-4">
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium dark:text-gray-300 mb-1">Project Title</label>
+                  <input
+                    type="text"
+                    name="title"
+                    value={projectFormData.title}
+                    onChange={handleProjectChange}
+                    className="w-full p-2 border rounded dark:bg-gray-700 dark:text-white"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium dark:text-gray-300 mb-1">Dateline (DD/MM/YYYY)</label>
+                  <input
+                    type="text"
+                    name="dateline"
+                    value={projectFormData.dateline}
+                    onChange={handleProjectChange}
+                    placeholder="DD/MM/YYYY"
+                    className="w-full p-2 border rounded dark:bg-gray-700 dark:text-white"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div className="border-t border-gray-200 dark:border-gray-600 pt-4">
+                <h3 className="text-lg font-medium dark:text-white mb-2">Add Milestone</h3>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium dark:text-gray-300 mb-1">Milestone Name</label>
+                    <input
+                      type="text"
+                      name="name"
+                      value={milestoneFormData.name}
+                      onChange={handleMilestoneChange}
+                      className="w-full p-2 border rounded dark:bg-gray-700 dark:text-white"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium dark:text-gray-300 mb-1">Subject</label>
+                    <input
+                      type="text"
+                      name="details.subject"
+                      value={milestoneFormData.details.subject}
+                      onChange={handleMilestoneChange}
+                      className="w-full p-2 border rounded dark:bg-gray-700 dark:text-white"
+                    />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-3 gap-4 mt-3">
+                  <div>
+                    <label className="block text-sm font-medium dark:text-gray-300 mb-1">Type</label>
+                    <select
+                      name="details.type"
+                      value={milestoneFormData.details.type}
+                      onChange={handleMilestoneChange}
+                      className="w-full p-2 border rounded dark:bg-gray-700 dark:text-white"
+                    >
+                      <option value="TASK">Task</option>
+                      <option value="MILESTONE">Milestone</option>
+                      <option value="PHASE">Phase</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium dark:text-gray-300 mb-1">Status</label>
+                    <select
+                      name="details.status"
+                      value={milestoneFormData.details.status}
+                      onChange={handleMilestoneChange}
+                      className="w-full p-2 border rounded dark:bg-gray-700 dark:text-white"
+                    >
+                      <option value="not-started">Not Started</option>
+                      <option value="in-progress">In Progress</option>
+                      <option value="completed">Completed</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium dark:text-gray-300 mb-1">Priority</label>
+                    <select
+                      name="details.priority"
+                      value={milestoneFormData.details.priority}
+                      onChange={handleMilestoneChange}
+                      className="w-full p-2 border rounded dark:bg-gray-700 dark:text-white"
+                    >
+                      <option value="Low">Low</option>
+                      <option value="Normal">Normal</option>
+                      <option value="High">High</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4 mt-3">
+                  <div>
+                    <label className="block text-sm font-medium dark:text-gray-300 mb-1">Start Date</label>
+                    <input
+                      type="date"
+                      name="details.startDate"
+                      value={milestoneFormData.details.startDate}
+                      onChange={handleMilestoneChange}
+                      className="w-full p-2 border rounded dark:bg-gray-700 dark:text-white"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium dark:text-gray-300 mb-1">End Date</label>
+                    <input
+                      type="date"
+                      name="details.endDate"
+                      value={milestoneFormData.details.endDate}
+                      onChange={handleMilestoneChange}
+                      className="w-full p-2 border rounded dark:bg-gray-700 dark:text-white"
+                    />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-3 gap-4 mt-3">
+                  <div>
+                    <label className="block text-sm font-medium dark:text-gray-300 mb-1">Color</label>
+                    <input
+                      type="color"
+                      name="details.color"
+                      value={milestoneFormData.details.color}
+                      onChange={handleMilestoneChange}
+                      className="w-full p-1 h-10 border rounded dark:bg-gray-700"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium dark:text-gray-300 mb-1">Owner Name</label>
+                    <input
+                      type="text"
+                      name="owner.name"
+                      value={milestoneFormData.details.owner.name}
+                      onChange={handleMilestoneChange}
+                      className="w-full p-2 border rounded dark:bg-gray-700 dark:text-white"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium dark:text-gray-300 mb-1">Owner Role</label>
+                    <input
+                      type="text"
+                      name="owner.role"
+                      value={milestoneFormData.details.owner.role}
+                      onChange={handleMilestoneChange}
+                      className="w-full p-2 border rounded dark:bg-gray-700 dark:text-white"
+                    />
+                  </div>
+                </div>
+
+                <div className="mt-3">
+                  <label className="block text-sm font-medium dark:text-gray-300 mb-1">Completed</label>
+                  <div className="flex items-center">
+                    <input
+                      type="checkbox"
+                      name="completed"
+                      checked={milestoneFormData.completed}
+                      onChange={handleMilestoneChange}
+                      className="h-4 w-4 text-blue-600 rounded"
+                    />
+                    <span className="ml-2 text-sm dark:text-gray-300">Mark as completed</span>
+                  </div>
+                </div>
+
+                <button
+                  onClick={addMilestone}
+                  className="mt-4 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
+                >
+                  Add Milestone
+                </button>
+              </div>
+
+              {/* Display added milestones */}
+              {projectFormData.milestones.length > 0 && (
+                <div className="border-t border-gray-200 dark:border-gray-600 pt-4">
+                  <h3 className="text-lg font-medium dark:text-white mb-2">
+                    {isEditing ? "Project Milestones" : "Added Milestones"}
+                  </h3>
+                  <div className="max-h-60 overflow-y-auto border rounded dark:border-gray-600">
+                    <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-600">
+                      <thead className="bg-gray-50 dark:bg-gray-700">
+                        <tr>
+                          <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                            Name
+                          </th>
+                          <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                            Type
+                          </th>
+                          <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                            Status
+                          </th>
+                          <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                            Actions
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-600">
+                        {projectFormData.milestones.map((milestone, index) => (
+                          <tr key={index}>
+                            <td className="px-3 py-2 whitespace-nowrap text-sm text-gray-900 dark:text-gray-300">
+                              {milestone.name}
+                            </td>
+                            <td className="px-3 py-2 whitespace-nowrap text-sm text-gray-900 dark:text-gray-300">
+                              {milestone.details.type}
+                            </td>
+                            <td className="px-3 py-2 whitespace-nowrap text-sm text-gray-900 dark:text-gray-300">
+                              {milestone.details.status.charAt(0).toUpperCase() + milestone.details.status.slice(1)}
+                            </td>
+                            <td className="px-3 py-2 whitespace-nowrap text-sm">
+                              <button
+                                onClick={() => removeMilestone(index)}
+                                className="text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300"
+                              >
+                                Remove
+                              </button>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            <div className="mt-6 flex justify-end space-x-3">
+              <button
+                onClick={closePopup}
+                className="px-4 py-2 bg-gray-300 dark:bg-gray-600 rounded hover:bg-gray-400 dark:hover:bg-gray-500"
+              >
+                Cancel
+              </button>
+              <button onClick={saveProject} className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+                {isEditing ? "Update Project" : "Save Project"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Delete Confirmation Popup */}
+      {showDeleteConfirm && (
+        <div className="fixed inset-0 backdrop-blur-[3px] flex items-center justify-center z-50">
+          <div className="bg-white dark:bg-gray-800 p-6 border border-gray-300 rounded-lg shadow-lg max-w-md w-full">
+            <h2 className="text-xl font-semibold mb-4 dark:text-white">Confirm Delete</h2>
+            <p className="mb-6 dark:text-gray-300">
+              Are you sure you want to delete this project? This action cannot be undone.
+            </p>
+
+            <div className="flex justify-end space-x-3">
+              <button
+                onClick={closePopup}
+                className="px-4 py-2 bg-gray-300 dark:bg-gray-600 rounded hover:bg-gray-400 dark:hover:bg-gray-500 cursor-pointer"
+              >
+                Cancel
+              </button>
+              <button onClick={deleteProject} className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 cursor-pointer">
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

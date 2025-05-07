@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
+    "@pdf-viewer/react": "^1.4.3",
     "@react-google-maps/api": "^2.20.6",
     "@reduxjs/toolkit": "^2.7.0",
     "@tailwindcss/vite": "^4.0.13",
@@ -28,6 +29,7 @@
     "react-hot-toast": "^2.5.2",
     "react-icons": "^5.5.0",
     "react-markdown": "^10.1.0",
+    "react-pdf": "^9.2.1",
     "react-redux": "^9.2.0",
     "react-router-dom": "^7.2.0",
     "react-share": "^5.2.2",
