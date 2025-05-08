@@ -1,4 +1,6 @@
-import { useState, useEffect } from "react"
+
+import { useState, useEffect, useRef } from "react"
+import { FaFilePdf, FaChevronDown } from "react-icons/fa";
 import {
   PlusCircle,
   Search,
@@ -12,6 +14,18 @@ import {
 } from "lucide-react"
 
 export default function Workflow() {
+  const [selectedPDF, setSelectedPDF] = useState(null);
+  const [showPdfDropdown, setShowPdfDropdown] = useState(false);
+  const [pdfError, setPdfError] = useState("");
+  const [showApproverDropdown, setShowApproverDropdown] = useState(false); // New state for approver dropdown
+
+  // Dummy PDF file list
+  const availablePDFs = [
+    { name: "Project Plan", file: "project-plan.pdf" },
+    { name: "Budget Report", file: "budget-report.pdf" },
+    { name: "Summary 2024", file: "summary-2024.pdf" },
+  ];
+
   // Default workflow items representing approval stages
   const [workflowItems, setWorkflowItems] = useState([
     {
@@ -170,7 +184,9 @@ export default function Workflow() {
     setCommentError("")
     setApproverError("")
     setActionError("")
+    setPdfError("")
     setShowApprovalDialog(true)
+    setShowApproverDropdown(false) // Reset approver dropdown
   }
 
   // Handle approval submission
@@ -180,14 +196,14 @@ export default function Workflow() {
       prev.map((item) =>
         item.step === updatedItem.step
           ? {
-              ...item,
-              status: approvalAction,
-              approver: {
-                ...updatedItem.approver,
-                date: today,
-                comments: approvalComment,
-              },
-            }
+            ...item,
+            status: approvalAction,
+            approver: {
+              ...updatedItem.approver,
+              date: today,
+              comments: approvalComment,
+            },
+          }
           : item,
       ),
     )
@@ -221,6 +237,14 @@ export default function Workflow() {
       setApproverError("")
     }
 
+    // Validate PDF
+    if (!selectedPDF) {
+      setPdfError("Please select a PDF document")
+      hasError = true
+    } else {
+      setPdfError("")
+    }
+
     if (hasError) return
 
     // Update points
@@ -241,6 +265,7 @@ export default function Workflow() {
 
     // Reset states and close dialog
     setSelectedApprover("")
+    setSelectedPDF(null)
     setShowApprovalDialog(false)
   }
 
@@ -323,7 +348,7 @@ export default function Workflow() {
                   {/* Approver info */}
                   <div className="w-full mt-auto">
                     {item.approver.date && (
-                      <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">Reviewed on: {item.approver.date}</p>
+                      <p className="text-xs text-gray-500 IR dark:text-gray-400 mb-1">Reviewed on: {item.approver.date}</p>
                     )}
                     {item.approver.comments && (
                       <p className="text-xs text-gray-600 dark:text-gray-400 italic">{item.approver.comments}</p>
@@ -449,23 +474,84 @@ export default function Workflow() {
               {selectedItem ? `Review` : ""}
             </h3>
             <div className="space-y-5">
+
               {/* Approver Selection */}
-              <div expect>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Select Person</label>
-                <select
-                  value={selectedApprover}
-                  onChange={(e) => setSelectedApprover(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-[#00308F] dark:focus:ring-[#00308F] transition-colors"
+              <div className="relative">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  Select Person
+                </label>
+                <div
+                  onClick={() => setShowApproverDropdown(!showApproverDropdown)}
+                  className="w-full flex items-center justify-between px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors"
                 >
-                  <option value="">Select an approver</option>
-                  {approvers.map((approver) => (
-                    <option key={approver.name} value={approver.name}>
-                      {approver.name} ({approver.role})
-                    </option>
-                  ))}
-                </select>
+                  <span className="truncate text-sm">
+                    {selectedApprover || "Select an approver"}
+                  </span>
+                  <FaChevronDown className="text-gray-500 dark:text-gray-300" />
+                </div>
+                {showApproverDropdown && (
+                  <ul className="absolute z-10 mt-1 w-full bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md shadow-lg max-h-60 overflow-auto">
+                    {approvers.map((approver) => (
+                      <li
+                        key={approver.name}
+                        onClick={() => {
+                          setSelectedApprover(approver.name);
+                          setShowApproverDropdown(false);
+                          setApproverError("");
+                        }}
+                        className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 text-sm cursor-pointer"
+                      >
+                        {approver.name} ({approver.role})
+                      </li>
+                    ))}
+                  </ul>
+                )}
                 {approverError && (
-                  <p className="text-red-500 dark:text-red-400 text-xs mt-1 animate-shake">{approverError}</p>
+                  <p className="text-red-500 dark:text-red-400 text-xs mt-1 animate-shake">
+                    {approverError}
+                  </p>
+                )}
+              </div>
+
+              {/* PDF File Select Dropdown Style */}
+              <div className="relative">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  Select PDF Document
+                </label>
+                <div
+                  onClick={() => setShowPdfDropdown(!showPdfDropdown)}
+                  className="w-full flex items-center justify-between px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors"
+                >
+                  <div className="flex items-center gap-2">
+                    <FaFilePdf className="text-red-600" />
+                    <span className="truncate text-sm">
+                      {selectedPDF ? selectedPDF.name : "Choose a PDF file"}
+                    </span>
+                  </div>
+                  <FaChevronDown className="text-gray-500 dark:text-gray-300" />
+                </div>
+                {showPdfDropdown && (
+                  <ul className="absolute z-10 mt-1 w-full bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md shadow-lg max-h-60 overflow-auto">
+                    {availablePDFs.map((pdf) => (
+                      <li
+                        key={pdf.file}
+                        onClick={() => {
+                          setSelectedPDF(pdf);
+                          setShowPdfDropdown(false);
+                          setPdfError("");
+                        }}
+                        className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 text-sm flex items-center gap-2 cursor-pointer"
+                      >
+                        <FaFilePdf className="text-red-600" />
+                        {pdf.name}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+                {pdfError && (
+                  <p className="text-red-500 dark:text-red-400 text-xs mt-1 animate-shake">
+                    {pdfError}
+                  </p>
                 )}
               </div>
 
@@ -488,7 +574,7 @@ export default function Workflow() {
                           setApprovalAction(option.value)
                           setActionError("")
                         }}
-                        className="h-4 w-4 text-[#00308F] dark:text-[#00308F] border-gray-300 dark:border-gray-600 rounded-full focus:ring-[#00308F] dark:focus:ring-[#00308F] accent-[#00308F] dark:accent-[#00308F] cursor-pointer"
+                        className="h-4 w-4 text-[#00308F] border-gray-300 dark:border-gray-600 rounded-full focus:ring-[#00308F] accent-[#00308F] cursor-pointer"
                       />
                       <span className="text-sm text-gray-700 dark:text-gray-300">{option.label}</span>
                     </label>
@@ -501,7 +587,9 @@ export default function Workflow() {
 
               {/* Comment Input */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Comments (Required)</label>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  Comments (Required)
+                </label>
                 <textarea
                   value={approvalComment}
                   onChange={(e) => setApprovalComment(e.target.value)}
