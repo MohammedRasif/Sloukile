@@ -20,6 +20,8 @@ import Workflow from './Workflow.jsx';
 import Deployment from './Deployment.jsx';
 import Document from './Document.jsx';
 import DocumentLibrary from './Document.jsx';
+import LessonsLearnedPage from './LessonLearn.jsx';
+import AllHeaderTab from './AllHeaderTab.jsx';
 
 const ProjectDetails = () => {
   const [activeTab, setActiveTab] = useState('overview');
@@ -329,41 +331,8 @@ const ProjectDetails = () => {
       </div>
 
       {/* Navigation Tabs */}
-      <div className="border-b border-gray-200 dark:border-gray-700 px-4 sm:px-6 mb-3">
-        <nav className="flex flex-wrap gap-4 sm:gap-3 overflow-x-auto pb-2">
-          {['overview', 'planning', 'team',  'budget', 'risks', 'communication', 'reporting',  'governanceSetup', 'stakeholders','Deployment Strategy','Document' ].map((tab) => (
-            <button
-              key={tab}
-              className={` px-1 border-b-2 font-bold text-sm sm:text-base whitespace-nowrap cursor-pointer ${activeTab === tab
-                ? 'border-gray-800 dark:border-[#4A6CF7] text-gray-800 dark:text-gray-100'
-                : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:border-gray-300 dark:hover:border-gray-600'
-                }`}
-              onClick={() => setActiveTab(tab)}
-            >
-              {tab.charAt(0).toUpperCase() + tab.slice(1)}
-            </button>
-          ))}
-        </nav>
-      </div>
-      
-
-      {/* Content Area */}
-      <div className="px-3 ">
-        {activeTab === 'overview' && <Overview projectData={projectData} darkMode={darkMode} />}
-        {activeTab === 'planning' && <Planning projectData={projectData} darkMode={darkMode} />}
-        {/* {activeTab === 'tasks' && <Tasks projectData={projectData} />} */}
-        {activeTab === 'budget' && <Budget projectData={projectData} />}
-        {activeTab === 'risks' && <ProjectRisks projectData={projectData} />}
-        {activeTab === 'team' && <Teams projectData={projectData} />}
-        {/* {activeTab === 'timeline' && <Timeline projectData={projectData} />} */}
-        {activeTab === 'communication' && <Communication projectData={projectData} />}
-        {activeTab === 'reporting' && <ProjectCharter projectData={projectData} />}
-        {/* {activeTab === 'projectCharter' && <ProjectCharter projectData={projectData} />} */}
-        {activeTab === 'governanceSetup' && <GovernanceSetup projectData={projectData} />}
-        {activeTab === 'stakeholders' && <Stakeholders projectData={projectData} />}
-        {activeTab === 'Deployment Strategy' && <Deployment projectData={projectData} />} 
-        {activeTab === 'Document' && <DocumentLibrary projectData={projectData} />} 
-        {/* {activeTab === 'RACI' && <RACI projectData={projectData} />} */}
+      <div>
+        <AllHeaderTab/>
       </div>
     </div>
   );

@@ -1,5 +1,6 @@
-import { useState } from "react";
-import { Search, Plus, X, Trash2 } from "lucide-react";
+
+import { useState, useEffect, useRef } from "react";
+import { Search, Plus, X, Trash2, Share2, Link, Mail } from "lucide-react";
 import Meeting from "./Meeting";
 
 export default function Communication() {
@@ -7,8 +8,10 @@ export default function Communication() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [modalMode, setModalMode] = useState("add"); // "add" or "edit"
-  const [currentReport, setCurrentReport] =  useState(null);
+  const [currentReport, setCurrentReport] = useState(null);
   const [formError, setFormError] = useState("");
+  const [openShareRow, setOpenShareRow] = useState(null); // Track which row's share dropdown is open
+  const shareDropdownRef = useRef(null); // Ref for dropdown to handle outside clicks
   const [communications, setCommunications] = useState([
     {
       title: "Project Kickoff Newsletter",
@@ -51,6 +54,17 @@ export default function Communication() {
     }),
   });
 
+  // Close share dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (shareDropdownRef.current && !shareDropdownRef.current.contains(event.target)) {
+        setOpenShareRow(null);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
   // Modal handlers
   const openAddModal = () => {
     setModalMode("add");
@@ -84,6 +98,11 @@ export default function Communication() {
   const openDeleteModal = (report) => {
     setCurrentReport(report);
     setIsDeleteModalOpen(true);
+  };
+
+  const toggleShareDropdown = (title) => {
+    console.log("Toggling share dropdown for:", title);
+    setOpenShareRow(openShareRow === title ? null : title);
   };
 
   const closeModal = () => {
@@ -135,13 +154,59 @@ export default function Communication() {
     closeDeleteModal();
   };
 
+  const handleEmailShare = (title) => {
+    const shareUrl = `https://yourapp.com/newsletter/${encodeURIComponent(title)}`;
+    const subject = encodeURIComponent(title);
+    const body = encodeURIComponent(`Check out this newsletter: ${shareUrl}`);
+    const mailtoUrl = `mailto:?subject=${subject}&body=${body}`;
+    console.log("Attempting to share via Email:", mailtoUrl);
+    try {
+      window.location.href = mailtoUrl;
+      setOpenShareRow(null); // Close dropdown after action
+    } catch (error) {
+      console.error("Email share failed:", error);
+      alert("Failed to open email client. Please check your email settings.");
+    }
+  };
+
+  const handleTeamsShare = (title) => {
+    const shareUrl = `https://yourapp.com/newsletter/${encodeURIComponent(title)}`;
+    const teamsUrl = `https://teams.microsoft.com/share?href=${encodeURIComponent(shareUrl)}&msgText=${encodeURIComponent(title)}`;
+    console.log("Attempting to share to Teams:", teamsUrl);
+    try {
+      window.open(teamsUrl, "_blank");
+      setOpenShareRow(null); // Close dropdown after action
+    } catch (error) {
+      console.error("Teams share failed:", error);
+      alert("Failed to open Microsoft Teams. Please ensure Teams is installed and you are logged in.");
+    }
+  };
+
+  const handleCopyLink = async (title) => {
+    const shareUrl = `https://yourapp.com/newsletter/${encodeURIComponent(title)}`;
+    console.log("Attempting to copy link:", shareUrl);
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        await navigator.clipboard.writeText(shareUrl);
+        alert("Link copied to clipboard!");
+      } else {
+        console.warn("Clipboard API not supported. Falling back to prompt.");
+        prompt("Copy this link:", shareUrl);
+      }
+      setOpenShareRow(null); // Close dropdown after action
+    } catch (error) {
+      console.error("Copy link failed:", error);
+      prompt("Copy this link:", shareUrl);
+    }
+  };
+
   const tabs = [
     { id: "newsletters", label: "Newsletters" },
     { id: "meeting-minutes", label: "Meeting Minutes" },
   ];
 
   return (
-    <div className="container mx-auto ">
+    <div className="container mx-auto">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold text-gray-900">Communication</h1>
         <div className="flex gap-2">
@@ -172,9 +237,7 @@ export default function Communication() {
         </div>
 
         <div className="space-y-4">
-          <div className="flex justify-between mb-4">
-            
-          </div>
+          <div className="flex justify-between mb-4"></div>
 
           {activeTab === "newsletters" && (
             <div className="bg-white rounded-md shadow">
@@ -227,7 +290,7 @@ export default function Communication() {
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                           {comm.lastModified}
                         </td>
-                        <td className="px-6 py-4  whitespace-nowrap text-sm text-gray-500 flex gap-2">
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 flex gap-2 relative">
                           <button
                             onClick={() => openEditModal(comm)}
                             className="text-blue-600 hover:text-blue-800 bg-gray-200 py-1 px-2 rounded-sm cursor-pointer"
@@ -240,6 +303,53 @@ export default function Communication() {
                           >
                             <Trash2 className="h-4 w-4" />
                           </button>
+                          <button
+                            onClick={() => toggleShareDropdown(comm.title)}
+                            className="text-[#00308F] hover:text-blue-900 bg-gray-200 py-1 px-2 rounded-sm cursor-pointer"
+                          >
+                            <Share2 className="h-4 w-4" />
+                          </button>
+                          {openShareRow === comm.title && (
+                            <div
+                              ref={shareDropdownRef}
+                              className="absolute right-0 top-10 bg-white border border-gray-300 shadow-lg rounded-md p-2 flex gap-2 z-50"
+                            >
+                              <button
+                                onClick={() => handleEmailShare(comm.title)}
+                                className="text-gray-700 hover:text-[#00308F] p-1"
+                                title="Share via Email"
+                              >
+                                <Mail className="h-6 w-6" />
+                              </button>
+                              <button
+                                onClick={() => handleTeamsShare(comm.title)}
+                                className="text-gray-700 hover:text-[#00308F] p-1"
+                                title="Share via Microsoft Teams"
+                              >
+                                <svg
+                                  className="h-6 w-6"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  viewBox="0 0 24 24"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth={2}
+                                    d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4h-2a2 2 0 01-2-2v-6a2 2 0 012-2h2m-2 0V4a2 2 0 012-2h2a2 2 0 012 2v4h-2z"
+                                  />
+                                </svg>
+                              </button>
+                              <button
+                                onClick={() => handleCopyLink(comm.title)}
+                                className="text-gray-700 hover:text-[#00308F] p-1"
+                                title="Copy Link for Portal"
+                              >
+                                <Link className="h-6 w-6" />
+                              </button>
+                            </div>
+                          )}
                         </td>
                       </tr>
                     ))}

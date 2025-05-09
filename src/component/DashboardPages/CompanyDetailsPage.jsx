@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Chart } from "react-google-charts";
 import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
@@ -18,10 +19,10 @@ const CompanyDetailsPage = () => {
   // Project locations for map
   const projectLocations = [
     { lat: 37.7749, lng: -122.4194 },
-    {  lat: 40.7128, lng: -74.006 },
-    {  lat: 41.8781, lng: -87.6298 },
-    {  lat: 34.0522, lng: -118.2437 },
-    {  lat: 39.9526, lng: -75.1652 },
+    { lat: 40.7128, lng: -74.006 },
+    { lat: 41.8781, lng: -87.6298 },
+    { lat: 34.0522, lng: -118.2437 },
+    { lat: 39.9526, lng: -75.1652 },
   ];
 
   // Project phases donut chart data
@@ -35,11 +36,11 @@ const CompanyDetailsPage = () => {
   ];
 
   const projectPhasesOptions = {
-    pieHole: 0.7,
+    pieHole: 0.4,
     legend: { position: "bottom" },
     pieSliceText: "none",
     colors: ["#2980b9", "#27ae60", "#f39c12", "#e74c3c", "#f1c40f"],
-    chartArea: { width: "100%", height: "70%" },
+    chartArea: { width: "90%", height: "80%" },
     backgroundColor: "transparent",
   };
 
@@ -138,6 +139,7 @@ const CompanyDetailsPage = () => {
 
   // Custom title chart data
   const customTitleData = [
+    ["Project", "Budget", "Paid", "Remaining"],
     ["Project A - Project", 4200000, 725000, 3475000],
     ["Project E - Disaster Recovery Project", 1000000, 55172, 944828],
     ["Project D - Wastewater Project", 703770, 47117, 656653],
@@ -149,8 +151,8 @@ const CompanyDetailsPage = () => {
     chartArea: { width: "70%", height: "80%" },
     isStacked: true,
     hAxis: { minValue: 0, format: "short" },
-    legend: { position: "top" },
-    colors: ["#f39c12", "#3498db", "#2ecc71"],
+    legend: { position: "none" },
+    colors: ["#00308F"],
   };
 
   // Cash flow chart data
@@ -162,7 +164,9 @@ const CompanyDetailsPage = () => {
       "Jul '23", "Aug '23", "Sep '23", "Oct '23", "Nov '23", "Dec '23",
     ];
 
-    const data = [["Month"]];
+    const data = [
+      ["Month", "Project A", "Project B", "Project C", "Project D", "Project E"],
+    ];
 
     months.forEach((month, i) => {
       const projectA = i < 5 ? 0 : Math.floor(Math.random() * 100000);
@@ -182,10 +186,10 @@ const CompanyDetailsPage = () => {
   const cashFlowOptions = {
     chartArea: { width: "85%", height: "70%" },
     isStacked: true,
-    legend: { position: "top" },
+    legend: { position: "none" },
     hAxis: { slantedText: true, slantedTextAngle: 45 },
     vAxis: { format: "short" },
-    colors: ["#00308F"], // Changed to single color #00308F
+    colors: ["#00308F"],
   };
 
   const mapContainerStyle = {
@@ -202,10 +206,8 @@ const CompanyDetailsPage = () => {
     switch (status.toLowerCase()) {
       case "#00308f":
         return "#00308F";
-      case "#00308f":
-        return "#00308F";
-      case "#00308f":
-        return "#00308F";
+      case "green":
+        return "bg-green-500";
       default:
         return "bg-gray-300";
     }
@@ -248,8 +250,6 @@ const CompanyDetailsPage = () => {
           ))}
         </div>
 
-      
-
         {/* Project Phases and Cash Flow */}
         <div className="flex gap-4 mb-4">
           {/* Project Phases */}
@@ -261,10 +261,7 @@ const CompanyDetailsPage = () => {
                 width="100%"
                 height="100%"
                 data={projectPhasesData}
-                options={{
-                  ...projectPhasesOptions,
-                  backgroundColor: "transparent",
-                }}
+                options={projectPhasesOptions}
               />
             </div>
           </div>
@@ -278,11 +275,7 @@ const CompanyDetailsPage = () => {
                 width="100%"
                 height="100%"
                 data={cashFlowData}
-                options={{
-                  ...cashFlowOptions,
-                  backgroundColor: "transparent",
-                  chartArea: { width: "85%", height: "70%", backgroundColor: "transparent" },
-                }}
+                options={cashFlowOptions}
               />
             </div>
           </div>
@@ -354,12 +347,7 @@ const CompanyDetailsPage = () => {
               width="100%"
               height="100%"
               data={customTitleData}
-              options={{
-                ...customTitleOptions,
-                colors: ["#00308F"], // Changed to single color #00308F
-                backgroundColor: "transparent",
-                chartArea: { width: "85%", height: "70%", backgroundColor: "transparent" },
-              }}
+              options={customTitleOptions}
             />
           </div>
         </div>
