@@ -6,6 +6,7 @@ import { BiSolidDashboard } from "react-icons/bi";
 import { useDarkMode } from "../../context/ThemeContext";
 import { RiTeamFill } from "react-icons/ri";
 import { MdCompost } from "react-icons/md";
+import { FaRegUserCircle } from "react-icons/fa";
 
 const DashboardSidebar = ({ isSidebarOpen }) => {
     const location = useLocation();
@@ -35,71 +36,86 @@ const DashboardSidebar = ({ isSidebarOpen }) => {
                     </NavLink>
                 )}
             </div>
-            <div className="flex flex-col gap-1 px-2">
-                <NavLink
-                    to="/dashboard"
-                    end
-                    className={({ isActive }) => navLinkStyle(isActive)}
-                >
-                    <BiSolidDashboard className="h-6 w-6 transition-transform duration-200 group-hover:scale-110" />
-                    {isSidebarOpen && (
-                        <h1 className="text-lg font-medium transition-transform duration-200 group-hover:scale-108">Dashboard</h1>
-                    )}
-                </NavLink>
-                <NavLink
-                    to="/dashboard/chat"
-                    className={({ isActive }) => navLinkStyle(isActive)}
-                >
-                    <Bot className="h-6 w-6 transition-transform duration-200 group-hover:scale-110" />
-                    {isSidebarOpen && (
-                        <h1 className="text-lg font-medium transition-transform duration-200 group-hover:scale-108">Ai Assistant</h1>
-                    )}
-                </NavLink>
-                <NavLink
-                    to="/dashboard/Project"
-                    className={() => navLinkStyle(isProjectActive)}
-                >
-                    <Briefcase className="h-6 w-6 transition-transform duration-200 group-hover:scale-110" />
-                    {isSidebarOpen && (
-                        <h1 className="text-lg font-medium transition-transform duration-200 group-hover:scale-108">Project</h1>
-                    )}
-                </NavLink>
-                <NavLink
-                    to="/dashboard/team"
-                    className={({ isActive }) => navLinkStyle(isActive)}
-                >
-                    <RiTeamFill className="h-6 w-6 transition-transform duration-200 group-hover:scale-110" />
-                    {isSidebarOpen && (
-                        <h1 className="text-lg font-medium transition-transform duration-200 group-hover:scale-108">Team</h1>
-                    )}
-                </NavLink>
-                <NavLink
-                    to="/dashboard/post_project"
-                    className={({ isActive }) => navLinkStyle(isActive)}
-                >
-                    <MdCompost className="h-6 w-6 transition-transform duration-200 group-hover:scale-110" />
-                    {isSidebarOpen && (
-                        <h1 className="text-lg font-medium transition-transform duration-200 group-hover:scale-108">Post Project</h1>
-                    )}
-                </NavLink>
-                <NavLink
-                    to="/dashboard/manageSubscription"
-                    className={({ isActive }) => navLinkStyle(isActive)}
-                >
-                    <Clock className="h-6 w-6 transition-transform duration-200 group-hover:scale-110" />
-                    {isSidebarOpen && (
-                        <h1 className="text-lg font-medium transition-transform duration-200 group-hover:scale-108">Manage subscription</h1>
-                    )}
-                </NavLink>
-                <NavLink
-                    to="/dashboard/setting"
-                    className={({ isActive }) => navLinkStyle(isActive)}
-                >
-                    <Settings className="h-6 w-6 transition-transform duration-200 group-hover:scale-110" />
-                    {isSidebarOpen && (
-                        <h1 className="text-lg font-medium transition-transform duration-200 group-hover:scale-108">Setting</h1>
-                    )}
-                </NavLink>
+            <div className="flex flex-col h-full justify-between px-2">
+                {/* Top Navigation Links */}
+                <div className="flex flex-col gap-1">
+                    <NavLink
+                        to="/dashboard"
+                        end
+                        className={({ isActive }) => navLinkStyle(isActive)}
+                    >
+                        <BiSolidDashboard className="h-6 w-6 transition-transform duration-200 group-hover:scale-110" />
+                        {isSidebarOpen && (
+                            <h1 className="text-lg font-medium transition-transform duration-200 group-hover:scale-108">Dashboard</h1>
+                        )}
+                    </NavLink>
+                    <NavLink
+                        to="/dashboard/chat"
+                        className={({ isActive }) => navLinkStyle(isActive)}
+                    >
+                        <Bot className="h-6 w-6 transition-transform duration-200 group-hover:scale-110" />
+                        {isSidebarOpen && (
+                            <h1 className="text-lg font-medium transition-transform duration-200 group-hover:scale-108">Ai Assistant</h1>
+                        )}
+                    </NavLink>
+                    <NavLink
+                        to="/dashboard/Project"
+                        className={() => navLinkStyle(isProjectActive)}
+                    >
+                        <Briefcase className="h-6 w-6 transition-transform duration-200 group-hover:scale-110" />
+                        {isSidebarOpen && (
+                            <h1 className="text-lg font-medium transition-transform duration-200 group-hover:scale-108">Project</h1>
+                        )}
+                    </NavLink>
+                    <NavLink
+                        to="/dashboard/team"
+                        className={({ isActive }) => navLinkStyle(isActive)}
+                    >
+                        <RiTeamFill className="h-6 w-6 transition-transform duration-200 group-hover:scale-110" />
+                        {isSidebarOpen && (
+                            <h1 className="text-lg font-medium transition-transform duration-200 group-hover:scale-108">Team</h1>
+                        )}
+                    </NavLink>
+                    <NavLink
+                        to="/dashboard/post_project"
+                        className={({ isActive }) => navLinkStyle(isActive)}
+                    >
+                        <MdCompost className="h-6 w-6 transition-transform duration-200 group-hover:scale-110" />
+                        {isSidebarOpen && (
+                            <h1 className="text-lg font-medium transition-transform duration-200 group-hover:scale-108">Post Project</h1>
+                        )}
+                    </NavLink>
+                </div>
+                {/* Bottom Navigation Links */}
+                <div className="flex flex-col gap-1">
+                    <NavLink
+                        to="/dashboard/manageSubscription"
+                        className={({ isActive }) => navLinkStyle(isActive)}
+                    >
+                        <Clock className="h-6 w-6 transition-transform duration-200 group-hover:scale-110" />
+                        {isSidebarOpen && (
+                            <h1 className="text-lg font-medium transition-transform duration-200 group-hover:scale-108">Manage subscription</h1>
+                        )}
+                    </NavLink>
+                    <NavLink
+                        to="/dashboard/setting"
+                        className={({ isActive }) => navLinkStyle(isActive)}
+                    >
+                        <Settings className="h-6 w-6 transition-transform duration-200 group-hover:scale-110" />
+                        {isSidebarOpen && (
+                            <h1 className="text-lg font-medium transition-transform duration-200 group-hover:scale-108">Setting</h1>
+                        )}
+                    </NavLink>
+                    <NavLink
+                        to="/dashboard/setting"
+                        className={({ isActive }) => navLinkStyle(isActive)}
+                    >
+                        <FaRegUserCircle className="h-6 w-6 transition-transform duration-200 group-hover:scale-110" />
+                        {isSidebarOpen && (
+                            <h1 className="text-lg font-medium transition-transform duration-200 group-hover:scale-108">Sami Loukile</h1>
+                        )}
+                    </NavLink>
+                </div>
             </div>
         </div>
     );

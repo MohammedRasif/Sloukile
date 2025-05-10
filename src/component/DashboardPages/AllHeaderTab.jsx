@@ -13,6 +13,7 @@ import GovernanceSetup from "./GovernanceSetup.jsx"
 import Deployment from "./Deployment.jsx"
 import DocumentLibrary from "./Document.jsx"
 import LessonsLearnedPage from "./LessonLearn.jsx"
+import Repoting from "./Repoting.jsx"
 
 const AllHeaderTab = ({ projectData, darkMode }) => {
   const [activeGroup, setActiveGroup] = useState("Project Foundation")
@@ -79,7 +80,7 @@ const AllHeaderTab = ({ projectData, darkMode }) => {
       {/* Content Area */}
       <div className="px-3">
         {activeTab === "Overview" && <Overview projectData={projectData} darkMode={darkMode} />}
-        {activeTab === "Project Charter" && <ProjectCharter projectData={projectData} />}
+        {activeTab === "Project Charter" && <Repoting projectData={projectData} />}
         {activeTab === "Team" && <Teams projectData={projectData} />}
         {activeTab === "Budget" && <Budget projectData={projectData} />}
         {activeTab === "Planning" && <Planning projectData={projectData} darkMode={darkMode} />}
@@ -90,7 +91,7 @@ const AllHeaderTab = ({ projectData, darkMode }) => {
         {activeTab === "Communication" && <Communication projectData={projectData} />}
         {activeTab === "Governance" && <GovernanceSetup projectData={projectData} />}
         {activeTab === "Deployment Strategy" && <Deployment projectData={projectData} />}
-        {activeTab === "Reporting" && <Reporting />}
+        {activeTab === "Reporting" && <ProjectCharter />}
         {activeTab === "Document Library" && <DocumentLibrary projectData={projectData} />}
         {activeTab === "Lessons Learned" && <LessonsLearnedPage projectData={projectData} />}
       </div>

@@ -627,7 +627,7 @@ const Project = () => {
         {projects.map((project) => (
           <NavLink key={project.id} to="/dashboard/ProjectDetails">
             <div
-              className="bg-[#EDEDED] dark:bg-[#1E232E] rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-5 block relative"
+              className="bg-[#EDEDED] dark:bg-[#1E232E] rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-5 block relative h-72"
             >
               {/* Edit and Delete Icons */}
               <div className="absolute top-0 right-0 flex space-x-2 p-2">
@@ -709,7 +709,7 @@ const Project = () => {
         ))}
 
         {/* New Project AI Card */}
-        <div className="bg-white dark:bg-[#1E232E] rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6 flex flex-col items-center justify-center h-[265px]">
+        <div className="bg-white dark:bg-[#1E232E] rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6 flex flex-col items-center justify-center h-72">
           <div className="w-12 h-12 rounded-full bg-gray-100 dark:bg-gray-600 flex items-center justify-center mb-4">
             <Plus className="h-6 w-6 text-gray-500 dark:text-gray-300" />
           </div>
