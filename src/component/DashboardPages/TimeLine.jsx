@@ -26,7 +26,7 @@ const initialProjects = [
           color: "#00308F",
           owner: {
             name: "Michael Chen",
-            avatar: "https://res.cloudinary.com/dfsu0cuvb/image/upload/v1737529178/samples/man-on-a-street.jpg",
+            avatar: "https://res.cloudinary.com/dfsu0cuvb/image/upload/v1737529179/cld-sample.jpg",
             role: "Event Coordinator",
           },
         },
@@ -807,13 +807,13 @@ export default function TimeLine() {
 
       <div className="flex">
         {/* Table section - Sticky on the left */}
-        <div className="w-[400px] flex-shrink-0 border-r border-gray-300 dark:border-gray-600 sticky left-0 z-20 bg-white dark:bg-gray-800">
+        <div className="w-[440px] flex-shrink-0 border-r border-gray-300 dark:border-gray-600 sticky left-0 z-20 bg-white dark:bg-gray-800">
           <div className="flex bg-gray-100 dark:bg-gray-700 border-b border-gray-300 dark:border-gray-600 sticky top-0 z-30">
             <div className="w-[150px] p-2 font-medium text-gray-700 dark:text-gray-200 pl-8 text-sm">Activity</div>
             <div className="w-[70px] p-2 font-medium text-gray-700 dark:text-gray-200 text-sm">Type</div>
             <div className="w-[80px] p-2 font-medium text-gray-700 dark:text-gray-200 text-sm">Status</div>
-            <div className="w-[50px] p-2 font-medium text-gray-700 dark:text-gray-200 text-sm pl-3">Priority</div>
-            <div className="w-[50px] p-2 font-medium text-gray-700 dark:text-gray-200 text-sm">Actions</div>
+            <div className="w-[50px] p-2 font-medium text-gray-700 dark:text-gray-200 text-sm ">Priority</div>
+            <div className="w-[50px] p-2 font-medium text-gray-700 dark:text-gray-200 text-sm pl-5">Owner</div>
           </div>
           <div className="h-8 border-b border-gray-300 dark:border-gray-600"></div>
 
@@ -839,7 +839,7 @@ export default function TimeLine() {
                     <div className="w-[70px] px-2 text-xs text-gray-600 dark:text-gray-300 pt-3"></div>
                     <div className="w-[80px] px-2 text-xs text-gray-600 dark:text-gray-300 pt-3"></div>
                     <div className="w-[50px] px-2 text-xs text-gray-600 dark:text-gray-300 pt-3"></div>
-                    <div className="w-[50px] px-2 pt-3 flex space-x-1">
+                    <div className="w-[50px] px-2 pt-3 flex space-x-1 ml-5">
                       <button
                         onClick={() => openEditProjectPopup(project.id)}
                         className="text-blue-600 hover:text-blue-800"
@@ -878,6 +878,14 @@ export default function TimeLine() {
                               </div>
                               <div className="w-[50px] px-2 text-xs text-gray-600 dark:text-gray-300 pt-3 pl-3">
                                 {milestone.details.priority}
+                              </div>
+                              <div className="w-[50px] px-2 pt-2 ">
+                                {/* Display the avatar as an image */}
+                                <img
+                                  src={milestone.details.owner.avatar}
+                                  alt={`${milestone.details.owner.name}'s avatar`}
+                                  className="w-7 h-7 rounded-full ml-5"
+                                />
                               </div>
                               <div className="w-[50px] px-2 pt-3">
                                 {/* No edit/delete for individual milestones in this version */}
@@ -977,18 +985,16 @@ export default function TimeLine() {
                                     className="absolute h-6 rounded-lg flex items-center px-2 text-white text-xs font-medium z-20 shadow-md overflow-hidden"
                                     style={{
                                       left: `${calculatePosition(milestoneStart) * 25}px`,
-                                      width: `${
-                                        milestone.details.endDate
+                                      width: `${milestone.details.endDate
                                           ? calculateWidth(milestoneStart, milestoneEnd) * 25
                                           : 25
-                                      }px`,
+                                        }px`,
                                       backgroundColor: milestone.details.color,
                                       top: "50%",
                                       transform: "translateY(-50%)",
                                     }}
-                                    title={`${milestone.name}\nStatus: ${milestone.details.status}\nPriority: ${
-                                      milestone.details.priority
-                                    }\nProgress: ${milestoneProgress}%`}
+                                    title={`${milestone.name}\nStatus: ${milestone.details.status}\nPriority: ${milestone.details.priority
+                                      }\nProgress: ${milestoneProgress}%`}
                                   >
                                     <div
                                       className="absolute top-0 left-0 bottom-0 opacity-50"
