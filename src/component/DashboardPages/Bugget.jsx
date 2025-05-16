@@ -13,6 +13,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import Papa from "papaparse";
+import { CiExport } from "react-icons/ci";
 
 const Budget = () => {
   // State for budget and expenses
@@ -206,6 +207,16 @@ const Budget = () => {
           <p className="text-gray-500 dark:text-gray-400 text-[15px]">
             Track project expenses and budget for construction
           </p>
+        </div>
+        <div>
+          <button
+           
+            className="flex items-center gap-1 bg-gray-800 dark:bg-[#4A6CF7] text-white px-4 py-2 rounded-md text-[15px] font-medium hover:bg-gray-700 dark:hover:bg-[#3B5AEB] cursor-pointer"
+          >
+            <CiExport />
+
+            Export
+          </button>
         </div>
        
       </div>

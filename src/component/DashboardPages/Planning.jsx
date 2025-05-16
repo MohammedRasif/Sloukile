@@ -5,6 +5,7 @@ import Calender from "./Calender"
 import Dependance from "./Dependance"
 import TimeLine from "./Timeline"
 import RACI from "./RACI"
+import Milestones from "./Milestones"
 
 // Static dummy data for projects
 const initialProjectsData = [
@@ -213,9 +214,9 @@ const getPriorityBadge = (priority) => {
   }`
 }
 
-const Planning = () => {
+const Timeline = () => {
   // State for active tab
-  const [activeTab, setActiveTab] = useState("Planning")
+  const [activeTab, setActiveTab] = useState("Timeline")
 
   // State for projects data
   const [projects, setProjects] = useState(initialProjectsData)
@@ -562,7 +563,7 @@ const Planning = () => {
     <div className="p-4 sm:p-6 space-y-6">
       {/* Tab Navigation (Styled as Buttons) */}
       <nav className="flex flex-wrap gap-3 sm:gap-4 overflow-x-auto pb-2">
-        {["Planning", "Calendar", "Dependencies", "RACI"].map((tab) => (
+        {["Timeline","Planning" ,"Calendar", "Dependencies", "RACI"].map((tab) => (
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}
@@ -578,13 +579,13 @@ const Planning = () => {
       </nav>
 
       {/* Add Project Button */}
-      {activeTab === "Planning" && (
+      {activeTab === "Timeline" && (
         <div className="mb-4 flex gap-4">
           
         </div>
       )}
       {/* Content Area */}
-      {activeTab === "Planning" && (
+      {activeTab === "Timeline" && (
         <div>
           <TimeLine
             projects={projects}
@@ -607,10 +608,11 @@ const Planning = () => {
         </div>
       )}
       {activeTab === "Calendar" && <Calender />}
+      {activeTab === "Planning" && <Milestones />}
       {activeTab === "Dependencies" && <Dependance />}
       {activeTab === "RACI" && <RACI />}
     </div>
   )
 }
 
-export default Planning
+export default Timeline

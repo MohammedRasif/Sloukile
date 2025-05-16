@@ -1,5 +1,7 @@
 
 import React, { useState } from 'react';
+import { CiExport } from "react-icons/ci";
+
 
 const Teams = () => {
   const [members, setMembers] = useState([
@@ -75,11 +77,11 @@ const Teams = () => {
         prev.map((member, i) =>
           i === editMember.index
             ? {
-                name: editMember.name,
-                role: editMember.role,
-                availability: Number(editMember.availability),
-                governanceType: editMember.governanceType,
-              }
+              name: editMember.name,
+              role: editMember.role,
+              availability: Number(editMember.availability),
+              governanceType: editMember.governanceType,
+            }
             : member
         )
       );
@@ -99,26 +101,29 @@ const Teams = () => {
           <h2 className="text-[23px] font-bold text-gray-800 dark:text-gray-100 mb-1">Team Members</h2>
           <p className="text-gray-500 dark:text-gray-400 text-[15px]">Manage project team and roles</p>
         </div>
-        <button
-          onClick={() => setShowAddMemberModal(true)}
-          className="flex items-center gap-1 bg-gray-800 dark:bg-[#4A6CF7] text-white px-4 py-2 rounded-md text-[15px] font-medium hover:bg-gray-700 dark:hover:bg-[#3B5AEB]"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
+        <div className='flex items-center space-x-2'>
+          <button
+            onClick={() => setShowAddMemberModal(true)}
+            className="flex items-center gap-1 bg-gray-800 dark:bg-[#4A6CF7] text-white px-4 py-2 rounded-md text-[15px] font-medium hover:bg-gray-700 dark:hover:bg-[#3B5AEB]"
           >
-            <line x1="12" y1="5" x2="12" y2="19" />
-            <line x1="5" y1="12" x2="19" y2="12" />
-          </svg>
-          Add Member
-        </button>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <line x1="12" y1="5" x2="12" y2="19" />
+              <line x1="5" y1="12" x2="19" y2="12" />
+            </svg>
+            Add Member
+          </button>
+          
+        </div>
       </div>
 
       <div className="mb-4">

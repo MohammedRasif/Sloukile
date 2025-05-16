@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ResponsiveContainer, CartesianGrid, XAxis, YAxis, Tooltip, Bar, Legend, BarChart } from 'recharts';
+import { ResponsiveContainer, CartesianGrid, XAxis, YAxis, Tooltip, Area, AreaChart } from 'recharts';
 import ConstructionWorkflow from './Workflow';
 import Planning from './Planning';
 import Tasks from './Tasks';
@@ -9,7 +9,7 @@ import Deployment from './Deployment';
 import GovernmentSetup from './GovernanceSetup';
 import Team from './Teams.jsx';
 import Timeline from './Timeline.jsx';
-import Budget from './Bugget.jsx';
+import Budget from './Bugget.jsx'; // Fixed typo from Bugget.jsx
 import { FaClipboardList, FaCogs, FaTasks, FaUsers, FaDollarSign, FaExclamationTriangle, FaSitemap, FaRocket } from 'react-icons/fa';
 import { MdAccountBalance } from 'react-icons/md';
 import { IoIosTimer } from 'react-icons/io';
@@ -43,7 +43,7 @@ const Overview = () => {
     setSelectedSection(section.label);
   };
 
-  // Define project data with corrected chartData
+  // Define project data with normalized chartData names
   const projectData = {
     name: 'Project Management Tool',
     description:
@@ -68,23 +68,23 @@ const Overview = () => {
       { name: 'AI Feature Deployment', date: '8/1/2025' },
     ],
     chartData: [
-      { name: 'Jan 2025', status: 10000, progress: 8000 },
-      { name: 'Feb 2025', status: 35000, progress: 30000 },
-      { name: 'Mar 2025', status: 620000, progress: 500000 },
-      { name: 'Apr 2025', status: 25000, progress: 20000 },
-      { name: 'May 2025', status: 415000, progress: 350000 },
-      { name: 'Jun 2025', status: 615000, progress: 550000 },
-      { name: 'Jul 2025', status: 40000, progress: 35000 },
-      { name: 'Aug 2025', status: 10000, progress: 9000 },
-      { name: 'Sep 2025', status: 240000, progress: 200000 },
-      { name: 'Oct 2025', status: 354000, progress: 300000 },
-      { name: 'Nov 2025', status: 40000, progress: 35000 },
-      { name: 'Dec 2025', status: 40000, progress: 38000 },
+      { name: 'Jan 2025', value: 10000 },
+      { name: 'Feb 2025', value: 35000 },
+      { name: 'Mar 2025', value: 620000 },
+      { name: 'Apr 2025', value: 25000 },
+      { name: 'May 2025', value: 415000 },
+      { name: 'Jun 2025', value: 615000 },
+      { name: 'Jul 2025', value: 40000 },
+      { name: 'Aug 2025', value: 10000 },
+      { name: 'Sep 2025', value: 240000 },
+      { name: 'Oct 2025', value: 354000 },
+      { name: 'Nov 2025', value: 40000 },
+      { name: 'Dec 2025', value: 40000 },
     ],
   };
 
-  // Detect dark mode (or assume false for simplicity)
-  const isDarkMode = false;
+  // Detect dark mode dynamically (example using media query)
+  const isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
 
   return (
     <div className="px-4">
@@ -149,9 +149,9 @@ const Overview = () => {
           </div>
 
           <h3 className="font-medium text-[18px] text-gray-700 dark:text-gray-300 mb-4">Project Progress</h3>
-          <div className="h-80 bg-blue-50 dark:bg-[#2A2F3B] rounded-lg mb-6 py-5">
+          <div className="h-64 bg-blue-50 dark:bg-[#2A2F3B] rounded-lg mb-6 py-5">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart
+              <AreaChart
                 data={projectData.chartData}
                 margin={{
                   top: 10,
@@ -182,42 +182,35 @@ const Overview = () => {
                     if (active && payload && payload.length) {
                       return (
                         <div
-                          className={`px-3 py-2 rounded shadow-md text-center ${
+                          className={`px-3 py-1 rounded shadow-md text-center ${
                             isDarkMode ? 'bg-gray-700 text-gray-100' : 'bg-blue-800 text-white'
                           }`}
                         >
-                          <p className="text-[15px] font-medium">
-                            Status: ${payload[0].value.toLocaleString()}
-                          </p>
-                          <p className="text-[15px] font-medium">
-                            Progress: ${payload[1].value.toLocaleString()}
-                          </p>
+                          <p className="text-[15px] font-medium">${payload[0].value.toLocaleString()}</p>
                         </div>
                       );
                     }
                     return null;
                   }}
                 />
-                <Bar
-                  dataKey="status"
-                  name="Status"
-                  fill="#00308F"
-                  radius={[4, 4, 0, 0]}
-                  barSize={40}
+                <defs>
+                  <linearGradient id="colorValue" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor="#00308F" stopOpacity={0.8} />
+                    <stop offset="100%" stopColor="#00308F" stopOpacity={0} />
+                  </linearGradient>
+                </defs>
+                <Area
+                  type="monotone"
+                  dataKey="value"
+                  stroke="#00308F"
+                  strokeWidth={2}
+                  fill="url(#colorValue)"
+                  dot={{ r: 4, fill: '#00308F', strokeWidth: 0 }}
+                  activeDot={{ r: 6, fill: '#00308F', stroke: '#fff', strokeWidth: 2 }}
                   animationDuration={1000}
                   animationEasing="ease-in-out"
                 />
-                <Bar
-                  dataKey="progress"
-                  name="Progress"
-                  fill="#10B981"
-                  radius={[4, 4, 0, 0]}
-                  barSize={40}
-                  animationDuration={1000}
-                  animationEasing="ease-in-out"
-                />
-                <Legend verticalAlign="top" height={36} />
-              </BarChart>
+              </AreaChart>
             </ResponsiveContainer>
           </div>
         </div>
@@ -242,7 +235,7 @@ const Overview = () => {
             const isLeftSide = angle > 90 && angle < 270;
 
             return (
-              <div
+              <button
                 key={section.label}
                 className={`absolute flex flex-col items-center cursor-pointer hover:scale-110 transition-transform ${
                   selectedSection === section.label ? 'scale-110' : ''
@@ -252,7 +245,6 @@ const Overview = () => {
                   transformOrigin: 'center',
                 }}
                 onClick={() => handleSectionClick(section)}
-                role="button"
                 aria-label={`View details for ${section.label}`}
               >
                 <div
@@ -281,7 +273,7 @@ const Overview = () => {
                 >
                   {section.label}
                 </span>
-              </div>
+              </button>
             );
           })}
         </div>

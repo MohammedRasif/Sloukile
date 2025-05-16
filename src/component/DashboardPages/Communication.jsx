@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef } from "react";
 import { Search, Plus, X, Trash2, Share2, Link, Mail } from "lucide-react";
 import Meeting from "./Meeting";
+import StatusReporting from "./StatusReporting";
 
 export default function Communication() {
   const [activeTab, setActiveTab] = useState("newsletters");
@@ -202,7 +203,10 @@ export default function Communication() {
 
   const tabs = [
     { id: "newsletters", label: "Newsletters" },
+    { id: "status-Reporting", label: "Status Reporting" },
     { id: "meeting-minutes", label: "Meeting Minutes" },
+    { id: "trainig-Material", label: "Traing Material" },
+    { id: "serveys", label: "serveys" },
   ];
 
   return (
@@ -225,11 +229,10 @@ export default function Communication() {
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`px-4 py-2 text-sm font-medium ${
-                activeTab === tab.id
-                  ? "text-gray-900 border-b-2 border-blue-500"
-                  : "text-gray-500 hover:text-gray-700"
-              }`}
+              className={`px-4 py-2 text-sm font-medium ${activeTab === tab.id
+                ? "text-gray-900 border-b-2 border-blue-500"
+                : "text-gray-500 hover:text-gray-700"
+                }`}
             >
               {tab.label}
             </button>
@@ -276,13 +279,12 @@ export default function Communication() {
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{comm.audience}</td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <span
-                            className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                              comm.status === "Published"
-                                ? "bg-green-100 text-green-800"
-                                : comm.status === "Draft"
+                            className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${comm.status === "Published"
+                              ? "bg-green-100 text-green-800"
+                              : comm.status === "Draft"
                                 ? "bg-gray-100 text-gray-800"
                                 : "bg-blue-100 text-blue-800"
-                            }`}
+                              }`}
                           >
                             {comm.status}
                           </span>
@@ -359,6 +361,7 @@ export default function Communication() {
           )}
 
           {activeTab === "meeting-minutes" && <Meeting />}
+          {activeTab === "Status-Reporing" && <StatusReporting />}
         </div>
       </div>
 
