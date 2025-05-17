@@ -1,408 +1,293 @@
 "use client"
 
-import { useState, useCallback, useRef } from "react"
-import { Plus, Save, X, Edit, Trash2 } from "lucide-react"
-import ReactFlow, {
-  ReactFlowProvider,
-  addEdge,
-  useNodesState,
-  useEdgesState,
-  Controls,
-  Background,
-  Panel,
-  MarkerType,
-} from "reactflow"
+import React, { useCallback, useState, useRef } from "react"
+import ReactFlow, { addEdge, Background, Controls, useNodesState, useEdgesState, Panel } from "reactflow"
 import "reactflow/dist/style.css"
 
-// Custom node components
-const StartNode = ({ data, isConnectable, id }) => (
-  <div className="bg-green-500 text-white px-6 py-3 mt-2 rounded-md">
-    <div className="font-medium">{data.label || "Start"}</div>
-    <div className="absolute top-1 right-1 flex">
-      <button className="text-white rounded-full p-1" onClick={() => data.onEdit(id)}>
-        <Edit className="w-3 h-3" />
-      </button>
-      <button className="text-white rounded-full" onClick={() => data.onDelete(id)}>
-        <Trash2 className="w-3 h-3" />
-      </button>
-    </div>
-  </div>
-)
+// Start with empty nodes and edges
+const initialNodes = []
+const initialEdges = []
 
-const StepNode = ({ data, isConnectable, id }) => (
-  <div className="bg-gray-200 px-6 py-3 mt-2 rounded-md">
-    <div className="font-medium">{data.label || "Step"}</div>
-    <div className="absolute top-1 right-1 flex">
-      <button className="text-gray-600 rounded-full p-1" onClick={() => data.onEdit(id)}>
-        <Edit className="w-3 h-3" />
-      </button>
-      <button className="text-gray-600 rounded-full" onClick={() => data.onDelete(id)}>
-        <Trash2 className="w-3 h-3" />
-      </button>
-    </div>
-  </div>
-)
-
-const DecisionNode = ({ data, isConnectable, id }) => (
-  <div className="bg-gray-200 p-4 rounded-md transform rotate-45">
-    <div className="transform -rotate-45 font-medium">{data.label || "Decision"}</div>
-    <div className="absolute top-1 right-[63px] flex transform -rotate-45">
-      <button className="text-gray-600 rounded-full p-1" onClick={() => data.onEdit(id)}>
-        <Edit className="w-3 h-3" />
-      </button>
-      <button className="text-gray-600 rounded-full" onClick={() => data.onDelete(id)}>
-        <Trash2 className="w-3 h-3" />
-      </button>
-    </div>
-  </div>
-)
-
-const EndNode = ({ data, isConnectable, id }) => (
-  <div className="bg-red-500 text-white px-6 py-3 mt-2 rounded-md">
-    <div className="font-medium">{data.label || "End"}</div>
-    <div className="absolute top-1 right-1 flex">
-      <button className="text-white rounded-full p-1" onClick={() => data.onEdit(id)}>
-        <Edit className="w-3 h-3" />
-      </button>
-      <button className="text-white rounded-full" onClick={() => data.onDelete(id)}>
-        <Trash2 className="w-3 h-3" />
-      </button>
-    </div>
-  </div>
-)
-
-// Define node types
-const nodeTypes = {
-  start: StartNode,
-  step: StepNode,
-  decision: DecisionNode,
-  end: EndNode,
+const nodeStyles = {
+  start: {
+    background: "#e6f7ff",
+    border: "1px solid #1890ff",
+    borderRadius: "8px",
+    padding: "10px",
+    width: 150,
+  },
+  step: {
+    background: "white",
+    border: "1px solid #ddd",
+    borderRadius: "8px",
+    padding: "10px",
+    width: 150,
+  },
+  decision: {
+    background: "#fff7e6",
+    border: "1px solid #faad14",
+    borderRadius: "8px",
+    padding: "10px",
+    width: 150,
+  },
+  end: {
+    background: "#df3d3d",
+    border: "1px solid #52c41a",
+    borderRadius: "8px",
+    padding: "10px",
+    width: 150,
+  },
 }
 
 const WorkflowDiagram = () => {
-  // React Flow states
-  const [nodes, setNodes, onNodesChange] = useNodesState([])
-  const [edges, setEdges, onEdgesChange] = useEdgesState([])
+  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes)
+  const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges)
+  const [nodeName, setNodeName] = useState("")
+  const [selectedNode, setSelectedNode] = useState(null)
+  const [isAddingEdge, setIsAddingEdge] = useState(false)
+  const [edgeStart, setEdgeStart] = useState(null)
+  const [showPopup, setShowPopup] = useState(false)
+  const [popupType, setPopupType] = useState("")
+  const [lastNodePosition, setLastNodePosition] = useState({ x: 300, y: 100 })
+  const [lastNodeId, setLastNodeId] = useState(null)
+  const popupRef = useRef(null)
 
-  // State to track which popup is open
-  const [activePopup, setActivePopup] = useState(null)
+  const onConnect = useCallback((params) => setEdges((eds) => addEdge(params, eds)), [setEdges])
 
-  // State for editing
-  const [editingNode, setEditingNode] = useState(null)
-  const [editingLabel, setEditingLabel] = useState("")
+  // Function to delete the selected node and all connected edges
+  const deleteNode = useCallback(() => {
+    if (selectedNode) {
+      // Find all edges connected to this node
+      const connectedEdges = edges.filter((edge) => edge.source === selectedNode || edge.target === selectedNode)
 
-  // State for connecting nodes
-  const [connectingNode, setConnectingNode] = useState(null)
+      // Remove the node
+      setNodes((nds) => nds.filter((node) => node.id !== selectedNode))
 
-  // Counter for node positioning
-  const nodeIdCounter = useRef({
-    start: 0,
-    step: 0,
-    decision: 0,
-    end: 0,
-  })
+      // Remove all connected edges
+      setEdges((eds) => eds.filter((edge) => edge.source !== selectedNode && edge.target !== selectedNode))
 
-  // Function to open a popup
+      setSelectedNode(null)
+    }
+  }, [selectedNode, setNodes, setEdges, edges])
+
+  // Handle node selection
+  const onNodeClick = (_, node) => {
+    setSelectedNode(node.id)
+
+    if (isAddingEdge) {
+      if (!edgeStart) {
+        setEdgeStart(node.id)
+      } else {
+        // Create new edge
+        const newEdgeId = `e${edgeStart}-${node.id}`
+        setEdges((eds) => [...eds, { id: newEdgeId, source: edgeStart, target: node.id }])
+        setEdgeStart(null)
+        setIsAddingEdge(false)
+      }
+    }
+  }
+
+  // Start adding an edge
+  const startAddingEdge = () => {
+    setIsAddingEdge(true)
+    setEdgeStart(null)
+    setShowPopup(false)
+  }
+
+  // Save workflow
+  const saveWorkflow = () => {
+    const workflow = { nodes, edges }
+    console.log("Saving workflow:", workflow)
+    alert("Workflow saved to console!")
+  }
+
+  // Open popup for adding nodes
   const openPopup = (type) => {
-    setActivePopup(type)
-    setEditingLabel("")
-    setEditingNode(null)
+    setPopupType(type)
+    setShowPopup(true)
+    setNodeName("")
   }
 
-  // Function to close the popup
-  const closePopup = () => {
-    setActivePopup(null)
-    setEditingLabel("")
-    setEditingNode(null)
-    setConnectingNode(null)
-  }
-
-  // Function to handle node deletion
-  const handleDeleteNode = (id) => {
-    setNodes((nodes) => nodes.filter((node) => node.id !== id))
-    setEdges((edges) => edges.filter((edge) => edge.source !== id && edge.target !== id))
-  }
-
-  // Function to handle node editing
-  const handleEditNode = (id) => {
-    const node = nodes.find((node) => node.id === id)
-    if (node) {
-      setEditingNode(id)
-      setEditingLabel(node.data.label)
-      setActivePopup(node.type)
-    }
-  }
-
-  // Function to add a new node to the workflow
-  const addNode = () => {
-    if (activePopup && editingLabel.trim()) {
-      const type = activePopup
-      const nodeId = editingNode || `${type}-${Date.now()}`
-
-      // Calculate position based on node type
-      let position = { x: 100, y: 100 }
-
-      // If we're adding a new node (not editing)
-      if (!editingNode) {
-        // Increment counter for this node type
-        nodeIdCounter.current[type] = (nodeIdCounter.current[type] || 0) + 1
-        const count = nodeIdCounter.current[type]
-
-        // Position nodes based on type
-        switch (type) {
-          case "start":
-            position = { x: 150, y: 50 }
-            break
-          case "step":
-            position = { x: 150, y: 150 + count * 100 }
-            break
-          case "decision":
-            position = { x: 150, y: 250 + count * 100 }
-            break
-          case "end":
-            position = { x: 150, y: 350 + count * 100 }
-            break
-          default:
-            position = { x: 150, y: 100 }
-        }
-      } else {
-        // If editing, keep the same position
-        const existingNode = nodes.find((node) => node.id === editingNode)
-        if (existingNode) {
-          position = { x: existingNode.position.x, y: existingNode.position.y }
-        }
+  // Close popup when clicking outside
+  React.useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (popupRef.current && !popupRef.current.contains(event.target)) {
+        setShowPopup(false)
       }
+    }
 
-      const newNode = {
-        id: nodeId,
-        type,
-        position,
-        data: {
-          label: editingLabel.trim(),
-          onDelete: handleDeleteNode,
-          onEdit: handleEditNode,
+    document.addEventListener("mousedown", handleClickOutside)
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside)
+    }
+  }, [popupRef])
+
+  // Calculate next position based on last node
+  const getNextPosition = () => {
+    // If this is the first node, place it at the top center
+    if (nodes.length === 0) {
+      return { x: 300, y: 100 }
+    }
+
+    // Otherwise, place it below the last node
+    return { x: lastNodePosition.x, y: lastNodePosition.y + 120 }
+  }
+
+  // Add a new node based on type
+  const addNode = (type) => {
+    const newNodeId = `${type}_${Date.now()}`
+    const nodeStyle = nodeStyles[type]
+    let label = nodeName || `${type.charAt(0).toUpperCase() + type.slice(1)} ${nodes.length + 1}`
+
+    // For decision nodes, add Yes/No text
+    if (type === "decision") {
+      label = (
+        <div className="text-center">
+          <div>{nodeName || `Decision ${nodes.length + 1}`}</div>
+          <div className="text-xs text-gray-500 mt-1"></div>
+        </div>
+      )
+    }
+
+    // Calculate position for the new node
+    const position = getNextPosition()
+
+    const newNode = {
+      id: newNodeId,
+      position: position,
+      data: { label },
+      style: nodeStyle,
+      type,
+    }
+
+    // Add the node
+    setNodes((nds) => [...nds, newNode])
+
+    // If there's a previous node, connect it to this one
+    if (lastNodeId) {
+      const newEdgeId = `e${lastNodeId}-${newNodeId}`
+      setEdges((eds) => [
+        ...eds,
+        {
+          id: newEdgeId,
+          source: lastNodeId,
+          target: newNodeId,
+          animated: type === "decision", // Animate edges to decision nodes
         },
-      }
-
-      // If editing, update the node
-      if (editingNode) {
-        setNodes(
-          nodes.map((node) =>
-            node.id === editingNode ? { ...node, data: { ...node.data, label: editingLabel.trim() } } : node
-          )
-        )
-      } else {
-        // Otherwise add a new node
-        setNodes((nodes) => [...nodes, newNode])
-
-        // If we're connecting nodes, create an edge
-        if (connectingNode) {
-          const newEdge = {
-            id: `e-${connectingNode}-${nodeId}`,
-            source: connectingNode,
-            target: nodeId,
-            type: "smoothstep",
-            markerEnd: {
-              type: MarkerType.ArrowClosed,
-            },
-          }
-          setEdges((edges) => [...edges, newEdge])
-          setConnectingNode(null)
-        }
-      }
-
-      closePopup()
+      ])
     }
-  }
 
-  // Function to handle edge connections
-  const onConnect = useCallback(
-    (connection) => {
-      if (connection.source && connection.target) {
-        setEdges((eds) =>
-          addEdge(
-            {
-              ...connection,
-              type: "smoothstep",
-              markerEnd: {
-                type: MarkerType.ArrowClosed,
-              },
-            },
-            eds
-          )
-        )
-      }
-    },
-    [setEdges]
-  )
+    // Update the last node info
+    setLastNodePosition(position)
+    setLastNodeId(newNodeId)
 
-  // Function to start connecting from a node
-  const startConnecting = (nodeId) => {
-    setConnectingNode(nodeId)
-    openPopup("step") // Default to adding a step when connecting
+    setNodeName("")
+    setShowPopup(false)
   }
 
   return (
-    <div className="p-6 bg-white rounded-lg shadow-sm">
+    <div className="flex flex-col w-full h-[100vh]">
       {/* Header */}
-      <div className="flex justify-between items-center mb-4">
-        <h1 className="text-2xl font-bold">WORKFLOW BUILDER</h1>
-        <button className="bg-gray-200 hover:bg-gray-300 px-4 py-1 rounded-md text-gray-700 flex items-center gap-1">
-          <Save className="w-4 h-4" />
-          <span>Save</span>
-        </button>
-      </div>
-
-      {/* Features List */}
-      <ul className="list-disc pl-5 mb-6 space-y-1">
-        <li>Create and customize process flowdiagrams</li>
-        <li>Drag and drop to add or rearrange steps</li>
-        <li>Label each step clearly</li>
-        <li>Set transition rules between steps</li>
-      </ul>
-
-      {/* Process Flow Section */}
-      <div className="mb-6">
-        <h2 className="text-xl font-semibold mb-3">Process Flow</h2>
-        <div className="flex flex-wrap gap-2">
-          <button
-            className="bg-green-600 text-white px-3 py-1 rounded-md flex items-center cursor-pointer "
-            onClick={() => openPopup("start")}
-          >
-            <Plus className="w-4 h-4 mr-1" /> Add Start
-          </button>
-          <button
-            className="bg-gray-300  px-3 py-1 rounded-md flex items-center cursor-pointer"
-            onClick={() => openPopup("step")}
-          >
-            <Plus className="w-4 h-4 mr-1" /> Add Step
-          </button>
-          <button
-            className="bg-gray-300  px-3 py-1 rounded-md flex items-center cursor-pointer"
-            onClick={() => openPopup("decision")}
-          >
-            <Plus className="w-4 h-4 mr-1" /> Add Decision
-          </button>
-          <button
-            className="bg-red-500 text-white px-3 py-1 rounded-md flex items-center cursor-pointer"
-            onClick={() => openPopup("end")}
-          >
-            <Plus className="w-4 h-4 mr-1" /> Add End
+      <div className="bg-gray-100 p-4 border-b border-gray-300">
+        <div className="flex justify-between items-center mb-3">
+          <h1 className="text-2xl font-bold">WORKFLOW BUILDER</h1>
+          <button className="bg-gray-200 px-4 py-2 rounded text-base" onClick={saveWorkflow}>
+            Save
           </button>
         </div>
-      </div>
+        <ul className="text-base text-gray-600 list-disc pl-5 mb-3">
+          <li>Drag and drop to add or rearrange steps</li>
+          <li>Zoom and pan map easily</li>
+          <li>Left-click to select</li>
+        </ul>
 
-      {/* Process Flow Diagram */}
-      <div>
-        <h2 className="text-xl font-semibold mb-4">Process Flow</h2>
-        <div style={{ height: 500 }} className="border border-gray-300 rounded-md">
-          <ReactFlowProvider>
-            <ReactFlow
-              nodes={nodes}
-              edges={edges}
-              onNodesChange={onNodesChange}
-              onEdgesChange={onEdgesChange}
-              onConnect={onConnect}
-              nodeTypes={nodeTypes}
-              fitView
+        <div className="mt-4">
+          <h2 className="text-xl font-semibold mb-3">Process Flow</h2>
+          <div className="flex space-x-3">
+            <button
+              className="bg-[#00308F] text-white px-4 py-2 rounded text-base hover:bg-[#002066]"
+              onClick={() => openPopup("start")}
             >
-              <Background />
-              <Controls />
-              <Panel position="top-right">
-                <div className="bg-white p-2 rounded shadow-sm text-xs">
-                  <p>Drag to connect nodes</p>
-                  <p>Double-click to add connection</p>
-                </div>
-              </Panel>
-            </ReactFlow>
-          </ReactFlowProvider>
-        </div>
-      </div>
-
-      {/* Popups for adding/editing elements */}
-      {activePopup && (
-        <div className="fixed inset-0 backdrop-blur-[3px] flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 w-96 max-w-full border border-gray-300">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="text-xl font-semibold">
-                {editingNode ? "Edit" : "Add"} {activePopup.charAt(0).toUpperCase() + activePopup.slice(1)}
-              </h3>
-              <button onClick={closePopup} className="text-gray-500 hover:text-gray-700">
-                <X className="w-5 h-5" />
-              </button>
-            </div>
-
-            <div className="mb-4">
-              <label htmlFor="elementLabel" className="block text-sm font-medium text-gray-700 mb-1">
-                Label
-              </label>
-              <input
-                type="text"
-                id="elementLabel"
-                value={editingLabel}
-                onChange={(e) => setEditingLabel(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder={`Enter ${activePopup} label`}
-              />
-            </div>
-
-            {activePopup === "decision" && (
-              <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700 mb-1">Branches</label>
-                <div className="flex gap-2">
-                  <div className="flex items-center">
-                    <input type="checkbox" id="yesOption" defaultChecked className="mr-1" />
-                    <label htmlFor="yesOption" className="text-sm">
-                      Yes
-                    </label>
-                  </div>
-                  <div className="flex items-center">
-                    <input type="checkbox" id="noOption" defaultChecked className="mr-1" />
-                    <label htmlFor="noOption" className="text-sm">
-                      No
-                    </label>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {activePopup === "step" && (
-              <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700 mb-1">Step Properties</label>
-                <select className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-                  <option value="task">Task</option>
-                  <option value="approval">Approval</option>
-                  <option value="notification">Notification</option>
-                </select>
-              </div>
-            )}
-
-            {connectingNode && (
-              <div className="mb-4 p-2 bg-blue-50 rounded-md">
-                <p className="text-sm text-blue-700">
-                  Connecting from another node. This new node will be automatically connected.
-                </p>
-              </div>
-            )}
-
-            <div className="flex justify-end gap-2">
-              <button
-                onClick={closePopup}
-                className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-100"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={addNode}
-                disabled={!editingLabel.trim()}
-                className={`px-4 py-2 rounded-md text-white ${editingLabel.trim() ? "bg-[#00308F] hover:bg-blue-800" : "bg-gray-400 cursor-not-allowed"}`}
-              >
-                {editingNode ? "Update" : "Add"}
-              </button>
-            </div>
+              Add Start
+            </button>
+            <button
+              className="bg-[#00308F] text-white px-4 py-2 rounded text-base hover:bg-[#002066]"
+              onClick={() => openPopup("step")}
+            >
+              Add Step
+            </button>
+            <button
+              className="bg-[#00308F] text-white px-4 py-2 rounded text-base hover:bg-[#002066]"
+              onClick={() => openPopup("decision")}
+            >
+              Add Decision
+            </button>
+            <button
+              className="bg-[#00308F] text-white px-4 py-2 rounded text-base hover:bg-[#002066]"
+              onClick={() => openPopup("end")}
+            >
+              Add End
+            </button>
+            <button
+              className="bg-red-500 text-white px-4 py-2 rounded text-base hover:bg-red-600"
+              onClick={deleteNode}
+              disabled={!selectedNode}
+            >
+              Delete
+            </button>
           </div>
         </div>
-      )}
+      </div>
+
+      {/* Flow Diagram */}
+      <div className="flex-1 bg-gray-50 relative" style={{ height: "50vh" }}>
+        <ReactFlow
+          nodes={nodes}
+          edges={edges}
+          onNodesChange={onNodesChange}
+          onEdgesChange={onEdgesChange}
+          onConnect={onConnect}
+          onNodeClick={onNodeClick}
+          fitView
+        >
+          <Background variant="dots" gap={12} size={1} />
+          <Controls />
+
+
+        </ReactFlow>
+
+        {/* Popup for adding nodes */}
+        {showPopup && (
+          <div className="absolute inset-0 backdrop-blur-[3px] flex items-center justify-center z-10">
+            <div ref={popupRef} className="bg-white p-5 rounded-lg shadow-lg w-96 border border-gray-300">
+              <h3 className="text-xl font-semibold mb-4">
+                Add {popupType.charAt(0).toUpperCase() + popupType.slice(1)} Node
+              </h3>
+              <div className="mb-4">
+                <label className="block text-base font-medium text-gray-700 mb-2">Node Name:</label>
+                <input
+                  type="text"
+                  value={nodeName}
+                  onChange={(e) => setNodeName(e.target.value)}
+                  className="w-full px-4 py-2 border border-gray-300 rounded text-base"
+                  placeholder={`Enter ${popupType} name`}
+                />
+              </div>
+              <div className="flex justify-end space-x-3">
+                <button className="px-5 py-2 bg-gray-200 rounded text-base" onClick={() => setShowPopup(false)}>
+                  Cancel
+                </button>
+                <button
+                  className="px-5 py-2 bg-[#00308F] text-white rounded text-base"
+                  onClick={() => addNode(popupType)}
+                >
+                  Add
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   )
 }
