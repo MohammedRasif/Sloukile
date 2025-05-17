@@ -32,7 +32,7 @@ const initialProjects = [
         },
       },
       {
-        name: "Date Selection Report",
+        name: "Date Selection Report 1",
         completed: false,
         details: {
           id: "540-2",
@@ -50,7 +50,7 @@ const initialProjects = [
         },
       },
       {
-        name: "Date Selection Report",
+        name: "Date Selection Report 2",
         completed: false,
         details: {
           id: "540-3",
@@ -69,7 +69,7 @@ const initialProjects = [
         },
       },
       {
-        name: "Date Selection Report",
+        name: "Date Selection Report 3",
         completed: false,
         details: {
           id: "540-4",
@@ -87,7 +87,7 @@ const initialProjects = [
         },
       },
       {
-        name: "Date Selection Report",
+        name: "Date Selection Report 4",
         completed: false,
         details: {
           id: "540-5",
@@ -106,7 +106,7 @@ const initialProjects = [
         },
       },
       {
-        name: "Date Selection Report",
+        name: "Date Selection Report 5",
         completed: false,
         details: {
           id: "540-6",
@@ -125,7 +125,7 @@ const initialProjects = [
         },
       },
       {
-        name: "Date Selection Report",
+        name: "Date Selection Report 6",
         completed: false,
         details: {
           id: "540-7",
@@ -144,10 +144,10 @@ const initialProjects = [
         },
       },
       {
-        name: "Date Selection Report",
+        name: "Date Selection Report 7",
         completed: false,
         details: {
-          id: "540-8", // Changed from 540-5 to avoid duplicate
+          id: "540-8",
           subject: "Date Selection Report",
           type: "TASK",
           status: "completed",
@@ -190,7 +190,7 @@ const initialProjects = [
         },
       },
       {
-        name: "Session Descriptions",
+        name: "Session Descriptions 1",
         completed: false,
         details: {
           id: "541-2",
@@ -209,7 +209,7 @@ const initialProjects = [
         },
       },
       {
-        name: "Session Descriptions",
+        name: "Session Descriptions 2",
         completed: false,
         details: {
           id: "541-3",
@@ -227,7 +227,7 @@ const initialProjects = [
         },
       },
       {
-        name: "Session Descriptions",
+        name: "Session Descriptions 3",
         completed: false,
         details: {
           id: "541-4",
@@ -246,7 +246,7 @@ const initialProjects = [
         },
       },
       {
-        name: "Session Descriptions",
+        name: "Session Descriptions 4",
         completed: false,
         details: {
           id: "541-5",
@@ -265,7 +265,7 @@ const initialProjects = [
         },
       },
       {
-        name: "Session Descriptions",
+        name: "Session Descriptions 5",
         completed: false,
         details: {
           id: "541-6",
@@ -283,7 +283,7 @@ const initialProjects = [
         },
       },
       {
-        name: "Session Descriptions",
+        name: "Session Descriptions 6",
         completed: false,
         details: {
           id: "541-7",
@@ -318,7 +318,6 @@ const quarters = [
 export default function TimeLine() {
   // State for projects data
   const [allProjects, setAllProjects] = useState(initialProjects)
-
   const [selectedYear, setSelectedYear] = useState(2022)
   const [selectedQuarter, setSelectedQuarter] = useState(2)
   const [filteredProjects, setFilteredProjects] = useState([])
@@ -370,6 +369,9 @@ export default function TimeLine() {
   // State for delete confirmation popup
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
 
+  // State for hover description
+  const [hoverInfo, setHoverInfo] = useState(null)
+
   useEffect(() => {
     const currentQuarter = quarters[selectedQuarter]
     const quarterStartMonth = currentQuarter.months[0]
@@ -390,6 +392,7 @@ export default function TimeLine() {
       return project.milestones.some((milestone) => {
         const milestoneStart = new Date(milestone.details.startDate)
         const milestoneEnd = milestone.details.endDate ? new Date(milestone.details.endDate) : milestoneStart
+        if (isNaN(milestoneStart) || isNaN(milestoneEnd)) return false
         return (
           (milestoneStart.getFullYear() === selectedYear || milestoneEnd.getFullYear() === selectedYear) &&
           ((milestoneStart.getMonth() >= quarterStartMonth && milestoneStart.getMonth() <= quarterEndMonth) ||
@@ -431,11 +434,12 @@ export default function TimeLine() {
   const parseDate = (dateString) => {
     if (!dateString) return null
     const [day, month, year] = dateString.split("/").map(Number)
-    return new Date(year, month - 1, day)
+    const date = new Date(year, month - 1, day)
+    return isNaN(date) ? null : date
   }
 
   const formatDate = (date) => {
-    if (!date) return ""
+    if (!date || isNaN(date)) return ""
     const day = date.getDate().toString().padStart(2, "0")
     const month = (date.getMonth() + 1).toString().padStart(2, "0")
     const year = date.getFullYear()
@@ -491,18 +495,17 @@ export default function TimeLine() {
 
   const toggleProject = (projectId) => {
     setExpandedProjects((prev) =>
-      prev.includes(projectId) ? prev.filter((id) => id !== projectId) : [...prev, projectId],
+      prev.includes(projectId) ? prev.filter((id) => id !== projectId) : [...prev, projectId]
     )
   }
 
   const toggleMilestoneDetails = (milestoneIndex, projectId) => {
     const uniqueId = `${projectId}-${milestoneIndex}`
     setExpandedMilestones((prev) =>
-      prev.includes(uniqueId) ? prev.filter((id) => id !== uniqueId) : [...prev, uniqueId],
+      prev.includes(uniqueId) ? prev.filter((id) => id !== uniqueId) : [...prev, uniqueId]
     )
   }
 
-  // Open add project popup
   const openAddProjectPopup = () => {
     setProjectFormData({
       title: "",
@@ -531,12 +534,10 @@ export default function TimeLine() {
     setShowProjectPopup(true)
   }
 
-  // Open edit project popup
   const openEditProjectPopup = (projectId) => {
     const project = allProjects.find((p) => p.id === projectId)
     if (!project) return
 
-    // Create a deep copy of the project with properly formatted dates for the form
     const formattedMilestones = project.milestones.map((milestone) => {
       const startDate = milestone.details.startDate ? new Date(milestone.details.startDate) : null
       const endDate = milestone.details.endDate ? new Date(milestone.details.endDate) : null
@@ -545,8 +546,8 @@ export default function TimeLine() {
         ...milestone,
         details: {
           ...milestone.details,
-          startDate: startDate ? startDate.toISOString().split("T")[0] : "",
-          endDate: endDate ? endDate.toISOString().split("T")[0] : "",
+          startDate: startDate && !isNaN(startDate) ? startDate.toISOString().split("T")[0] : "",
+          endDate: endDate && !isNaN(endDate) ? endDate.toISOString().split("T")[0] : "",
         },
       }
     })
@@ -561,13 +562,11 @@ export default function TimeLine() {
     setShowProjectPopup(true)
   }
 
-  // Open delete project confirmation
   const openDeleteProjectConfirm = (projectId) => {
     setCurrentProjectId(projectId)
     setShowDeleteConfirm(true)
   }
 
-  // Handle project form input changes
   const handleProjectChange = (e) => {
     const { name, value } = e.target
     setProjectFormData((prev) => ({
@@ -576,7 +575,6 @@ export default function TimeLine() {
     }))
   }
 
-  // Handle milestone form input changes
   const handleMilestoneChange = (e) => {
     const { name, value } = e.target
 
@@ -609,35 +607,29 @@ export default function TimeLine() {
     }
   }
 
-  // Add milestone to project form
   const addMilestone = () => {
     if (!milestoneFormData.name || !milestoneFormData.details.subject) {
       alert("Milestone name and subject are required!")
       return
     }
 
-    // Generate a unique ID for the milestone
     const milestoneId = `milestone-${Date.now()}`
 
-    // Create a new milestone with the form data
     const newMilestone = {
       ...milestoneFormData,
       details: {
         ...milestoneFormData.details,
         id: milestoneId,
-        // Keep dates as strings in the form
         startDate: milestoneFormData.details.startDate || "",
         endDate: milestoneFormData.details.endDate || "",
       },
     }
 
-    // Add the milestone to the project form data
     setProjectFormData((prev) => ({
       ...prev,
       milestones: [...prev.milestones, newMilestone],
     }))
 
-    // Reset the milestone form
     setMilestoneFormData({
       name: "",
       completed: false,
@@ -658,7 +650,6 @@ export default function TimeLine() {
     })
   }
 
-  // Remove milestone from project form
   const removeMilestone = (index) => {
     setProjectFormData((prev) => ({
       ...prev,
@@ -666,7 +657,6 @@ export default function TimeLine() {
     }))
   }
 
-  // Save project (add or update)
   const saveProject = () => {
     if (!projectFormData.title || !projectFormData.dateline) {
       alert("Project title and dateline are required!")
@@ -678,14 +668,15 @@ export default function TimeLine() {
       return
     }
 
-    // Process milestones to ensure dates are properly formatted
     const processedMilestones = projectFormData.milestones.map((milestone) => {
+      const startDate = milestone.details.startDate ? new Date(milestone.details.startDate) : new Date()
+      const endDate = milestone.details.endDate ? new Date(milestone.details.endDate) : null
       return {
         ...milestone,
         details: {
           ...milestone.details,
-          startDate: milestone.details.startDate ? new Date(milestone.details.startDate) : new Date(),
-          endDate: milestone.details.endDate ? new Date(milestone.details.endDate) : null,
+          startDate: isNaN(startDate) ? new Date() : startDate,
+          endDate: endDate && !isNaN(endDate) ? endDate : null,
         },
       }
     })
@@ -696,12 +687,10 @@ export default function TimeLine() {
     }
 
     if (isEditing) {
-      // Update existing project
       setAllProjects((prev) =>
-        prev.map((project) => (project.id === currentProjectId ? { ...project, ...updatedProjectData } : project)),
+        prev.map((project) => (project.id === currentProjectId ? { ...project, ...updatedProjectData } : project))
       )
     } else {
-      // Add new project
       const newId = `${Math.floor(Math.random() * 1000)}`
       const newProject = {
         id: newId,
@@ -709,27 +698,45 @@ export default function TimeLine() {
         dependencies: [],
       }
       setAllProjects((prev) => [...prev, newProject])
-
-      // Expand the new project by default
       setExpandedProjects((prev) => [...prev, newId])
     }
 
-    // Close the popup
     setShowProjectPopup(false)
     alert(isEditing ? "Project updated successfully!" : "Project added successfully!")
   }
 
-  // Delete project
   const deleteProject = () => {
     setAllProjects((prev) => prev.filter((project) => project.id !== currentProjectId))
     setShowDeleteConfirm(false)
     alert("Project deleted successfully!")
   }
 
-  // Close all popups
   const closePopup = () => {
     setShowProjectPopup(false)
     setShowDeleteConfirm(false)
+  }
+
+  const handleRowHover = (e, type, data, projectId, milestoneIndex) => {
+    const rect = e.currentTarget.getBoundingClientRect()
+    const viewportWidth = window.innerWidth
+    let left = rect.left + window.scrollX
+    if (left + 300 > viewportWidth) {
+      left = viewportWidth - 310
+    }
+    setHoverInfo({
+      type,
+      data,
+      projectId,
+      milestoneIndex,
+      position: {
+        top: rect.top + window.scrollY + rect.height,
+        left: left,
+      },
+    })
+  }
+
+  const handleRowLeave = () => {
+    setHoverInfo(null)
   }
 
   const today = new Date(2022, 7, 1) // Simulate August 1, 2022 for testing
@@ -767,7 +774,7 @@ export default function TimeLine() {
               <select
                 className="bg-transparent text-white text-sm focus:outline-none cursor-pointer"
                 value={selectedYear}
-                onChange={(e) => setSelectedYear(Number.parseInt(e.target.value))}
+                onChange={(e) => setSelectedYear(parseInt(e.target.value))}
               >
                 {availableYears.map((year) => (
                   <option key={year} value={year} className="text-gray-800 dark:text-gray-200">
@@ -806,13 +813,12 @@ export default function TimeLine() {
       </div>
 
       <div className="flex">
-        {/* Table section - Sticky on the left */}
         <div className="w-[440px] flex-shrink-0 border-r border-gray-300 dark:border-gray-600 sticky left-0 z-20 bg-white dark:bg-gray-800">
           <div className="flex bg-gray-100 dark:bg-gray-700 border-b border-gray-300 dark:border-gray-600 sticky top-0 z-30">
             <div className="w-[150px] p-2 font-medium text-gray-700 dark:text-gray-200 pl-8 text-sm">Activity</div>
             <div className="w-[70px] p-2 font-medium text-gray-700 dark:text-gray-200 text-sm">Type</div>
             <div className="w-[80px] p-2 font-medium text-gray-700 dark:text-gray-200 text-sm">Status</div>
-            <div className="w-[50px] p-2 font-medium text-gray-700 dark:text-gray-200 text-sm ">Priority</div>
+            <div className="w-[50px] p-2 font-medium text-gray-700 dark:text-gray-200 text-sm">Priority</div>
             <div className="w-[50px] p-2 font-medium text-gray-700 dark:text-gray-200 text-sm pl-5">Owner</div>
           </div>
           <div className="h-8 border-b border-gray-300 dark:border-gray-600"></div>
@@ -822,14 +828,19 @@ export default function TimeLine() {
               const isExpanded = expandedProjects.includes(project.id)
 
               return (
-                <div key={project.id} style={{ height: `${getRowHeight(project)}px` }}>
+                <div
+                  key={project.id}
+                  style={{ height: `${getRowHeight(project)}px` }}
+                  onMouseEnter={(e) => handleRowHover(e, "project", project)}
+                  onMouseLeave={handleRowLeave}
+                >
                   <div className="flex items-center h-10 border-b border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-600">
                     <div className="w-[150px] px-2 pl-2 flex items-center">
                       <button onClick={() => toggleProject(project.id)} className="focus:outline-none mr-1 font-bold">
                         {isExpanded ? (
                           <FiPlus className="h-4 w-4 text-white dark:text-black bg-gray-800 dark:bg-gray-200 cursor-pointer" />
                         ) : (
-                          <GoDash className="h-4 w-4 text-white dark:text-black bg-gray-800 dark:bg-gray-200 font-bold  cursor-pointer" />
+                          <GoDash className="h-4 w-4 text-white dark:text-black bg-gray-800 dark:bg-gray-200 font-bold cursor-pointer" />
                         )}
                       </button>
                       <span className="text-[13px] text-gray-800 dark:text-gray-200 truncate font-bold">
@@ -862,13 +873,16 @@ export default function TimeLine() {
                       {project.milestones.map((milestone, index) => {
                         const isMilestoneExpanded = expandedMilestones.includes(`${project.id}-${index}`)
                         return (
-                          <div key={`${project.id}-${index}`}>
+                          <div
+                            key={`${project.id}-${index}`}
+                            onMouseEnter={(e) => handleRowHover(e, "milestone", milestone, project.id, index)}
+                            onMouseLeave={handleRowLeave}
+                          >
                             <div className="flex h-10 border-b border-gray-200 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700">
                               <div className="w-[150px] px-2 pl-8 flex items-center">
                                 <span className="text-[13px] text-gray-800 dark:text-gray-200 truncate">
                                   {milestone.name}
                                 </span>
-                                {milestone.completed}
                               </div>
                               <div className="w-[70px] px-2 text-xs text-gray-600 dark:text-gray-300 pt-3">
                                 {milestone.details.type}
@@ -879,17 +893,14 @@ export default function TimeLine() {
                               <div className="w-[50px] px-2 text-xs text-gray-600 dark:text-gray-300 pt-3 pl-3">
                                 {milestone.details.priority}
                               </div>
-                              <div className="w-[50px] px-2 pt-2 ">
-                                {/* Display the avatar as an image */}
+                              <div className="w-[50px] px-2 pt-2">
                                 <img
                                   src={milestone.details.owner.avatar}
                                   alt={`${milestone.details.owner.name}'s avatar`}
                                   className="w-7 h-7 rounded-full ml-5"
                                 />
                               </div>
-                              <div className="w-[50px] px-2 pt-3">
-                                {/* No edit/delete for individual milestones in this version */}
-                              </div>
+                              <div className="w-[50px] px-2 pt-3"></div>
                             </div>
                           </div>
                         )
@@ -904,7 +915,6 @@ export default function TimeLine() {
           )}
         </div>
 
-        {/* Chart section - Scrollable horizontally */}
         <div className="flex-grow overflow-x-auto">
           <div className="relative" style={{ minWidth: `${allDays.length * 25}px` }}>
             <div className="flex border-b border-gray-300 dark:border-gray-600 sticky top-0 z-10 bg-white dark:bg-gray-800">
@@ -944,7 +954,6 @@ export default function TimeLine() {
 
                   return (
                     <div key={project.id} className="relative" style={{ height: `${getRowHeight(project)}px` }}>
-                      {/* Project dateline red line */}
                       {projectDateline && !isNaN(projectDateline) && (
                         <div
                           className="absolute top-10 bottom-0 w-px bg-red-500 z-30"
@@ -985,16 +994,18 @@ export default function TimeLine() {
                                     className="absolute h-6 rounded-lg flex items-center px-2 text-white text-xs font-medium z-20 shadow-md overflow-hidden"
                                     style={{
                                       left: `${calculatePosition(milestoneStart) * 25}px`,
-                                      width: `${milestone.details.endDate
+                                      width: `${
+                                        milestone.details.endDate
                                           ? calculateWidth(milestoneStart, milestoneEnd) * 25
                                           : 25
-                                        }px`,
+                                      }px`,
                                       backgroundColor: milestone.details.color,
                                       top: "50%",
                                       transform: "translateY(-50%)",
                                     }}
-                                    title={`${milestone.name}\nStatus: ${milestone.details.status}\nPriority: ${milestone.details.priority
-                                      }\nProgress: ${milestoneProgress}%`}
+                                    title={`${milestone.name}\nStatus: ${
+                                      milestone.details.status
+                                    }\nPriority: ${milestone.details.priority}\nProgress: ${milestoneProgress}%`}
                                   >
                                     <div
                                       className="absolute top-0 left-0 bottom-0 opacity-50"
@@ -1024,7 +1035,62 @@ export default function TimeLine() {
         </div>
       </div>
 
-      {/* Add/Edit Project Popup */}
+      {hoverInfo && (
+        <div
+          className="absolute bg-gray-800 text-white text-xs p-3 rounded-lg shadow-lg z-50 max-w-[300px]"
+          style={{
+            top: `${hoverInfo.position.top}px`,
+            left: `${hoverInfo.position.left}px`,
+          }}
+        >
+          {hoverInfo.type === "project" ? (
+            <div>
+              <h3 className="font-bold mb-1">{hoverInfo.data.title}</h3>
+              <p>
+                <strong>Dateline:</strong> {hoverInfo.data.dateline}
+              </p>
+              <p>
+                <strong>Milestones:</strong> {hoverInfo.data.milestones.length}
+              </p>
+              <p>
+                <strong>Dependencies:</strong> {hoverInfo.data.dependencies.join(", ") || "None"}
+              </p>
+            </div>
+          ) : (
+            <div>
+              <h3 className="font-bold mb-1">{hoverInfo.data.name}</h3>
+              <p>
+                <strong>Subject:</strong> {hoverInfo.data.details.subject}
+              </p>
+              <p>
+                <strong>Type:</strong> {hoverInfo.data.details.type}
+              </p>
+              <p>
+                <strong>Status:</strong>{" "}
+                {hoverInfo.data.details.status.charAt(0).toUpperCase() + hoverInfo.data.details.status.slice(1)}
+              </p>
+              <p>
+                <strong>Priority:</strong> {hoverInfo.data.details.priority}
+              </p>
+              <p>
+                <strong>Start Date:</strong> {formatDate(hoverInfo.data.details.startDate)}
+              </p>
+              {hoverInfo.data.details.endDate && (
+                <p>
+                  <strong>End Date:</strong> {formatDate(hoverInfo.data.details.endDate)}
+                </p>
+              )}
+              <p>
+                <strong>Owner:</strong> {hoverInfo.data.details.owner.name} ({hoverInfo.data.details.owner.role})
+              </p>
+              <p>
+                <strong>Completed:</strong> {hoverInfo.data.completed ? "Yes" : "No"}
+              </p>
+            </div>
+          )}
+        </div>
+      )}
+
       {showProjectPopup && (
         <div className="fixed inset-0 backdrop-blur-[3px] bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white border border-gray-300 dark:bg-gray-800 p-6 rounded-lg shadow-lg max-w-3xl w-full max-h-[90vh] overflow-y-auto">
@@ -1205,7 +1271,6 @@ export default function TimeLine() {
                 </button>
               </div>
 
-              {/* Display added milestones */}
               {projectFormData.milestones.length > 0 && (
                 <div className="border-t border-gray-200 dark:border-gray-600 pt-4">
                   <h3 className="text-lg font-medium dark:text-white mb-2">
@@ -1265,7 +1330,10 @@ export default function TimeLine() {
               >
                 Cancel
               </button>
-              <button onClick={saveProject} className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+              <button
+                onClick={saveProject}
+                className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+              >
                 {isEditing ? "Update Project" : "Save Project"}
               </button>
             </div>
@@ -1273,7 +1341,6 @@ export default function TimeLine() {
         </div>
       )}
 
-      {/* Delete Confirmation Popup */}
       {showDeleteConfirm && (
         <div className="fixed inset-0 backdrop-blur-[3px] flex items-center justify-center z-50">
           <div className="bg-white dark:bg-gray-800 p-6 border border-gray-300 rounded-lg shadow-lg max-w-md w-full">
@@ -1289,7 +1356,10 @@ export default function TimeLine() {
               >
                 Cancel
               </button>
-              <button onClick={deleteProject} className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 cursor-pointer">
+              <button
+                onClick={deleteProject}
+                className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 cursor-pointer"
+              >
                 Delete
               </button>
             </div>
