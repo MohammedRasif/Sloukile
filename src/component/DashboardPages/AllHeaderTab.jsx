@@ -14,6 +14,7 @@ import Deployment from "./Deployment.jsx"
 import DocumentLibrary from "./Document.jsx"
 import LessonsLearnedPage from "./LessonLearn.jsx"
 import Repoting from "./Repoting.jsx"
+import WorkflowDiagram from "./WorkflowDiagram.jsx"
 
 const AllHeaderTab = ({ projectData, darkMode }) => {
   const [activeGroup, setActiveGroup] = useState("Project Foundation")
@@ -28,7 +29,6 @@ const AllHeaderTab = ({ projectData, darkMode }) => {
   }
 
   // Placeholder for components that aren't provided
-  const WorkflowDiagram = () => <div>Workflow Diagram Content</div>
   const SystemIntegration = () => <div>System Integration Content</div>
   const Reporting = () => <div>Reporting Content</div>
 
