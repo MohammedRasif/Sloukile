@@ -4,6 +4,8 @@ import { useState, useEffect, useRef } from "react"
 import { Plus, X, Trash2, Share2, Link, Mail, Eye, Send } from "lucide-react"
 import Meeting from "./Meeting"
 import StatusReporting from "./StatusReporting"
+import TrainingMaterial from "./TrainingMaterial"
+import Surveys from "./Surveys"
 
 export default function Communication() {
   const [activeTab, setActiveTab] = useState("newsletters")
@@ -336,8 +338,8 @@ export default function Communication() {
 
           {activeTab === "meeting-minutes" && <Meeting />}
           {activeTab === "status-reporting" && <StatusReporting />}
-          {activeTab === "training-material" && <div>Training Material Content</div>}
-          {activeTab === "surveys" && <div>Surveys Content</div>}
+          {activeTab === "training-material" && <TrainingMaterial/>}
+          {activeTab === "surveys" && <Surveys/>}
         </div>
       </div>
 

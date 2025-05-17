@@ -22,7 +22,6 @@ const DashboardSidebar = ({ isSidebarOpen }) => {
         }
         ${isSidebarOpen ? "justify-start" : "justify-center"}
     `;
-
     return (
         <div className="text-[#00308F] dark:text-white flex flex-col h-full">
             <div className="flex items-center justify-center pt-10 pb-6">
