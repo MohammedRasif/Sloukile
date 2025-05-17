@@ -15,6 +15,7 @@ import DocumentLibrary from "./Document.jsx"
 import LessonsLearnedPage from "./LessonLearn.jsx"
 import Repoting from "./Repoting.jsx"
 import WorkflowDiagram from "./WorkflowDiagram.jsx"
+import SystemInteration from "./System Interation.jsx"
 
 const AllHeaderTab = ({ projectData, darkMode }) => {
   const [activeGroup, setActiveGroup] = useState("Project Foundation")
@@ -29,7 +30,6 @@ const AllHeaderTab = ({ projectData, darkMode }) => {
   }
 
   // Placeholder for components that aren't provided
-  const SystemIntegration = () => <div>System Integration Content</div>
   const Reporting = () => <div>Reporting Content</div>
 
   // Handle group click
@@ -85,7 +85,7 @@ const AllHeaderTab = ({ projectData, darkMode }) => {
         {activeTab === "Budget" && <Budget projectData={projectData} />}
         {activeTab === "Planning" && <Planning projectData={projectData} darkMode={darkMode} />}
         {activeTab === "Workflow Diagram" && <WorkflowDiagram />}
-        {activeTab === "System Integration" && <SystemIntegration />}
+        {activeTab === "System Integration" && <SystemInteration />}
         {activeTab === "Risks" && <ProjectRisks projectData={projectData} />}
         {activeTab === "Stakeholders" && <Stakeholders projectData={projectData} />}
         {activeTab === "Communication" && <Communication projectData={projectData} />}
