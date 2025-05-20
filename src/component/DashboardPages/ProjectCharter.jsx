@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Plus, X } from "lucide-react";
 
@@ -11,6 +10,7 @@ export default function ReportingAnalysis() {
       type: "Steering",
       startDate: "Apr 15, 2024",
       view: true,
+      document: null, // Added document field
     },
     {
       name: "Project Stage Review: Design",
@@ -18,6 +18,7 @@ export default function ReportingAnalysis() {
       type: "Stage",
       startDate: "Apr 22, 2024",
       view: true,
+      document: null,
     },
     {
       name: "Program Board Report",
@@ -25,6 +26,7 @@ export default function ReportingAnalysis() {
       type: "Program Board",
       startDate: "Apr 30, 2024",
       view: true,
+      document: null,
     },
     {
       name: "Weekly Team Update",
@@ -32,6 +34,7 @@ export default function ReportingAnalysis() {
       type: "Team",
       startDate: "Apr 15, 2024",
       view: true,
+      document: null,
     },
     {
       name: "Milestone Summary Phase 1",
@@ -39,6 +42,7 @@ export default function ReportingAnalysis() {
       type: "Milestone",
       startDate: "Apr 15, 2024",
       view: true,
+      document: null,
     },
   ]);
 
@@ -70,6 +74,7 @@ export default function ReportingAnalysis() {
     frequency: "Weekly",
     type: "Steering",
     startDate: "",
+    document: null, // Added document field
   });
   const [formError, setFormError] = useState("");
 
@@ -81,6 +86,7 @@ export default function ReportingAnalysis() {
       frequency: "Weekly",
       type: "Steering",
       startDate: "",
+      document: null,
     });
     setFormError("");
     setIsModalOpen(true);
@@ -95,6 +101,7 @@ export default function ReportingAnalysis() {
       frequency: report.frequency,
       type: report.type,
       startDate: report.startDate,
+      document: report.document,
     });
     setFormError("");
     setIsModalOpen(true);
@@ -112,6 +119,20 @@ export default function ReportingAnalysis() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  // Handle file input changes
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      // Validate file size (e.g., max 5MB)
+      if (file.size > 5 * 1024 * 1024) {
+        setFormError("File size exceeds 5MB limit.");
+        return;
+      }
+      setFormData((prev) => ({ ...prev, document: file }));
+      setFormError("");
+    }
+  };
+
   // Validate and submit form
   const handleSubmit = () => {
     if (!formData.name || !formData.startDate) {
@@ -119,21 +140,36 @@ export default function ReportingAnalysis() {
       return;
     }
 
+    const newReport = {
+      ...formData,
+      view: true,
+    };
+
     if (modalMode === "add") {
-      setReports([
-        ...reports,
-        {
-          ...formData,
-          view: true,
-        },
-      ]);
+      setReports([...reports, newReport]);
     } else if (modalMode === "edit" && currentReport) {
       const updatedReports = [...reports];
-      updatedReports[currentReport.index] = {
-        ...formData,
-        view: true,
-      };
+      updatedReports[currentReport.index] = newReport;
       setReports(updatedReports);
+    }
+
+    // Simulate backend submission (replace with actual API call)
+    if (formData.document) {
+      const data = new FormData();
+      data.append("name", formData.name);
+      data.append("frequency", formData.frequency);
+      data.append("type", formData.type);
+      data.append("startDate", formData.startDate);
+      data.append("document", formData.document);
+
+      // Example: Send to backend
+      // fetch('/api/reports', {
+      //   method: 'POST',
+      //   body: data,
+      // })
+      // .then(response => response.json())
+      // .then(data => console.log('Report uploaded:', data))
+      // .catch(error => console.error('Error uploading report:', error));
     }
 
     closeModal();
@@ -147,14 +183,14 @@ export default function ReportingAnalysis() {
   };
 
   return (
-    <div className=" p-5 container">
+    <div className="p-5 container">
       {/* Header */}
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold text-gray-900">Reporting </h1>
+        <h1 className="text-2xl font-bold text-gray-900">Reporting</h1>
       </div>
 
       {/* Reporting Frequency Setup Section */}
-      <div className="  mb-6">
+      <div className="mb-6">
         <h2 className="text-xl font-semibold text-gray-900 mb-4">Reporting Frequency Setup</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Frequency Select */}
@@ -234,7 +270,7 @@ export default function ReportingAnalysis() {
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Stage
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Date
                   </th>
                 </tr>
@@ -327,6 +363,9 @@ export default function ReportingAnalysis() {
                   Start Date
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Document
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Actions
                 </th>
               </tr>
@@ -340,10 +379,24 @@ export default function ReportingAnalysis() {
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{report.frequency}</td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{report.type}</td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{report.startDate}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    {report.document ? (
+                      <a
+                        href={URL.createObjectURL(report.document)}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-600 hover:underline"
+                      >
+                        {report.document.name}
+                      </a>
+                    ) : (
+                      "No document"
+                    )}
+                  </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 flex space-x-2">
                     <button
                       onClick={() => openEditModal(report, index)}
-                      className="  text-sm bg-gray-200 px-2 py-1 rounded-sm cursor-pointer"
+                      className="text-sm bg-gray-200 px-2 py-1 rounded-sm cursor-pointer"
                     >
                       Edit
                     </button>
@@ -353,7 +406,6 @@ export default function ReportingAnalysis() {
                     >
                       Delete
                     </button>
-
                   </td>
                 </tr>
               ))}

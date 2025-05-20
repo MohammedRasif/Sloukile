@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Chart } from "react-google-charts";
 import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
@@ -8,12 +7,12 @@ const CompanyDetailsPage = () => {
 
   // Program metrics data
   const programMetrics = [
-    { title: "Total Projects", value: "5", color: "#00308F" },
-    { title: "Program Budget", value: "7.2m", color: "#00308F" },
-    { title: "Committed to Date", value: "4.2m", color: "#00308F" },
-    { title: "Final Forecast Cost", value: "8.3m", color: "#00308F" },
-    { title: "Variance to Budget", value: "-1.1m", color: "#00308F" },
-    { title: "Paid to Date", value: "1.0m", color: "#00308F" },
+    { title: "Total Projects", value: "5", color: "#00308F", darkColor: "#4A6CF7" },
+    { title: "Program Budget", value: "7.2m", color: "#00308F", darkColor: "#4A6CF7" },
+    { title: "Committed to Date", value: "4.2m", color: "#00308F", darkColor: "#4A6CF7" },
+    { title: "Final Forecast Cost", value: "8.3m", color: "#00308F", darkColor: "#4A6CF7" },
+    { title: "Variance to Budget", value: "-1.1m", color: "#00308F", darkColor: "#4A6CF7" },
+    { title: "Paid to Date", value: "1.0m", color: "#00308F", darkColor: "#4A6CF7" },
   ];
 
   // Project locations for map
@@ -37,11 +36,11 @@ const CompanyDetailsPage = () => {
 
   const projectPhasesOptions = {
     pieHole: 0.4,
-    legend: { position: "bottom" },
+    legend: { position: "bottom", textStyle: { color: "#1F2937", dark: "#E5E7EB" } },
     pieSliceText: "none",
     colors: ["#2980b9", "#27ae60", "#f39c12", "#e74c3c", "#f1c40f"],
     chartArea: { width: "90%", height: "80%" },
-    backgroundColor: "transparent",
+    backgroundColor: { fill: "transparent" },
   };
 
   // Finance data
@@ -123,6 +122,7 @@ const CompanyDetailsPage = () => {
     },
     {
       name: "Project E - Disaster Recovery Project",
+      System: "Recovery Project",
       completionDate: "Feb 28, 2027",
       budget: "1,000,000.00",
       totalPaid: "55,172.00",
@@ -150,9 +150,11 @@ const CompanyDetailsPage = () => {
   const customTitleOptions = {
     chartArea: { width: "70%", height: "80%" },
     isStacked: true,
-    hAxis: { minValue: 0, format: "short" },
+    hAxis: { minValue: 0, format: "short", textStyle: { color: "#1F2937", dark: "#E5E7EB" } },
+    vAxis: { textStyle: { color: "#1F2937", dark: "#E5E7EB" } },
     legend: { position: "none" },
-    colors: ["#00308F"],
+    colors: ["#00308F", "#4A6CF7"],
+    backgroundColor: { fill: "transparent" },
   };
 
   // Cash flow chart data
@@ -187,9 +189,10 @@ const CompanyDetailsPage = () => {
     chartArea: { width: "85%", height: "70%" },
     isStacked: true,
     legend: { position: "none" },
-    hAxis: { slantedText: true, slantedTextAngle: 45 },
-    vAxis: { format: "short" },
-    colors: ["#00308F"],
+    hAxis: { slantedText: true, slantedTextAngle: 45, textStyle: { color: "#1F2937", dark: "#E5E7EB" } },
+    vAxis: { format: "short", textStyle: { color: "#1F2937", dark: "#E5E7EB" } },
+    colors: ["#00308F", "#4A6CF7"],
+    backgroundColor: { fill: "transparent" },
   };
 
   const mapContainerStyle = {
@@ -205,11 +208,11 @@ const CompanyDetailsPage = () => {
   const getHealthColor = (status) => {
     switch (status.toLowerCase()) {
       case "#00308f":
-        return "#00308F";
+        return "bg-[#00308F] dark:bg-[#4A6CF7]";
       case "green":
-        return "bg-green-500";
+        return "bg-green-500 dark:bg-green-600";
       default:
-        return "bg-gray-300";
+        return "bg-gray-300 dark:bg-gray-600";
     }
   };
 
@@ -219,7 +222,7 @@ const CompanyDetailsPage = () => {
         {values.map((value, i) => (
           <div
             key={i}
-            className={`h-full ${i === 0 ? "bg-red-500" : i === 1 ? "bg-yellow-500" : "bg-green-500"}`}
+            className={`h-full ${i === 0 ? "bg-red-500 dark:bg-red-600" : i === 1 ? "bg-yellow-500 dark:bg-yellow-600" : "bg-green-500 dark:bg-green-600"}`}
             style={{ width: `${(value / values.reduce((a, b) => a + b, 0)) * 100}%` }}
           ></div>
         ))}
@@ -227,23 +230,27 @@ const CompanyDetailsPage = () => {
     );
   };
 
-  const renderProgressBar = (percentage, color = "bg-blue-500") => {
+  const renderProgressBar = (percentage, color = "bg-blue-500 dark:bg-blue-600") => {
     return (
-      <div className="w-full bg-gray-200 rounded-full h-2.5">
+      <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
         <div className={`${color} h-2.5 rounded-full`} style={{ width: `${percentage}%` }}></div>
       </div>
     );
   };
 
   return (
-    <div className="p-4 text-lg">
+    <div className="p-4 text-lg text-gray-800 dark:text-gray-200 bg-white dark:bg-[#1E232E]">
       <div className="p-4">
-        <h1 className="text-2xl font-bold mb-4"></h1>
+        <h1 className="text-2xl font-bold mb-4 text-gray-800 dark:text-gray-100">Company Details</h1>
 
         {/* Program Metrics */}
-        <div className="grid grid-cols-6 gap-3 mb-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-3 mb-4">
           {programMetrics.map((metric, index) => (
-            <div key={index} className="p-4 rounded-lg text-white" style={{ backgroundColor: metric.color }}>
+            <div
+              key={index}
+              className="p-4 rounded-lg text-white"
+              style={{ backgroundColor: metric.color }}
+            >
               <div className="text-[20px]">{metric.title}</div>
               <div className="text-4xl font-bold">{metric.value}</div>
             </div>
@@ -253,8 +260,8 @@ const CompanyDetailsPage = () => {
         {/* Project Phases and Cash Flow */}
         <div className="flex gap-4 mb-4">
           {/* Project Phases */}
-          <div className="w-1/4 bg-gray-100 rounded-lg border-2 border-gray-300 shadow-lg p-4 h-[350px]">
-            <h2 className="text-[17px] font-extrabold mb-2">Project Phases</h2>
+          <div className="w-1/4 bg-gray-100 dark:bg-[#1E232E] rounded-lg border-2 border-gray-300 dark:border-gray-700 shadow-lg p-4 h-[350px]">
+            <h2 className="text-[17px] font-extrabold mb-2 text-gray-800 dark:text-gray-200">Project Phases</h2>
             <div className="h-[310px] -mt-7">
               <Chart
                 chartType="PieChart"
@@ -267,9 +274,9 @@ const CompanyDetailsPage = () => {
           </div>
 
           {/* Cash Flow */}
-          <div className="w-3/4 bg-gray-100 rounded-lg border-2 border-gray-300 shadow-lg py-4 h-[350px]">
-            <h2 className="text-[17px] font-extrabold px-4">Cash Flow</h2>
-            <div className="h-[300px] bg-gray-100">
+          <div className="w-3/4 bg-gray-100 dark:bg-[#1E232E] rounded-lg border-2 border-gray-300 dark:border-gray-700 shadow-lg py-4 h-[350px]">
+            <h2 className="text-[17px] font-extrabold px-4 text-gray-800 dark:text-gray-200">Cash Flow</h2>
+            <div className="h-[300px]">
               <Chart
                 chartType="ColumnChart"
                 width="100%"
@@ -283,11 +290,11 @@ const CompanyDetailsPage = () => {
 
         {/* Projects Table */}
         <div className="mb-5">
-          <h2 className="text-[24px] font-bold mb-2">Projects Table</h2>
-          <div className="overflow-x-auto border border-gray-300 shadow-lg">
+          <h2 className="text-[24px] font-bold mb-2 text-gray-800 dark:text-gray-200">Projects Table</h2>
+          <div className="overflow-x-auto border border-gray-300 dark:border-gray-700 shadow-lg">
             <table className="min-w-full">
               <thead>
-                <tr className="bg-gray-200 text-[15px] text-gray-600">
+                <tr className="bg-gray-200 dark:bg-gray-800 text-[15px] text-gray-600 dark:text-gray-400">
                   <th className="py-2 px-3 text-left">Name</th>
                   <th className="py-2 px-3 text-left">Completion Date</th>
                   <th className="py-2 px-3 text-left">Budget</th>
@@ -302,14 +309,14 @@ const CompanyDetailsPage = () => {
                   <th className="py-2 px-3 text-center">Quality Health</th>
                 </tr>
               </thead>
-              <tbody className="text-base">
+              <tbody className="text-base text-gray-800 dark:text-gray-200">
                 {projectsTableData.map((project, index) => (
-                  <tr key={index} className="border-t bg-gray-100">
+                  <tr key={index} className="border-t bg-gray-100 dark:bg-[#1E232E]">
                     <td className="py-2 px-3 text-[14px] font-medium">{project.name}</td>
                     <td className="py-2 px-3 text-[14px] font-medium">{project.completionDate}</td>
                     <td className="py-2 px-3 text-[14px] font-medium">${project.budget}</td>
                     <td className="py-2 px-3 text-[14px] font-medium">${project.totalPaid}</td>
-                    <td className="py-2 px-3 w-32">{renderProgressBar(project.paymentProgress, "bg-green-500")}</td>
+                    <td className="py-2 px-3 w-32">{renderProgressBar(project.paymentProgress)}</td>
                     <td className="py-2 px-3 text-center">
                       <div className={`inline-block w-4 h-4 rounded-full ${getHealthColor(project.scopeHealth)}`}></div>
                     </td>
@@ -339,8 +346,8 @@ const CompanyDetailsPage = () => {
         </div>
 
         {/* Custom Title Chart */}
-        <h2 className="text-[24px] font-bold mb-2">Custom Title</h2>
-        <div className="p-5 bg-gray-100 border border-gray-300 rounded-lg shadow-lg">
+        <h2 className="text-[24px] font-bold mb-2 text-gray-800 dark:text-gray-200">Custom Title</h2>
+        <div className="p-5 bg-gray-100 dark:bg-[#1E232E] border border-gray-300 dark:border-gray-700 rounded-lg shadow-lg">
           <div className="h-[350px]">
             <Chart
               chartType="BarChart"

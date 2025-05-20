@@ -16,7 +16,7 @@ const DashboardLayout = () => {
         <div className="flex h-screen">
             {/* Sidebar */}
             <div
-                className={`bg-[#f5efe8af] dark:bg-[#1E232E] h-full fixed transition-all duration-300 ease-in-out ${
+                className={`bg-[#f5efe8af] dark:bg-[#1E232E] h-full fixed   ease-in-out ${
                     isSidebarOpen ? "w-[320px]" : "w-18"
                 }`}
             >
@@ -39,13 +39,13 @@ const DashboardLayout = () => {
 
             {/* Main Content Area */}
             <div
-                className={`flex flex-col transition-all duration-300 ease-in-out ${
+                className={`flex flex-col   ease-in-out ${
                     isSidebarOpen ? "ml-[320px] w-[calc(100%-320px)]" : "ml-18 w-[calc(100%-72px)]"
                 }`}
             >
                 {/* Navbar - Fixed & Only Navbar BG White */}
                 <div
-                    className="fixed top-0 z-50 bg-white dark:bg-[#1E232E] w-full border-b border-gray-200 dark:border-gray-600 transition-all duration-300 ease-in-out"
+                    className="fixed top-0 z-50 bg-white dark:bg-[#1E232E] w-full border-b border-gray-200 dark:border-gray-600   ease-in-out"
                     style={{
                         left: isSidebarOpen ? "320px" : "72px",
                         width: isSidebarOpen ? "calc(100%-320px)" : "calc(100%-72px)",

@@ -26,7 +26,7 @@ const AllHeaderTab = ({ projectData, darkMode }) => {
     "Project Foundation": [ "Overview", "Project Charter", "Team", "Budget"],
     "Planning & Design": ["Planning", "Workflow Diagram", "System Integration", "Risks"],
     "Execution & Governance": ["Stakeholders", "Communication", "Governance", "Deployment Strategy"],
-    "Monitoring & Closure": ["Reporting", "Document Library", "Lessons Learned"],
+    "Monitoring & Closure": [ "Document Library", "Lessons Learned"],
   }
 
   // Placeholder for components that aren't provided
