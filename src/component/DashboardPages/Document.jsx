@@ -99,7 +99,6 @@ function DocumentLibrary() {
         { version: "0.5", date: "Mar 28, 2024", author: "Sarah Johnson", notes: "Initial draft for review" },
       ],
     },
-    
   ]);
 
   const milestones = [
@@ -143,18 +142,17 @@ function DocumentLibrary() {
 
   const getStatusBadge = (status) => {
     const styles = {
-      Approved: "bg-green-100 text-green-800",
-      "In Review": "bg-yellow-100 text-yellow-800",
-      Draft: "bg-gray-100 text-gray-800",
-      Completed: "bg-green-100 text-green-800",
-      "In Progress": "bg-[#00308F] text-white",
-      "Not Started": "bg-gray-100 text-gray-800",
+      Approved: "bg-green-100 dark:bg-green-800 text-green-800 dark:text-green-200",
+      "In Review": "bg-yellow-100 dark:bg-yellow-800 text-yellow-800 dark:text-yellow-200",
+      Draft: "bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200",
+      Completed: "bg-green-100 dark:bg-green-800 text-green-800 dark:text-green-200",
+      "In Progress": "bg-[#00308F] dark:bg-[#4A6CF7] text-white",
+      "Not Started": "bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200",
     };
     return (
       <span
-        className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${
-          styles[status] || "bg-gray-100 text-gray-800"
-        }`}
+        className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${styles[status] || "bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200"
+          }`}
       >
         {status}
       </span>
@@ -164,14 +162,14 @@ function DocumentLibrary() {
   const getDocumentIcon = (type) => {
     const colors = {
       PDF: "text-red-500",
-      DOCX: "text-[#00308F]",
+      DOCX: "text-[#00308F] dark:text-[#4A6CF7]",
       XLSX: "text-green-500",
       PPTX: "text-orange-500",
       ZIP: "text-purple-500",
     };
     return (
       <svg
-        className={`h-6 w-6 ${colors[type] || "text-gray-500"}`}
+        className={`h-6 w-6 ${colors[type] || "text-gray-500 dark:text-gray-400"}`}
         fill="none"
         stroke="currentColor"
         viewBox="0 0 24 24"
@@ -199,7 +197,7 @@ function DocumentLibrary() {
     };
     const { class: iconClass, path } =
       icons[status] || {
-        class: "text-gray-500",
+        class: "text-gray-500 dark:text-gray-400",
         path: "M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z",
       };
     return (
@@ -278,8 +276,6 @@ function DocumentLibrary() {
       alert("Only PDF files can be viewed. Please upload a PDF or download the document.");
     }
   };
-
-
 
   const handleAddDocumentToStage = (stage) => {
     console.log(`Add document to stage: ${stage.name}`);
@@ -421,7 +417,7 @@ function DocumentLibrary() {
   };
 
   return (
-    <div className="container mx-auto py-6">
+    <div className="container mx-auto p-4 bg-white dark:bg-[#1E232E]">
       {/* Hidden File Input for Upload */}
       <input
         type="file"
@@ -434,11 +430,11 @@ function DocumentLibrary() {
       {/* Header */}
       <div className="flex justify-between items-center mb-6">
         <div className="flex items-center">
-          <h1 className="text-2xl font-bold">Document Library</h1>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-200">Document Library</h1>
         </div>
         <button
           onClick={handleUploadDocument}
-          className="bg-[#00308F] text-white px-4 py-2 rounded-md hover:bg-[#002070] flex items-center"
+          className="bg-[#00308F] dark:bg-[#4A6CF7] text-white px-4 py-2 rounded-md hover:bg-[#002070] dark:hover:bg-[#3B5AEB] flex items-center"
         >
           <svg
             className="h-4 w-4 mr-2"
@@ -457,19 +453,18 @@ function DocumentLibrary() {
         </button>
       </div>
 
-      <div className="bg-white p-6 rounded-lg shadow">
-        <h2 className="text-xl font-semibold mb-6">Documents</h2>
+      <div className="bg-white dark:bg-[#1E232E] p-6 rounded-lg shadow">
+        <h2 className="text-xl font-semibold mb-6 text-gray-900 dark:text-gray-200">Documents</h2>
 
         {/* Tabs */}
-        <div className="flex border-b mb-4">
+        <div className="flex border-b border-gray-200 dark:border-gray-700 mb-4">
           {["all", "stages", "milestones", "training"].map((tab) => (
             <button
               key={tab}
-              className={`px-4 py-2 text-sm font-medium ${
-                activeTab === tab
-                  ? "border-b-2 border-[#00308F] text-[#00308F]"
-                  : "text-gray-500 hover:text-gray-700"
-              }`}
+              className={`px-4 py-2 text-sm font-medium ${activeTab === tab
+                  ? "border-b-2 border-[#00308F] dark:border-[#4A6CF7] text-[#00308F] dark:text-[#4A6CF7]"
+                  : "text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
+                }`}
               onClick={() => setActiveTab(tab)}
             >
               {tab === "all"
@@ -483,28 +478,27 @@ function DocumentLibrary() {
         {activeTab === "all" && (
           <div className="space-y-6">
             {projects.map((project) => (
-              <div key={project.id} className="border rounded-lg p-4">
-                <h3 className="text-lg font-semibold mb-4">{project.name}</h3>
+              <div key={project.id} className="border border-gray-200 dark:border-gray-700 rounded-lg p-4 bg-white dark:bg-[#1E232E]">
+                <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-gray-200">{project.name}</h3>
                 <div className="grid grid-cols-1 gap-4">
                   {documents
                     .filter((doc) => doc.linkedTo.includes(project.name))
                     .map((doc) => (
                       <div key={doc.id}>
                         <div
-                          className={`p-4 border rounded-lg hover:bg-gray-50 cursor-pointer transition-colors ${
-                            selectedDocument?.id === doc.id &&
-                            selectedDocument?.projectId === project.id
-                              ? "border-[#00308F] bg-[#00308F]/10"
-                              : "border-gray-200"
-                          }`}
+                          className={`p-4 border rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 cursor-pointer transition-colors ${selectedDocument?.id === doc.id &&
+                              selectedDocument?.projectId === project.id
+                              ? "border-[#00308F] dark:border-[#4A6CF7] bg-[#00308F]/10 dark:bg-[#4A6CF7]/10"
+                              : "border-gray-200 dark:border-gray-600"
+                            }`}
                           onClick={() => handleDocumentClick(doc, project.id)}
                         >
                           <div className="flex items-start justify-between">
                             <div className="flex items-start space-x-3">
                               {getDocumentIcon(doc.type)}
                               <div>
-                                <h3 className="font-medium">{doc.name}</h3>
-                                <div className="flex items-center text-sm text-gray-500 mt-1">
+                                <h3 className="font-medium text-gray-900 dark:text-gray-200">{doc.name}</h3>
+                                <div className="flex items-center text-sm text-gray-500 dark:text-gray-400 mt-1">
                                   <span className="mr-3">{doc.type}</span>
                                   <span className="mr-3">{doc.size}</span>
                                   <span className="flex items-center">
@@ -528,13 +522,13 @@ function DocumentLibrary() {
                             </div>
                             <div className="flex flex-col items-end">
                               {getStatusBadge(doc.status)}
-                              <span className="text-xs text-gray-500 mt-1">
+                              <span className="text-xs text-gray-500 dark:text-gray-400 mt-1">
                                 v{doc.version}
                               </span>
                             </div>
                           </div>
                           <div className="mt-3 flex flex-wrap items-center gap-2">
-                            <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                            <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200">
                               <svg
                                 className="h-3 w-3 mr-1"
                                 fill="none"
@@ -551,7 +545,7 @@ function DocumentLibrary() {
                               {doc.category}
                             </span>
                             {doc.linkedTo.length > 0 && (
-                              <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                              <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200">
                                 <svg
                                   className="h-3 w-3 mr-1"
                                   fill="none"
@@ -573,15 +567,15 @@ function DocumentLibrary() {
                         {/* Document Detail Panel */}
                         {selectedDocument?.id === doc.id &&
                           selectedDocument?.projectId === project.id && (
-                            <div className="mt-4 bg-white p-6 rounded-lg shadow">
+                            <div className="mt-4 bg-white dark:bg-[#1E232E] p-6 rounded-lg shadow">
                               <div className="flex justify-between items-start mb-6">
                                 <div className="flex items-center">
                                   {getDocumentIcon(selectedDocument.type)}
                                   <div className="ml-3">
-                                    <h2 className="text-xl font-semibold">
+                                    <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-200">
                                       {selectedDocument.name}
                                     </h2>
-                                    <div className="flex items-center text-sm text-gray-500 mt-1">
+                                    <div className="flex items-center text-sm text-gray-500 dark:text-gray-400 mt-1">
                                       <span className="mr-3">Version {selectedDocument.version}</span>
                                       <span className="mr-3">{selectedDocument.type}</span>
                                       <span className="flex items-center">
@@ -609,31 +603,31 @@ function DocumentLibrary() {
                                 {/* Document Information */}
                                 <div className="space-y-4 -mt-[2px]">
                                   <div>
-                                    <h3 className="text-sm font-medium mb-2">
+                                    <h3 className="text-sm font-medium mb-2 text-gray-500 dark:text-gray-400">
                                       Document Information
                                     </h3>
-                                    <div className="bg-gray-50 p-3 rounded-md space-y-2">
+                                    <div className="bg-gray-50 dark:bg-gray-800 p-3 rounded-md space-y-2">
                                       <div className="flex justify-between">
-                                        <span className="text-sm text-gray-500">Owner:</span>
-                                        <span className="text-sm font-medium">
+                                        <span className="text-sm text-gray-500 dark:text-gray-400">Owner:</span>
+                                        <span className="text-sm font-medium text-gray-900 dark:text-gray-200">
                                           {selectedDocument.owner}
                                         </span>
                                       </div>
                                       <div className="flex justify-between">
-                                        <span className="text-sm text-gray-500">Category:</span>
-                                        <span className="text-sm font-medium">
+                                        <span className="text-sm text-gray-500 dark:text-gray-400">Category:</span>
+                                        <span className="text-sm font-medium text-gray-900 dark:text-gray-200">
                                           {selectedDocument.category}
                                         </span>
                                       </div>
                                       <div className="flex justify-between">
-                                        <span className="text-sm text-gray-500">Status:</span>
+                                        <span className="text-sm text-gray-500 dark:text-gray-400">Status:</span>
                                         <span className="text-sm">
                                           {getStatusBadge(selectedDocument.status)}
                                         </span>
                                       </div>
                                       <div className="flex justify-between">
-                                        <span className="text-sm text-gray-500">Size:</span>
-                                        <span className="text-sm font-medium">
+                                        <span className="text-sm text-gray-500 dark:text-gray-400">Size:</span>
+                                        <span className="text-sm font-medium text-gray-900 dark:text-gray-200">
                                           {selectedDocument.size}
                                         </span>
                                       </div>
@@ -643,18 +637,18 @@ function DocumentLibrary() {
                                   {/* Smart Links */}
                                   <div>
                                     <div className="flex justify-between items-center mb-2">
-                                      <h3 className="text-sm font-medium">Smart Links</h3>
+                                      <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Smart Links</h3>
                                       <button
-                                        className="text-[#00308F] hover:text-[#002070] text-sm"
+                                        className="text-[#00308F] dark:text-[#4A6CF7] hover:text-[#002070] dark:hover:text-[#3B5AEB] text-sm"
                                         onClick={() => setShowLinkingPanel(!showLinkingPanel)}
                                       >
                                         {showLinkingPanel ? "Hide" : "Manage Links"}
                                       </button>
                                     </div>
                                     {showLinkingPanel ? (
-                                      <div className="bg-[#00308F]/10 p-3 rounded-md space-y-3">
+                                      <div className="bg-[#00308F]/10 dark:bg-[#4A6CF7]/10 p-3 rounded-md space-y-3">
                                         <div>
-                                          <label className="text-xs font-medium text-[#00308F]">
+                                          <label className="text-xs font-medium text-[#00308F] dark:text-[#4A6CF7]">
                                             Link to Milestone
                                           </label>
                                           <select
@@ -665,7 +659,7 @@ function DocumentLibrary() {
                                                 milestone: e.target.value,
                                               })
                                             }
-                                            className="mt-1 block w-full border border-gray-300 rounded-md p-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#00308F]"
+                                            className="mt-1 block w-full border border-gray-300 dark:border-gray-600 rounded-md p-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#4A6CF7] bg-white dark:bg-[#1E232E] text-gray-900 dark:text-gray-200"
                                           >
                                             <option value="none">Select milestone</option>
                                             {milestones.map((m) => (
@@ -676,7 +670,7 @@ function DocumentLibrary() {
                                           </select>
                                         </div>
                                         <div>
-                                          <label className="text-xs font-medium text-[#00308F]">
+                                          <label className="text-xs font-medium text-[#00308F] dark:text-[#4A6CF7]">
                                             Link to Stage
                                           </label>
                                           <select
@@ -687,7 +681,7 @@ function DocumentLibrary() {
                                                 stage: e.target.value,
                                               })
                                             }
-                                            className="mt-1 block w-full border border-gray-300 rounded-md p-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#00308F]"
+                                            className="mt-1 block w-full border border-gray-300 dark:border-gray-600 rounded-md p-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#4A6CF7] bg-white dark:bg-[#1E232E] text-gray-900 dark:text-gray-200"
                                           >
                                             <option value="none">Select stage</option>
                                             {stages.map((s) => (
@@ -698,7 +692,7 @@ function DocumentLibrary() {
                                           </select>
                                         </div>
                                         <div>
-                                          <label className="text-xs font-medium text-[#00308F]">
+                                          <label className="text-xs font-medium text-[#00308F] dark:text-[#4A6CF7]">
                                             Link to Task
                                           </label>
                                           <select
@@ -709,7 +703,7 @@ function DocumentLibrary() {
                                                 task: e.target.value,
                                               })
                                             }
-                                            className="mt-1 block w-full border border-gray-300 rounded-md p-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#00308F]"
+                                            className="mt-1 block w-full border border-gray-300 dark:border-gray-600 rounded-md p-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#4A6CF7] bg-white dark:bg-[#1E232E] text-gray-900 dark:text-gray-200"
                                           >
                                             <option value="none">Select task</option>
                                             <option value="task1">UI Development</option>
@@ -719,13 +713,13 @@ function DocumentLibrary() {
                                         </div>
                                         <button
                                           onClick={handleAddLink}
-                                          className="w-full bg-[#00308F] text-white px-3 py-2 rounded-md hover:bg-[#002070] text-sm"
+                                          className="w-full bg-[#00308F] dark:bg-[#4A6CF7] text-white px-3 py-2 rounded-md hover:bg-[#002070] dark:hover:bg-[#3B5AEB] text-sm"
                                         >
                                           Add Link
                                         </button>
                                       </div>
                                     ) : (
-                                      <div className="bg-gray-50 p-3 rounded-md">
+                                      <div className="bg-gray-50 dark:bg-gray-800 p-3 rounded-md">
                                         {selectedDocument.linkedTo.length > 0 ? (
                                           <div className="space-y-2">
                                             {selectedDocument.linkedTo.map((link, index) => (
@@ -735,7 +729,7 @@ function DocumentLibrary() {
                                               >
                                                 <div className="flex items-center">
                                                   <svg
-                                                    className="h-3 w-3 text-[#00308F] mr-2"
+                                                    className="h-3 w-3 text-[#00308F] dark:text-[#4A6CF7] mr-2"
                                                     fill="none"
                                                     stroke="currentColor"
                                                     viewBox="0 0 24 24"
@@ -749,14 +743,14 @@ function DocumentLibrary() {
                                                   </svg>
                                                   <button
                                                     onClick={() => handleLinkClick(link)}
-                                                    className="text-sm text-[#00308F] hover:underline"
+                                                    className="text-sm text-[#00308F] dark:text-[#4A6CF7] hover:underline"
                                                   >
                                                     {link}
                                                   </button>
                                                 </div>
                                                 <button
                                                   onClick={() => handleRemoveLink(link)}
-                                                  className="text-gray-500 hover:text-gray-700"
+                                                  className="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
                                                 >
                                                   <svg
                                                     className="h-3 w-3"
@@ -776,7 +770,7 @@ function DocumentLibrary() {
                                             ))}
                                           </div>
                                         ) : (
-                                          <div className="text-sm text-gray-500 text-center py-2">
+                                          <div className="text-sm text-gray-500 dark:text-gray-400 text-center py-2">
                                             No links yet
                                           </div>
                                         )}
@@ -789,18 +783,18 @@ function DocumentLibrary() {
                                 <div className="space-y-4">
                                   <div>
                                     <div className="flex justify-between items-center mb-2">
-                                      <h3 className="text-sm font-medium">Approval Workflow</h3>
+                                      <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Approval Workflow</h3>
                                       <button
-                                        className="text-[#00308F] hover:text-[#002070] text-sm"
+                                        className="text-[#00308F] dark:text-[#4A6CF7] hover:text-[#002070] dark:hover:text-[#3B5AEB] text-sm"
                                         onClick={() => setShowApprovalFlow(!showApprovalFlow)}
                                       >
                                         {showApprovalFlow ? "Hide" : "Manage Approvals"}
                                       </button>
                                     </div>
                                     {showApprovalFlow ? (
-                                      <div className="bg-[#00308F]/10 p-3 rounded-md space-y-3">
+                                      <div className="bg-[#00308F]/10 dark:bg-[#4A6CF7]/10 p-3 rounded-md space-y-3">
                                         <div>
-                                          <label className="text-xs font-medium text-[#00308F]">
+                                          <label className="text-xs font-medium text-[#00308F] dark:text-[#4A6CF7]">
                                             Add Approver
                                           </label>
                                           <select
@@ -811,7 +805,7 @@ function DocumentLibrary() {
                                                 approver: e.target.value,
                                               })
                                             }
-                                            className="mt-1 block w-full border border-gray-300 rounded-md p-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#00308F]"
+                                            className="mt-1 block w-full border border-gray-300 dark:border-gray-600 rounded-md p-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#4A6CF7] bg-white dark:bg-[#1E232E] text-gray-900 dark:text-gray-200"
                                           >
                                             <option value="none">Select approver</option>
                                             <option value="jane">Jane Cooper</option>
@@ -820,7 +814,7 @@ function DocumentLibrary() {
                                           </select>
                                         </div>
                                         <div>
-                                          <label className="text-xs font-medium text-[#00308F]">
+                                          <label className="text-xs font-medium text-[#00308F] dark:text-[#4A6CF7]">
                                             Approval Level
                                           </label>
                                           <select
@@ -831,7 +825,7 @@ function DocumentLibrary() {
                                                 level: e.target.value,
                                               })
                                             }
-                                            className="mt-1 block w-full border border-gray-300 rounded-md p-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#00308F]"
+                                            className="mt-1 block w-full border border-gray-300 dark:border-gray-600 rounded-md p-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#4A6CF7] bg-white dark:bg-[#1E232E] text-gray-900 dark:text-gray-200"
                                           >
                                             <option value="required">Required</option>
                                             <option value="optional">Optional</option>
@@ -848,24 +842,24 @@ function DocumentLibrary() {
                                                 notify: e.target.checked,
                                               })
                                             }
-                                            className="h-4 w-4 text-[#00308F] border-gray-300 rounded focus:ring-[#00308F]"
+                                            className="h-4 w-4 text-[#00308F] dark:text-[#4A6CF7] border-gray-300 dark:border-gray-600 rounded focus:ring-[#4A6CF7]"
                                           />
                                           <label
                                             htmlFor="notify"
-                                            className="ml-2 text-xs text-[#00308F]"
+                                            className="ml-2 text-xs text-[#00308F] dark:text-[#4A6CF7]"
                                           >
                                             Send email notification
                                           </label>
                                         </div>
                                         <button
                                           onClick={handleAddApprover}
-                                          className="w-full bg-[#00308F] text-white px-3 py-2 rounded-md hover:bg-[#002070] text-sm"
+                                          className="w-full bg-[#00308F] dark:bg-[#4A6CF7] text-white px-3 py-2 rounded-md hover:bg-[#002070] dark:hover:bg-[#3B5AEB] text-sm"
                                         >
                                           Add Approver
                                         </button>
                                       </div>
                                     ) : (
-                                      <div className="bg-gray-50 p-3 rounded-md">
+                                      <div className="bg-gray-50 dark:bg-gray-800 p-3 rounded-md">
                                         {selectedDocument.approvers.length > 0 ? (
                                           <div className="space-y-2">
                                             {selectedDocument.approvers.map((approver, index) => (
@@ -874,14 +868,14 @@ function DocumentLibrary() {
                                                 className="flex justify-between items-center"
                                               >
                                                 <div className="flex items-center">
-                                                  <div className="h-6 w-6 bg-gray-200 rounded-full flex items-center justify-center mr-2 text-xs">
+                                                  <div className="h-6 w-6 bg-gray-200 dark:bg-gray-700 rounded-full flex items-center justify-center mr-2 text-xs text-gray-800 dark:text-gray-200">
                                                     {approver.name.charAt(0)}
                                                   </div>
-                                                  <span className="text-sm">{approver.name}</span>
+                                                  <span className="text-sm text-gray-900 dark:text-gray-200">{approver.name}</span>
                                                 </div>
                                                 <div className="flex items-center">
                                                   {getApprovalStatusIcon(approver.status)}
-                                                  <span className="text-xs ml-1">
+                                                  <span className="text-xs ml-1 text-gray-500 dark:text-gray-400">
                                                     {approver.status}
                                                   </span>
                                                 </div>
@@ -889,7 +883,7 @@ function DocumentLibrary() {
                                             ))}
                                           </div>
                                         ) : (
-                                          <div className="text-sm text-gray-500 text-center py-2">
+                                          <div className="text-sm text-gray-500 dark:text-gray-400 text-center py-2">
                                             No approvers yet
                                           </div>
                                         )}
@@ -899,25 +893,25 @@ function DocumentLibrary() {
 
                                   <div>
                                     <div className="flex justify-between items-center mb-2">
-                                      <h3 className="text-sm font-medium">Version History</h3>
+                                      <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Version History</h3>
                                       <button
-                                        className="text-[#00308F] hover:text-[#002070] text-sm"
+                                        className="text-[#00308F] dark:text-[#4A6CF7] hover:text-[#002070] dark:hover:text-[#3B5AEB] text-sm"
                                         onClick={() => setShowVersionHistory(!showVersionHistory)}
                                       >
                                         {showVersionHistory ? "Hide" : "Show History"}
                                       </button>
                                     </div>
                                     {showVersionHistory ? (
-                                      <div className="bg-gray-50 p-3 rounded-md space-y-3 max-h-60 overflow-y-auto">
+                                      <div className="bg-gray-50 dark:bg-gray-800 p-3 rounded-md space-y-3 max-h-60 overflow-y-auto">
                                         {selectedDocument.versions.map((version, index) => (
                                           <div
                                             key={index}
-                                            className="border-b border-gray-200 pb-2 last:border-0 last:pb-0"
+                                            className="border-b border-gray-200 dark:border-gray-700 pb-2 last:border-0 last:pb-0"
                                           >
                                             <div className="flex justify-between items-center">
                                               <div className="flex items-center">
                                                 <svg
-                                                  className="h-3 w-3 text-[#00308F] mr-2"
+                                                  className="h-3 w-3 text-[#00308F] dark:text-[#4A6CF7] mr-2"
                                                   fill="none"
                                                   stroke="currentColor"
                                                   viewBox="0 0 24 24"
@@ -929,27 +923,27 @@ function DocumentLibrary() {
                                                     d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
                                                   />
                                                 </svg>
-                                                <span className="text-sm font-medium">
+                                                <span className="text-sm font-medium text-gray-900 dark:text-gray-200">
                                                   v{version.version}
                                                 </span>
                                               </div>
-                                              <span className="text-xs text-gray-500">
+                                              <span className="text-xs text-gray-500 dark:text-gray-400">
                                                 {version.date}
                                               </span>
                                             </div>
-                                            <div className="mt-1 text-xs text-gray-500">
+                                            <div className="mt-1 text-xs text-gray-500 dark:text-gray-400">
                                               By {version.author}
                                             </div>
-                                            <div className="mt-1 text-xs">{version.notes}</div>
+                                            <div className="mt-1 text-xs text-gray-500 dark:text-gray-400">{version.notes}</div>
                                           </div>
                                         ))}
                                       </div>
                                     ) : (
-                                      <div className="bg-gray-50 p-3 rounded-md">
+                                      <div className="bg-gray-50 dark:bg-gray-800 p-3 rounded-md">
                                         <div className="flex justify-between items-center">
                                           <div className="flex items-center">
                                             <svg
-                                              className="h-3 w-3 text-[#00308F] mr-2"
+                                              className="h-3 w-3 text-[#00308F] dark:text-[#4A6CF7] mr-2"
                                               fill="none"
                                               stroke="currentColor"
                                               viewBox="0 0 24 24"
@@ -961,15 +955,15 @@ function DocumentLibrary() {
                                                 d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
                                               />
                                             </svg>
-                                            <span className="text-sm font-medium">
+                                            <span className="text-sm font-medium text-gray-900 dark:text-gray-200">
                                               Current: v{selectedDocument.version}
                                             </span>
                                           </div>
-                                          <span className="text-xs text-gray-500">
+                                          <span className="text-xs text-gray-500 dark:text-gray-400">
                                             {selectedDocument.modified}
                                           </span>
                                         </div>
-                                        <div className="mt-1 text-xs text-gray-500">
+                                        <div className="mt-1 text-xs text-gray-500 dark:text-gray-400">
                                           {selectedDocument.versions.length} previous versions
                                         </div>
                                       </div>
@@ -979,16 +973,16 @@ function DocumentLibrary() {
 
                                 {/* Document Preview */}
                                 <div>
-                                  <h3 className="text-sm font-medium mb-2">Document Preview</h3>
-                                  <div className="bg-gray-50 p-3 rounded-md h-64 flex items-center justify-center">
+                                  <h3 className="text-sm font-medium mb-2 text-gray-500 dark:text-gray-400">Document Preview</h3>
+                                  <div className="bg-gray-50 dark:bg-gray-800 p-3 rounded-md h-64 flex items-center justify-center">
                                     <div className="text-center">
                                       {getDocumentIcon(selectedDocument.type)}
-                                      <p className="text-sm text-gray-500 mt-2">
+                                      <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
                                         Preview not available
                                       </p>
                                       <button
                                         onClick={() => handleViewDocument(selectedDocument)}
-                                        className="mt-3 bg-[#00308F] text-white px-3 py-2 rounded-md hover:bg-[#002070] flex items-center text-sm mx-auto"
+                                        className="mt-3 bg-[#00308F] dark:bg-[#4A6CF7] text-white px-3 py-2 rounded-md hover:bg-[#002070] dark:hover:bg-[#3B5AEB] flex items-center text-sm mx-auto"
                                       >
                                         <svg
                                           className="h-4 w-4 mr-1"
@@ -1031,19 +1025,19 @@ function DocumentLibrary() {
             {stages.map((stage) => (
               <div
                 key={stage.id}
-                className="p-4 border rounded-lg hover:shadow-md transition-shadow"
+                className="p-4 border border-gray-200 dark:border-gray-600 rounded-lg hover:shadow-md transition-shadow bg-white dark:bg-[#1E232E]"
               >
                 <div className="flex justify-between items-start mb-3">
-                  <h3 className="font-medium">{stage.name}</h3>
+                  <h3 className="font-medium text-gray-900 dark:text-gray-200">{stage.name}</h3>
                   {getStatusBadge(stage.status)}
                 </div>
-                <div className="text-sm text-gray-500 mb-3">
+                <div className="text-sm text-gray-500 dark:text-gray-400 mb-3">
                   {stage.documents} document{stage.documents !== 1 ? "s" : ""}
                 </div>
                 <div className="flex justify-between items-center">
                   <button
                     onClick={() => console.log(`View stage: ${stage.name}`)}
-                    className="text-[#00308F] hover:text-[#002070] flex items-center text-sm"
+                    className="text-[#00308F] dark:text-[#4A6CF7] hover:text-[#002070] dark:hover:text-[#3B5AEB] flex items-center text-sm"
                   >
                     <svg
                       className="h-4 w-4 mr-1"
@@ -1068,7 +1062,7 @@ function DocumentLibrary() {
                   </button>
                   <button
                     onClick={() => handleAddDocumentToStage(stage)}
-                    className="text-[#00308F] hover:text-[#002070] flex items-center text-sm"
+                    className="text-[#00308F] dark:text-[#4A6CF7] hover:text-[#002070] dark:hover:text-[#3B5AEB] flex items-center text-sm"
                   >
                     <svg
                       className="h-4 w-4 mr-1"
@@ -1095,11 +1089,11 @@ function DocumentLibrary() {
         {activeTab === "milestones" && (
           <div className="space-y-4">
             {milestones.map((milestone) => (
-              <div key={milestone.id} className="p-4 border rounded-lg">
+              <div key={milestone.id} className="p-4 border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-[#1E232E]">
                 <div className="flex justify-between items-start">
                   <div>
-                    <h3 className="font-medium">{milestone.name}</h3>
-                    <div className="flex items-center text-sm text-gray-500 mt-1">
+                    <h3 className="font-medium text-gray-900 dark:text-gray-200">{milestone.name}</h3>
+                    <div className="flex items-center text-sm text-gray-500 dark:text-gray-400 mt-1">
                       <svg
                         className="h-3 w-3 mr-1"
                         fill="none"
@@ -1120,7 +1114,7 @@ function DocumentLibrary() {
                     {getStatusBadge(milestone.status)}
                     <button
                       onClick={() => console.log(`Toggle milestone details: ${milestone.name}`)}
-                      className="text-gray-500 hover:text-gray-700"
+                      className="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
                     >
                       <svg
                         className="h-4 w-4"
@@ -1139,13 +1133,13 @@ function DocumentLibrary() {
                   </div>
                 </div>
                 <div className="mt-3 flex justify-between items-center">
-                  <div className="text-sm text-gray-500">
+                  <div className="text-sm text-gray-500 dark:text-gray-400">
                     {documents.filter((d) => d.linkedTo.includes(milestone.name)).length} linked
                     documents
                   </div>
                   <button
                     onClick={() => handleLinkDocumentToMilestone(milestone)}
-                    className="text-[#00308F] hover:text-[#002070] flex items-center text-sm"
+                    className="text-[#00308F] dark:text-[#4A6CF7] hover:text-[#002070] dark:hover:text-[#3B5AEB] flex items-center text-sm"
                   >
                     <svg
                       className="h-4 w-4 mr-1"
@@ -1172,10 +1166,10 @@ function DocumentLibrary() {
         {activeTab === "training" && (
           <div className="space-y-4">
             <div className="flex justify-between items-center mb-4">
-              <h3 className="font-medium">Training Materials</h3>
+              <h3 className="font-medium text-gray-900 dark:text-gray-200">Training Materials</h3>
               <button
                 onClick={handleAddTrainingMaterial}
-                className="text-[#00308F] hover:text-[#002070] flex items-center text-sm"
+                className="text-[#00308F] dark:text-[#4A6CF7] hover:text-[#002070] dark:hover:text-[#3B5AEB] flex items-center text-sm"
               >
                 <svg
                   className="h-4 w-4 mr-1"
@@ -1193,49 +1187,49 @@ function DocumentLibrary() {
                 Add Training Material
               </button>
             </div>
-            <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-gray-50">
+            <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+              <thead className="bg-gray-50 dark:bg-gray-800">
                 <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                     Name
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                     Audience
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                     Format
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                     Status
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                     Actions
                   </th>
                 </tr>
               </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
+              <tbody className="bg-white dark:bg-[#1E232E] divide-y divide-gray-200 dark:divide-gray-700">
                 {trainingMaterials.map((material) => (
                   <tr key={material.id}>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-[#00308F]">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-[#00308F] dark:text-[#4A6CF7]">
                       {material.name}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
                       {material.audience}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
                       {material.format}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">{getStatusBadge(material.status)}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
                       <button
                         onClick={() => handleViewTrainingMaterial(material)}
-                        className="text-[#00308F] hover:text-[#002070] mr-4"
+                        className="text-[#00308F] dark:text-[#4A6CF7] hover:text-[#002070] dark:hover:text-[#3B5AEB] mr-4"
                       >
                         View
                       </button>
                       <button
                         onClick={() => handleEditTrainingMaterial(material)}
-                        className="text-[#00308F] hover:text-[#002070]"
+                        className="text-[#00308F] dark:text-[#4A6CF7] hover:text-[#002070] dark:hover:text-[#3B5AEB]"
                       >
                         Edit
                       </button>
@@ -1251,10 +1245,10 @@ function DocumentLibrary() {
       {/* PDF Modal */}
       {showPdfModal && pdfFileUrl && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 w-full max-w-4xl relative">
+          <div className="bg-white dark:bg-[#1E232E] rounded-lg p-6 w-full max-w-4xl relative">
             <button
               onClick={closePdfModal}
-              className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
+              className="absolute top-2 right-2 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
             >
               <svg
                 className="h-5 w-5"
@@ -1270,7 +1264,7 @@ function DocumentLibrary() {
                 />
               </svg>
             </button>
-            <h2 className="text-xl font-semibold mb-4">{selectedDocument?.name}</h2>
+            <h2 className="text-xl font-semibold mb-4 text-gray-900 dark:text-gray-200">{selectedDocument?.name}</h2>
             <div className="max-h-[70vh] overflow-y-auto">
               <Document
                 file={pdfFileUrl}
@@ -1285,17 +1279,17 @@ function DocumentLibrary() {
                 <button
                   onClick={() => changePage(-1)}
                   disabled={pageNumber <= 1}
-                  className="px-3 py-1 bg-[#00308F] text-white rounded-md disabled:bg-gray-300 hover:bg-[#002070]"
+                  className="px-3 py-1 bg-[#00308F] dark:bg-[#4A6CF7] text-white rounded-md disabled:bg-gray-300 dark:disabled:bg-gray-600 hover:bg-[#002070] dark:hover:bg-[#3B5AEB]"
                 >
                   Previous
                 </button>
-                <p className="text-sm">
+                <p className="text-sm text-gray-900 dark:text-gray-200">
                   Page {pageNumber} of {numPages}
                 </p>
                 <button
                   onClick={() => changePage(1)}
                   disabled={pageNumber >= numPages}
-                  className="px-3 py-1 bg-[#00308F] text-white rounded-md disabled:bg-gray-300 hover:bg-[#002070]"
+                  className="px-3 py-1 bg-[#00308F] dark:bg-[#4A6CF7] text-white rounded-md disabled:bg-gray-300 dark:disabled:bg-gray-600 hover:bg-[#002070] dark:hover:bg-[#3B5AEB]"
                 >
                   Next
                 </button>
@@ -1303,7 +1297,7 @@ function DocumentLibrary() {
             )}
             <button
               onClick={() => handleDownloadDocument(selectedDocument)}
-              className="mt-4 bg-[#00308F] text-white px-4 py-2 rounded-md hover:bg-[#002070] flex items-center mx-auto"
+              className="mt-4 bg-[#00308F] dark:bg-[#4A6CF7] text-white px-4 py-2 rounded-md hover:bg-[#002070] dark:hover:bg-[#3B5AEB] flex items-center mx-auto"
             >
               <svg
                 className="h-4 w-4 mr-2"

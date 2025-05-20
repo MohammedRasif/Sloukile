@@ -1,10 +1,11 @@
 "use client"
 
-import { useState } from "react"
-import { Archive, Calendar, FileText, MessageSquare, Plus, Trash2 } from "lucide-react"
+import { useState, useEffect } from "react"
+import { Archive, Calendar, FileText, MessageSquare, Plus, Trash2, Moon, Sun } from "lucide-react"
 
 export default function LessonsLearnedPage() {
   const [showSurveyForm, setShowSurveyForm] = useState(false)
+  const [isDarkMode, setIsDarkMode] = useState(false)
   const [surveys, setSurveys] = useState([
     {
       id: 1,
@@ -69,6 +70,26 @@ export default function LessonsLearnedPage() {
     deadline: "2025-05-20",
     recipients: "john.doe@example.com, jane.smith@example.com, team@example.com",
   })
+
+  // Toggle dark mode and persist in localStorage
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('theme')
+    if (savedTheme === 'dark') {
+      setIsDarkMode(true)
+      document.documentElement.classList.add('dark')
+    }
+  }, [])
+
+  const toggleDarkMode = () => {
+    setIsDarkMode(!isDarkMode)
+    if (!isDarkMode) {
+      document.documentElement.classList.add('dark')
+      localStorage.setItem('theme', 'dark')
+    } else {
+      document.documentElement.classList.remove('dark')
+      localStorage.setItem('theme', 'light')
+    }
+  }
 
   const addQuestion = () => {
     try {
@@ -196,121 +217,131 @@ export default function LessonsLearnedPage() {
   ]
 
   return (
-    <div className="py-6 space-y-8 px-4 ">
+    <div className="py-6 space-y-8 px-4 bg-gray-50 dark:bg-[#1E232E] min-h-screen transition-colors duration-300">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight text-gray-900">Lessons Learned</h1>
-          <p className="text-gray-500 mt-1">
+          <h1 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-gray-100">
+            Lessons Learned
+          </h1>
+          <p className="text-gray-500 dark:text-gray-400 mt-1">
             Collect feedback, analyze performance, and archive project insights
           </p>
         </div>
-        <button
-          onClick={() => {
-            try {
-              setShowSurveyForm(!showSurveyForm)
-              setEditingSurvey(null)
-              setFormData({
-                title: "Project Feedback Survey",
-                description: "Please provide your feedback on the recently completed project.",
-                projectName: "Project Alpha",
-                deadline: "2025-05-20",
-                recipients: "john.doe@example.com, jane.smith@example.com, team@example.com",
-              })
-              setQuestions([
-                { id: 1, text: "How would you rate the project management?", required: true },
-                { id: 2, text: "What went well during this project?", required: true },
-                { id: 3, text: "What could be improved for future projects?", required: true },
-                { id: 4, text: "Which areas need the most improvement?", required: false },
-              ])
-            } catch (error) {
-              console.error("Error resetting form:", error)
-            }
-          }}
-          className="flex items-center px-4 py-2 bg-[#00308F] text-white rounded-md hover:bg-[#002A7A] transition-colors"
-        >
-          <Plus className="h-4 w-4 mr-2" />
-          {showSurveyForm ? "Cancel" : "New Survey"}
-        </button>
+        <div className="flex gap-4">
+          <button
+            onClick={() => {
+              try {
+                setShowSurveyForm(!showSurveyForm)
+                setEditingSurvey(null)
+                setFormData({
+                  title: "Project Feedback Survey",
+                  description: "Please provide your feedback on the recently completed project.",
+                  projectName: "Project Alpha",
+                  deadline: "2025-05-20",
+                  recipients: "john.doe@example.com, jane.smith@example.com, team@example.com",
+                })
+                setQuestions([
+                  { id: 1, text: "How would you rate the project management?", required: true },
+                  { id: 2, text: "What went well during this project?", required: true },
+                  { id: 3, text: "What could be improved for future projects?", required: true },
+                  { id: 4, text: "Which areas need the most improvement?", required: false },
+                ])
+              } catch (error) {
+                console.error("Error resetting form:", error)
+              }
+            }}
+            className="flex items-center px-4 py-2 bg-[#00308F] text-white rounded-md hover:bg-[#002A7A] dark:bg-blue-600 dark:hover:bg-blue-700 transition-colors"
+          >
+            <Plus className="h-4 w-4 mr-2" />
+            {showSurveyForm ? "Cancel" : "New Survey"}
+          </button>
+          <button
+            onClick={toggleDarkMode}
+            className="flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+          >
+            {isDarkMode ? <Sun className="h-4 w-4 mr-2" /> : <Moon className="h-4 w-4 mr-2" />}
+            {isDarkMode ? "Light Mode" : "Dark Mode"}
+          </button>
+        </div>
       </div>
 
       {showSurveyForm ? (
-        <div className="bg-white shadow-md rounded-lg">
-          <div className="px-6 py-4 border-b">
-            <h2 className="text-xl font-semibold text-gray-900">
+        <div className="bg-white dark:bg-gray-800 shadow-md rounded-lg">
+          <div className="px-6 py-4 border-b dark:border-gray-700">
+            <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100">
               {editingSurvey ? "Edit Survey" : "Create New Survey"}
             </h2>
           </div>
           <div className="p-6 space-y-6">
             <div className="space-y-4">
               <div>
-                <label htmlFor="survey-title" className="block text-sm font-medium text-gray-700">
+                <label htmlFor="survey-title" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                   Survey Title
                 </label>
                 <input
                   id="survey-title"
                   placeholder="Enter survey title"
-                  className="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00308F]"
+                  className="mt-1 w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00308F] dark:focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
                   value={formData.title}
                   onChange={handleInputChange}
                 />
               </div>
               <div>
-                <label htmlFor="survey-description" className="block text-sm font-medium text-gray-700">
+                <label htmlFor="survey-description" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                   Description
                 </label>
                 <textarea
                   id="survey-description"
                   placeholder="Enter survey description"
-                  className="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00308F]"
+                  className="mt-1 w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00308F] dark:focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
                   value={formData.description}
                   onChange={handleInputChange}
                 />
               </div>
               <div>
-                <label htmlFor="project-name" className="block text-sm font-medium text-gray-700">
+                <label htmlFor="project-name" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                   Project Name
                 </label>
                 <input
                   id="project-name"
                   placeholder="Enter project name"
-                  className="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00308F]"
+                  className="mt-1 w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00308F] dark:focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
                   value={formData.projectName}
                   onChange={handleInputChange}
                 />
               </div>
               <div>
-                <label htmlFor="survey-deadline" className="block text-sm font-medium text-gray-700">
+                <label htmlFor="survey-deadline" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                   Response Deadline
                 </label>
                 <input
                   id="survey-deadline"
                   type="date"
-                  className="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00308F]"
+                  className="mt-1 w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00308F] dark:focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
                   value={formData.deadline}
                   onChange={handleInputChange}
                 />
               </div>
               <div>
-                <label htmlFor="recipients" className="block text-sm font-medium text-gray-700">
+                <label htmlFor="recipients" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                   Email Addresses
                 </label>
                 <textarea
                   id="recipients"
                   placeholder="Enter email addresses, separated by commas"
-                  className="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00308F]"
+                  className="mt-1 w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00308F] dark:focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
                   value={formData.recipients}
                   onChange={handleInputChange}
                 />
-             React Developer Tools
               </div>
             </div>
 
             <div>
               <div className="flex justify-between items-center mb-4">
-                <h3 className="font-semibold text-gray-900">Survey Questions</h3>
+                <h3 className="font-semibold text-gray-900 dark:text-gray-100">Survey Questions</h3>
                 <button
                   onClick={addQuestion}
-                  className="flex items-center px-3 py-1 border border-gray-300 rounded-md text-sm hover:bg-gray-50"
+                  className="flex items-center px-3 py-1 border border-gray-300 dark:border-gray-600 rounded-md text-sm hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300"
                 >
                   <Plus className="h-4 w-4 mr-2" />
                   Add Question
@@ -325,12 +356,12 @@ export default function LessonsLearnedPage() {
                         value={question.text}
                         onChange={(e) => updateQuestion(question.id, e.target.value)}
                         placeholder={`Question ${index + 1}`}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00308F]"
+                        className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00308F] dark:focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
                       />
                     </div>
                     <button
                       onClick={() => removeQuestion(question.id)}
-                      className="p-2 text-red-600 hover:bg-red-50 rounded-md"
+                      className="p-2 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-md"
                     >
                       <Trash2 className="h-4 w-4" />
                     </button>
@@ -362,13 +393,13 @@ export default function LessonsLearnedPage() {
                     console.error("Error canceling form:", error)
                   }
                 }}
-                className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50"
+                className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700"
               >
                 Cancel
               </button>
               <button
                 onClick={handleAddSurvey}
-                className="px-4 py-2 bg-[#00308F] text-white rounded-md hover:bg-[#002A7A]"
+                className="px-4 py-2 bg-[#00308F] dark:bg-blue-600 text-white rounded-md hover:bg-[#002A7A] dark:hover:bg-blue-700"
               >
                 {editingSurvey ? "Update Survey" : "Save Survey"}
               </button>
@@ -377,20 +408,20 @@ export default function LessonsLearnedPage() {
         </div>
       ) : (
         <>
-          <h2 className="text-2xl font-semibold mt-8 mb-4 text-gray-900">Active Surveys</h2>
+          <h2 className="text-2xl font-semibold mt-8 mb-4 text-gray-900 dark:text-gray-100">Active Surveys</h2>
           <div className="space-y-4">
             {surveys.map((survey) => (
-              <div key={survey.id} className="bg-white shadow-md rounded-lg p-6">
+              <div key={survey.id} className="bg-white dark:bg-gray-800 shadow-md rounded-lg p-6">
                 <div className="flex flex-col md:flex-row justify-between gap-4">
                   <div className="flex items-start gap-4">
-                    <div className="bg-[#E6E9F2] p-3 rounded-full">
-                      <FileText className="h-6 w-6 text-[#00308F]" />
+                    <div className="bg-[#E6E9F2] dark:bg-gray-700 p-3 rounded-full">
+                      <FileText className="h-6 w-6 text-[#00308F] dark:text-blue-400" />
                     </div>
                     <div>
-                      <h3 className="font-semibold text-lg text-gray-900">{survey.name}</h3>
-                      <p className="text-gray-500">Created on {survey.date}</p>
+                      <h3 className="font-semibold text-lg text-gray-900 dark:text-gray-100">{survey.name}</h3>
+                      <p className="text-gray-500 dark:text-gray-400">Created on {survey.date}</p>
                       <div className="flex items-center gap-4 mt-2">
-                        <div className="text-sm text-gray-600">
+                        <div className="text-sm text-gray-600 dark:text-gray-300">
                           <span>{survey.responses}</span> of <span>{survey.recipients}</span> responses
                         </div>
                       </div>
@@ -400,19 +431,19 @@ export default function LessonsLearnedPage() {
                     <span
                       className={`px-2 py-1 text-sm rounded-full ${
                         survey.status === "Active"
-                          ? "bg-[#00308F] text-white"
-                          : "border border-gray-300 text-gray-600"
+                          ? "bg-[#00308F] dark:bg-blue-600 text-white"
+                          : "border border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-300"
                       }`}
                     >
                       {survey.status}
                     </span>
                     <div className="flex gap-2 mt-4">
-                      <button className="px-3 py-1 border border-gray-300 rounded-md text-sm hover:bg-gray-50">
+                      <button className="px-3 py-1 border border-gray-300 dark:border-gray-600 rounded-md text-sm hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300">
                         View Results
                       </button>
                       <button
                         onClick={() => handleEditSurvey(survey)}
-                        className="px-3 py-1 border border-gray-300 rounded-md text-sm hover:bg-gray-50"
+                        className="px-3 py-1 border border-gray-300 dark:border-gray-600 rounded-md text-sm hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300"
                       >
                         Edit
                       </button>
@@ -423,21 +454,21 @@ export default function LessonsLearnedPage() {
             ))}
           </div>
 
-          <h2 className="text-2xl font-semibold mt-8 mb-4 text-gray-900">Archived Lessons</h2>
+          <h2 className="text-2xl font-semibold mt-8 mb-4 text-gray-900 dark:text-gray-100">Archived Lessons</h2>
           <div className="space-y-4">
             {archivedLessons.map((lesson) => (
-              <div key={lesson.id} className="bg-white shadow-md rounded-lg p-6">
+              <div key={lesson.id} className="bg-white dark:bg-gray-800 shadow-md rounded-lg p-6">
                 <div className="flex flex-col md:flex-row justify-between gap-4">
                   <div className="flex items-start gap-4">
-                    <div className="bg-[#E6E9F2] p-3 rounded-full">
-                      <Archive className="h-6 w-6 text-[#00308F]" />
+                    <div className="bg-[#E6E9F2] dark:bg-gray-700 p-3 rounded-full">
+                      <Archive className="h-6 w-6 text-[#00308F] dark:text-blue-400" />
                     </div>
                     <div>
-                      <h3 className="font-semibold text-lg text-gray-900">{lesson.project}</h3>
-                      <p className="text-gray-500">Archived on {lesson.date}</p>
+                      <h3 className="font-semibold text-lg text-gray-900 dark:text-gray-100">{lesson.project}</h3>
+                      <p className="text-gray-500 dark:text-gray-400">Archived on {lesson.date}</p>
                       <div className="mt-4 space-y-2">
-                        <h4 className="font-medium text-gray-900">Key Insights:</h4>
-                        <ul className="list-disc pl-5 space-y-1 text-gray-600">
+                        <h4 className="font-medium text-gray-900 dark:text-gray-100">Key Insights:</h4>
+                        <ul className="list-disc pl-5 space-y-1 text-gray-600 dark:text-gray-300">
                           {lesson.insights.map((insight, index) => (
                             <li key={index}>{insight}</li>
                           ))}
@@ -446,7 +477,7 @@ export default function LessonsLearnedPage() {
                     </div>
                   </div>
                   <div>
-                    <button className="px-3 py-1 border border-gray-300 rounded-md text-sm hover:bg-gray-50">
+                    <button className="px-3 py-1 border border-gray-300 dark:border-gray-600 rounded-md text-sm hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300">
                       View Details
                     </button>
                   </div>

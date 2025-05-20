@@ -1,6 +1,7 @@
 import { NavLink, useLocation } from "react-router-dom";
 import img from "../Navbar/image 3.png"; // Ensure correct path
 import img1 from "../Navbar/Group (2).png"; // Ensure correct path
+import img3 from "../Shared/closeSidebar.png"; 
 import { Bot, Briefcase, Clock, Settings } from "lucide-react";
 import { BiSolidDashboard } from "react-icons/bi";
 import { useDarkMode } from "../../context/ThemeContext";
@@ -17,23 +18,24 @@ const DashboardSidebar = ({ isSidebarOpen }) => {
     const navLinkStyle = (isActive) => `
         flex items-center gap-3 px-4 py-3 relative transition-all duration-200 group
         ${isActive
-            ? "bg-white shadow-sm text-[#00308F] rounded-md scale-105 before:absolute before:left-0 before:top-0 before:h-full before:w-2 before:bg-[#00308F] before:rounded-l-md"
-            : "hover:bg-gray-100 hover:text-[#00308F] rounded-md"
+            ? "bg-white dark:bg-gray-800 shadow-sm text-[#00308F] dark:text-blue-400 rounded-md scale-105 before:absolute before:left-0 before:top-0 before:h-full before:w-2 before:bg-[#00308F] dark:before:bg-blue-400 before:rounded-l-md"
+            : "hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-[#00308F] dark:hover:text-blue-400 rounded-md"
         }
         ${isSidebarOpen ? "justify-start" : "justify-center"}
     `;
+
     return (
         <div className="text-[#00308F] dark:text-white flex flex-col h-full">
             <div className="flex items-center justify-center pt-10 pb-6">
-                {isSidebarOpen && (
-                    <NavLink to="/">
-                        <img
-                            src={darkMode ? img1 : img}
-                            alt="Logo"
-                            className="h-[34px] w-auto"
-                        />
-                    </NavLink>
-                )}
+                <NavLink to="/">
+                    <img
+                        src={isSidebarOpen ? (darkMode ? img1 : img) : img3}
+                        alt="Logo"
+                        className={`${
+                            isSidebarOpen ? "h-[34px]" : "h-[24px]"
+                        } w-auto`}
+                    />
+                </NavLink>
             </div>
             <div className="flex flex-col h-full justify-between px-2">
                 {/* Top Navigation Links */}
