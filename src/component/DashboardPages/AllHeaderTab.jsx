@@ -91,7 +91,7 @@ const AllHeaderTab = ({ projectData, darkMode }) => {
         {activeTab === "Communication" && <Communication projectData={projectData} />}
         {activeTab === "Governance" && <GovernanceSetup projectData={projectData} />}
         {activeTab === "Deployment Strategy" && <Deployment projectData={projectData} />}
-        {activeTab === "Reporting" && <ProjectCharter />}
+        {/* {activeTab === "Reporting" && <ProjectCharter />} */}
         {activeTab === "Document Library" && <DocumentLibrary projectData={projectData} />}
         {activeTab === "Lessons Learned" && <LessonsLearnedPage projectData={projectData} />}
       </div>

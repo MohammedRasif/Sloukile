@@ -6,6 +6,7 @@ import Meeting from "./Meeting"
 import StatusReporting from "./StatusReporting"
 import TrainingMaterial from "./TrainingMaterial"
 import Surveys from "./Surveys"
+import ProjectCharter from "./ProjectCharter"
 
 export default function Communication() {
   const [activeTab, setActiveTab] = useState("newsletters")
@@ -189,6 +190,7 @@ export default function Communication() {
     { id: "meeting-minutes", label: "Meeting Minutes" },
     { id: "training-material", label: "Training Material" },
     { id: "surveys", label: "Surveys" },
+    { id: "reporting", label: "Reporting"}
   ]
 
   return (
@@ -340,6 +342,7 @@ export default function Communication() {
           {activeTab === "status-reporting" && <StatusReporting />}
           {activeTab === "training-material" && <TrainingMaterial/>}
           {activeTab === "surveys" && <Surveys/>}
+          {activeTab === "reporting" && <ProjectCharter />}
         </div>
       </div>
 

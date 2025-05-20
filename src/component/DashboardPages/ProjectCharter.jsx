@@ -353,7 +353,7 @@ export default function ReportingAnalysis() {
                     >
                       Delete
                     </button>
-                   
+
                   </td>
                 </tr>
               ))}
@@ -435,6 +435,20 @@ export default function ReportingAnalysis() {
                   placeholder="e.g., Apr 15, 2024"
                   className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-700"
                 />
+              </div>
+              {/* Document Upload Input */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Upload Document</label>
+                <input
+                  type="file"
+                  name="document"
+                  onChange={handleFileChange}
+                  accept=".pdf,.doc,.docx,.txt"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-700"
+                />
+                {formData.document && (
+                  <p className="text-sm text-gray-600 mt-1">Selected: {formData.document.name}</p>
+                )}
               </div>
             </div>
             <div className="flex justify-end space-x-2 mt-6">
