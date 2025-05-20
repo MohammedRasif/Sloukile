@@ -2,25 +2,7 @@
 "use client";
 
 import { useState } from 'react';
-import Tasks from './Tasks.jsx';
-import Budget from './Bugget.jsx';
-import ProjectRisks from './ProjectRisks.jsx';
-import Teams from './Teams.jsx';
-import Timeline from './Timeline.jsx';
-import Overview from './Overview.jsx';
-import Communication from './Communication.jsx';
-import Reporting from './Reporting.jsx';
-import ProjectCharter from './ProjectCharter.jsx';
-import GovernanceSetup from './GovernanceSetup.jsx';
-import Stakeholders from './Stakeholders.jsx';
-import Objectives from './Objectives.jsx';
-import RACI from './RACI.jsx';
-import Planning from './Planning.jsx';
-import Workflow from './Workflow.jsx';
-import Deployment from './Deployment.jsx';
-import Document from './Document.jsx';
-import DocumentLibrary from './Document.jsx';
-import LessonsLearnedPage from './LessonLearn.jsx';
+
 import AllHeaderTab from './AllHeaderTab.jsx';
 
 const ProjectDetails = () => {

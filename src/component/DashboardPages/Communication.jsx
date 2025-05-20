@@ -194,13 +194,13 @@ export default function Communication() {
   ]
 
   return (
-    <div className="container mx-auto">
+    <div className="container mx-auto bg-white dark:bg-[#1E232E] p-4">
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold text-gray-900">Communication</h1>
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-200">Communication</h1>
         <div className="flex gap-2">
           <button
             onClick={openAddModal}
-            className="flex items-center px-4 py-2 bg-[#00308F] text-white rounded-md hover:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-900"
+            className="flex items-center px-4 py-2 bg-[#00308F] dark:bg-[#4A6CF7] text-white rounded-md hover:bg-[#00218f] dark:hover:bg-[#3B5AEB] focus:outline-none focus:ring-2 focus:ring-[#4A6CF7]"
           >
             <Plus className="h-4 w-4 mr-2" /> Create New Communication
           </button>
@@ -208,13 +208,16 @@ export default function Communication() {
       </div>
 
       <div className="w-full">
-        <div className="mb-4 flex border-b border-gray-200">
+        <div className="mb-4 flex border-b border-gray-200 dark:border-gray-700">
           {tabs.map((tab) => (
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`px-4 py-2 text-sm font-medium ${activeTab === tab.id ? "text-gray-900 border-b-2 border-blue-500" : "text-gray-500 hover:text-gray-700"
-                }`}
+              className={`px-4 py-2 text-sm font-medium ${
+                activeTab === tab.id
+                  ? "text-gray-900 dark:text-gray-200 border-b-2 border-blue-500 dark:border-[#4A6CF7]"
+                  : "text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
+              }`}
             >
               {tab.label}
             </button>
@@ -225,85 +228,86 @@ export default function Communication() {
           <div className="flex justify-between mb-4"></div>
 
           {activeTab === "newsletters" && (
-            <div className="bg-white rounded-md shadow">
-              <table className="min-w-full divide-y divide-gray-200">
-                <thead className="bg-gray-50">
+            <div className="bg-white dark:bg-[#1E232E] rounded-md shadow">
+              <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                <thead className="bg-gray-50 dark:bg-gray-800">
                   <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                       Title
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                       Type
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                       Audience
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                       Status
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                       Last Modified
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                       Actions
                     </th>
                   </tr>
                 </thead>
-                <tbody className="bg-white divide-y divide-gray-200">
+                <tbody className="bg-white dark:bg-[#1E232E] divide-y divide-gray-200 dark:divide-gray-700">
                   {communications
                     .filter((comm) => comm.type === "Newsletter")
                     .map((comm) => (
                       <tr key={comm.title}>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{comm.title}</td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{comm.type}</td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{comm.audience}</td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-200">{comm.title}</td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{comm.type}</td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{comm.audience}</td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <span
-                            className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${comm.status === "Published"
-                                ? "bg-green-100 text-green-800"
+                            className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
+                              comm.status === "Published"
+                                ? "bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200"
                                 : comm.status === "Draft"
-                                  ? "bg-gray-100 text-gray-800"
-                                  : "bg-blue-100 text-blue-800"
-                              }`}
+                                ? "bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200"
+                                : "bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200"
+                            }`}
                           >
                             {comm.status}
                           </span>
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{comm.lastModified}</td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 flex gap-2 relative">
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{comm.lastModified}</td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400 flex gap-2 relative">
                           <button
                             onClick={() => openEditModal(comm)}
-                            className="text-blue-600 hover:text-blue-800 bg-gray-200 py-1 px-2 rounded-sm cursor-pointer"
+                            className="text-blue-600 dark:text-[#4A6CF7] hover:text-blue-800 dark:hover:text-[#3B5AEB] bg-gray-200 dark:bg-gray-700 py-1 px-2 rounded-sm cursor-pointer"
                           >
                             Edit
                           </button>
                           <button
                             onClick={() => openDeleteModal(comm)}
-                            className="text-red-600 hover:text-red-800 bg-gray-200 py-1 px-2 rounded-sm cursor-pointer"
+                            className="text-red-600 dark:text-red-500 hover:text-red-800 dark:hover:text-red-400 bg-gray-200 dark:bg-gray-700 py-1 px-2 rounded-sm cursor-pointer"
                           >
                             <Trash2 className="h-4 w-4" />
                           </button>
                           <button
                             onClick={() => toggleShareDropdown(comm.title)}
-                            className="text-[#00308F] hover:text-blue-900 bg-gray-200 py-1 px-2 rounded-sm cursor-pointer"
+                            className="text-[#00308F] dark:text-[#4A6CF7] hover:text-blue-900 dark:hover:text-[#3B5AEB] bg-gray-200 dark:bg-gray-700 py-1 px-2 rounded-sm cursor-pointer"
                           >
                             <Share2 className="h-4 w-4" />
                           </button>
                           {openShareRow === comm.title && (
                             <div
                               ref={shareDropdownRef}
-                              className="absolute right-0 top-10 bg-white border border-gray-300 shadow-lg rounded-md p-2 flex gap-2 z-50"
+                              className="absolute right-0 top-10 bg-white dark:bg-[#1E232E] border border-gray-300 dark:border-gray-700 shadow-lg rounded-md p-2 flex gap-2 z-50"
                             >
                               <button
                                 onClick={() => handleEmailShare(comm.title)}
-                                className="text-gray-700 hover:text-[#00308F] p-1"
+                                className="text-gray-700 dark:text-gray-300 hover:text-[#00308F] dark:hover:text-[#4A6CF7] p-1"
                                 title="Share via Email"
                               >
                                 <Mail className="h-6 w-6" />
                               </button>
                               <button
                                 onClick={() => handleTeamsShare(comm.title)}
-                                className="text-gray-700 hover:text-[#00308F] p-1"
+                                className="text-gray-700 dark:text-gray-300 hover:text-[#00308F] dark:hover:text-[#4A6CF7] p-1"
                                 title="Share via Microsoft Teams"
                               >
                                 <svg
@@ -323,7 +327,7 @@ export default function Communication() {
                               </button>
                               <button
                                 onClick={() => handleCopyLink(comm.title)}
-                                className="text-gray-700 hover:text-[#00308F] p-1"
+                                className="text-gray-700 dark:text-gray-300 hover:text-[#00308F] dark:hover:text-[#4A6CF7] p-1"
                                 title="Copy Link for Portal"
                               >
                                 <Link className="h-6 w-6" />
@@ -340,34 +344,34 @@ export default function Communication() {
 
           {activeTab === "meeting-minutes" && <Meeting />}
           {activeTab === "status-reporting" && <StatusReporting />}
-          {activeTab === "training-material" && <TrainingMaterial/>}
-          {activeTab === "surveys" && <Surveys/>}
+          {activeTab === "training-material" && <TrainingMaterial />}
+          {activeTab === "surveys" && <Surveys />}
           {activeTab === "reporting" && <ProjectCharter />}
         </div>
       </div>
 
       {/* Newsletter Creation Modal - Styled like the image */}
       {isModalOpen && (
-        <div className="fixed inset-0  backdrop-blur-[3px] flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg shadow-xl w-full max-w-6xl mx-4 overflow-hidden border border-gray-300">
+        <div className="fixed inset-0 backdrop-blur-[3px] flex items-center justify-center z-50">
+          <div className="bg-white dark:bg-[#1E232E] rounded-lg shadow-xl w-full max-w-6xl mx-4 overflow-hidden border border-gray-300 dark:border-gray-700">
             <div className="flex flex-col h-full">
               {/* Header with title */}
-              <div className="bg-white border-b border-gray-200 p-4 flex items-center">
-                <Mail className="h-5 w-5 text-[#00308F] mr-2" />
-                <h2 className="text-xl font-bold text-[#00308F]">Task Update Newsletter</h2>
+              <div className="bg-white dark:bg-[#1E232E] border-b border-gray-200 dark:border-gray-700 p-4 flex items-center">
+                <Mail className="h-5 w-5 text-[#00308F] dark:text-[#4A6CF7] mr-2" />
+                <h2 className="text-xl font-bold text-[#00308F] dark:text-[#4A6CF7]">Task Update Newsletter</h2>
               </div>
 
               {/* Content area */}
               <div className="flex flex-col md:flex-row h-full">
                 {/* Left side - Form */}
-                <div className="w-full md:w-1/2 p-6 border-r border-gray-200">
+                <div className="w-full md:w-1/2 p-6 border-r border-gray-200 dark:border-gray-700">
                   {formError && <p className="text-red-500 text-sm mb-4">{formError}</p>}
 
                   {/* Recipients */}
                   <div className="mb-6">
                     <div className="flex items-center mb-2">
                       <svg
-                        className="h-5 w-5 text-gray-500 mr-2"
+                        className="h-5 w-5 text-gray-500 dark:text-gray-400 mr-2"
                         viewBox="0 0 24 24"
                         fill="none"
                         xmlns="http://www.w3.org/2000/svg"
@@ -401,117 +405,119 @@ export default function Communication() {
                           strokeLinejoin="round"
                         />
                       </svg>
-                      <label className="text-sm font-medium text-gray-700">Select Recipients</label>
+                      <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Select Recipients</label>
                     </div>
                     <div className="relative">
-                      <select className="w-full p-2 border border-gray-300 rounded-md appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500">
+                      <select
+                        className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md appearance-none focus:outline-none focus:ring-2 focus:ring-[#4A6CF7] bg-white dark:bg-[#1E232E] text-gray-800 dark:text-gray-200"
+                      >
                         <option value="">Select users...</option>
                         <option value="team">Project Team</option>
                         <option value="stakeholders">All Stakeholders</option>
                         <option value="steering">Steering Committee</option>
                       </select>
-                      <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                      <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700 dark:text-gray-300">
                         <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                           <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
                         </svg>
                       </div>
                     </div>
-                    <p className="text-sm text-gray-500 mt-1">0 recipients selected</p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">0 recipients selected</p>
                   </div>
 
                   {/* Subject Line */}
                   <div className="mb-6">
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Subject Line</label>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Subject Line</label>
                     <input
                       type="text"
                       name="subject"
                       value={newsletterData.subject}
                       onChange={handleNewsletterInputChange}
-                      className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-[#4A6CF7] bg-white dark:bg-[#1E232E] text-gray-800 dark:text-gray-200"
                     />
                   </div>
 
                   {/* Task Update Details */}
                   <div className="mb-6">
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Task Update Details</label>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Task Update Details</label>
                     <textarea
                       name="taskDetails"
                       value={newsletterData.taskDetails}
                       onChange={handleNewsletterInputChange}
                       rows={5}
                       placeholder="Describe the recent task updates..."
-                      className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-[#4A6CF7] bg-white dark:bg-[#1E232E] text-gray-800 dark:text-gray-200"
                     ></textarea>
                   </div>
 
                   {/* Additional Content */}
                   <div className="mb-6">
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Additional Content</label>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Additional Content</label>
                     <textarea
                       name="additionalContent"
                       value={newsletterData.additionalContent}
                       onChange={handleNewsletterInputChange}
                       rows={5}
                       placeholder="Add any additional information or context..."
-                      className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-[#4A6CF7] bg-white dark:bg-[#1E232E] text-gray-800 dark:text-gray-200"
                     ></textarea>
                   </div>
                 </div>
 
                 {/* Right side - Preview */}
-                <div className="w-full md:w-1/2 bg-gray-50 p-6">
-                  <div className="bg-white border border-gray-200 rounded-lg p-6 h-full">
+                <div className="w-full md:w-1/2 bg-gray-50 dark:bg-gray-800 p-6">
+                  <div className="bg-white dark:bg-[#1E232E] border border-gray-200 dark:border-gray-700 rounded-lg p-6 h-full">
                     <div className="flex justify-between items-center mb-4">
-                      <h3 className="text-lg font-semibold">Newsletter Template</h3>
-                      <button className="text-blue-600 flex items-center text-sm">
+                      <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-200">Newsletter Template</h3>
+                      <button className="text-blue-600 dark:text-[#4A6CF7] flex items-center text-sm">
                         <Eye className="h-4 w-4 mr-1" /> Preview
                       </button>
                     </div>
 
-                    <p className="text-sm text-gray-600 mb-4">This newsletter will include:</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">This newsletter will include:</p>
 
                     <ul className="space-y-2 mb-6">
                       <li className="flex items-start">
-                        <span className="text-gray-700 mr-2">•</span>
-                        <span className="text-sm">Greeting to recipients</span>
+                        <span className="text-gray-700 dark:text-gray-300 mr-2">•</span>
+                        <span className="text-sm text-gray-700 dark:text-gray-300">Greeting to recipients</span>
                       </li>
                       <li className="flex items-start">
-                        <span className="text-gray-700 mr-2">•</span>
-                        <span className="text-sm">Task update introduction</span>
+                        <span className="text-gray-700 dark:text-gray-300 mr-2">•</span>
+                        <span className="text-sm text-gray-700 dark:text-gray-300">Task update introduction</span>
                       </li>
                       <li className="flex items-start">
-                        <span className="text-gray-700 mr-2">•</span>
-                        <span className="text-sm">Task update details</span>
+                        <span className="text-gray-700 dark:text-gray-300 mr-2">•</span>
+                        <span className="text-sm text-gray-700 dark:text-gray-300">Task update details</span>
                         <span className="text-red-500 ml-1">X</span>
                       </li>
                       <li className="flex items-start">
-                        <span className="text-gray-700 mr-2">•</span>
-                        <span className="text-sm">Additional content</span>
+                        <span className="text-gray-700 dark:text-gray-300 mr-2">•</span>
+                        <span className="text-sm text-gray-700 dark:text-gray-300">Additional content</span>
                         <span className="text-red-500 ml-1">X</span>
                       </li>
                       <li className="flex items-start">
-                        <span className="text-gray-700 mr-2">•</span>
-                        <span className="text-sm">Sign-off</span>
+                        <span className="text-gray-700 dark:text-gray-300 mr-2">•</span>
+                        <span className="text-sm text-gray-700 dark:text-gray-300">Sign-off</span>
                       </li>
                     </ul>
 
-                    <div className="border-l-4 border-yellow-500 bg-yellow-50 p-4 mb-4">
-                      <h4 className="font-medium text-yellow-800 mb-2">Tips:</h4>
-                      <ul className="space-y-1 text-sm text-yellow-700">
+                    <div className="border-l-4 border-yellow-500 dark:border-yellow-600 bg-yellow-50 dark:bg-yellow-900 p-4 mb-4">
+                      <h4 className="font-medium text-yellow-800 dark:text-yellow-200 mb-2">Tips:</h4>
+                      <ul className="space-y-1 text-sm text-yellow-700 dark:text-yellow-300">
                         <li className="flex items-start">
-                          <span className="text-yellow-800 mr-2">•</span>
+                          <span className="text-yellow-800 dark:text-yellow-200 mr-2">•</span>
                           <span>Keep your update concise and focused</span>
                         </li>
                         <li className="flex items-start">
-                          <span className="text-yellow-800 mr-2">•</span>
+                          <span className="text-yellow-800 dark:text-yellow-200 mr-2">•</span>
                           <span>Highlight key achievements or milestones</span>
                         </li>
                         <li className="flex items-start">
-                          <span className="text-yellow-800 mr-2">•</span>
+                          <span className="text-yellow-800 dark:text-yellow-200 mr-2">•</span>
                           <span>Include next steps or action items if applicable</span>
                         </li>
                         <li className="flex items-start">
-                          <span className="text-yellow-800 mr-2">•</span>
+                          <span className="text-yellow-800 dark:text-yellow-200 mr-2">•</span>
                           <span>Use a professional but friendly tone</span>
                         </li>
                       </ul>
@@ -521,17 +527,17 @@ export default function Communication() {
               </div>
 
               {/* Footer with buttons */}
-              <div className="bg-gray-50 border-t border-gray-200 p-4 flex justify-end">
+              <div className="bg-gray-50 dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 p-4 flex justify-end">
                 <div className="flex gap-3">
                   <button
                     onClick={closeModal}
-                    className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 bg-white hover:bg-gray-50"
+                    className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md text-gray-700 dark:text-gray-300 bg-white dark:bg-[#1E232E] hover:bg-gray-50 dark:hover:bg-gray-700"
                   >
                     Cancel
                   </button>
                   <button
                     onClick={handleSendNewsletter}
-                    className="px-4 py-2 bg-[#00308F] text-white rounded-md hover:bg-blue-800 flex items-center"
+                    className="px-4 py-2 bg-[#00308F] dark:bg-[#4A6CF7] text-white rounded-md hover:bg-[#00218f] dark:hover:bg-[#3B5AEB] flex items-center"
                   >
                     <Send className="h-4 w-4 mr-2" /> Send Newsletter
                   </button>
@@ -545,24 +551,27 @@ export default function Communication() {
       {/* Delete Confirmation Modal */}
       {isDeleteModalOpen && (
         <div className="fixed inset-0 backdrop-blur-[3px] flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg border border-gray-300 p-6 w-full max-w-md">
+          <div className="bg-white dark:bg-[#1E232E] rounded-lg border border-gray-300 dark:border-gray-700 p-6 w-full max-w-md">
             <div className="flex justify-between items-center mb-4">
-              <h2 className="text-xl font-semibold text-gray-900">Confirm Delete</h2>
-              <button onClick={closeDeleteModal} className="text-gray-500 hover:text-gray-700 focus:outline-none">
+              <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-200">Confirm Delete</h2>
+              <button
+                onClick={closeDeleteModal}
+                className="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none"
+              >
                 <X className="h-5 w-5" />
               </button>
             </div>
-            <p className="text-gray-600 mb-4">Are you sure you want to delete "{currentReport?.title}"?</p>
+            <p className="text-gray-600 dark:text-gray-400 mb-4">Are you sure you want to delete "{currentReport?.title}"?</p>
             <div className="flex justify-end space-x-2">
               <button
                 onClick={closeDeleteModal}
-                className="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500"
+                className="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-md hover:bg-gray-300 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500"
               >
                 Cancel
               </button>
               <button
                 onClick={handleDelete}
-                className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500"
+                className="px-4 py-2 bg-red-600 dark:bg-red-500 text-white rounded-md hover:bg-red-700 dark:hover:bg-red-400 focus:outline-none focus:ring-2 focus:ring-red-500"
               >
                 Delete
               </button>

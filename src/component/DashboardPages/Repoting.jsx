@@ -419,16 +419,16 @@ export default function Repoting() {
   const shareTitle = `Project Charter: ${selectedSection || "Overview"}`
 
   return (
-    <div className="flex flex-col items-center justify-center p-6 w-full">
-      <div className="w-full bg-white shadow-lg rounded-lg overflow-hidden">
+    <div className="flex flex-col items-center justify-center p-6 w-full bg-white dark:bg-[#1E232E]">
+      <div className="w-full bg-white dark:bg-[#1E232E] shadow-lg rounded-lg overflow-hidden">
         {/* Header with actions */}
-        <div className="flex flex-col sm:flex-row justify-between items-center p-4 bg-[#00308F] text-white">
+        <div className="flex flex-col sm:flex-row justify-between items-center p-4 bg-[#00308F] dark:bg-[#4A6CF7] text-white">
           <h1 className="text-2xl font-bold mb-2 sm:mb-0">Program Charter: {projectData.title}</h1>
           <div className="flex items-center space-x-4">
             {/* Version selector */}
             <button
               onClick={() => setIsVersionHistoryOpen(true)}
-              className="flex items-center px-3 py-1.5 bg-transparent border border-white rounded-md text-white hover:bg-white/20"
+              className="flex items-center px-3 py-1.5 bg-transparent border border-white rounded-md text-white hover:bg-white/20 dark:hover:bg-gray-600/20"
             >
               <FaHistory className="mr-2" /> Version History
             </button>
@@ -436,7 +436,7 @@ export default function Repoting() {
             {/* Weekly update button */}
             {isAdmin && (
               <button
-                className="flex items-center px-3 py-1.5 bg-transparent border border-white rounded-md text-white hover:bg-white/20"
+                className="flex items-center px-3 py-1.5 bg-transparent border border-white rounded-md text-white hover:bg-white/20 dark:hover:bg-gray-600/20"
                 onClick={() => {
                   setChangeDescription("Weekly update")
                   setIsVersionDialogOpen(true)
@@ -448,9 +448,9 @@ export default function Repoting() {
 
             {/* Share button */}
             <div className="relative">
-              <FaShareAlt className="text-xl cursor-pointer hover:text-gray-300" onClick={toggleShareDropdown} />
+              <FaShareAlt className="text-xl cursor-pointer hover:text-gray-300 dark:hover:text-gray-200" onClick={toggleShareDropdown} />
               {isShareDropdownOpen && (
-                <div className="absolute top-full right-0 mt-2 bg-white rounded-lg shadow-lg p-4 flex flex-wrap gap-2 z-50">
+                <div className="absolute top-full right-0 mt-2 bg-white dark:bg-[#1E232E] rounded-lg shadow-lg p-4 flex flex-wrap gap-2 z-50 border border-gray-300 dark:border-gray-700">
                   <FacebookShareButton url={shareUrl} quote={shareTitle}>
                     <FacebookIcon size={32} round />
                   </FacebookShareButton>
@@ -470,18 +470,18 @@ export default function Repoting() {
         </div>
 
         {/* Version badge */}
-        <div className="bg-gray-100 px-4 py-2 flex justify-between items-center">
+        <div className="bg-gray-100 dark:bg-gray-800 px-4 py-2 flex justify-between items-center">
           <div className="flex items-center">
-            <span className="px-2 py-1 text-xs font-semibold rounded-full border border-gray-300 mr-2">
+            <span className="px-2 py-1 text-xs font-semibold rounded-full border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 mr-2">
               Version {currentVersionId}
             </span>
-            <span className="text-sm text-gray-500">
+            <span className="text-sm text-gray-500 dark:text-gray-400">
               Last updated: {format(versionHistory.find((v) => v.id === currentVersionId).date, "MMM d, yyyy")}
             </span>
           </div>
           {isAdmin && currentVersionId === versionHistory.length && !isEditing && (
             <button
-              className="flex items-center px-2 py-1 text-sm border border-gray-300 rounded-md hover:bg-gray-100"
+              className="flex items-center px-2 py-1 text-sm border border-gray-300 dark:border-gray-700 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
               onClick={() => handleEditSection("overview")}
             >
               <FaEdit className="mr-2" /> Edit Charter
@@ -490,42 +490,42 @@ export default function Repoting() {
         </div>
 
         {/* Project info */}
-        <div className="p-4 border-b">
+        <div className="p-4 border-b border-gray-300 dark:border-gray-700">
           {isEditing && editingSection === "overview" ? (
             <div className="space-y-4">
-              <h2 className="text-xl font-bold">Edit Project Overview</h2>
+              <h2 className="text-xl font-bold text-gray-800 dark:text-gray-200">Edit Project Overview</h2>
               <div className="grid gap-4">
                 <div>
-                  <label className="block text-sm font-medium mb-1">Project Title</label>
+                  <label className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">Project Title</label>
                   <input
                     type="text"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-[#1E232E] text-gray-800 dark:text-gray-200"
                     value={editData.title}
                     onChange={(e) => setEditData({ ...editData, title: e.target.value })}
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-1">Project Orchestrator</label>
+                  <label className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">Project Orchestrator</label>
                   <input
                     type="text"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-[#1E232E] text-gray-800 dark:text-gray-200"
                     value={editData.orchestrator}
                     onChange={(e) => setEditData({ ...editData, orchestrator: e.target.value })}
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-1">Project Manager</label>
+                  <label className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">Project Manager</label>
                   <input
                     type="text"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-[#1E232E] text-gray-800 dark:text-gray-200"
                     value={editData.manager}
                     onChange={(e) => setEditData({ ...editData, manager: e.target.value })}
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-1">Objective</label>
+                  <label className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">Objective</label>
                   <textarea
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-[#1E232E] text-gray-800 dark:text-gray-200"
                     value={editData.objective}
                     onChange={(e) => setEditData({ ...editData, objective: e.target.value })}
                     rows={4}
@@ -533,13 +533,13 @@ export default function Repoting() {
                 </div>
                 <div className="flex justify-end space-x-2">
                   <button
-                    className="flex items-center px-3 py-2 border border-gray-300 rounded-md hover:bg-gray-100"
+                    className="flex items-center px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
                     onClick={handleCancelEdit}
                   >
                     <FaTimes className="mr-2" /> Cancel
                   </button>
                   <button
-                    className="flex items-center px-3 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+                    className="flex items-center px-3 py-2 bg-[#00308F] dark:bg-[#4A6CF7] text-white rounded-md hover:bg-[#00218f] dark:hover:bg-[#3B5AEB]"
                     onClick={handleSaveChanges}
                   >
                     <FaSave className="mr-2" /> Save Changes
@@ -551,16 +551,16 @@ export default function Repoting() {
             <>
               <div className="flex flex-col md:flex-row md:justify-between mb-4 gap-4">
                 <div>
-                  <span className="text-gray-600 font-medium">Project Orchestrator:</span> {projectData.orchestrator}
+                  <span className="text-gray-600 dark:text-gray-400 font-medium">Project Orchestrator:</span> {projectData.orchestrator}
                 </div>
                 <div>
-                  <span className="text-gray-600 font-medium">Project Manager:</span> {projectData.manager}
+                  <span className="text-gray-600 dark:text-gray-400 font-medium">Project Manager:</span> {projectData.manager}
                 </div>
               </div>
 
               <div className="mb-4">
-                <h2 className="text-gray-700 font-bold mb-2">Program Goal/Objective:</h2>
-                <p className="text-gray-600">{projectData.objective}</p>
+                <h2 className="text-gray-700 dark:text-gray-300 font-bold mb-2">Program Goal/Objective:</h2>
+                <p className="text-gray-600 dark:text-gray-400">{projectData.objective}</p>
               </div>
             </>
           )}
@@ -569,9 +569,9 @@ export default function Repoting() {
         {/* Main content */}
         <div className="p-4">
           {/* Scope/Capabilities Section */}
-          <div className="mb-6 border rounded-lg overflow-hidden">
+          <div className="mb-6 border rounded-lg overflow-hidden border-gray-300 dark:border-gray-700">
             <div
-              className="flex justify-between items-center p-3 bg-[#00308F] text-white cursor-pointer"
+              className="flex justify-between items-center p-3 bg-[#00308F] dark:bg-[#4A6CF7] text-white cursor-pointer"
               onClick={() => toggleSection("scope")}
             >
               <h2 className="font-bold">Scope/Capabilities to deliver</h2>
@@ -579,7 +579,7 @@ export default function Repoting() {
                 {isAdmin && currentVersionId === versionHistory.length && !isEditing && (
                   <>
                     <button
-                      className="flex items-center px-2 py-1 text-white hover:bg-blue-800 mr-2"
+                      className="flex items-center px-2 py-1 text-white hover:bg-[#00218f] dark:hover:bg-[#3B5AEB] mr-2"
                       onClick={(e) => {
                         e.stopPropagation()
                         handleAddItem("scope")
@@ -588,7 +588,7 @@ export default function Repoting() {
                       <FaPlus className="mr-1" /> Add
                     </button>
                     <button
-                      className="flex items-center px-2 py-1 text-white hover:bg-blue-800 mr-2"
+                      className="flex items-center px-2 py-1 text-white hover:bg-[#00218f] dark:hover:bg-[#3B5AEB] mr-2"
                       onClick={(e) => {
                         e.stopPropagation()
                         handleEditSection("scope")
@@ -606,13 +606,13 @@ export default function Repoting() {
               <div className="overflow-x-auto">
                 {isEditing && editingSection === "scope" ? (
                   <div className="p-4">
-                    <h3 className="text-lg font-semibold mb-4">Edit Scope Items</h3>
+                    <h3 className="text-lg font-semibold mb-4 text-gray-800 dark:text-gray-200">Edit Scope Items</h3>
                     {editData.scopeItems.map((item, index) => (
-                      <div key={index} className="mb-6 p-4 border rounded-lg">
+                      <div key={index} className="mb-6 p-4 border rounded-lg border-gray-300 dark:border-gray-600">
                         <div className="flex justify-between mb-2">
-                          <h4 className="font-medium">Scope Item #{index + 1}</h4>
+                          <h4 className="font-medium text-gray-800 dark:text-gray-200">Scope Item #{index + 1}</h4>
                           <button
-                            className="flex items-center px-2 py-1  text-black rounded-md "
+                            className="flex items-center px-2 py-1 text-gray-800 dark:text-gray-200 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700"
                             onClick={() => {
                               const updatedItems = [...editData.scopeItems]
                               updatedItems.splice(index, 1)
@@ -624,27 +624,27 @@ export default function Repoting() {
                         </div>
                         <div className="grid gap-4">
                           <div>
-                            <label className="block text-sm font-medium mb-1">Capability</label>
+                            <label className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">Capability</label>
                             <input
                               type="text"
-                              className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-[#1E232E] text-gray-800 dark:text-gray-200"
                               value={item.capability}
                               onChange={(e) => handleEditItem("scope", index, "capability", e.target.value)}
                             />
                           </div>
                           <div>
-                            <label className="block text-sm font-medium mb-1">Description</label>
+                            <label className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">Description</label>
                             <textarea
-                              className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-[#1E232E] text-gray-800 dark:text-gray-200"
                               value={item.description}
                               onChange={(e) => handleEditItem("scope", index, "description", e.target.value)}
                               rows={3}
                             />
                           </div>
                           <div>
-                            <label className="block text-sm font-medium mb-1">End Game</label>
+                            <label className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">End Game</label>
                             <textarea
-                              className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-[#1E232E] text-gray-800 dark:text-gray-200"
                               value={item.endGame}
                               onChange={(e) => handleEditItem("scope", index, "endGame", e.target.value)}
                               rows={3}
@@ -654,7 +654,7 @@ export default function Repoting() {
                       </div>
                     ))}
                     <button
-                      className="flex items-center px-3 py-2 border border-gray-300 rounded-md hover:bg-gray-100 mb-4"
+                      className="flex items-center px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 mb-4"
                       onClick={() => {
                         setEditData({
                           ...editData,
@@ -666,13 +666,13 @@ export default function Repoting() {
                     </button>
                     <div className="flex justify-end space-x-2 mt-4">
                       <button
-                        className="flex items-center px-3 py-2 border border-gray-300 rounded-md hover:bg-gray-100"
+                        className="flex items-center px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
                         onClick={handleCancelEdit}
                       >
                         <FaTimes className="mr-2" /> Cancel
                       </button>
                       <button
-                        className="flex items-center px-3 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+                        className="flex items-center px-3 py-2 bg-[#00308F] dark:bg-[#4A6CF7] text-white rounded-md hover:bg-[#00218f] dark:hover:bg-[#3B5AEB]"
                         onClick={handleSaveChanges}
                       >
                         <FaSave className="mr-2" /> Save Changes
@@ -682,27 +682,27 @@ export default function Repoting() {
                 ) : (
                   <table className="min-w-full">
                     <thead>
-                      <tr className="bg-gray-100">
-                        <th className="p-3 text-left font-semibold text-gray-700 border">
+                      <tr className="bg-gray-100 dark:bg-gray-800">
+                        <th className="p-3 text-left font-semibold text-gray-700 dark:text-gray-400 border border-gray-300 dark:border-gray-700">
                           Scope/Capabilities to deliver
                         </th>
-                        <th className="p-3 text-left font-semibold text-gray-700 border">Short description</th>
-                        <th className="p-3 text-left font-semibold text-gray-700 border">End-game</th>
+                        <th className="p-3 text-left font-semibold text-gray-700 dark:text-gray-400 border border-gray-300 dark:border-gray-700">Short description</th>
+                        <th className="p-3 text-left font-semibold text-gray-700 dark:text-gray-400 border border-gray-300 dark:border-gray-700">End-game</th>
                         {isAdmin && currentVersionId === versionHistory.length && (
-                          <th className="p-3 text-center font-semibold text-gray-700 border w-24">Actions</th>
+                          <th className="p-3 text-center font-semibold text-gray-700 dark:text-gray-400 border border-gray-300 dark:border-gray-700 w-24">Actions</th>
                         )}
                       </tr>
                     </thead>
                     <tbody>
                       {projectData.scopeItems.map((item, index) => (
-                        <tr key={index} className="hover:bg-gray-50 transition-colors">
-                          <td className="p-3 border">{item.capability}</td>
-                          <td className="p-3 border">{item.description}</td>
-                          <td className="p-3 border whitespace-pre-line">{item.endGame}</td>
+                        <tr key={index} className="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors text-gray-800 dark:text-gray-200">
+                          <td className="p-3 border border-gray-300 dark:border-gray-700">{item.capability}</td>
+                          <td className="p-3 border border-gray-300 dark:border-gray-700">{item.description}</td>
+                          <td className="p-3 border border-gray-300 dark:border-gray-700 whitespace-pre-line">{item.endGame}</td>
                           {isAdmin && currentVersionId === versionHistory.length && (
-                            <td className="p-3 border text-center">
+                            <td className="p-3 border border-gray-300 dark:border-gray-700 text-center">
                               <button
-                                className="p-1  text-black rounded-md "
+                                className="p-1 text-gray-800 dark:text-gray-200 rounded-md hover:bg-gray-100 dark:hover:bg-gray-600"
                                 onClick={() => handleDeleteItem("scope", index)}
                               >
                                 <FaTrash />
@@ -719,9 +719,9 @@ export default function Repoting() {
           </div>
 
           {/* Critical Interdependencies Section */}
-          <div className="mb-6 border rounded-lg overflow-hidden">
+          <div className="mb-6 border rounded-lg overflow-hidden border-gray-300 dark:border-gray-700">
             <div
-              className="flex justify-between items-center p-3 bg-[#00308F] text-white cursor-pointer"
+              className="flex justify-between items-center p-3 bg-[#00308F] dark:bg-[#4A6CF7] text-white cursor-pointer"
               onClick={() => toggleSection("interdependencies")}
             >
               <h2 className="font-bold">Critical Interdependencies</h2>
@@ -729,7 +729,7 @@ export default function Repoting() {
                 {isAdmin && currentVersionId === versionHistory.length && !isEditing && (
                   <>
                     <button
-                      className="flex items-center px-2 py-1 text-white hover:bg-blue-800 mr-2"
+                      className="flex items-center px-2 py-1 text-white hover:bg-[#00218f] dark:hover:bg-[#3B5AEB] mr-2"
                       onClick={(e) => {
                         e.stopPropagation()
                         handleAddItem("interdependencies")
@@ -738,7 +738,7 @@ export default function Repoting() {
                       <FaPlus className="mr-1" /> Add
                     </button>
                     <button
-                      className="flex items-center px-2 py-1 text-white hover:bg-blue-800 mr-2"
+                      className="flex items-center px-2 py-1 text-white hover:bg-[#00218f] dark:hover:bg-[#3B5AEB] mr-2"
                       onClick={(e) => {
                         e.stopPropagation()
                         handleEditSection("interdependencies")
@@ -756,13 +756,13 @@ export default function Repoting() {
               <div className="overflow-x-auto">
                 {isEditing && editingSection === "interdependencies" ? (
                   <div className="p-4">
-                    <h3 className="text-lg font-semibold mb-4">Edit Interdependencies</h3>
+                    <h3 className="text-lg font-semibold mb-4 text-gray-800 dark:text-gray-200">Edit Interdependencies</h3>
                     {editData.interdependencies.map((item, index) => (
-                      <div key={index} className="mb-6 p-4 border rounded-lg">
+                      <div key={index} className="mb-6 p-4 border rounded-lg border-gray-300 dark:border-gray-600">
                         <div className="flex justify-between mb-2">
-                          <h4 className="font-medium">Interdependency #{index + 1}</h4>
+                          <h4 className="font-medium text-gray-800 dark:text-gray-200">Interdependency #{index + 1}</h4>
                           <button
-                            className="flex items-center px-2 py-1  text-black rounded-md "
+                            className="flex items-center px-2 py-1 text-gray-800 dark:text-gray-200 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700"
                             onClick={() => {
                               const updatedItems = [...editData.interdependencies]
                               updatedItems.splice(index, 1)
@@ -774,18 +774,18 @@ export default function Repoting() {
                         </div>
                         <div className="grid gap-4">
                           <div>
-                            <label className="block text-sm font-medium mb-1">Item</label>
+                            <label className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">Item</label>
                             <input
                               type="text"
-                              className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-[#1E232E] text-gray-800 dark:text-gray-200"
                               value={item.item}
                               onChange={(e) => handleEditItem("interdependencies", index, "item", e.target.value)}
                             />
                           </div>
                           <div>
-                            <label className="block text-sm font-medium mb-1">Description</label>
+                            <label className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">Description</label>
                             <textarea
-                              className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-[#1E232E] text-gray-800 dark:text-gray-200"
                               value={item.description}
                               onChange={(e) => handleEditItem("interdependencies", index, "description", e.target.value)}
                               rows={3}
@@ -795,7 +795,7 @@ export default function Repoting() {
                       </div>
                     ))}
                     <button
-                      className="flex items-center px-3 py-2 border border-gray-300 rounded-md hover:bg-gray-100 mb-4"
+                      className="flex items-center px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 mb-4"
                       onClick={() => {
                         setEditData({
                           ...editData,
@@ -807,13 +807,13 @@ export default function Repoting() {
                     </button>
                     <div className="flex justify-end space-x-2 mt-4">
                       <button
-                        className="flex items-center px-3 py-2 border border-gray-300 rounded-md hover:bg-gray-100"
+                        className="flex items-center px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
                         onClick={handleCancelEdit}
                       >
                         <FaTimes className="mr-2" /> Cancel
                       </button>
                       <button
-                        className="flex items-center px-3 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+                        className="flex items-center px-3 py-2 bg-[#00308F] dark:bg-[#4A6CF7] text-white rounded-md hover:bg-[#00218f] dark:hover:bg-[#3B5AEB]"
                         onClick={handleSaveChanges}
                       >
                         <FaSave className="mr-2" /> Save Changes
@@ -823,23 +823,23 @@ export default function Repoting() {
                 ) : (
                   <table className="min-w-full">
                     <thead>
-                      <tr className="bg-gray-100">
-                        <th className="p-3 text-left font-semibold text-gray-700 border">Item</th>
-                        <th className="p-3 text-left font-semibold text-gray-700 border">Description</th>
+                      <tr className="bg-gray-100 dark:bg-gray-800">
+                        <th className="p-3 text-left font-semibold text-gray-700 dark:text-gray-400 border border-gray-300 dark:border-gray-700">Item</th>
+                        <th className="p-3 text-left font-semibold text-gray-700 dark:text-gray-400 border border-gray-300 dark:border-gray-700">Description</th>
                         {isAdmin && currentVersionId === versionHistory.length && (
-                          <th className="p-3 text-center font-semibold text-gray-700 border w-24">Actions</th>
+                          <th className="p-3 text-center font-semibold text-gray-700 dark:text-gray-400 border border-gray-300 dark:border-gray-700 w-24">Actions</th>
                         )}
                       </tr>
                     </thead>
                     <tbody>
                       {projectData.interdependencies.map((item, index) => (
-                        <tr key={index} className="hover:bg-gray-50 transition-colors">
-                          <td className="p-3 border">{item.item}</td>
-                          <td className="p-3 border">{item.description}</td>
+                        <tr key={index} className="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors text-gray-800 dark:text-gray-200">
+                          <td className="p-3 border border-gray-300 dark:border-gray-700">{item.item}</td>
+                          <td className="p-3 border border-gray-300 dark:border-gray-700">{item.description}</td>
                           {isAdmin && currentVersionId === versionHistory.length && (
-                            <td className="p-3 border text-center">
+                            <td className="p-3 border border-gray-300 dark:border-gray-700 text-center">
                               <button
-                                className="p-1  text-black rounded-md "
+                                className="p-1 text-gray-800 dark:text-gray-200 rounded-md hover:bg-gray-100 dark:hover:bg-gray-600"
                                 onClick={() => handleDeleteItem("interdependencies", index)}
                               >
                                 <FaTrash />
@@ -856,9 +856,9 @@ export default function Repoting() {
           </div>
 
           {/* Key Risks Section */}
-          <div className="mb-6 border rounded-lg overflow-hidden">
+          <div className="mb-6 border rounded-lg overflow-hidden border-gray-300 dark:border-gray-700">
             <div
-              className="flex justify-between items-center p-3 bg-[#00308F] text-white cursor-pointer"
+              className="flex justify-between items-center p-3 bg-[#00308F] dark:bg-[#4A6CF7] text-white cursor-pointer"
               onClick={() => toggleSection("risks")}
             >
               <h2 className="font-bold">Key Risks</h2>
@@ -866,7 +866,7 @@ export default function Repoting() {
                 {isAdmin && currentVersionId === versionHistory.length && !isEditing && (
                   <>
                     <button
-                      className="flex items-center px-2 py-1 text-white hover:bg-blue-800 mr-2"
+                      className="flex items-center px-2 py-1 text-white hover:bg-[#00218f] dark:hover:bg-[#3B5AEB] mr-2"
                       onClick={(e) => {
                         e.stopPropagation()
                         handleAddItem("risks")
@@ -875,7 +875,7 @@ export default function Repoting() {
                       <FaPlus className="mr-1" /> Add
                     </button>
                     <button
-                      className="flex items-center px-2 py-1 text-white hover:bg-blue-800 mr-2"
+                      className="flex items-center px-2 py-1 text-white hover:bg-[#00218f] dark:hover:bg-[#3B5AEB] mr-2"
                       onClick={(e) => {
                         e.stopPropagation()
                         handleEditSection("risks")
@@ -893,13 +893,13 @@ export default function Repoting() {
               <div className="overflow-x-auto">
                 {isEditing && editingSection === "risks" ? (
                   <div className="p-4">
-                    <h3 className="text-lg font-semibold mb-4">Edit Risks</h3>
+                    <h3 className="text-lg font-semibold mb-4 text-gray-800 dark:text-gray-200">Edit Risks</h3>
                     {editData.keyRisks.map((item, index) => (
-                      <div key={index} className="mb-6 p-4 border rounded-lg">
+                      <div key={index} className="mb-6 p-4 border rounded-lg border-gray-300 dark:border-gray-600">
                         <div className="flex justify-between mb-2">
-                          <h4 className="font-medium">Risk #{index + 1}</h4>
+                          <h4 className="font-medium text-gray-800 dark:text-gray-200">Risk #{index + 1}</h4>
                           <button
-                            className="flex items-center px-2 py-1  text-black rounded-md "
+                            className="flex items-center px-2 py-1 text-gray-800 dark:text-gray-200 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700"
                             onClick={() => {
                               const updatedItems = [...editData.keyRisks]
                               updatedItems.splice(index, 1)
@@ -911,18 +911,18 @@ export default function Repoting() {
                         </div>
                         <div className="grid gap-4">
                           <div>
-                            <label className="block text-sm font-medium mb-1">Risk</label>
+                            <label className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">Risk</label>
                             <input
                               type="text"
-                              className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-[#1E232E] text-gray-800 dark:text-gray-200"
                               value={item.risk}
                               onChange={(e) => handleEditItem("risks", index, "risk", e.target.value)}
                             />
                           </div>
                           <div>
-                            <label className="block text-sm font-medium mb-1">Description</label>
+                            <label className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">Description</label>
                             <textarea
-                              className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-[#1E232E] text-gray-800 dark:text-gray-200"
                               value={item.description}
                               onChange={(e) => handleEditItem("risks", index, "description", e.target.value)}
                               rows={3}
@@ -932,7 +932,7 @@ export default function Repoting() {
                       </div>
                     ))}
                     <button
-                      className="flex items-center px-3 py-2 border border-gray-300 rounded-md hover:bg-gray-100 mb-4"
+                      className="flex items-center px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 mb-4"
                       onClick={() => {
                         setEditData({
                           ...editData,
@@ -944,13 +944,13 @@ export default function Repoting() {
                     </button>
                     <div className="flex justify-end space-x-2 mt-4">
                       <button
-                        className="flex items-center px-3 py-2 border border-gray-300 rounded-md hover:bg-gray-100"
+                        className="flex items-center px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
                         onClick={handleCancelEdit}
                       >
                         <FaTimes className="mr-2" /> Cancel
                       </button>
                       <button
-                        className="flex items-center px-3 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+                        className="flex items-center px-3 py-2 bg-[#00308F] dark:bg-[#4A6CF7] text-white rounded-md hover:bg-[#00218f] dark:hover:bg-[#3B5AEB]"
                         onClick={handleSaveChanges}
                       >
                         <FaSave className="mr-2" /> Save Changes
@@ -960,25 +960,25 @@ export default function Repoting() {
                 ) : (
                   <table className="min-w-full">
                     <thead>
-                      <tr className="bg-gray-100">
-                        <th className="p-3 text-left font-semibold text-gray-700 border">Risk</th>
-                        <th className="p-3 text-left font-semibold text-gray-700 border">
+                      <tr className="bg-gray-100 dark:bg-gray-800">
+                        <th className="p-3 text-left font-semibold text-gray-700 dark:text-gray-400 border border-gray-300 dark:border-gray-700">Risk</th>
+                        <th className="p-3 text-left font-semibold text-gray-700 dark:text-gray-400 border border-gray-300 dark:border-gray-700">
                           Description / Mitigation (if available)
                         </th>
                         {isAdmin && currentVersionId === versionHistory.length && (
-                          <th className="p-3 text-center font-semibold text-gray-700 border w-24">Actions</th>
+                          <th className="p-3 text-center font-semibold text-gray-700 dark:text-gray-400 border border-gray-300 dark:border-gray-700 w-24">Actions</th>
                         )}
                       </tr>
                     </thead>
                     <tbody>
                       {projectData.keyRisks.map((item, index) => (
-                        <tr key={index} className="hover:bg-gray-50 transition-colors">
-                          <td className="p-3 border">{item.risk}</td>
-                          <td className="p-3 border">{item.description}</td>
+                        <tr key={index} className="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors text-gray-800 dark:text-gray-200">
+                          <td className="p-3 border border-gray-300 dark:border-gray-700">{item.risk}</td>
+                          <td className="p-3 border border-gray-300 dark:border-gray-700">{item.description}</td>
                           {isAdmin && currentVersionId === versionHistory.length && (
-                            <td className="p-3 border text-center">
+                            <td className="p-3 border border-gray-300 dark:border-gray-700 text-center">
                               <button
-                                className="p-1  text-black rounded-md "
+                                className="p-1 text-gray-800 dark:text-gray-200 rounded-md hover:bg-gray-100 dark:hover:bg-gray-600"
                                 onClick={() => handleDeleteItem("risks", index)}
                               >
                                 <FaTrash />
@@ -995,9 +995,11 @@ export default function Repoting() {
           </div>
 
           {/* Key Deliverables Section */}
-          <div className="mb-6 border rounded-lg overflow-hidden">
+          <div className="mb-6 border rounded-lg
+
+ overflow-hidden border-gray-300 dark:border-gray-700">
             <div
-              className="flex justify-between items-center p-3 bg-[#00308F] text-white cursor-pointer"
+              className="flex justify-between items-center p-3 bg-[#00308F] dark:bg-[#4A6CF7] text-white cursor-pointer"
               onClick={() => toggleSection("deliverables")}
             >
               <h2 className="font-bold">Key Deliverables</h2>
@@ -1005,7 +1007,7 @@ export default function Repoting() {
                 {isAdmin && currentVersionId === versionHistory.length && !isEditing && (
                   <>
                     <button
-                      className="flex items-center px-2 py-1 text-white hover:bg-blue-800 mr-2"
+                      className="flex items-center px-2 py-1 text-white hover:bg-[#00218f] dark:hover:bg-[#3B5AEB] mr-2"
                       onClick={(e) => {
                         e.stopPropagation()
                         handleAddItem("deliverables")
@@ -1014,7 +1016,7 @@ export default function Repoting() {
                       <FaPlus className="mr-1" /> Add
                     </button>
                     <button
-                      className="flex items-center px-2 py-1 text-white hover:bg-blue-800 mr-2"
+                      className="flex items-center px-2 py-1 text-white hover:bg-[#00218f] dark:hover:bg-[#3B5AEB] mr-2"
                       onClick={(e) => {
                         e.stopPropagation()
                         handleEditSection("deliverables")
@@ -1032,13 +1034,13 @@ export default function Repoting() {
               <div className="overflow-x-auto">
                 {isEditing && editingSection === "deliverables" ? (
                   <div className="p-4">
-                    <h3 className="text-lg font-semibold mb-4">Edit Deliverables</h3>
+                    <h3 className="text-lg font-semibold mb-4 text-gray-800 dark:text-gray-200">Edit Deliverables</h3>
                     {editData.deliverables.map((item, index) => (
-                      <div key={index} className="mb-6 p-4 border rounded-lg">
+                      <div key={index} className="mb-6 p-4 border rounded-lg border-gray-300 dark:border-gray-600">
                         <div className="flex justify-between mb-2">
-                          <h4 className="font-medium">Deliverable #{index + 1}</h4>
+                          <h4 className="font-medium text-gray-800 dark:text-gray-200">Deliverable #{index + 1}</h4>
                           <button
-                            className="flex items-center px-2 py-1  text-black rounded-md "
+                            className="flex items-center px-2 py-1 text-gray-800 dark:text-gray-200 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700"
                             onClick={() => {
                               const updatedItems = [...editData.deliverables]
                               updatedItems.splice(index, 1)
@@ -1050,19 +1052,19 @@ export default function Repoting() {
                         </div>
                         <div className="grid gap-4">
                           <div>
-                            <label className="block text-sm font-medium mb-1">Deliverable</label>
+                            <label className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">Deliverable</label>
                             <input
                               type="text"
-                              className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-[#1E232E] text-gray-800 dark:text-gray-200"
                               value={item.name}
                               onChange={(e) => handleEditItem("deliverables", index, "name", e.target.value)}
                             />
                           </div>
                           <div>
-                            <label className="block text-sm font-medium mb-1">Date</label>
+                            <label className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">Date</label>
                             <input
                               type="text"
-                              className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-[#1E232E] text-gray-800 dark:text-gray-200"
                               value={item.date}
                               onChange={(e) => handleEditItem("deliverables", index, "date", e.target.value)}
                             />
@@ -1071,7 +1073,7 @@ export default function Repoting() {
                       </div>
                     ))}
                     <button
-                      className="flex items-center px-3 py-2 border border-gray-300 rounded-md hover:bg-gray-100 mb-4"
+                      className="flex items-center px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 mb-4"
                       onClick={() => {
                         setEditData({
                           ...editData,
@@ -1083,13 +1085,13 @@ export default function Repoting() {
                     </button>
                     <div className="flex justify-end space-x-2 mt-4">
                       <button
-                        className="flex items-center px-3 py-2 border border-gray-300 rounded-md hover:bg-gray-100"
+                        className="flex items-center px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
                         onClick={handleCancelEdit}
                       >
                         <FaTimes className="mr-2" /> Cancel
                       </button>
                       <button
-                        className="flex items-center px-3 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+                        className="flex items-center px-3 py-2 bg-[#00308F] dark:bg-[#4A6CF7] text-white rounded-md hover:bg-[#00218f] dark:hover:bg-[#3B5AEB]"
                         onClick={handleSaveChanges}
                       >
                         <FaSave className="mr-2" /> Save Changes
@@ -1099,13 +1101,13 @@ export default function Repoting() {
                 ) : (
                   <table className="min-w-full border-collapse">
                     <thead>
-                      <tr className="bg-gray-100">
-                        <th className="p-4 text-left font-semibold text-gray-700 border-b border-gray-300">
+                      <tr className="bg-gray-100 dark:bg-gray-800">
+                        <th className="p-4 text-left font-semibold text-gray-700 dark:text-gray-400 border-b border-gray-300 dark:border-gray-700">
                           Deliverable
                         </th>
-                        <th className="p-4 text-left font-semibold text-gray-700 border-b border-gray-300">Date</th>
+                        <th className="p-4 text-left font-semibold text-gray-700 dark:text-gray-400 border-b border-gray-300 dark:border-gray-700">Date</th>
                         {isAdmin && currentVersionId === versionHistory.length && (
-                          <th className="p-4 text-center font-semibold text-gray-700 border-b border-gray-300 w-24">
+                          <th className="p-4 text-center font-semibold text-gray-700 dark:text-gray-400 border-b border-gray-300 dark:border-gray-700 w-24">
                             Actions
                           </th>
                         )}
@@ -1115,14 +1117,14 @@ export default function Repoting() {
                       {projectData.deliverables.map((item, index) => (
                         <tr
                           key={index}
-                          className="hover:bg-gray-50 transition-colors border-b border-gray-200 last:border-b-0"
+                          className="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors text-gray-800 dark:text-gray-200 border-b border-gray-200 dark:border-gray-700 last:border-b-0"
                         >
                           <td className="p-4 flex items-center">{item.name}</td>
                           <td className="p-4">{item.date}</td>
                           {isAdmin && currentVersionId === versionHistory.length && (
                             <td className="p-4 text-center">
                               <button
-                                className="p-1  text-black rounded-md "
+                                className="p-1 text-gray-800 dark:text-gray-200 rounded-md hover:bg-gray-100 dark:hover:bg-gray-600"
                                 onClick={() => handleDeleteItem("deliverables", index)}
                               >
                                 <FaTrash />
@@ -1139,9 +1141,9 @@ export default function Repoting() {
           </div>
 
           {/* Resource Requirements Section */}
-          <div className="mb-6 border rounded-lg overflow-hidden">
+          <div className="mb-6 border rounded-lg overflow-hidden border-gray-300 dark:border-gray-700">
             <div
-              className="flex justify-between items-center p-3 bg-[#00308F] text-white cursor-pointer"
+              className="flex justify-between items-center p-3 bg-[#00308F] dark:bg-[#4A6CF7] text-white cursor-pointer"
               onClick={() => toggleSection("resources")}
             >
               <h2 className="font-bold">Resource Requirements</h2>
@@ -1149,7 +1151,7 @@ export default function Repoting() {
                 {isAdmin && currentVersionId === versionHistory.length && !isEditing && (
                   <>
                     <button
-                      className="flex items-center px-2 py-1 text-white hover:bg-blue-800 mr-2"
+                      className="flex items-center px-2 py-1 text-white hover:bg-[#00218f] dark:hover:bg-[#3B5AEB] mr-2"
                       onClick={(e) => {
                         e.stopPropagation()
                         handleAddItem("resources")
@@ -1158,7 +1160,7 @@ export default function Repoting() {
                       <FaPlus className="mr-1" /> Add
                     </button>
                     <button
-                      className="flex items-center px-2 py-1 text-white hover:bg-blue-800 mr-2"
+                      className="flex items-center px-2 py-1 text-white hover:bg-[#00218f] dark:hover:bg-[#3B5AEB] mr-2"
                       onClick={(e) => {
                         e.stopPropagation()
                         handleEditSection("resources")
@@ -1176,13 +1178,13 @@ export default function Repoting() {
               <div className="overflow-x-auto">
                 {isEditing && editingSection === "resources" ? (
                   <div className="p-4">
-                    <h3 className="text-lg font-semibold mb-4">Edit Resources</h3>
+                    <h3 className="text-lg font-semibold mb-4 text-gray-800 dark:text-gray-200">Edit Resources</h3>
                     {editData.resources.map((item, index) => (
-                      <div key={index} className="mb-6 p-4 border rounded-lg">
+                      <div key={index} className="mb-6 p-4 border rounded-lg border-gray-300 dark:border-gray-600">
                         <div className="flex justify-between mb-2">
-                          <h4 className="font-medium">Resource #{index + 1}</h4>
+                          <h4 className="font-medium text-gray-800 dark:text-gray-200">Resource #{index + 1}</h4>
                           <button
-                            className="flex items-center px-2 py-1  text-black rounded-md "
+                            className="flex items-center px-2 py-1 text-gray-800 dark:text-gray-200 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700"
                             onClick={() => {
                               const updatedItems = [...editData.resources]
                               updatedItems.splice(index, 1)
@@ -1194,18 +1196,18 @@ export default function Repoting() {
                         </div>
                         <div className="grid gap-4">
                           <div>
-                            <label className="block text-sm font-medium mb-1">Role</label>
+                            <label className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">Role</label>
                             <input
                               type="text"
-                              className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-[#1E232E] text-gray-800 dark:text-gray-200"
                               value={item.role}
                               onChange={(e) => handleEditItem("resources", index, "role", e.target.value)}
                             />
                           </div>
                           <div>
-                            <label className="block text-sm font-medium mb-1">Required</label>
+                            <label className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">Required</label>
                             <select
-                              className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-[#1E232E] text-gray-800 dark:text-gray-200"
                               value={item.required}
                               onChange={(e) => handleEditItem("resources", index, "required", e.target.value)}
                             >
@@ -1214,19 +1216,19 @@ export default function Repoting() {
                             </select>
                           </div>
                           <div>
-                            <label className="block text-sm font-medium mb-1">Name</label>
+                            <label className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">Name</label>
                             <input
                               type="text"
-                              className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-[#1E232E] text-gray-800 dark:text-gray-200"
                               value={item.name}
                               onChange={(e) => handleEditItem("resources", index, "name", e.target.value)}
                             />
                           </div>
                           <div>
-                            <label className="block text-sm font-medium mb-1">FTE</label>
+                            <label className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">FTE</label>
                             <input
                               type="text"
-                              className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-[#1E232E] text-gray-800 dark:text-gray-200"
                               value={item.fte}
                               onChange={(e) => handleEditItem("resources", index, "fte", e.target.value)}
                             />
@@ -1235,7 +1237,7 @@ export default function Repoting() {
                       </div>
                     ))}
                     <button
-                      className="flex items-center px-3 py-2 border border-gray-300 rounded-md hover:bg-gray-100 mb-4"
+                      className="flex items-center px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 mb-4"
                       onClick={() => {
                         setEditData({
                           ...editData,
@@ -1247,13 +1249,13 @@ export default function Repoting() {
                     </button>
                     <div className="flex justify-end space-x-2 mt-4">
                       <button
-                        className="flex items-center px-3 py-2 border border-gray-300 rounded-md hover:bg-gray-100"
+                        className="flex items-center px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
                         onClick={handleCancelEdit}
                       >
                         <FaTimes className="mr-2" /> Cancel
                       </button>
                       <button
-                        className="flex items-center px-3 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+                        className="flex items-center px-3 py-2 bg-[#00308F] dark:bg-[#4A6CF7] text-white rounded-md hover:bg-[#00218f] dark:hover:bg-[#3B5AEB]"
                         onClick={handleSaveChanges}
                       >
                         <FaSave className="mr-2" /> Save Changes
@@ -1263,27 +1265,27 @@ export default function Repoting() {
                 ) : (
                   <table className="min-w-full">
                     <thead>
-                      <tr className="bg-gray-100">
-                        <th className="p-3 text-left font-semibold text-gray-700 border">Role</th>
-                        <th className="p-3 text-left font-semibold text-gray-700 border">Required</th>
-                        <th className="p-3 text-left font-semibold text-gray-700 border">Name(s)</th>
-                        <th className="p-3 text-left font-semibold text-gray-700 border">FTE</th>
+                      <tr className="bg-gray-100 dark:bg-gray-800">
+                        <th className="p-3 text-left font-semibold text-gray-700 dark:text-gray-400 border border-gray-300 dark:border-gray-700">Role</th>
+                        <th className="p-3 text-left font-semibold text-gray-700 dark:text-gray-400 border border-gray-300 dark:border-gray-700">Required</th>
+                        <th className="p-3 text-left font-semibold text-gray-700 dark:text-gray-400 border border-gray-300 dark:border-gray-700">Name(s)</th>
+                        <th className="p-3 text-left font-semibold text-gray-700 dark:text-gray-400 border border-gray-300 dark:border-gray-700">FTE</th>
                         {isAdmin && currentVersionId === versionHistory.length && (
-                          <th className="p-3 text-center font-semibold text-gray-700 border w-24">Actions</th>
+                          <th className="p-3 text-center font-semibold text-gray-700 dark:text-gray-400 border border-gray-300 dark:border-gray-700 w-24">Actions</th>
                         )}
                       </tr>
                     </thead>
                     <tbody>
                       {projectData.resources.map((item, index) => (
-                        <tr key={index} className="hover:bg-gray-50 transition-colors">
-                          <td className="p-3 border">{item.role}</td>
-                          <td className="p-3 border">{item.required}</td>
-                          <td className="p-3 border">{item.name}</td>
-                          <td className="p-3 border">{item.fte}</td>
+                        <tr key={index} className="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors text-gray-800 dark:text-gray-200">
+                          <td className="p-3 border border-gray-300 dark:border-gray-700">{item.role}</td>
+                          <td className="p-3 border border-gray-300 dark:border-gray-700">{item.required}</td>
+                          <td className="p-3 border border-gray-300 dark:border-gray-700">{item.name}</td>
+                          <td className="p-3 border border-gray-300 dark:border-gray-700">{item.fte}</td>
                           {isAdmin && currentVersionId === versionHistory.length && (
-                            <td className="p-3 border text-center">
+                            <td className="p-3 border border-gray-300 dark:border-gray-700 text-center">
                               <button
-                                className="p-1  text-black rounded-md "
+                                className="p-1 text-gray-800 dark:text-gray-200 rounded-md hover:bg-gray-100 dark:hover:bg-gray-600"
                                 onClick={() => handleDeleteItem("resources", index)}
                               >
                                 <FaTrash />
@@ -1302,27 +1304,26 @@ export default function Repoting() {
 
         {/* Version History Dialog */}
         {isVersionHistoryOpen && (
-          <div className="fixed inset-0  backdrop-blur-[3px] flex items-center justify-center z-50">
-            <div className="bg-white rounded-lg p-6 w-full max-w-md border border-gray-300">
-              <h2 className="text-xl font-bold mb-4">Version History</h2>
+          <div className="fixed inset-0 backdrop-blur-[3px] flex items-center justify-center z-50">
+            <div className="bg-white dark:bg-[#1E232E] rounded-lg p-6 w-full max-w-md border border-gray-300 dark:border-gray-700">
+              <h2 className="text-xl font-bold mb-4 text-gray-800 dark:text-gray-200">Version History</h2>
               <div className="space-y-4 max-h-96 overflow-y-auto">
                 {versionHistory.map((version) => (
                   <div
                     key={version.id}
-                    className={`p-3 border rounded-md cursor-pointer hover:bg-gray-100 ${
-                      currentVersionId === version.id ? "bg-blue-50 border-blue-500" : "border-gray-300"
-                    }`}
+                    className={`p-3 border rounded-md cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 ${currentVersionId === version.id ? "bg-blue-50 dark:bg-blue-900 border-blue-500 dark:border-blue-600" : "border-gray-300 dark:border-gray-600"
+                      }`}
                     onClick={() => setCurrentVersionId(version.id)}
                   >
                     <div className="flex justify-between">
                       <div>
-                        <p className="font-semibold">Version {version.id}</p>
-                        <p className="text-sm text-gray-600">{format(version.date, "MMM d, yyyy")}</p>
-                        <p className="text-sm text-gray-600">Author: {version.author}</p>
-                        <p className="text-sm text-gray-600">Changes: {version.changes}</p>
+                        <p className="font-semibold text-gray-800 dark:text-gray-200">Version {version.id}</p>
+                        <p className="text-sm text-gray-600 dark:text-gray-400">{format(version.date, "MMM d, yyyy")}</p>
+                        <p className="text-sm text-gray-600 dark:text-gray-400">Author: {version.author}</p>
+                        <p className="text-sm text-gray-600 dark:text-gray-400">Changes: {version.changes}</p>
                       </div>
                       {currentVersionId === version.id && (
-                        <span className="text-blue-600 font-semibold">Current</span>
+                        <span className="text-[#00308F] dark:text-[#4A6CF7] font-semibold">Current</span>
                       )}
                     </div>
                   </div>
@@ -1330,7 +1331,7 @@ export default function Repoting() {
               </div>
               <div className="flex justify-end mt-4">
                 <button
-                  className="px-3 py-2 bg-gray-200 rounded-md hover:bg-gray-300"
+                  className="px-3 py-2 bg-gray-200 dark:bg-gray-700 rounded-md text-gray-800 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-600"
                   onClick={() => setIsVersionHistoryOpen(false)}
                 >
                   Close
@@ -1342,13 +1343,13 @@ export default function Repoting() {
 
         {/* Version Description Dialog */}
         {isVersionDialogOpen && (
-          <div className="fixed inset-0  backdrop-blur-[3px] flex items-center justify-center z-50">
-            <div className="bg-white rounded-lg p-6 w-full max-w-md border border-gray-300">
-              <h2 className="text-xl font-bold mb-4">Save New Version</h2>
+          <div className="fixed inset-0 backdrop-blur-[3px] flex items-center justify-center z-50">
+            <div className="bg-white dark:bg-[#1E232E] rounded-lg p-6 w-full max-w-md border border-gray-300 dark:border-gray-700">
+              <h2 className="text-xl font-bold mb-4 text-gray-800 dark:text-gray-200">Save New Version</h2>
               <div className="mb-4">
-                <label className="block text-sm font-medium mb-1">Change Description</label>
+                <label className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">Change Description</label>
                 <textarea
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-[#1E232E] text-gray-800 dark:text-gray-200"
                   value={changeDescription}
                   onChange={(e) => setChangeDescription(e.target.value)}
                   rows={4}
@@ -1357,13 +1358,13 @@ export default function Repoting() {
               </div>
               <div className="flex justify-end space-x-2">
                 <button
-                  className="px-3 py-2 border border-gray-300 rounded-md hover:bg-gray-100"
+                  className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
                   onClick={() => setIsVersionDialogOpen(false)}
                 >
                   Cancel
                 </button>
                 <button
-                  className="px-3 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+                  className="px-3 py-2 bg-[#00308F] dark:bg-[#4A6CF7] text-white rounded-md hover:bg-[#00218f] dark:hover:bg-[#3B5AEB]"
                   onClick={createNewVersion}
                 >
                   Save Version
@@ -1375,34 +1376,34 @@ export default function Repoting() {
 
         {/* Add Item Dialog */}
         {isAddItemDialogOpen && (
-          <div className="fixed inset-0  backdrop-blur-[3px] flex items-center justify-center z-50">
-            <div className="bg-white rounded-lg p-6 w-full max-w-md border border-gray-300">
-              <h2 className="text-xl font-bold mb-4">Add New {addItemType.charAt(0).toUpperCase() + addItemType.slice(1)} Item</h2>
+          <div className="fixed inset-0 backdrop-blur-[3px] flex items-center justify-center z-50">
+            <div className="bg-white dark:bg-[#1E232E] rounded-lg p-6 w-full max-w-md border border-gray-300 dark:border-gray-700">
+              <h2 className="text-xl font-bold mb-4 text-gray-800 dark:text-gray-200">Add New {addItemType.charAt(0).toUpperCase() + addItemType.slice(1)} Item</h2>
               <div className="grid gap-4">
                 {addItemType === "scope" && (
                   <>
                     <div>
-                      <label className="block text-sm font-medium mb-1">Capability</label>
+                      <label className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">Capability</label>
                       <input
                         type="text"
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                        className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-[#1E232E] text-gray-800 dark:text-gray-200"
                         value={newItemData.capability}
                         onChange={(e) => setNewItemData({ ...newItemData, capability: e.target.value })}
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium mb-1">Description</label>
+                      <label className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">Description</label>
                       <textarea
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                        className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-[#1E232E] text-gray-800 dark:text-gray-200"
                         value={newItemData.description}
                         onChange={(e) => setNewItemData({ ...newItemData, description: e.target.value })}
                         rows={3}
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium mb-1">End Game</label>
+                      <label className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">End Game</label>
                       <textarea
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                        className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-[#1E232E] text-gray-800 dark:text-gray-200"
                         value={newItemData.endGame}
                         onChange={(e) => setNewItemData({ ...newItemData, endGame: e.target.value })}
                         rows={3}
@@ -1413,18 +1414,18 @@ export default function Repoting() {
                 {addItemType === "interdependencies" && (
                   <>
                     <div>
-                      <label className="block text-sm font-medium mb-1">Item</label>
+                      <label className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">Item</label>
                       <input
                         type="text"
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                        className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-[#1E232E] text-gray-800 dark:text-gray-200"
                         value={newItemData.item}
                         onChange={(e) => setNewItemData({ ...newItemData, item: e.target.value })}
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium mb-1">Description</label>
+                      <label className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">Description</label>
                       <textarea
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                        className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-[#1E232E] text-gray-800 dark:text-gray-200"
                         value={newItemData.description}
                         onChange={(e) => setNewItemData({ ...newItemData, description: e.target.value })}
                         rows={3}
@@ -1435,18 +1436,18 @@ export default function Repoting() {
                 {addItemType === "risks" && (
                   <>
                     <div>
-                      <label className="block text-sm font-medium mb-1">Risk</label>
+                      <label className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">Risk</label>
                       <input
                         type="text"
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                        className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-[#1E232E] text-gray-800 dark:text-gray-200"
                         value={newItemData.risk}
                         onChange={(e) => setNewItemData({ ...newItemData, risk: e.target.value })}
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium mb-1">Description</label>
+                      <label className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">Description</label>
                       <textarea
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                        className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-[#1E232E] text-gray-800 dark:text-gray-200"
                         value={newItemData.description}
                         onChange={(e) => setNewItemData({ ...newItemData, description: e.target.value })}
                         rows={3}
@@ -1457,19 +1458,19 @@ export default function Repoting() {
                 {addItemType === "deliverables" && (
                   <>
                     <div>
-                      <label className="block text-sm font-medium mb-1">Deliverable</label>
+                      <label className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">Deliverable</label>
                       <input
                         type="text"
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                        className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-[#1E232E] text-gray-800 dark:text-gray-200"
                         value={newItemData.name}
                         onChange={(e) => setNewItemData({ ...newItemData, name: e.target.value })}
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium mb-1">Date</label>
+                      <label className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">Date</label>
                       <input
                         type="text"
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                        className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-[#1E232E] text-gray-800 dark:text-gray-200"
                         value={newItemData.date}
                         onChange={(e) => setNewItemData({ ...newItemData, date: e.target.value })}
                       />
@@ -1477,90 +1478,90 @@ export default function Repoting() {
                   </>
                 )}
                 {addItemType === "resources" && (
-                  <>
-                    <div>
-                      <label className="block text-sm font-medium mb-1">Role</label>
-                      <input
-                        type="text"
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md"
-                        value={newItemData.role}
-                        onChange={(e) => setNewItemData({ ...newItemData, role: e.target.value })}
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium mb-1">Required</label>
-                      <select
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md"
-                        value={newItemData.required}
-                        onChange={(e) => setNewItemData({ ...newItemData, required: e.target.value })}
-                      >
-                        <option value="Yes">Yes</option>
-                        <option value="No">No</option>
-                      </select>
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium mb-1">Name</label>
-                      <input
-                        type="text"
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md"
-                        value={newItemData.name}
-                        onChange={(e) => setNewItemData({ ...newItemData, name: e.target.value })}
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium mb-1">FTE</label>
-                      <input
-                        type="text"
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md"
-                        value={newItemData.fte}
-                        onChange={(e) => setNewItemData({ ...newItemData, fte: e.target.value })}
-                      />
-                    </div>
-                  </>
-                )}
-              </div>
-              <div className="flex justify-end space-x-2 mt-4">
-                <button
-                  className="px-3 py-2 border border-gray-300 rounded-md hover:bg-gray-100"
-                  onClick={() => setIsAddItemDialogOpen(false)}
-                >
-                  Cancel
-                </button>
-                <button
-                  className="px-3 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
-                  onClick={saveNewItem}
-                >
-                  Add Item
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Delete Confirmation Dialog */}
-        {isDeleteDialogOpen && (
-          <div className="fixed inset-0  backdrop-blur-[3px] flex items-center justify-center z-50">
-            <div className="bg-white rounded-lg p-6 w-full max-w-md border border-gray-300">
-              <h2 className="text-xl font-bold mb-4">Confirm Deletion</h2>
-              <p className="mb-4">Are you sure you want to delete this {deleteItemData.type} item?</p>
-              <div className="flex justify-end space-x-2">
-                <button
-                  className="px-3 py-2 border border-gray-300 rounded-md hover:bg-gray-100"
-                  onClick={cancelDeleteItem}
-                >
-                  Cancel
-                </button>
-                <button
-                  className="px-3 py-2  text-black rounded-md "
-                  onClick={confirmDeleteItem}
-                >
-                  Delete
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
-      </div>
+  <>
+    <div>
+      <label className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">Role</label>
+      <input
+        type="text"
+        className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-[#1E232E] text-gray-800 dark:text-gray-200"
+        value={newItemData.role}
+        onChange={(e) => setNewItemData({ ...newItemData, role: e.target.value })}
+      />
     </div>
-  )
+    <div>
+      <label className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">Required</label>
+      <select
+        className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-[#1E232E] text-gray-800 dark:text-gray-200"
+        value={newItemData.required}
+        onChange={(e) => setNewItemData({ ...newItemData, required: e.target.value })}
+      >
+        <option value="Yes">Yes</option>
+        <option value="No">No</option>
+      </select>
+    </div>
+    <div>
+      <label className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">Name</label>
+      <input
+        type="text"
+        className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-[#1E232E] text-gray-800 dark:text-gray-200"
+        value={newItemData.name}
+        onChange={(e) => setNewItemData({ ...newItemData, name: e.target.value })}
+      />
+    </div>
+    <div>
+      <label className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">FTE</label>
+      <input
+        type="text"
+        className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-[#1E232E] text-gray-800 dark:text-gray-200"
+        value={newItemData.fte}
+        onChange={(e) => setNewItemData({ ...newItemData, fte: e.target.value })}
+      />
+    </div>
+  </>
+)}
+</div>
+<div className="flex justify-end space-x-2 mt-4">
+  <button
+    className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+    onClick={() => setIsAddItemDialogOpen(false)}
+  >
+    Cancel
+  </button>
+  <button
+    className="px-3 py-2 bg-[#00308F] dark:bg-[#4A6CF7] text-white rounded-md hover:bg-[#00218f] dark:hover:bg-[#3B5AEB]"
+    onClick={saveNewItem}
+  >
+    Add Item
+  </button>
+</div>
+</div>
+</div>
+)}
+
+{/* Delete Confirmation Dialog */}
+{isDeleteDialogOpen && (
+<div className="fixed inset-0 backdrop-blur-[3px] flex items-center justify-center z-50">
+  <div className="bg-white dark:bg-[#1E232E] rounded-lg p-6 w-full max-w-md border border-gray-300 dark:border-gray-700">
+    <h2 className="text-xl font-bold mb-4 text-gray-800 dark:text-gray-200">Confirm Deletion</h2>
+    <p className="mb-4 text-gray-600 dark:text-gray-400">Are you sure you want to delete this {deleteItemData.type} item?</p>
+    <div className="flex justify-end space-x-2">
+      <button
+        className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+        onClick={cancelDeleteItem}
+      >
+        Cancel
+      </button>
+      <button
+        className="px-3 py-2 text-gray-800 dark:text-gray-200 rounded-md hover:bg-gray-100 dark:hover:bg-gray-600"
+        onClick={confirmDeleteItem}
+      >
+        Delete
+      </button>
+    </div>
+  </div>
+</div>
+)}
+</div>
+</div>
+)
 }
