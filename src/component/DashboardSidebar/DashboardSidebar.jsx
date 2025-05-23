@@ -1,7 +1,9 @@
-import { NavLink, useLocation } from "react-router-dom";
+"use client"
+
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import img from "../Navbar/image 3.png"; // Ensure correct path
 import img1 from "../Navbar/Group (2).png"; // Ensure correct path
-import img3 from "../Shared/closeSidebar.png"; 
+import img3 from "../Shared/closeSidebar.png";
 import { Bot, Briefcase, Clock, Settings } from "lucide-react";
 import { BiSolidDashboard } from "react-icons/bi";
 import { useDarkMode } from "../../context/ThemeContext";
@@ -9,8 +11,9 @@ import { RiTeamFill } from "react-icons/ri";
 import { MdCompost } from "react-icons/md";
 import { FaRegUserCircle } from "react-icons/fa";
 
-const DashboardSidebar = ({ isSidebarOpen }) => {
+const DashboardSidebar = ({ isSidebarOpen, toggleSidebar }) => {
     const location = useLocation();
+    const navigate = useNavigate();
     const isProjectActive = location.pathname.startsWith("/dashboard/Project");
     const { darkMode } = useDarkMode();
 
@@ -24,18 +27,23 @@ const DashboardSidebar = ({ isSidebarOpen }) => {
         ${isSidebarOpen ? "justify-start" : "justify-center"}
     `;
 
+    // Handle logo click: toggle sidebar and navigate to home
+    const handleLogoClick = () => {
+        toggleSidebar(); // Toggle sidebar state
+        navigate("/"); // Navigate to home page
+    };
+
     return (
         <div className="text-[#00308F] dark:text-white flex flex-col h-full">
-            <div className="flex items-center justify-center pt-10 pb-6">
-                <NavLink to="/">
+            <div className="flex items-center justify-center pt-5 pb-6">
+                <div onClick={handleLogoClick} className="cursor-pointer">
                     <img
                         src={isSidebarOpen ? (darkMode ? img1 : img) : img3}
                         alt="Logo"
-                        className={`${
-                            isSidebarOpen ? "h-[34px]" : "h-[24px]"
-                        } w-auto`}
+                        className={`${isSidebarOpen ? "h-[34px]" : "h-[24px]"
+                            } w-auto`}
                     />
-                </NavLink>
+                </div>
             </div>
             <div className="flex flex-col h-full justify-between px-2">
                 {/* Top Navigation Links */}

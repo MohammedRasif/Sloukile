@@ -2,8 +2,6 @@
 
 import { Outlet } from "react-router-dom";
 import { useState } from "react";
-import { GoSidebarCollapse, GoSidebarExpand } from "react-icons/go";
-
 import DashboardNavbar from "../DashboardNavbar/DashboardNavbar";
 import DashboardSidebar from "../DashboardSidebar/DashboardSidebar";
 
@@ -18,21 +16,9 @@ const DashboardLayout = () => {
         <div className="flex h-screen">
             {/* Sidebar */}
             <div
-                className={`bg-[#f5efe8af] dark:bg-[#1E232E] h-full fixed transition-all duration-300 ease-in-out ${isSidebarOpen ? "w-[320px]" : "w-20"
-                    }`}
+                className={`bg-[#f5efe8af] dark:bg-[#1E232E] h-full fixed transition-all duration-300 ease-in-out ${isSidebarOpen ? "w-[320px]" : "w-20"}`}
             >
                 <div className="h-full flex flex-col">
-                    {/* Toggle Button */}
-                    <button
-                        onClick={toggleSidebar}
-                        className="p-4 flex justify-end"
-                    >
-                        {isSidebarOpen ? (
-                            <GoSidebarExpand className="h-7 w-7 text-gray-600 dark:text-gray-300 cursor-pointer transition-transform duration-300 hover:scale-110" />
-                        ) : (
-                            <GoSidebarCollapse className="h-7 w-7 text-gray-600 dark:text-gray-300 cursor-pointer transition-transform duration-300 hover:scale-110" />
-                        )}
-                    </button>
                     {/* Sidebar Content */}
                     <DashboardSidebar isSidebarOpen={isSidebarOpen} />
                 </div>
@@ -40,8 +26,7 @@ const DashboardLayout = () => {
 
             {/* Main Content Area */}
             <div
-                className={`flex flex-col transition-all duration-300 ease-in-out ${isSidebarOpen ? "ml-[320px] w-[calc(100%-320px)]" : "ml-20 w-[calc(100%-80px)]"
-                    }`}
+                className={`flex flex-col transition-all duration-300 ease-in-out ${isSidebarOpen ? "ml-[320px] w-[calc(100%-320px)]" : "ml-20 w-[calc(100%-80px)]"}`}
             >
                 {/* Navbar - Fixed & Only Navbar BG */}
                 <div
@@ -51,7 +36,7 @@ const DashboardLayout = () => {
                         width: isSidebarOpen ? "calc(100% - 320px)" : "calc(100% - 80px)",
                     }}
                 >
-                    <DashboardNavbar />
+                    <DashboardNavbar toggleSidebar={toggleSidebar} isSidebarOpen={isSidebarOpen} />
                 </div>
 
                 {/* Outlet (Main Content) */}

@@ -417,7 +417,7 @@ function DocumentLibrary() {
   };
 
   return (
-    <div className="container mx-auto p-4 bg-white dark:bg-[#1E232E]">
+    <div className="container mx-auto  bg-white dark:bg-[#1E232E]">
       {/* Hidden File Input for Upload */}
       <input
         type="file"
@@ -453,7 +453,7 @@ function DocumentLibrary() {
         </button>
       </div>
 
-      <div className="bg-white dark:bg-[#1E232E] p-6 rounded-lg shadow">
+      <div className="bg-white dark:bg-[#1E232E] p-2 rounded-lg shadow">
         <h2 className="text-xl font-semibold mb-6 text-gray-900 dark:text-gray-200">Documents</h2>
 
         {/* Tabs */}

@@ -220,7 +220,7 @@ export default function LessonsLearnedPage() {
     <div className="py-6 space-y-8 px-4 bg-gray-50 dark:bg-[#1E232E] min-h-screen transition-colors duration-300">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-gray-100">
+          <h1 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-gray-100">
             Lessons Learned
           </h1>
           <p className="text-gray-500 dark:text-gray-400 mt-1">
@@ -255,13 +255,7 @@ export default function LessonsLearnedPage() {
             <Plus className="h-4 w-4 mr-2" />
             {showSurveyForm ? "Cancel" : "New Survey"}
           </button>
-          <button
-            onClick={toggleDarkMode}
-            className="flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
-          >
-            {isDarkMode ? <Sun className="h-4 w-4 mr-2" /> : <Moon className="h-4 w-4 mr-2" />}
-            {isDarkMode ? "Light Mode" : "Dark Mode"}
-          </button>
+         
         </div>
       </div>
 

@@ -10,29 +10,33 @@ const initialEdges = []
 
 const nodeStyles = {
   start: {
-    background: "#e6f7ff dark:#1e40af",
-    border: "1px solid #1890ff dark:#60a5fa",
+    light: "bg-green-500 text-white",
+    dark: "bg-green-600 text-white",
+    border: "border-green-600 dark:border-green-700",
     borderRadius: "8px",
     padding: "10px",
     width: 150,
   },
   step: {
-    background: "white dark:#374151",
-    border: "1px solid #ddd dark:#4b5563",
+    light: "bg-gray-500 text-white",
+    dark: "bg-gray-600 text-white",
+    border: "border-gray-600 dark:border-gray-700",
     borderRadius: "8px",
     padding: "10px",
     width: 150,
   },
   decision: {
-    background: "#fff7e6 dark:#78350f",
-    border: "1px solid #faad14 dark:#fbbf24",
+    light: "bg-yellow-500 text-white",
+    dark: "bg-yellow-600 text-white",
+    border: "border-yellow-600 dark:border-yellow-700",
     borderRadius: "8px",
     padding: "10px",
     width: 150,
   },
   end: {
-    background: "#df3d3d dark:#7f1d1d",
-    border: "1px solid #52c41a dark:#86efac",
+    light: "bg-red-500 text-white",
+    dark: "bg-red-600 text-white",
+    border: "border-red-600 dark:border-red-700",
     borderRadius: "8px",
     padding: "10px",
     width: 150,
@@ -57,28 +61,19 @@ const WorkflowDiagram = () => {
   // Function to delete the selected node and all connected edges
   const deleteNode = useCallback(() => {
     if (selectedNode) {
-      // Find all edges connected to this node
-      const connectedEdges = edges.filter((edge) => edge.source === selectedNode || edge.target === selectedNode)
-
-      // Remove the node
       setNodes((nds) => nds.filter((node) => node.id !== selectedNode))
-
-      // Remove all connected edges
       setEdges((eds) => eds.filter((edge) => edge.source !== selectedNode && edge.target !== selectedNode))
-
       setSelectedNode(null)
     }
-  }, [selectedNode, setNodes, setEdges, edges])
+  }, [selectedNode, setNodes, setEdges])
 
   // Handle node selection
   const onNodeClick = (_, node) => {
     setSelectedNode(node.id)
-
     if (isAddingEdge) {
       if (!edgeStart) {
         setEdgeStart(node.id)
       } else {
-        // Create new edge
         const newEdgeId = `e${edgeStart}-${node.id}`
         setEdges((eds) => [...eds, { id: newEdgeId, source: edgeStart, target: node.id }])
         setEdgeStart(null)
@@ -115,7 +110,6 @@ const WorkflowDiagram = () => {
         setShowPopup(false)
       }
     }
-
     document.addEventListener("mousedown", handleClickOutside)
     return () => {
       document.removeEventListener("mousedown", handleClickOutside)
@@ -124,12 +118,9 @@ const WorkflowDiagram = () => {
 
   // Calculate next position based on last node
   const getNextPosition = () => {
-    // If this is the first node, place it at the top center
     if (nodes.length === 0) {
       return { x: 300, y: 100 }
     }
-
-    // Otherwise, place it below the last node
     return { x: lastNodePosition.x, y: lastNodePosition.y + 120 }
   }
 
@@ -139,31 +130,43 @@ const WorkflowDiagram = () => {
     const nodeStyle = nodeStyles[type]
     let label = nodeName || `${type.charAt(0).toUpperCase() + type.slice(1)} ${nodes.length + 1}`
 
-    // For decision nodes, add Yes/No text
     if (type === "decision") {
       label = (
         <div className="text-center">
           <div>{nodeName || `Decision ${nodes.length + 1}`}</div>
-          <div className="text-xs text-gray-500 dark:text-gray-400 mt-1"></div>
+          <div className="text-xs text-gray-200 dark:text-gray-300 mt-1"></div>
         </div>
       )
     }
 
-    // Calculate position for the new node
     const position = getNextPosition()
 
     const newNode = {
       id: newNodeId,
       position: position,
       data: { label },
-      style: nodeStyle,
+      className: `${nodeStyle.light} dark:${nodeStyle.dark} ${nodeStyle.border}`,
+      style: {
+        borderRadius: nodeStyle.borderRadius,
+        padding: nodeStyle.padding,
+        width: nodeStyle.width,
+        backgroundColor:
+          type === "start"
+            ? "#10b981"
+            : type === "step"
+              ? "#6b7280"
+              : type === "decision"
+                ? "#f59e0b"
+                : type === "end"
+                  ? "#ef4444"
+                  : "white",
+        color: "white",
+      },
       type,
     }
 
-    // Add the node
     setNodes((nds) => [...nds, newNode])
 
-    // If there's a previous node, connect it to this one
     if (lastNodeId) {
       const newEdgeId = `e${lastNodeId}-${newNodeId}`
       setEdges((eds) => [
@@ -172,15 +175,13 @@ const WorkflowDiagram = () => {
           id: newEdgeId,
           source: lastNodeId,
           target: newNodeId,
-          animated: type === "decision", // Animate edges to decision nodes
+          animated: type === "decision",
         },
       ])
     }
 
-    // Update the last node info
     setLastNodePosition(position)
     setLastNodeId(newNodeId)
-
     setNodeName("")
     setShowPopup(false)
   }
@@ -208,25 +209,25 @@ const WorkflowDiagram = () => {
           <h2 className="text-xl font-semibold mb-3 text-gray-800 dark:text-gray-200">Process Flow</h2>
           <div className="flex space-x-3">
             <button
-              className="bg-[#00308F] dark:bg-[#4A6CF7] text-white px-4 py-2 rounded text-base hover:bg-[#00218f] dark:hover:bg-[#3B5AEB]"
+              className="bg-green-500 dark:bg-green-600 text-white px-4 py-2 rounded text-base hover:bg-green-600 dark:hover:bg-green-700"
               onClick={() => openPopup("start")}
             >
               Add Start
             </button>
             <button
-              className="bg-[#00308F] dark:bg-[#4A6CF7] text-white px-4 py-2 rounded text-base hover:bg-[#00218f] dark:hover:bg-[#3B5AEB]"
+              className="bg-gray-500 dark:bg-gray-600 text-white px-4 py-2 rounded text-base hover:bg-gray-600 dark:hover:bg-gray-700"
               onClick={() => openPopup("step")}
             >
               Add Step
             </button>
             <button
-              className="bg-[#00308F] dark:bg-[#4A6CF7] text-white px-4 py-2 rounded text-base hover:bg-[#00218f] dark:hover:bg-[#3B5AEB]"
+              className="bg-yellow-500 dark:bg-yellow-600 text-white px-4 py-2 rounded text-base hover:bg-yellow-600 dark:hover:bg-yellow-700"
               onClick={() => openPopup("decision")}
             >
               Add Decision
             </button>
             <button
-              className="bg-[#00308F] dark:bg-[#4A6CF7] text-white px-4 py-2 rounded text-base hover:bg-[#00218f] dark:hover:bg-[#3B5AEB]"
+              className="bg-red-500 dark:bg-red-600 text-white px-4 py-2 rounded text-base hover:bg-red-600 dark:hover:bg-red-700"
               onClick={() => openPopup("end")}
             >
               Add End
@@ -260,7 +261,10 @@ const WorkflowDiagram = () => {
         {/* Popup for adding nodes */}
         {showPopup && (
           <div className="absolute inset-0 backdrop-blur-[3px] flex items-center justify-center z-10">
-            <div ref={popupRef} className="bg-white dark:bg-[#1E232E] p-5 rounded-lg shadow-lg w-96 border border-gray-300 dark:border-gray-700">
+            <div
+              ref={popupRef}
+              className="bg-white dark:bg-[#1E232E] p-5 rounded-lg shadow-lg w-96 border border-gray-300 dark:border-gray-700"
+            >
               <h3 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
                 Add {popupType.charAt(0).toUpperCase() + popupType.slice(1)} Node
               </h3>
